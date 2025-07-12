@@ -25,7 +25,7 @@ const ctx = getNetlifyContext();
 
 export default function Page() {
     return (
-        <div className="flex flex-col gap-12 sm:gap-16 bg-red-900">
+        <div className="flex flex-col gap-12 sm:gap-16 bg-blue-900">
             <section>
                 <ContextAlert className="mb-6" />
                 <h1 className="mb-4">Netlify Platform Starter - Next.js</h1>
