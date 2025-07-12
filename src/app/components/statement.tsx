@@ -9,9 +9,9 @@ const styles = {
     margin: '0 0 30px 0',
     color: '#333333',
     fontWeight: 700,
-    WebkitFontSmoothing: 'antialiased',
-    MozOsxFontSmoothing: 'grayscale',
-    textRendering: 'optimizeLegibility',
+    WebkitFontSmoothing: 'antialiased' as const,
+    MozOsxFontSmoothing: 'grayscale' as const,
+    textRendering: 'optimizeLegibility' as const,
   },
   
   pixelImage: {
