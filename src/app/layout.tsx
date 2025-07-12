@@ -16,12 +16,15 @@ export default function RootLayout({
   }) {
     return (
         <html lang="ja">
+            <head>
+                <link rel="preconnect" href="https://fonts.googleapis.com" />
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+                <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+            </head>
             <body>
                 <div>
-                    <div>
-                        <main>{children}</main>
-                        <Footer />
-                    </div>
+                    <main>{children}</main>
+                    <Footer />
                 </div>
             </body>
         </html>

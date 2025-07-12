@@ -9,7 +9,7 @@
   --color-secondary: #016968;
   
   --font-sans: 'Zen Kaku Gothic New', 'Inter', system-ui, sans-serif;
-  --font-en: 'Inter', system-ui, sans-serif;
+  --font-en: 'Inter', system-ui, sans-serif !important;
 }
 
 @layer base {
