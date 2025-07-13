@@ -11,21 +11,21 @@ import ArticlesPage from "./articles/page";
 
 export default async function Page() {
 
-  const articles = (await getArticles()).slice(0, 2);
-  // タイトル順
-  const byTitle = [...articles].sort((a, b) => a.title.localeCompare(b.title));
+  const news = (await getArticles()).slice(0, 2);
+  const byTitle = [...news].sort((a, b) => a.title.localeCompare(b.title));
+  const articles = (await getArticles());
 
   return (
     <div>
 
       {/* Hero Section */}
-      <section className="w-full h-[100vh]">
+      <section className="w-full h-[100vh] border-b border-border">
         <HeroSection></HeroSection>
       </section>
 
 
       {/* Main Container */}
-      <div className="w-full p-[100px] grid grid-cols-3 gap-[100px]">
+      <div className="w-full mt-20 p-[100px] grid grid-cols-3 gap-[100px]">
 
         {/* Left Conteiner */}
         <div className="w-full col-span-2">
@@ -77,9 +77,9 @@ export default async function Page() {
             </div>
           </section>
 
-          {/* News Section */}
-          <section>
-            <ArticleList articles={byTitle} columns={1} gap={100}/>
+          {/* Articles Section */}
+          <section className="w-full py-25 border-t border-border">
+            <ArticleList articles={articles} columns={1} gap={100}/>
           </section>
 
 

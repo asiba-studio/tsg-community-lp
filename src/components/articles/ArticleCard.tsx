@@ -31,7 +31,9 @@ export default function ArticleCard({ article, featured = false }: Props) {
                         {article.tags.slice(0, 3).map((tag) => (
                             <span
                                 key={tag}
-                                className="text-white leading-none font-en font-normal text-sm"
+                                className="text-gray-500 leading-none font-en font-medium 
+                                    text-sm transition-colors duration-200 
+                                    group-hover:text-gray-100"
                             >
                                 # {tag}
                             </span>
@@ -39,7 +41,13 @@ export default function ArticleCard({ article, featured = false }: Props) {
                     </div>
 
                     {/* Date */}
-                    <div className="absolute bottom-1 right-2 text-white font-en font-normal leading-none text-sm">
+                    <div className="
+                        absolute bottom-1 right-2 
+                        text-gray-500 font-en font-medium 
+                        leading-none text-sm 
+                        transition-colors duration-200 
+                        group-hover:text-gray-100
+                    ">
                         {formatDateDot(article.date)}
                     </div>
 
