@@ -5,6 +5,7 @@ import { SimpleButton } from "@/components/button";
 import { ArticleList } from "@/components/articles";
 import { getArticles } from "@/lib/cms";
 import { ProgramPhase1 } from "./components/ProgramPhase";
+import ArticlesPage from "./articles/page";
 
 
 
@@ -52,6 +53,12 @@ export default async function Page() {
           <section className="w-full mt-[200px] pt-[100px] border-t border-border">
             <ProgramPhase1 />
           </section>
+          <section className="w-full mt-[200px] pt-[100px] border-t border-border">
+            <ProgramPhase1 />
+          </section>
+          <section className="w-full mt-[200px] pt-[100px] border-t border-border">
+            <ProgramPhase1 />
+          </section>
 
 
 
@@ -59,6 +66,7 @@ export default async function Page() {
 
         {/* Right Container */}
         <div className="w-full col-span-1">
+          {/* Statement Section*/}
           <section className="w-full pt-[400px]">
             <StatementRight />
 
@@ -67,11 +75,14 @@ export default async function Page() {
                 About Creative Lab.
               </SimpleButton>
             </div>
-
-
-
-
           </section>
+
+          {/* News Section */}
+          <section>
+            <ArticleList articles={byTitle} columns={1} gap={100}/>
+          </section>
+
+
 
         </div>
 

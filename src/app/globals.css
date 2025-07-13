@@ -39,6 +39,10 @@
     @apply text-text-primary;
   }
 
+  div {
+    @apply text-text-primary;
+  }
+
   a:not(.btn) {
     @apply underline transition hover:opacity-80;
   }
