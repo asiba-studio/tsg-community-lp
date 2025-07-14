@@ -31,13 +31,13 @@ export default async function Page() {
       
 
       {/* Main Container */}
-      <div className="w-full -mt-40 p-[100px] grid grid-cols-3 gap-[100px]">
+      <div className="w-full -mt-40 p-[4vw] grid grid-cols-3 gap-[6vw]">
 
         {/* Left Conteiner */}
         <div className="w-full col-span-2">
 
           {/* Left Statement Section */}
-          <section className="w-full grid grid-cols-2 gap-[100px]">
+          <section className="w-full grid grid-cols-2 gap-[6vw]">
             <div>
               <StatementLeft />
             </div>

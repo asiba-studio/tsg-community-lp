@@ -7,7 +7,7 @@ export default function ProgramDetailSection() {
                 <img src="/gifs/program.gif" className="h-16 mb-10" alt="" />
                 <span className="sr-only">Program</span>
             </h2>
-            <div className="w-full gap-6 px-20">
+            <div className="w-full gap-6 px-[2.5vw]">
                 <ul className="custom-ul space-y-6">
                     <li className="space-y-1">
                         <p className="font-bold font-zen">クリエイティブ領域に特化した、若者向けのコミュニティです。</p>
@@ -39,7 +39,7 @@ export default function ProgramDetailSection() {
                 </ul>
             </div>
 
-            <div className="w-full gap-6 px-20 pt-20">
+            <div className="w-full gap-6 px-[2.5vw] pt-20">
                 <h3 className="font-zen font-bold pb-10">実施内容</h3>
                 <ol className="leading-base space-y-10">
                     <li className="pl-6 font-bold">Phase 1 世界を広げる
@@ -110,7 +110,7 @@ export default function ProgramDetailSection() {
                 </ol>
             </div>
 
-            <div className="w-full gap-6 px-20 pt-20">
+            <div className="w-full gap-6 px-[2.5vw] pt-20">
                 <h3 className="font-zen font-bold pb-10">オンライン・任意参加のコンテンツ</h3>
                 <ul className="custom-ul ml-10 space-y-8">
                             <li>

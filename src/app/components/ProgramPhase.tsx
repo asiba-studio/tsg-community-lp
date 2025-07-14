@@ -18,7 +18,7 @@ export function ProgramPhase1() {
 
             </div>
 
-            <div className="grid grid-cols-3 gap-15 px-20 py-10">
+            <div className="grid grid-cols-3 gap-15 px-[3vw] py-10">
                 <div className=""><MosaicIcon number={1} /></div>
                 <div className=""><MosaicIcon number={2} /></div>
                 <div className=""><MosaicIcon number={3} /></div>
@@ -28,7 +28,7 @@ export function ProgramPhase1() {
                 <Toggle
                     trigger={<span className="font-medium font-en">Phase 1 Program</span>}
                 >
-                    <div className="flex flex-col gap-4 px-20 py-8 my-4 bg-gray-100">
+                    <div className="flex flex-col gap-4 px-[2.5vw] py-8 my-4 bg-gray-100 font-zen">
                         <div className="flex flex-col gap-1 font-medium font-xs">
                             <div className="flex flex-row items-center gap-2">
                                 <div className="w-3.5 h-3.5 bg-gray-900"></div>
@@ -82,7 +82,7 @@ export function ProgramPhase2() {
 
             </div>
 
-            <div className="grid grid-cols-3 gap-15 px-20 py-10">
+            <div className="grid grid-cols-3 gap-15 px-[3vw]  py-10">
                 <div className=""><MosaicIcon number={4} /></div>
                 <div className=""><MosaicIcon number={5} /></div>
                 <div className=""><MosaicIcon number={6} /></div>
@@ -92,7 +92,7 @@ export function ProgramPhase2() {
                 <Toggle
                     trigger={<span className="font-medium font-en">Phase 2 Program</span>}
                 >
-                    <div className="flex flex-col gap-4 px-20 py-8 my-4 bg-gray-100">
+                    <div className="flex flex-col gap-4 px-[2.5vw]  py-8 my-4 bg-gray-100 font-zen">
                         <div className="flex flex-col gap-1 font-medium font-xs">
                             <div className="flex flex-row items-center gap-2">
                                 <div className="w-3.5 h-3.5 bg-gray-900"></div>
@@ -144,7 +144,7 @@ export function ProgramPhase3() {
 
             </div>
 
-            <div className="grid grid-cols-3 gap-15 px-20 py-10">
+            <div className="grid grid-cols-3 gap-15 px-[3vw] py-10">
                 <div className=""><MosaicIcon number={7} /></div>
                 <div className=""><MosaicIcon number={8} /></div>
                 <div className=""><MosaicIcon number={9} /></div>
@@ -157,7 +157,7 @@ export function ProgramPhase3() {
                 <Toggle
                     trigger={<span className="font-medium font-en">Phase 3 Program</span>}
                 >
-                    <div className="flex flex-col gap-4 px-20 py-8 my-4 bg-gray-100">
+                    <div className="flex flex-col gap-4 px-[2.5vw] py-8 my-4 bg-gray-100 font-zen">
                         <div className="flex flex-col gap-1 font-medium font-xs">
                             <div className="flex flex-row items-center gap-2">
                                 <div className="w-3.5 h-3.5 bg-gray-900"></div>

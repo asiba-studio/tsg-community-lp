@@ -10,7 +10,7 @@ export default function ApplicationSection() {
             {/* Application Section */}
             <section>
                 <h2>募集要項</h2>
-                <ol className="space-y-2 custom-ol pt-10 px-5">
+                <ol className="space-y-2 custom-ol pt-10 px-[2.5vw]">
                     <li>TSGの応募条件を満たしていること</li>
                     <li>建築・デザイン・アートといった、クリエイションに向き合いながら、起業やビジネスを考えている若者/学生</li>
                     <li>
