@@ -4,8 +4,8 @@ import { StatementLeft, StatementCenter, StatementRight } from "./components/sta
 import { SimpleButton } from "@/components/button";
 import { ArticleList } from "@/components/articles";
 import { getArticles } from "@/lib/cms";
-import { ProgramPhase1 } from "./components/ProgramPhase";
-import ArticlesPage from "./articles/page";
+import { ProgramPhase1, ProgramPhase2, ProgramPhase3 } from "./components/ProgramPhase";
+import { Header, Menu } from "@/components/layout";
 
 
 
@@ -20,12 +20,17 @@ export default async function Page() {
 
       {/* Hero Section */}
       <section className="w-full h-[100vh] border-b border-border">
-        <HeroSection></HeroSection>
+        <HeroSection />
       </section>
 
+      {/* Navigation */}
+      <Header />
+      <div className="h-40"/>
+      <Menu />
+      
 
       {/* Main Container */}
-      <div className="w-full mt-20 p-[100px] grid grid-cols-3 gap-[100px]">
+      <div className="w-full -mt-40 p-[100px] grid grid-cols-3 gap-[100px]">
 
         {/* Left Conteiner */}
         <div className="w-full col-span-2">
@@ -54,10 +59,10 @@ export default async function Page() {
             <ProgramPhase1 />
           </section>
           <section className="w-full mt-[200px] pt-[100px] border-t border-border">
-            <ProgramPhase1 />
+            <ProgramPhase2 />
           </section>
           <section className="w-full mt-[200px] pt-[100px] border-t border-border">
-            <ProgramPhase1 />
+            <ProgramPhase3 />
           </section>
 
 

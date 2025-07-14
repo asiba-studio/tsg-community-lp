@@ -27,7 +27,7 @@ export default function ArticleCard({ article, featured = false }: Props) {
                     />
 
                     {/* Tags */}
-                    <div className="absolute bottom-1 left-2 flex flex-col gap-1">
+                    <div className="absolute bottom-1.5 left-2 flex flex-col gap-1">
                         {article.tags.slice(0, 3).map((tag) => (
                             <span
                                 key={tag}
@@ -42,7 +42,7 @@ export default function ArticleCard({ article, featured = false }: Props) {
 
                     {/* Date */}
                     <div className="
-                        absolute bottom-1 right-2 
+                        absolute bottom-1.5 right-2 
                         text-gray-500 font-en font-medium 
                         leading-none text-sm 
                         transition-colors duration-200 
