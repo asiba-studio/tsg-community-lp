@@ -18,6 +18,7 @@ interface SimpleButtonProps {
   icon?: IconName;
   iconPosition?: 'left' | 'right';
   href?: string;
+  external?: boolean; 
   onClick?: () => void;
   className?: string;
   variant?: 'default' | 'outline' | 'minimal';
@@ -29,6 +30,7 @@ export function SimpleButton({
   icon, 
   iconPosition = 'right',
   href,
+  external = false, 
   onClick,
   className = "",
   variant = 'default',
@@ -90,6 +92,8 @@ export function SimpleButton({
       <a 
         href={href}
         style={combinedStyle}
+        target={external ? '_blank' : '_self'}
+        rel={external ? 'noopener noreferrer' : undefined}
         className={combinedClassName}
       >
         {content}

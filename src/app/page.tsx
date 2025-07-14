@@ -6,8 +6,9 @@ import ContentList from "@/components/articles/ContentList";
 import { getArticles, getNews } from "@/lib/cms";
 import { ProgramPhase1, ProgramPhase2, ProgramPhase3 } from "./components/ProgramPhase";
 import { Header, Menu } from "@/components/layout";
+import ProgramDetailSection from "./components/ProgramDetailSection";
 import ApplicationSection from "./components/ApllicationSection";
-
+import PlayerSection from "./components/PlayerSection";
 
 
 export default async function Page() {
@@ -55,18 +56,23 @@ export default async function Page() {
           </section>
 
           {/* Icon Section */}
-          <section className="w-full section-spacing border-t border-border">
+          <section className="w-full section-spacing pb-4 border-t border-border">
             <ProgramPhase1 />
           </section>
-          <section className="w-full section-spacing border-t border-border">
+          <section className="w-full section-spacing pb-4 border-t border-border">
             <ProgramPhase2 />
           </section>
-          <section className="w-full section-spacing border-t border-border">
+          <section className="w-full section-spacing pb-4 border-t border-border">
             <ProgramPhase3 />
           </section>
 
+          {/* Program Section */}
+          <section className="w-full section-spacing border-t border-border">
+            <ProgramDetailSection />
+          </section>
+
           {/* Application Section */}
-          <div className="w-full section-spacing border-t border-border">
+          <div className="w-full section-spacing border-t border-border px-10">
             <ApplicationSection />
           </div>
 
@@ -88,12 +94,17 @@ export default async function Page() {
           </section>
 
           {/* Articles Section */}
-          <section className="">
+          <section className="w-full section-spacing border-t border-border">
             <h2>
               <img src="/gifs/article.gif" className="h-16 mb-10" alt="" />
               <span className="sr-only">Article</span>
             </h2>
             <ContentList contents={articles} basePath="/articles" columns={1} gap={100}/>
+          </section>
+
+          {/* Players Section */}
+          <section className="w-full section-spacing border-t border-border">
+            <PlayerSection />
           </section>
 
 

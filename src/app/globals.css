@@ -11,12 +11,13 @@
   --color-text-primary: #333333;
   --color-text-secondary: #016968;
 
-  --color-border-light: #e5e7eb; 
-  --color-border: #d1d5db;    
+  --color-border-light: #e5e7eb;
+  --color-border: #d1d5db;
 
-  --font-sans: 'Zen Kaku Gothic New', 'Inter', system-ui, sans-serif;
+
+  --font-sans: 'fot-cezanne-pron', 'Zen Kaku Gothic New', system-ui, sans-serif;
   --font-en: 'helvetica-neue-lt-pro', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif !important;
-  --font-ryo: 'ryo-gothic-plusn', 'Inter', system-ui, sans-serif;
+  --font-zen: 'Zen Kaku Gothic New', 'Inter', system-ui, sans-serif;
 
   --section-margin-top: 5rem;
   --section-padding-y: 5rem;
@@ -221,9 +222,40 @@
     /* gutter size */
     background-clip: padding-box;
   }
-  
+
 
   .masonry-grid-column>div {
     margin-bottom: 1.5rem;
+  }
+
+  .custom-ol {
+    counter-reset: item;
+  }
+
+  .custom-ol>li {
+    display: block;
+    margin-bottom: 0.5em;
+    padding-left: 2em;
+    position: relative;
+  }
+
+  .custom-ol>li::before {
+    content: "(" counter(item) ")";
+    counter-increment: item;
+    position: absolute;
+    left: 0;
+  }
+
+  .custom-ul>li {
+    display: block;
+    margin-bottom: 0.5em;
+    padding-left: 2em;
+    position: relative;
+  }
+
+  .custom-ul>li::before {
+    content: "|||";
+    position: absolute;
+    left: 0;
   }
 }
