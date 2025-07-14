@@ -153,7 +153,7 @@ export function ProgramPhase3() {
 
 
 
-            <div className="mx-0">
+            <div className="mx-10">
                 <Toggle
                     trigger={<span className="font-medium font-en">Phase 3 Program</span>}
                 >
