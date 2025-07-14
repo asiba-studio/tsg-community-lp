@@ -29,6 +29,18 @@ export interface Event {
     tags?: string[];
 }
 
+export interface News {
+    slug: string;
+    title: string;
+    subtitle: string;
+    date: string;
+    excerpt: string;
+    coverImage: string;
+    tags?: string[];
+    lang: string;
+    content: string;
+}
+
 export interface Article {
     slug: string;
     title: string;

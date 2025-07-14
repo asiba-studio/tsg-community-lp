@@ -11,7 +11,7 @@ export default function Menu() {
                     alt="menu-b" 
                     className="
                         w-60 px-6 py-2
-                        backdrop-blur-md backdrop-saturate-200 bg-white/25
+                        backdrop-blur-md backdrop-saturate-300 bg-white/25
                     "/>
             </nav>
 

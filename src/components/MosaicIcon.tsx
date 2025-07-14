@@ -19,7 +19,7 @@ export default function MosaicIcon({ number }: {number:number}) {
         return null;
     }
 
-    const gifPath: string = `/gifs/icon-${number.toString().padStart(2,'0')}.gif`;
+    const gifPath: string = `/gifs/icon/icon-${number.toString().padStart(2,'0')}.gif`;
     const word = Words[number];
 
     return (

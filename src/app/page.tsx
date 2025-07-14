@@ -2,8 +2,8 @@
 import HeroSection from "./components/heroSection";
 import { StatementLeft, StatementCenter, StatementRight } from "./components/statement";
 import { SimpleButton } from "@/components/button";
-import { ArticleList } from "@/components/articles";
-import { getArticles } from "@/lib/cms";
+import ContentList from "@/components/articles/ContentList";
+import { getArticles, getNews } from "@/lib/cms";
 import { ProgramPhase1, ProgramPhase2, ProgramPhase3 } from "./components/ProgramPhase";
 import { Header, Menu } from "@/components/layout";
 
@@ -11,8 +11,7 @@ import { Header, Menu } from "@/components/layout";
 
 export default async function Page() {
 
-  const news = (await getArticles()).slice(0, 2);
-  const byTitle = [...news].sort((a, b) => a.title.localeCompare(b.title));
+  const news = (await getNews());
   const articles = (await getArticles());
 
   return (
@@ -48,20 +47,20 @@ export default async function Page() {
           {/* News Section */}
           <section className="w-full mt-[200px] pt-[100px] border-t border-border">
             <h2>
-              <img src="/gifs/news.gif" className="h-[2.5em] mb-10" alt="" />
+              <img src="/gifs/news.gif" className="h-16 mb-10" alt="" />
               <span className="sr-only">News</span>
             </h2>
-            <ArticleList articles={byTitle} columns={2} gap={100} />
+            <ContentList contents={news} basePath="/news" columns={2} gap={100} />
           </section>
 
           {/* Icon Section */}
-          <section className="w-full mt-[200px] pt-[100px] border-t border-border">
+          <section className="w-full mt-30 pt-20 border-t border-border">
             <ProgramPhase1 />
           </section>
-          <section className="w-full mt-[200px] pt-[100px] border-t border-border">
+          <section className="w-full mt-30 pt-20 border-t border-border">
             <ProgramPhase2 />
           </section>
-          <section className="w-full mt-[200px] pt-[100px] border-t border-border">
+          <section className="w-full mt-30 pt-20 border-t border-border">
             <ProgramPhase3 />
           </section>
 
@@ -84,7 +83,11 @@ export default async function Page() {
 
           {/* Articles Section */}
           <section className="w-full py-25 border-t border-border">
-            <ArticleList articles={articles} columns={1} gap={100}/>
+            <h2>
+              <img src="/gifs/article.gif" className="h-16 mb-10" alt="" />
+              <span className="sr-only">Article</span>
+            </h2>
+            <ContentList contents={articles} basePath="/articles" columns={1} gap={100}/>
           </section>
 
 

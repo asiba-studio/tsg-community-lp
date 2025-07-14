@@ -3,10 +3,11 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import yaml from 'js-yaml';
-import { Article, Player, Event, ArticleWithReferences } from './types';
+import { Article, News, Player, Event, ArticleWithReferences } from './types';
 
 const CMS_DIR = path.join(process.cwd(), 'cms');
 const ARTICLES_DIR = path.join(CMS_DIR, 'articles');
+const NEWS_DIR = path.join(CMS_DIR, 'news');
 const PLAYERS_DIR = path.join(CMS_DIR, 'players');
 const EVENTS_DIR = path.join(CMS_DIR, 'events');
 
@@ -55,6 +56,33 @@ export async function getArticlesByTag(tag: string): Promise<Article[]> {
   const articles = await getArticles();
   return articles.filter(article => article.tags.includes(tag));
 }
+
+// News
+export async function getNews(): Promise<News[]> {
+    const fileNames = fs.readdirSync(NEWS_DIR);
+    const news = fileNames
+      .filter(fileName => fileName.endsWith('.md'))
+      .map(fileName => {
+        const filePath = path.join(NEWS_DIR, fileName);
+        const fileContents = fs.readFileSync(filePath, 'utf8');
+        const { data, content } = matter(fileContents);
+        
+        return {
+          slug: data.slug,
+          title: data.title,
+          subtitle: data.subtitle,
+          date: data.date,
+          excerpt: data.excerpt,
+          coverImage: data.coverImage,
+          tags: data.tags || [],
+          lang: data.lang || 'ja',
+          content,
+        } as News;
+      });
+  
+    return news.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  }
+
 
 // Players
 export async function getPlayers(): Promise<Player[]> {

@@ -35,12 +35,24 @@
     @apply text-xl font-bold text-text-primary;
   }
 
+  h4 {
+    @apply text-lg font-bold text-text-primary;
+  }
+
+  h5 {
+    @apply text-lg font-bold text-text-primary;
+  }
+
+  h6 {
+    @apply text-lg font-bold text-text-primary;
+  }
+
   p {
     @apply text-text-primary;
   }
 
   div {
-    @apply text-text-primary;
+    @apply text-text-primary leading-loose;
   }
 
   a:not(.btn) {
