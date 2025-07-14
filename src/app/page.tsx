@@ -6,6 +6,7 @@ import ContentList from "@/components/articles/ContentList";
 import { getArticles, getNews } from "@/lib/cms";
 import { ProgramPhase1, ProgramPhase2, ProgramPhase3 } from "./components/ProgramPhase";
 import { Header, Menu } from "@/components/layout";
+import ApplicationSection from "./components/ApllicationSection";
 
 
 
@@ -54,15 +55,20 @@ export default async function Page() {
           </section>
 
           {/* Icon Section */}
-          <section className="w-full mt-30 pt-20 border-t border-border">
+          <section className="w-full section-spacing border-t border-border">
             <ProgramPhase1 />
           </section>
-          <section className="w-full mt-30 pt-20 border-t border-border">
+          <section className="w-full section-spacing border-t border-border">
             <ProgramPhase2 />
           </section>
-          <section className="w-full mt-30 pt-20 border-t border-border">
+          <section className="w-full section-spacing border-t border-border">
             <ProgramPhase3 />
           </section>
+
+          {/* Application Section */}
+          <div className="w-full section-spacing border-t border-border">
+            <ApplicationSection />
+          </div>
 
 
 
@@ -71,7 +77,7 @@ export default async function Page() {
         {/* Right Container */}
         <div className="w-full col-span-1">
           {/* Statement Section*/}
-          <section className="w-full pt-[400px]">
+          <section className="w-full pt-[400px]"　style={{ paddingBottom: 'var(--section-padding-y)' }}>
             <StatementRight />
 
             <div className="w-full my-[100px] flex justify-end">
@@ -82,7 +88,7 @@ export default async function Page() {
           </section>
 
           {/* Articles Section */}
-          <section className="w-full py-25 border-t border-border">
+          <section className="">
             <h2>
               <img src="/gifs/article.gif" className="h-16 mb-10" alt="" />
               <span className="sr-only">Article</span>

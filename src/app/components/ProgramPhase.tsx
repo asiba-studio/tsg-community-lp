@@ -1,5 +1,4 @@
 import MosaicIcon from "@/components/MosaicIcon";
-import { SimpleButton } from "@/components/button";
 
 export function ProgramPhase1() {
 
@@ -24,7 +23,7 @@ export function ProgramPhase1() {
                 <div className=""><MosaicIcon number={3} /></div>
             </div>
 
-            <div className="flex flex-col gap-4 mx-10 px-20 py-14 bg-gray-100">
+            <div className="flex flex-col gap-4 mx-10 px-20 py-8 bg-gray-100">
                 <div className="flex flex-col gap-1 font-medium font-xs">
                     <div className="flex flex-row items-center gap-2">
                         <div className="w-3.5 h-3.5 bg-gray-900"></div>
@@ -51,9 +50,6 @@ export function ProgramPhase1() {
                     <div className="font-en w-full flex justify-end mt-1">
                         2025.08.30-31  @Kameido, Tokyo
                     </div>
-                </div>
-                <div className="pt-2 pl-12">
-                    <SimpleButton icon="right">About Phase 1</SimpleButton>
                 </div>
             </div>
         </div>
@@ -84,7 +80,7 @@ export function ProgramPhase2() {
                 <div className=""><MosaicIcon number={6} /></div>
             </div>
 
-            <div className="flex flex-col gap-4 mx-10 px-20 py-14 bg-gray-100">
+            <div className="flex flex-col gap-4 mx-10 px-20 py-8 bg-gray-100">
                 <div className="flex flex-col gap-1 font-medium font-xs">
                     <div className="flex flex-row items-center gap-2">
                         <div className="w-3.5 h-3.5 bg-gray-900"></div>
@@ -108,9 +104,6 @@ export function ProgramPhase2() {
                     <div className="font-en w-full flex justify-end mt-1">
                         2025.10.11-13  @Kameido, Tokyo
                     </div>
-                </div>
-                <div className="pt-2 pl-12">
-                    <SimpleButton icon="right">About Phase 2</SimpleButton>
                 </div>
             </div>
         </div>
@@ -141,7 +134,7 @@ export function ProgramPhase3() {
                 <div className=""><MosaicIcon number={10} /></div>
             </div>
 
-            <div className="flex flex-col gap-4 mx-10 px-20 py-14 bg-gray-100">
+            <div className="flex flex-col gap-4 mx-10 px-20 py-8 bg-gray-100">
                 <div className="flex flex-col gap-1 font-medium font-xs">
                     <div className="flex flex-row items-center gap-2">
                         <div className="w-3.5 h-3.5 bg-gray-900"></div>
@@ -167,9 +160,6 @@ export function ProgramPhase3() {
                     <div className="font-en w-full flex justify-end mt-1">
                         2025.11.30  @TBD in Tokyo
                     </div>
-                </div>
-                <div className="pt-2 pl-12">
-                    <SimpleButton icon="right">About Phase 3</SimpleButton>
                 </div>
             </div>
         </div>
