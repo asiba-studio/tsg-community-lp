@@ -25,7 +25,11 @@
 
 @layer base {
   html {
-    font-family: var(--font-sans);
+    visibility: hidden;
+  }
+
+  html.wf-active {
+    visibility: visible;
   }
 
   h1 {
