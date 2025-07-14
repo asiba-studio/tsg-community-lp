@@ -1,10 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // output: 'export' を削除またはコメントアウト
-  trailingSlash: true,
-  images: {
-    unoptimized: true
-  }
-}
+  reactStrictMode: true
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
+
