@@ -8,7 +8,7 @@ interface InteractiveMosaicProps {
 export default function InteractiveMosaic({ 
     imageUrl, 
     width = "100%", 
-    height = "600px",
+    height,
     className = ""
   } : InteractiveMosaicProps) {
     const iframeSrc = `/p5sketches/mosaic-picture-hover/index.html?image=${encodeURIComponent(imageUrl)}`
@@ -17,8 +17,9 @@ export default function InteractiveMosaic({
       <iframe
         src={iframeSrc}
         width={width}
-        height={height}
-        style={{ border: 'none' }}
+        {...(height && { height })}
+        scrolling="no"
+        style={{ border: 'none', overflow: 'hidden'}}
         className={className}
         title="Mosaic Shader Effect"
       />
