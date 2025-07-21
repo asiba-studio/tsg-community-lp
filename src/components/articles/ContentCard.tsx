@@ -10,7 +10,7 @@ type ContentItem = Article | News;
 interface Props {
     content: ContentItem;
     featured?: boolean;
-    basePath: '/article' | '/news'; 
+    basePath: '/articles' | '/news'; 
 }
 
 export default function ContentCard({ content, featured = false, basePath }: Props) {
