@@ -129,7 +129,7 @@ function windowResized() {
 
 function draw() {
   background(255);
-  centerAreaRatio = 0.25;
+  centerAreaRatio = 0.18;
   
   // アニメーション処理
   if (!animationComplete) {
@@ -328,9 +328,9 @@ function ensureDistance() {
   
   let distanceDiff = targetDistance - currentDistance;
   
-  let correction = distanceDiff * 0.3;
+  let correction = distanceDiff * 3;
   
-  let halfCorrection = correction * 0.5;
+  let halfCorrection = correction * 5;
   
   targetPosL -= halfCorrection;
   targetPosR += halfCorrection;
