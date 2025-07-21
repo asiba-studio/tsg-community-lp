@@ -328,9 +328,9 @@ function ensureDistance() {
   
   let distanceDiff = targetDistance - currentDistance;
   
-  let correction = distanceDiff * 3;
+  let correction = distanceDiff * 0.8;
   
-  let halfCorrection = correction * 5;
+  let halfCorrection = correction * 0.5;
   
   targetPosL -= halfCorrection;
   targetPosR += halfCorrection;
