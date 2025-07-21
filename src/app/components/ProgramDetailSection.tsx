@@ -1,4 +1,6 @@
 import { SimpleButton } from "@/components/button"
+import InteractiveMosaic from "@/components/InteractiveMosaic"
+import P5ImageDisplay from "@/components/P5ImageDisplay"
 
 export default function ProgramDetailSection() {
     return (
@@ -31,7 +33,13 @@ export default function ProgramDetailSection() {
                             モノづくりに没入する時間こそ最も重要だからこそ、仲間のクリエイションに触れながら、
                             自然にフロー状態へと導かれるクリエイティブな環境をつくります。
                         </p>
-                        <img src={'/images/mes.jpg'} alt="MEs o,ltd." className="mt-4"/>
+                        <div className="pt-2">
+                            <InteractiveMosaic
+                                imageUrl="/images/mes_2-1.jpg"
+                                width="100%"
+                                className="overflow-hidden aspect-square"
+                            />
+                        </div>
                         <div className="w-full flex justify-end">
                             <SimpleButton icon="right" href="https://www.o-me.io/" external>https://www.o-me.io/</SimpleButton>
                         </div>
@@ -40,38 +48,45 @@ export default function ProgramDetailSection() {
             </div>
 
             <div className="w-full gap-6 px-[2.5vw] pt-20">
-                <h3 className="font-zen font-bold pb-10">実施内容</h3>
+                <h3 className="font-bold pb-10">実施内容</h3>
                 <p className="pl-10">
                     プログラム内容は、上記のPhase1~3をご確認ください。
                 </p>
-                
+
             </div>
 
             <div className="w-full gap-6 px-[2.5vw] pt-20">
-                <h3 className="font-zen font-bold pb-10">オンライン・任意参加のコンテンツ</h3>
+                <h3 className="font-bold pb-10">オンライン・任意参加のコンテンツ</h3>
                 <ul className="custom-ul ml-10 space-y-8">
-                            <li>
-                                <div className="font-bold">オープンレクチャー</div>
-                                <div className="text-sm leading-snug">
-                                    プログラム前半を中心に、合計3回程度のオープンレクチャーセッションをオンラインで実施します。
-                                </div>
-                            </li>
-                            <li>
-                                <div className="font-bold">メンタリング</div>
-                                <div className="text-sm leading-snug">
-                                    グッドデザイン・ニューホープ賞、未踏アドバンストをはじめ、クリエイティブ領域で受賞歴があり、
-                                    実際に起業家として活躍している若手メンター陣によるメンタリングを行います。
-                                </div>
-                            </li>
-                            <li>
-                                <div className="font-bold">オンライン・ギャラリーウォーク</div>
-                                <div className="text-sm leading-snug">
-                                    ラボの後半には、それぞれの制作物をメタバース空間「MEs」に展示し、
-                                    互いにフィードバックを行う「オンライン・ギャラリーウォーク」を実施し、
-                                    切磋琢磨しながらクリエイティブ・モードを深めていきます。
-                                </div>
-                            </li>
-                        </ul>   
+                    <li>
+                        <div className="font-bold">オープンレクチャー</div>
+                        <div className="text-sm leading-snug">
+                            プログラム前半を中心に、合計3回程度のオープンレクチャーセッションをオンラインで実施します。
+                        </div>
+                    </li>
+                    <li>
+                        <div className="font-bold">メンタリング</div>
+                        <div className="text-sm leading-snug">
+                            グッドデザイン・ニューホープ賞、未踏アドバンストをはじめ、クリエイティブ領域で受賞歴があり、
+                            実際に起業家として活躍している若手メンター陣によるメンタリングを行います。
+                        </div>
+                    </li>
+                    <li>
+                        <div className="font-bold">オンライン・ギャラリーウォーク</div>
+                        <div className="text-sm leading-snug">
+                            ラボの後半には、それぞれの制作物をメタバース空間「MEs」に展示し、
+                            互いにフィードバックを行う「オンライン・ギャラリーウォーク」を実施し、
+                            切磋琢磨しながらクリエイティブ・モードを深めていきます。
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div className="mb-8 w-230 h-100 bg-gray-200">
+                <h2 className="text-xl mb-4">基本例</h2>
+                <P5ImageDisplay
+                    imageUrl="/images/mes_2-1.jpg"
+                />
             </div>
 
 

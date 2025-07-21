@@ -2,7 +2,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { formatDateDot } from '@/lib/date';
-import { Article, News } from '@/lib/types'; // 両方をimport
+import { Article, News } from '@/lib/types';
+import InteractiveMosaic from '../InteractiveMosaic';
+import P5ImageDisplay from '../P5ImageDisplay';
 
 // 共通のプロパティを持つ型を定義
 type ContentItem = Article | News;
@@ -22,12 +24,9 @@ export default function ContentCard({ content, featured = false, basePath }: Pro
             <article>
                 {/* Cover Image */}
                 <div className="relative w-full">
-                    <Image
-                        src={content.coverImage}
-                        alt={content.title}
-                        width={1200}
-                        height={800}
-                        className="w-full h-auto object-cover"
+                    <InteractiveMosaic
+                        imageUrl={content.coverImage}
+                        width="100%"
                     />
 
                     {/* Tags */}

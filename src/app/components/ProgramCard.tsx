@@ -1,5 +1,6 @@
 // components/ProgramCard.tsx
 import InteractiveMosaic from "@/components/InteractiveMosaic";
+import P5ImageDisplay from "@/components/P5ImageDisplay";
 
 interface ProgramCardProps {
     imageUrl: string;
@@ -19,10 +20,9 @@ export default function ProgramCard({
     return (
         <div className="flex gap-4">
             <div className="w-[25%]">
-                <InteractiveMosaic
+                <P5ImageDisplay
                     imageUrl={imageUrl}
                     width="100%"
-                    className="overflow-hidden aspect-square"
                 />
             </div>
             <div>|||</div>

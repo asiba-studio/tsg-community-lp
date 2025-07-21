@@ -3,7 +3,7 @@ let mosaicShader;
 let mosaicCounterBase = 100.0;
 let mosaicCounter = mosaicCounterBase;
 let mosaicCounterMin = -50.0;
-let mosaicIntensity = [20.0, 10.0, 0.1];
+let mosaicIntensity = [12.0, 6.0, 0.1];
 let defaultImageUrl = '';
 
 // 画像とキャンバスの設定
@@ -109,8 +109,20 @@ function preload() {
 }
 
 function setup() {
+  // URLパラメータをコンソールに出力
+  const params = new URLSearchParams(window.location.search);
+  console.log('URL Parameters:', {
+    image: params.get('image'),
+    width: params.get('width'), 
+    height: params.get('height'),
+    aspectRatio: params.get('aspectRatio')
+  });
+  
   calculateCanvasSize();
   createCanvas(canvasWidth, canvasHeight, WEBGL);
+  
+  // 計算されたサイズも出力
+  console.log('Canvas Size:', { canvasWidth, canvasHeight, imageAspect });
 }
 
 function draw() {
@@ -149,20 +161,39 @@ function draw() {
 function calculateCanvasSize() {
   if (!img) return;
 
-  // 画像のアスペクト比を取得
+  const params = getCanvasParams();
   imageAspect = img.width / img.height;
 
-  // キャンバスサイズを計算
-  canvasWidth = windowWidth;
-  canvasHeight = canvasWidth / imageAspect;
-}
+  // URLパラメータからサイズを取得
+  if (params.width && params.width !== '100%') {
+    // 具体的なピクセル値が指定されている場合
+    canvasWidth = parseInt(params.width) || window.innerWidth;
+  } else {
+    // 100%の場合は親要素の幅を使用
+    canvasWidth = window.innerWidth;
+  }
 
+  if (params.height && params.height !== 'auto') {
+    canvasHeight = parseInt(params.height);
+  } else {
+    // アスペクト比から高さを計算
+    canvasHeight = canvasWidth / imageAspect;
+  }
+}
 function windowResized() {
   calculateCanvasSize();
   resizeCanvas(canvasWidth, canvasHeight);
 }
 
-// URLパラメータから画像URLを取得
+function getCanvasParams() {
+  const params = new URLSearchParams(window.location.search);
+  return {
+    width: params.get('width'),
+    height: params.get('height'),
+    aspectRatio: params.get('aspectRatio')
+  };
+}
+
 function getImageFromURL() {
   const params = new URLSearchParams(window.location.search);
   return params.get('image') || params.get('img') || defaultImageUrl;

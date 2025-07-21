@@ -64,6 +64,13 @@
     @apply px-1 py-0.5 font-mono rounded bg-neutral-900 text-yellow-200;
     font-size: 0.9em;
   }
+
+  iframe {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    display: block;
+  }
 }
 
 @layer components {

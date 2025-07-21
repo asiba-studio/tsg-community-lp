@@ -1,5 +1,6 @@
 
 // src/lib/types.ts
+
 export interface Player {
     id: string;
     name: string;
@@ -69,3 +70,13 @@ export interface CMSData {
     players: Player[];
     events: Event[];
 }
+
+
+import p5 from "p5";
+export interface P5SketchProps {
+    preload?: (p5: p5) => void;
+    setup?: (p5: p5, canvasParentRef: Element) => void;
+    draw?: (p5: p5) => void;
+    windowResized?: (p5: p5) => void;
+    [key: string]: any;
+  }
