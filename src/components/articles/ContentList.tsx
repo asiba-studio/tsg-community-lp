@@ -9,7 +9,7 @@ type ContentItem = Article | News;
 
 interface Props {
    contents: ContentItem[];
-   basePath: '/articles' | '/news';
+   basePath: '/article' | '/news';
    columns?: number;
    gap?: number | string;
 }
