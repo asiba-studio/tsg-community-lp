@@ -32,6 +32,7 @@ export async function getArticles(): Promise<Article[]> {
         relatedProjects: data.relatedProjects || [],
         excerpt: data.excerpt,
         coverImage: data.coverImage,
+        headerImage: data.headerImage,
         tags: data.tags || [],
         featured: data.featured || false,
         lang: data.lang || 'ja',

@@ -25,7 +25,7 @@
 
 @layer base {
   h1 {
-    @apply text-4xl font-bold tracking-tight sm:text-5xl text-text-primary;
+    @apply text-4xl font-bold sm:text-5xl text-text-primary;
   }
 
   h2 {

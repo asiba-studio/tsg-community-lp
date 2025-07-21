@@ -1,7 +1,7 @@
 
 export default function HeroSection() {
     return(
-        <div className="w-full h-full -mt-14">
+        <div className="w-full h-full">
             <iframe 
                 src="/p5sketches/top-motion/index.html" 
                 width="100%" 

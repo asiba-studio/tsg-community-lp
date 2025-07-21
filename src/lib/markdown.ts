@@ -6,7 +6,6 @@ import rehypeHighlight from 'rehype-highlight';
 import rehypeStringify from 'rehype-stringify';
 import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
-import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 
 export async function markdownToHtml(markdown: string): Promise<string> {
   const result = await unified()
@@ -14,12 +13,6 @@ export async function markdownToHtml(markdown: string): Promise<string> {
     .use(remarkGfm) // GitHub Flavored Markdown
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeSlug) // 見出しにIDを追加
-    .use(rehypeAutolinkHeadings, {
-      behavior: 'wrap',
-      properties: {
-        className: ['anchor-link']
-      }
-    })
     .use(rehypeHighlight) // コードハイライト
     .use(rehypeStringify, { allowDangerousHtml: true })
     .process(markdown);

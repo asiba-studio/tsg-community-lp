@@ -1,5 +1,6 @@
 import './globals.css';
 import Script from 'next/script'
+import { Footer } from '@/components/layout';
 
 export const metadata = {
     title: {
@@ -42,6 +43,7 @@ export default function RootLayout({
                     <main>{children}</main>
                 </div>
             </body>
+            <Footer />
         </html>
     );
 }

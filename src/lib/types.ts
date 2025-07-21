@@ -37,6 +37,7 @@ export interface News {
     date: string;
     excerpt: string;
     coverImage: string;
+    headerImage: string;
     tags?: string[];
     lang: string;
     content: string;
@@ -53,6 +54,7 @@ export interface Article {
     relatedProjects?: string[];
     excerpt: string;
     coverImage: string;
+    headerImage: string;
     tags: string[];
     featured: boolean;
     lang: string;
