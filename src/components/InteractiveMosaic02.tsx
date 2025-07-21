@@ -18,7 +18,7 @@ const Sketch = dynamic(() => import("react-p5"), {
   ssr: false,
 }) as React.ComponentType<P5SketchProps>;
 
-interface P5ImageDisplayProps {
+interface InteractiveMosaic02Props {
   width?: string | number;
   height?: string | number;
   showTitle?: boolean;
@@ -42,14 +42,14 @@ function getAspectRatioFromFilename(imageUrl: string): { width: number; height: 
   return { width: 1, height: 1, ratio: 1 }
 }
 
-export default function P5ImageDisplay({
+export default function InteractiveMosaic02({
   width = '100%',
   height,
   showTitle = false,
   imageUrl,
   className = '',
   style = {}
-}: P5ImageDisplayProps) {
+}: InteractiveMosaic02Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 800, height: 400 });
   const [aspectRatio, setAspectRatio] = useState<{ width: number; height: number; ratio: number }>({ width: 1, height: 1, ratio: 1 });

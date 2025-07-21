@@ -1,10 +1,8 @@
 // src/components/ContentCard.tsx
-import Image from 'next/image';
 import Link from 'next/link';
 import { formatDateDot } from '@/lib/date';
 import { Article, News } from '@/lib/types';
-import InteractiveMosaic from '../InteractiveMosaic';
-import P5ImageDisplay from '../P5ImageDisplay';
+import InteractiveMosaic02 from '../InteractiveMosaic02';
 
 // 共通のプロパティを持つ型を定義
 type ContentItem = Article | News;
@@ -24,7 +22,7 @@ export default function ContentCard({ content, featured = false, basePath }: Pro
             <article>
                 {/* Cover Image */}
                 <div className="relative w-full">
-                    <InteractiveMosaic
+                    <InteractiveMosaic02
                         imageUrl={content.coverImage}
                         width="100%"
                     />

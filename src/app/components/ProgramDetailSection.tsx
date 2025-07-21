@@ -1,6 +1,6 @@
 import { SimpleButton } from "@/components/button"
 import InteractiveMosaic from "@/components/InteractiveMosaic"
-import P5ImageDisplay from "@/components/P5ImageDisplay"
+import InteractiveMosaic02 from "@/components/InteractiveMosaic02"
 
 export default function ProgramDetailSection() {
     return (
@@ -34,7 +34,7 @@ export default function ProgramDetailSection() {
                             自然にフロー状態へと導かれるクリエイティブな環境をつくります。
                         </p>
                         <div className="pt-2">
-                            <InteractiveMosaic
+                            <InteractiveMosaic02
                                 imageUrl="/images/mes_2-1.jpg"
                                 width="100%"
                                 className="overflow-hidden aspect-square"
@@ -80,13 +80,6 @@ export default function ProgramDetailSection() {
                         </div>
                     </li>
                 </ul>
-            </div>
-
-            <div className="mb-8 w-230 h-100 bg-gray-200">
-                <h2 className="text-xl mb-4">基本例</h2>
-                <P5ImageDisplay
-                    imageUrl="/images/mes_2-1.jpg"
-                />
             </div>
 
 
