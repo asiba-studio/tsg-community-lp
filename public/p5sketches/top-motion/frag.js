@@ -72,7 +72,7 @@ void main() {
 	
 	// 最終の色調整
 	backColor.a *= u_alphaAnimation;
-	backColor.a *= 0.8;
+	backColor.a *= 0.85;
 	
   if (isLine) {
     backColor = vec4(0.0, 0.0, 0.0, 1.0);

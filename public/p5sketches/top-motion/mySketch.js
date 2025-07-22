@@ -34,9 +34,9 @@ function preload() {
   logoL = loadImage('logoL.png');
   logoC = loadImage('logoC.png');
   logoR = loadImage('logoR.png');
-  backL = loadImage('backL.png');
-  backC = loadImage('backC.png');
-  backR = loadImage('backR.png');
+  backL = loadImage('backLL.png');
+  backC = loadImage('backCL.png');
+  backR = loadImage('backRL.png');
   theShader = new p5.Shader(this.renderer, vert, frag);
 }
 
