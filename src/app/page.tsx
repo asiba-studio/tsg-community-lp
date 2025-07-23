@@ -103,9 +103,11 @@ export default async function Page() {
           </section>
 
           {/* Players Section */}
+          {/*}
           <section className="w-full section-spacing border-t border-border">
             <PlayerSection />
           </section>
+          */}
 
 
 
