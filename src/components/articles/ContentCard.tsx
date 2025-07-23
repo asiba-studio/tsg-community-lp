@@ -33,7 +33,7 @@ export default function ContentCard({ content, featured = false, basePath }: Pro
                             <span
                                 key={tag}
                                 className="text-gray-500 leading-none font-en font-medium 
-                                    text-sm transition-colors duration-200 
+                                    text-fluid-sm transition-colors duration-200 
                                     group-hover:text-gray-100"
                             >
                                 # {tag}
@@ -45,7 +45,7 @@ export default function ContentCard({ content, featured = false, basePath }: Pro
                     <div className="
                         absolute bottom-1.5 right-2 
                         text-gray-500 font-en font-medium 
-                        leading-none text-sm 
+                        leading-none text-fluid-sm 
                         transition-colors duration-200 
                         group-hover:text-gray-100
                     ">
@@ -56,12 +56,12 @@ export default function ContentCard({ content, featured = false, basePath }: Pro
                 {/* Info */}
                 <div>
                     {/* Subtitle */}
-                    <p className="font-medium font-zen mt-0">
+                    <p className="font-medium text-fluid-base font-zen mt-0">
                         {content.subtitle}
                     </p>
 
                     {/* Title */}
-                    <h3 className="font-medium font-zen mt-2 text-l">
+                    <h3 className="font-medium font-zen mt-2 text-fluid-lg">
                         {content.title}
                     </h3>
                 </div>

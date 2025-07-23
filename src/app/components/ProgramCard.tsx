@@ -1,5 +1,4 @@
 // components/ProgramCard.tsx
-import InteractiveMosaic from "@/components/InteractiveMosaic";
 import InteractiveMosaic02 from "@/components/InteractiveMosaic02";
 
 interface ProgramCardProps {
@@ -18,20 +17,20 @@ export default function ProgramCard({
     location,
 }: ProgramCardProps) {
     return (
-        <div className="flex gap-4">
-            <div className="w-[25%]">
+        <div className="flex flex-wrap gap-2 gap-y-4 lg:gap-4">
+            <div className="w-full lg:w-[25%]">
                 <InteractiveMosaic02
                     imageUrl={imageUrl}
                     width="100%"
                 />
             </div>
-            <div>|||</div>
+            <div className="font-bold text-fluid-lg">|||</div>
             <div className="flex-1">
-                <div className="font-bold">{title}</div>
-                <div className="pt-6">
+                <div className="font-bold text-fluid-lg">{title}</div>
+                <div className="pt-3 lg:pt-6">
                     {children}
                 </div>
-                <div className="w-full text-sm text-right mt-6">
+                <div className="w-full text-fluid-sm font-bold text-right mt-6">
                     {dateTime} @{location}
                 </div>
             </div>

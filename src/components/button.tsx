@@ -23,6 +23,7 @@ interface SimpleButtonProps {
   className?: string;
   variant?: 'default' | 'outline' | 'minimal';
   lang?: Language;  // 新規追加
+  size?: 'sm' | 'md' | 'lg'; 
 }
 
 export function SimpleButton({ 
@@ -34,56 +35,60 @@ export function SimpleButton({
   onClick,
   className = "",
   variant = 'default',
-  lang = 'en'  // デフォルトは英語
+  lang = 'en',
+  size = 'md'
 }: SimpleButtonProps) {
   
-  const baseStyles = {
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: '2px',
-    padding: '2px 2px',
-    fontSize: '16px',
-    fontWeight: 600,
-    textDecoration: 'none',
-    transition: 'all 0.2s ease',
-    cursor: 'pointer',
-    border: 'none',
+  // Tailwindクラスベースの設計
+  const baseClasses = [
+    'inline-flex items-center gap-1 font-semibold no-underline transition-all duration-200 cursor-pointer border-0'
+  ];
+
+  const sizeClasses = {
+    sm: 'text-sm px-3 py-1.5 gap-1',
+    md: 'text-base px-4 py-2 gap-2', 
+    lg: 'text-lg px-5 py-2.5 gap-2'
   };
 
-  const variants = {
-    default: {
-      backgroundColor: 'transparent',
-      color: 'black',
-    },
-    outline: {
-      backgroundColor: 'transparent',
-      color: '#333333',
-      border: '2px solid #333333',
-    },
-    minimal: {
-      backgroundColor: 'transparent',
-      color: '#333333',
-      padding: '8px 0',
-    }
+  const responsiveSizeClasses = {
+    sm: 'text-xs px-2 py-1 md:text-sm md:px-3 md:py-1.5 lg:text-base lg:px-4 lg:py-2',
+    md: 'text-sm px-3 py-1.5 md:text-base md:px-4 md:py-2 lg:text-lg lg:px-5 lg:py-2.5',
+    lg: 'text-base px-4 py-2 md:text-lg md:px-5 md:py-2.5 lg:text-xl lg:px-6 lg:py-3'
   };
 
-  const combinedStyle = {
-    ...baseStyles,
-    ...variants[variant],
+  const variantClasses = {
+    default: 'bg-transparent text-black hover:opacity-80',
+    outline: 'bg-transparent text-text-primary border-2 border-text-primary hover:bg-text-primary hover:text-white',
+    minimal: 'bg-transparent text-text-primary py-2 px-0 hover:opacity-80'
   };
 
-  // 言語に応じたクラス名を生成
-  const langClasses = lang === 'en' ? 'font-en' : 'text-ja-tight';
-  const combinedClassName = `${langClasses} ${className}`.trim();
+  const iconSizeClasses = {
+    sm: 'w-4 h-4 md:w-4 md:h-4 lg:w-5 lg:h-5',
+    md: 'w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6', 
+    lg: 'w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7'
+  };
 
-  // アイコンコンポーネントを安全に取得
+  const langClasses = lang === 'en' ? 'font-en' : 'font-zen text-ja-tight';
+  
+  const combinedClassName = [
+    ...baseClasses,
+    responsiveSizeClasses[size], // レスポンシブサイズを使用
+    variantClasses[variant],
+    langClasses,
+    className
+  ].join(' ');
+
   const IconComponent = icon ? iconMap[icon] : null;
 
   const content = (
     <>
-      {IconComponent && iconPosition === 'left' && <IconComponent size={20} strokeWidth={2.5}  />}
+      {IconComponent && iconPosition === 'left' && (
+        <IconComponent className={iconSizeClasses[size]} strokeWidth={2.5} />
+      )}
       {children}
-      {IconComponent && iconPosition === 'right' && <IconComponent size={20} strokeWidth={2.5}  />}
+      {IconComponent && iconPosition === 'right' && (
+        <IconComponent className={iconSizeClasses[size]} strokeWidth={2.5} />
+      )}
     </>
   );
 
@@ -91,7 +96,6 @@ export function SimpleButton({
     return (
       <a 
         href={href}
-        style={combinedStyle}
         target={external ? '_blank' : '_self'}
         rel={external ? 'noopener noreferrer' : undefined}
         className={combinedClassName}
@@ -104,7 +108,6 @@ export function SimpleButton({
   return (
     <button 
       onClick={onClick}
-      style={combinedStyle}
       className={combinedClassName}
     >
       {content}

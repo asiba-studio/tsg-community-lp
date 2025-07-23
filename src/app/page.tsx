@@ -41,18 +41,24 @@ export default async function Page() {
       
 
       {/* Main Container */}
-      <div className="w-full p-[4vw] -mt-40 flex flex-col lg:flex-row gap-[8vw]">
+      <div className="w-full p-[14px] lg:p-[4vw] -mt-40 flex flex-col lg:flex-row gap-[8vw]">
 
         {/* Left Conteiner */}
-        <div className="w-full lg:flex-2">
+        <div className="w-full lg:w-2/3">
 
           {/* News Section */}
           <section className="w-full pt-[100px] border-t border-border">
             <h2>
-              <img src="/gifs/news.gif" className="h-16 mb-10" alt="" />
+              <img src="/gifs/news.gif" className="h-10 lg:h-16 mb-10" alt="" />
               <span className="sr-only">News</span>
             </h2>
-            <ContentList contents={news} basePath="/news" columns={2} gap={100} />
+            <div className="hidden lg:block">
+              <ContentList contents={news} basePath="/news" columns={2} gap={100}/>
+            </div>
+            <div className="block lg:hidden">
+              <ContentList contents={news} basePath="/news" columns={1} gap={100}/>
+            </div>
+            
           </section>
 
           {/* Icon Section */}
@@ -72,7 +78,7 @@ export default async function Page() {
           </section>
 
           {/* Application Section */}
-          <div className="w-full section-spacing border-t border-border px-10">
+          <div className="w-full section-spacing border-t border-border">
             <ApplicationSection />
           </div>
 
@@ -81,9 +87,9 @@ export default async function Page() {
         </div>
 
         {/* Right Container */}
-        <div className="w-full lg:flex-1">
+        <div className="w-full lg:w-1/3">
           {/* Statement Section*/}
-          <section className="w-full pt-100 section-spacing">
+          <section className="w-full pt-100 px-[2.5vw] section-spacing">
             <StatementShort />
 
             <div className="w-full mt-20 flex justify-start">
