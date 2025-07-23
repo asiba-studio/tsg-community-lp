@@ -34,25 +34,20 @@ function preload() {
   logoL = loadImage('logoL.png');
   logoC = loadImage('logoC.png');
   logoR = loadImage('logoR.png');
-  backL = loadImage('backLL.png');
-  backC = loadImage('backCL.png');
-  backR = loadImage('backRL.png');
+  backL = loadImage('backL.png');
+  backC = loadImage('backC.png');
+  backR = loadImage('backR.png');
   theShader = new p5.Shader(this.renderer, vert, frag);
 }
 
-// setup関数の修正
 function setup() {
-  // 画面全体を使用（アスペクト比は無視）
-  createCanvas(windowWidth, windowHeight, WEBGL);
-  resolution = [windowWidth, windowHeight];
+  if (logoL.width && logoL.height) {
+    imageAspectRatio = logoL.width / logoL.height;
+  }
   
-  // 元画像を保持するための変数を初期化
-  originalBackL = null;
-  originalBackC = null;
-  originalBackR = null;
-  
-  // 背景画像を画面アスペクト比に合わせてfill用に前処理
-  preprocessBackgroundImages();
+  let canvasSize = calculateCanvasSize(windowWidth, windowHeight);
+  createCanvas(canvasSize.width, canvasSize.height, WEBGL);
+  resolution = [canvasSize.width, canvasSize.height];
   
   // エリア境界を計算
   calculateAreas();
@@ -69,123 +64,46 @@ function setup() {
   animationStartTime = millis();
 }
 
-// 背景画像のみをfill用に前処理する関数（ロゴは除外）
-function preprocessBackgroundImages() {
-  let screenAspect = width / height;
-  
-  // 元の画像を保持しておく
-  if (!originalBackL) {
-    originalBackL = backL;
-    originalBackC = backC;
-    originalBackR = backR;
-  }
-  
-  // 背景画像のみfill処理
-  backL = createFilledTexture(originalBackL, screenAspect);
-  backC = createFilledTexture(originalBackC, screenAspect);
-  backR = createFilledTexture(originalBackR, screenAspect);
-}
-
-// 画像を画面アスペクト比に合わせてfillするテクスチャを作成
-function createFilledTexture(img, targetAspect) {
-  if (!img.width || !img.height) return img;
-  
-  let imgAspect = img.width / img.height;
-  let newWidth, newHeight, offsetX = 0, offsetY = 0;
-  
-  if (targetAspect > imgAspect) {
-    // 画面が横長：横幅基準でスケール、上下クロップ
-    newWidth = img.width;
-    newHeight = img.width / targetAspect;
-    offsetY = (img.height - newHeight) / 2;
-  } else {
-    // 画面が縦長：縦幅基準でスケール、左右クロップ
-    newHeight = img.height;
-    newWidth = img.height * targetAspect;
-    offsetX = (img.width - newWidth) / 2;
-  }
-  
-  // 新しいグラフィックスバッファを作成
-  let pg = createGraphics(newWidth, newHeight);
-  pg.image(img, -offsetX, -offsetY);
-  
-  return pg;
-}
-
-// windowResized関数を修正してリサイズ時も前処理を実行
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-  resolution = [windowWidth, windowHeight];
-  
-  // 背景画像を新しい画面サイズに合わせて再前処理
-  preprocessBackgroundImages();
-  
-  if (theShader) {
-    theShader.setUniform('u_resolution', resolution);
-  }
-  
-  console.log(`Canvas resized: ${windowWidth} x ${windowHeight}`);
-}
-
 function draw() {
   background(255);
-  centerAreaRatio = 0.18;
+	centerAreaRatio = 0.25;
   
   // アニメーション処理
   if (!animationComplete) {
     updateAnimation();
   } else if (!interactionEnabled) {
+    // アニメーション完了後の待機期間
     updateInteractionDelay();
+    // 待機期間中は線を定位置に固定
     posL = finalPosL;
     posR = finalPosR;
     targetPosL = finalPosL;
     targetPosR = finalPosR;
   } else {
+    // マウスインタラクション有効
     calculateMouseVelocity();
     updateLinePositions();
   }
+	
   
   // シェーダーの描画
   shader(theShader);
-  
-  // ロゴテキストは元のアスペクト比を保持
   theShader.setUniform('logoL', logoL);
   theShader.setUniform('logoC', logoC);
   theShader.setUniform('logoR', logoR);
-  
-  // 背景画像はfill処理済み
   theShader.setUniform('backL', backL);
   theShader.setUniform('backC', backC);
   theShader.setUniform('backR', backR);
-  
   theShader.setUniform('u_resolution', resolution);
   theShader.setUniform('u_linePositions', [posL, posR]);
   theShader.setUniform('u_time', millis() * 0.001);
-  
-  // ロゴのスケール調整情報をシェーダーに送信
-  let screenAspect = width / height;
-  let logoScale = calculateLogoScale(screenAspect);
-  theShader.setUniform('u_logoScale', logoScale);
-  
-  let animationProgress = constrain(map(millis() - animationStartTime, animationDuration - 250, animationDuration + 750, 0, 1), 0, 1);
-  theShader.setUniform('u_alphaAnimation', animationProgress);
+	
+	let animationProgress = constrain(map(millis() - animationStartTime, animationDuration -250, animationDuration + 750, 0, 1), 0, 1);
+	theShader.setUniform('u_alphaAnimation', animationProgress);
   
   noStroke();
   fill(255);
   rect(0, 0, resolution[0], resolution[1]);
-}
-
-// ロゴの適切なスケールを計算
-function calculateLogoScale(screenAspect) {
-  // 基準アスペクト比（デザイン時の想定比率）
-  let baseAspect = 16 / 9; // または他の基準値
-  
-  // 画面が基準より横長/縦長の場合の調整
-  if (screenAspect > baseAspect) {
-    return baseAspect / screenAspect; // 横方向を縮小
-  } else {
-    return screenAspect / baseAspect; // 縦方向を縮小
-  }
 }
 
 function updateAnimation() {
@@ -328,7 +246,7 @@ function ensureDistance() {
   
   let distanceDiff = targetDistance - currentDistance;
   
-  let correction = distanceDiff * 0.8;
+  let correction = distanceDiff * 0.3;
   
   let halfCorrection = correction * 0.5;
   
@@ -361,4 +279,16 @@ function calculateCanvasSize(maxWidth, maxHeight) {
   }
   
   return { width: canvasWidth, height: canvasHeight };
+}
+
+function windowResized() {
+  let canvasSize = calculateCanvasSize(windowWidth, windowHeight);
+  resizeCanvas(canvasSize.width, canvasSize.height);
+  resolution = [canvasSize.width, canvasSize.height];
+  
+  if (theShader) {
+    theShader.setUniform('u_resolution', resolution);
+  }
+  
+  console.log(`Canvas resized: ${canvasSize.width} x ${canvasSize.height}`);
 }

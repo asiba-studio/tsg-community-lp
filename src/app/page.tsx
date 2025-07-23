@@ -8,7 +8,7 @@ import { ProgramPhase1, ProgramPhase2, ProgramPhase3 } from "./components/Progra
 import { Header, Menu } from "@/components/layout";
 import ProgramDetailSection from "./components/ProgramDetailSection";
 import ApplicationSection from "./components/ApllicationSection";
-import PlayerSection from "./components/PlayerSection";
+//import PlayerSection from "./components/PlayerSection";
 import Tagline from "./components/Tagline";
 
 
@@ -21,7 +21,7 @@ export default async function Page() {
     <div>
 
       {/* Hero Section */}
-      <section className="w-full h-[100vh] border-b border-border">
+      <section className="w-full aspect-[1300/680] border-b border-border">
         <HeroSection />
       </section>
 
@@ -41,10 +41,10 @@ export default async function Page() {
       
 
       {/* Main Container */}
-      <div className="w-full p-[4vw] -mt-40 grid grid-cols-3 gap-[8vw]">
+      <div className="w-full p-[4vw] -mt-40 flex flex-col lg:flex-row gap-[8vw]">
 
         {/* Left Conteiner */}
-        <div className="w-full col-span-2">
+        <div className="w-full lg:flex-2">
 
           {/* News Section */}
           <section className="w-full pt-[100px] border-t border-border">
@@ -81,7 +81,7 @@ export default async function Page() {
         </div>
 
         {/* Right Container */}
-        <div className="w-full col-span-1">
+        <div className="w-full lg:flex-1">
           {/* Statement Section*/}
           <section className="w-full pt-100 section-spacing">
             <StatementShort />
