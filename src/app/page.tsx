@@ -52,10 +52,10 @@ export default async function Page() {
               <img src="/gifs/news.gif" className="h-10 lg:h-16 mb-10" alt="" />
               <span className="sr-only">News</span>
             </h2>
-            <div className="hidden lg:block">
+            <div className="hidden md:block">
               <ContentList contents={news} basePath="/news" columns={2} gap={100}/>
             </div>
-            <div className="block lg:hidden">
+            <div className="block md:hidden">
               <ContentList contents={news} basePath="/news" columns={1} gap={100}/>
             </div>
             

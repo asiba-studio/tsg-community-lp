@@ -14,14 +14,14 @@ export function ProgramPhase1() {
                     <img src="/gifs/phase1.gif" className="h-8 lg:h-[1.8em] mb-0" alt="" />
                     <span className="sr-only mb-0">Phase1</span>
                 </h3>
-                <div className="w-auto flex flex-col lg:flex-row gap-2 lg:gap-10 pl-8 lg:pl-0 mb-0.5 pr-3 font-medium text-sm lg:text-lg">
+                <div className="w-auto flex flex-col lg:flex-row gap-2 lg:gap-10 pl-8 lg:pl-0 mb-0.5 pr-3 font-medium text-sm lg:text-base">
                     <div className="leading-none font-zen">世界を広げる</div>
                     <div className="font-en leading-none">Expand The World</div>
                 </div>
 
             </div>
 
-            <div className="grid grid-cols-2 lg:grid-cols-3 w-full gap-4 lg:gap-15 lg:px-[3vw] py-14">
+            <div className="grid grid-cols-2 md:grid-cols-3 w-full gap-4 md:gap-15 md:px-[3vw] py-14">
                 <div className=""><MosaicIcon number={1} /></div>
                 <div className=""><MosaicIcon number={2} /></div>
                 <div className=""><MosaicIcon number={3} /></div>
@@ -82,14 +82,14 @@ export function ProgramPhase2() {
                     <img src="/gifs/phase2.gif" className="h-8 lg:h-[1.8em] mb-0" alt="" />
                     <span className="sr-only mb-0">Phase2</span>
                 </h3>
-                <div className="w-auto flex flex-col lg:flex-row gap-2 lg:gap-10 pl-8 lg:pl-0 mb-0.5 pr-3 font-medium text-sm lg:text-lg">
+                <div className="w-auto flex flex-col lg:flex-row gap-2 lg:gap-10 pl-8 lg:pl-0 mb-0.5 pr-3 font-medium text-sm lg:text-base">
                     <div className="leading-none font-zen">真っすぐにつくる</div>
                     <div className="font-en leading-none">Make Straight</div>
                 </div>
 
             </div>
 
-            <div className="grid grid-cols-2 lg:grid-cols-3 w-full gap-4 lg:gap-15 lg:px-[3vw] py-14">
+            <div className="grid grid-cols-2 md:grid-cols-3 w-full gap-4 md:gap-15 md:px-[3vw] py-14">
                 <div className=""><MosaicIcon number={4} /></div>
                 <div className=""><MosaicIcon number={5} /></div>
                 <div className=""><MosaicIcon number={6} /></div>
@@ -142,14 +142,14 @@ export function ProgramPhase3() {
                     <img src="/gifs/phase3.gif" className="h-8 lg:h-[1.8em] mb-0" alt="" />
                     <span className="sr-only mb-0">Phase3</span>
                 </h3>
-                <div className="w-auto flex flex-col lg:flex-row gap-2 lg:gap-10 pl-8 lg:pl-0 mb-0.5 pr-3 font-medium text-sm lg:text-lg">
+                <div className="w-auto flex flex-col lg:flex-row gap-2 lg:gap-10 pl-8 lg:pl-0 mb-0.5 pr-3 font-medium text-sm lg:text-base">
                     <div className="leading-none font-zen">自分と向き合う</div>
                     <div className="font-en leading-none">Face Yourself</div>
                 </div>
 
             </div>
 
-            <div className="grid grid-cols-2 lg:grid-cols-3 w-full gap-4 lg:gap-15 lg:px-[3vw] py-14">
+            <div className="grid grid-cols-2 md:grid-cols-3 w-full gap-4 md:gap-15 md:px-[3vw] py-14">
                 <div className=""><MosaicIcon number={7} /></div>
                 <div className=""><MosaicIcon number={8} /></div>
                 <div className=""><MosaicIcon number={9} /></div>
