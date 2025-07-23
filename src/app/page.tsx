@@ -1,6 +1,6 @@
 
 import HeroSection from "./components/heroSection";
-import { StatementLeft, StatementCenter, StatementRight } from "./components/statement";
+import { StatementShort} from "./components/statement";
 import { SimpleButton } from "@/components/button";
 import ContentList from "@/components/articles/ContentList";
 import { getArticles, getNews } from "@/lib/cms";
@@ -9,6 +9,7 @@ import { Header, Menu } from "@/components/layout";
 import ProgramDetailSection from "./components/ProgramDetailSection";
 import ApplicationSection from "./components/ApllicationSection";
 import PlayerSection from "./components/PlayerSection";
+import Tagline from "./components/Tagline";
 
 
 export default async function Page() {
@@ -27,27 +28,26 @@ export default async function Page() {
       {/* Navigation */}
       <Header />
       <div className="h-40"/>
+      
+
+      {/* Tagline */}
+      <section className="w-full h-auto mb-70 p-[4vw]">
+        <Tagline />
+
+
+      </section>
+
       <Menu />
       
 
       {/* Main Container */}
-      <div className="w-full -mt-40 p-[4vw] grid grid-cols-3 gap-[6vw]">
+      <div className="w-full p-[4vw] -mt-40 grid grid-cols-3 gap-[8vw]">
 
         {/* Left Conteiner */}
         <div className="w-full col-span-2">
 
-          {/* Left Statement Section */}
-          <section className="w-full grid grid-cols-2 gap-[6vw]">
-            <div>
-              <StatementLeft />
-            </div>
-            <div className="pt-[200px]">
-              <StatementCenter />
-            </div>
-          </section>
-
           {/* News Section */}
-          <section className="w-full mt-[200px] pt-[100px] border-t border-border">
+          <section className="w-full pt-[100px] border-t border-border">
             <h2>
               <img src="/gifs/news.gif" className="h-16 mb-10" alt="" />
               <span className="sr-only">News</span>
@@ -83,11 +83,11 @@ export default async function Page() {
         {/* Right Container */}
         <div className="w-full col-span-1">
           {/* Statement Section*/}
-          <section className="w-full pt-[400px]"　style={{ paddingBottom: 'var(--section-padding-y)' }}>
-            <StatementRight />
+          <section className="w-full pt-100 section-spacing">
+            <StatementShort />
 
-            <div className="w-full my-[100px] flex justify-end">
-              <SimpleButton icon="right" href="/articles">
+            <div className="w-full mt-20 flex justify-start">
+              <SimpleButton icon="right" href="/about">
                 About Creative Lab.
               </SimpleButton>
             </div>
