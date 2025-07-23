@@ -136,7 +136,7 @@ export function StatementRight() {
 
 export function StatementShort() {
   return (
-    <div className='text-base font-bold leading-loose space-y-6'>
+    <div className="text-base font-bold leading-loose space-y-6">
       <p>
         TSG Creative-LAB.は、<br />
         「つくること」を通して、<br />
