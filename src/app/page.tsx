@@ -21,11 +21,12 @@ export default async function Page() {
     <div>
 
       {/* Hero Section */}
-      <section className="w-full aspect-[1300/680] border-b border-border">
+      <section className="w-full aspect-[1300/680]">
         <HeroSection />
       </section>
 
       {/* Navigation */}
+      <div className="h-1 border-t border-border" />
       <Header />
       <div className="h-40"/>
       
