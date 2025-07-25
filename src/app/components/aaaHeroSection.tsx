@@ -7,7 +7,7 @@ export default function HeroSection() {
                 width="100%" 
                 height="100%"
                 scrolling="no"
-                title="P5.js Sketch"
+                title="P5.js Sketch--"
                 className="border-0"
             />
         </div>
