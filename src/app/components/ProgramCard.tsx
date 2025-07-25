@@ -17,17 +17,17 @@ export default function ProgramCard({
     location,
 }: ProgramCardProps) {
     return (
-        <div className="flex flex-wrap gap-2 gap-y-4 lg:gap-4">
-            <div className="w-full lg:w-[25%]">
+        <div className="flex flex-wrap gap-2 gap-y-4 md:gap-4">
+            <div className="w-full md:w-44">
                 <InteractiveMosaic02
                     imageUrl={imageUrl}
                     width="100%"
                 />
             </div>
-            <div className="font-bold text-fluid-lg">|||</div>
+            <div className="text-fluid-lg">|||</div>
             <div className="flex-1">
                 <div className="font-bold text-fluid-lg">{title}</div>
-                <div className="pt-3 lg:pt-6">
+                <div className="pt-3 md:pt-6">
                     {children}
                 </div>
                 <div className="w-full text-fluid-sm font-bold text-right mt-6">

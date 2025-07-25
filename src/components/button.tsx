@@ -22,8 +22,9 @@ interface SimpleButtonProps {
   onClick?: () => void;
   className?: string;
   variant?: 'default' | 'outline' | 'minimal';
-  lang?: Language;  // 新規追加
-  size?: 'sm' | 'md' | 'lg'; 
+  lang?: Language;
+  size?: 'sm' | 'md' | 'lg';
+  strokeWidth?: number; // 新規追加：アイコンの太さ
 }
 
 export function SimpleButton({ 
@@ -36,30 +37,31 @@ export function SimpleButton({
   className = "",
   variant = 'default',
   lang = 'en',
-  size = 'md'
+  size = 'md',
+  strokeWidth = 2.5 // デフォルト値
 }: SimpleButtonProps) {
   
-  // Tailwindクラスベースの設計
+  // Tailwindクラスベースの設計（パディング削除）
   const baseClasses = [
-    'inline-flex items-center gap-1 font-semibold no-underline transition-all duration-200 cursor-pointer border-0'
+    'inline-flex items-center gap-1 font-semibold no-underline transition-all duration-200 cursor-pointer border-0 py-1'
   ];
 
   const sizeClasses = {
-    sm: 'text-sm px-3 py-1.5 gap-1',
-    md: 'text-base px-4 py-2 gap-2', 
-    lg: 'text-lg px-5 py-2.5 gap-2'
+    sm: 'text-sm gap-1',
+    md: 'text-base gap-2', 
+    lg: 'text-lg gap-2'
   };
 
   const responsiveSizeClasses = {
-    sm: 'text-xs px-2 py-1 md:text-sm md:px-3 md:py-1.5 lg:text-base lg:px-4 lg:py-2',
-    md: 'text-sm px-3 py-1.5 md:text-base md:px-4 md:py-2 lg:text-lg lg:px-5 lg:py-2.5',
-    lg: 'text-base px-4 py-2 md:text-lg md:px-5 md:py-2.5 lg:text-xl lg:px-6 lg:py-3'
+    sm: 'text-xs md:text-sm lg:text-base',
+    md: 'text-sm md:text-base lg:text-lg',
+    lg: 'text-base md:text-lg lg:text-xl'
   };
 
   const variantClasses = {
-    default: 'bg-transparent text-black hover:opacity-80',
+    default: 'bg-transparent text-bold hover:opacity-80',
     outline: 'bg-transparent text-text-primary border-2 border-text-primary hover:bg-text-primary hover:text-white',
-    minimal: 'bg-transparent text-text-primary py-2 px-0 hover:opacity-80'
+    minimal: 'bg-transparent text-text-primary hover:opacity-80'
   };
 
   const iconSizeClasses = {
@@ -68,11 +70,12 @@ export function SimpleButton({
     lg: 'w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7'
   };
 
-  const langClasses = lang === 'en' ? 'font-en' : 'font-zen text-ja-tight';
+  const langClasses = lang === 'en' ? 'font-en' : 'font-sans text-ja-tight';
   
   const combinedClassName = [
     ...baseClasses,
-    responsiveSizeClasses[size], // レスポンシブサイズを使用
+    sizeClasses[size],
+    responsiveSizeClasses[size],
     variantClasses[variant],
     langClasses,
     className
@@ -83,11 +86,11 @@ export function SimpleButton({
   const content = (
     <>
       {IconComponent && iconPosition === 'left' && (
-        <IconComponent className={iconSizeClasses[size]} strokeWidth={2.5} />
+        <IconComponent className={iconSizeClasses[size]} strokeWidth={strokeWidth} />
       )}
       {children}
       {IconComponent && iconPosition === 'right' && (
-        <IconComponent className={iconSizeClasses[size]} strokeWidth={2.5} />
+        <IconComponent className={iconSizeClasses[size]} strokeWidth={strokeWidth} />
       )}
     </>
   );

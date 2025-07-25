@@ -136,7 +136,7 @@ export default async function ArticlePage({ params }: Props) {
             </header>
 
 
-            <div className="w-full p-[14px] lg:p-[4vw] flex flex-col lg:flex-row gap-[8vw]">
+            <div className="w-full p-[14px] lg:p-[4vw] flex flex-col lg:flex-row gap-[8vw] overflow-visible">
                 <div className='flex-1'>
                     {/* 記事本文 */}
                     <div

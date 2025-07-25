@@ -9,27 +9,27 @@ export function ProgramPhase1() {
     return (
 
         <div className="w-full flex flex-col">
-            <div className="flex flex-wrap gap-4 lg:gap-10 items-end">
+            <div className="flex flex-wrap gap-4 md:gap-10 items-end">
                 <h3>
-                    <img src="/gifs/phase1.gif" className="h-8 lg:h-[1.8em] mb-0" alt="" />
+                    <img src="/gifs/phase1.gif" className="h-8 md:h-[1.8em] mb-0" alt="" />
                     <span className="sr-only mb-0">Phase1</span>
                 </h3>
-                <div className="w-auto flex flex-col lg:flex-row gap-2 lg:gap-10 pl-8 lg:pl-0 mb-0.5 pr-3 font-medium text-sm lg:text-base">
+                <div className="w-auto flex flex-col md:flex-row gap-2 md:gap-10 pl-8 md:pl-0 mb-0.5 pr-3 font-medium text-sm md:text-base">
                     <div className="leading-none font-zen">世界を広げる</div>
                     <div className="font-en leading-none">Expand The World</div>
                 </div>
 
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 w-full gap-4 md:gap-15 md:px-[3vw] py-14">
+            <div className="grid grid-cols-2 md:grid-cols-3 w-full md:w-3/4 gap-4 md:gap-6 md:px-0 py-10">
                 <div className=""><MosaicIcon number={1} /></div>
                 <div className=""><MosaicIcon number={2} /></div>
                 <div className=""><MosaicIcon number={3} /></div>
             </div>
 
-            <div className="w-full px-[3vw] py-14">
+            <div className="w-full px-0 py-10">
                 <h4 className="sr-only">Phase 1 Program</h4>
-                <ul className="px-[5%] space-y-14">
+                <ul className="px-[3%] space-y-8">
                     <li>
                         <ProgramCard
                             imageUrl="/images/home/program-1-1.png"
@@ -76,20 +76,20 @@ export function ProgramPhase2() {
 
     return (
 
-        <div className="w-full flex flex-col gap-4">
-            <div className="flex flex-wrap gap-4 lg:gap-10 items-end">
+        <div className="w-full flex flex-col">
+            <div className="flex flex-wrap gap-4 md:gap-10 items-end">
                 <h3>
-                    <img src="/gifs/phase2.gif" className="h-8 lg:h-[1.8em] mb-0" alt="" />
+                    <img src="/gifs/phase2.gif" className="h-8 md:h-[1.8em] mb-0" alt="" />
                     <span className="sr-only mb-0">Phase2</span>
                 </h3>
-                <div className="w-auto flex flex-col lg:flex-row gap-2 lg:gap-10 pl-8 lg:pl-0 mb-0.5 pr-3 font-medium text-sm lg:text-base">
+                <div className="w-auto flex flex-col md:flex-row gap-2 md:gap-10 pl-8 md:pl-0 mb-0.5 pr-3 font-medium text-sm md:text-base">
                     <div className="leading-none font-zen">真っすぐにつくる</div>
                     <div className="font-en leading-none">Make Straight</div>
                 </div>
 
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 w-full gap-4 md:gap-15 md:px-[3vw] py-14">
+            <div className="grid grid-cols-2 md:grid-cols-3 w-full md:w-3/4 gap-4 md:gap-6 md:px-0 py-10">
                 <div className=""><MosaicIcon number={4} /></div>
                 <div className=""><MosaicIcon number={5} /></div>
                 <div className=""><MosaicIcon number={6} /></div>
@@ -97,9 +97,9 @@ export function ProgramPhase2() {
 
             
 
-            <div className="w-full px-[3vw] py-14">
+            <div className="w-full px-0 py-10">
                 <h4 className="sr-only">Phase 2 Program</h4>
-                <ul className="px-[5%] space-y-14">
+                <ul className="px-[3%] space-y-8">
                     <li>
                         <ProgramCard
                             imageUrl="/images/home/program-2-1.png"
@@ -135,30 +135,30 @@ export function ProgramPhase3() {
 
     return (
 
-        <div className="w-full flex flex-col gap-4">
+        <div className="w-full flex flex-col">
 
-            <div className="flex flex-wrap gap-4 lg:gap-10 items-end">
+            <div className="flex flex-wrap gap-4 md:gap-10 items-end">
                 <h3>
-                    <img src="/gifs/phase3.gif" className="h-8 lg:h-[1.8em] mb-0" alt="" />
+                    <img src="/gifs/phase3.gif" className="h-8 md:h-[1.8em] mb-0" alt="" />
                     <span className="sr-only mb-0">Phase3</span>
                 </h3>
-                <div className="w-auto flex flex-col lg:flex-row gap-2 lg:gap-10 pl-8 lg:pl-0 mb-0.5 pr-3 font-medium text-sm lg:text-base">
+                <div className="w-auto flex flex-col md:flex-row gap-2 md:gap-10 pl-8 md:pl-0 mb-0.5 pr-3 font-medium text-sm md:text-base">
                     <div className="leading-none font-zen">自分と向き合う</div>
                     <div className="font-en leading-none">Face Yourself</div>
                 </div>
 
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 w-full gap-4 md:gap-15 md:px-[3vw] py-14">
+            <div className="grid grid-cols-2 md:grid-cols-4 w-full gap-4 md:gap-6 md:px-0 py-10">
                 <div className=""><MosaicIcon number={7} /></div>
                 <div className=""><MosaicIcon number={8} /></div>
                 <div className=""><MosaicIcon number={9} /></div>
-                <div className="lg:col-start-3"><MosaicIcon number={10} /></div>
+                <div className=""><MosaicIcon number={10} /></div>
             </div>
 
-            <div className="w-full px-[3vw] py-14">
+            <div className="w-full px-0 py-10">
                 <h4 className="sr-only">Phase 3 Program</h4>
-                <ul className="px-[5%] space-y-14">
+                <ul className="px-[3%] space-y-8">
                     <li>
                         <ProgramCard
                             imageUrl="/images/home/program-3-1.png"

@@ -8,8 +8,8 @@ export default function ProgramDetailSection() {
                 <img src="/gifs/program.gif" className="h-10 lg:h-16 mb-10" alt="" />
                 <span className="sr-only">Program</span>
             </h2>
-            <div className="w-full gap-6 px-[2.5vw]">
-                <ul className="custom-ul space-y-6 pl-[2.5vw]">
+            <div className="w-full gap-6 px-[2vw]">
+                <ul className="custom-ul space-y-6 pl-[1.5vw]">
                     <li className="space-y-1">
                         <p className="font-bold">クリエイティブ領域に特化した、若者向けのコミュニティです。</p>
                         <p className="text-fluid-sm">建築・デザイン・アートといった、クリエイションに向き合いながら、
@@ -46,17 +46,17 @@ export default function ProgramDetailSection() {
                 </ul>
             </div>
 
-            <div className="w-full gap-6 px-[2.5vw] pt-20">
+            <div className="w-full gap-6 px-[2vw] pt-20">
                 <h3 className="font-bold pb-10">実施内容</h3>
-                <p className=" pl-[2.5vw] text-fluid-base">
+                <p className=" pl-[1.5vw] text-fluid-base">
                     プログラム内容は、上記のPhase1~3をご確認ください。
                 </p>
 
             </div>
 
-            <div className="w-full gap-6 px-[2.5vw] pt-20">
+            <div className="w-full gap-6 px-[2vw] pt-20">
                 <h3 className="font-bold pb-10">オンライン・任意参加のコンテンツ</h3>
-                <ul className="custom-ul  pl-[2.5vw] space-y-8">
+                <ul className="custom-ul  pl-[1.5vw] space-y-8">
                     <li>
                         <div className="font-bold">オープンレクチャー</div>
                         <div className="text-fluid-sm leading-snug">

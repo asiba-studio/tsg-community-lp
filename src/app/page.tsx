@@ -95,7 +95,7 @@ export default async function Page() {
 
             <div className="w-full mt-20 flex justify-start">
               <SimpleButton icon="right" href="/about">
-                About Creative Lab.aaaaa
+                About Creative Lab.
               </SimpleButton>
             </div>
           </section>

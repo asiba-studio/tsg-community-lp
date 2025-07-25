@@ -3,7 +3,7 @@ import Image from "next/image";
 export default function Tagline() {
 
     return (
-        <div className="text-xl lg:text-fluid-4xl lg:leading-[clamp(4rem,8vw,7rem)]">
+        <div className="text-xl font-bold lg:text-4xl lg:leading-[7rem]">
             <p>
                 同じ教室、同じ学年、同じ言葉を話しているはずなのに、
                 <Image 

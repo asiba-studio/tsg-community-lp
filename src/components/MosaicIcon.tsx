@@ -25,7 +25,7 @@ export default function MosaicIcon({ number }: {number:number}) {
     return (
         <div className="w-full flex flex-col items-center gap-2">
             <img src={gifPath} className="w-full" alt=""/>
-            <div className="font-bold text-sm lg:text-lg flex gap-2">
+            <div className="font-bold text-sm lg:text-base flex lg:gap-2">
                 <div className="font-en mt-[1px]">{number.toString().padStart(2,'0')}.</div>
                 <div className="font-zen">{word}</div>
             </div>
