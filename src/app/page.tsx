@@ -1,6 +1,6 @@
 
-import HeroSection from "./components/heroSection";
-import { StatementShort} from "./components/statement";
+import HeroSection from "./components/HeroSection";
+import { StatementShort} from "./components/Statement";
 import { SimpleButton } from "@/components/button";
 import ContentList from "@/components/articles/ContentList";
 import { getArticles, getNews } from "@/lib/cms";
