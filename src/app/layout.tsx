@@ -40,10 +40,10 @@ export default function RootLayout({
             </head>
             <body className="font-sans">
                 <div>
-                    <main>{children}</main>
+                    <main className='min-h-screen flex flex-col'>{children}</main>
+                    <Footer />
                 </div>
             </body>
-            <Footer />
         </html>
     );
 }
