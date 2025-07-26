@@ -136,11 +136,11 @@ export default async function ArticlePage({ params }: Props) {
             </header>
 
 
-            <div className="w-full p-[14px] lg:p-[4vw] flex flex-col lg:flex-row gap-[8vw] overflow-visible">
-                <div className='flex-1'>
+            <div className="w-full p-[14px] lg:p-[4vw] flex flex-col lg:flex-row gap-[8vw]">
+                <div className='flex-1 flex justify-center'>
                     {/* 記事本文 */}
                     <div
-                        className="prose prose-lg max-w-none
+                        className="prose prose-lg max-w-200
                             [&>h1]:text-2xl [&>h1]:md:text-3xl [&>h1]:font-bold [&>h1]:mb-6 [&>h1]:mt-8
                             [&>h2]:text-xl [&>h2]:md:text-2xl [&>h2]:font-bold [&>h2]:mb-4 [&>h2]:mt-28 [&>h2]:pb-2
                             [&>h3]:text-lg [&>h3]:md:text-xl [&>h3]:font-semibold [&>h3]:mb-3 [&>h3]:mt-5
@@ -168,7 +168,7 @@ export default async function ArticlePage({ params }: Props) {
 
                     <section className="w-full section-spacing border-t border-border mt-150">
                         <h2>
-                            <img src="/gifs/article.gif" className="h-16 mb-10" alt="" />
+                            <img src="/gifs/article.gif" className="h-12 mb-10" alt="" />
                             <span className="sr-only">Article</span>
                         </h2>
                         <ContentList contents={relatedArticles} basePath="/articles" columns={1} gap={100} />
