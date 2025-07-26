@@ -147,7 +147,7 @@ export default async function NewsPage({ params }: Props) {
 
                 </div>
 
-                <div className='w-full lg:w-[20%]'>
+                <div className='lg:w-[20%]'>
                     {/* ニュースプロパティ一覧 */}
                     <section className='h-[300vh] relative hidden lg:block'>
                         <div className='text-fluid-sm sticky top-44 h-screen'>
