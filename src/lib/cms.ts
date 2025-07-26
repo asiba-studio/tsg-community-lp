@@ -20,7 +20,7 @@ export async function getArticles(): Promise<Article[]> {
       const filePath = path.join(ARTICLES_DIR, fileName);
       const fileContents = fs.readFileSync(filePath, 'utf8');
       const { data, content } = matter(fileContents);
-      
+
       return {
         slug: data.slug,
         title: data.title,
@@ -60,29 +60,36 @@ export async function getArticlesByTag(tag: string): Promise<Article[]> {
 
 // News
 export async function getNews(): Promise<News[]> {
-    const fileNames = fs.readdirSync(NEWS_DIR);
-    const news = fileNames
-      .filter(fileName => fileName.endsWith('.md'))
-      .map(fileName => {
-        const filePath = path.join(NEWS_DIR, fileName);
-        const fileContents = fs.readFileSync(filePath, 'utf8');
-        const { data, content } = matter(fileContents);
-        
-        return {
-          slug: data.slug,
-          title: data.title,
-          subtitle: data.subtitle,
-          date: data.date,
-          excerpt: data.excerpt,
-          coverImage: data.coverImage,
-          tags: data.tags || [],
-          lang: data.lang || 'ja',
-          content,
-        } as News;
-      });
-  
-    return news.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-  }
+  const fileNames = fs.readdirSync(NEWS_DIR);
+  const news = fileNames
+    .filter(fileName => fileName.endsWith('.md'))
+    .map(fileName => {
+      const filePath = path.join(NEWS_DIR, fileName);
+      const fileContents = fs.readFileSync(filePath, 'utf8');
+      const { data, content } = matter(fileContents);
+
+      return {
+        slug: data.slug,
+        title: data.title,
+        subtitle: data.subtitle,
+        date: data.date,
+        excerpt: data.excerpt,
+        coverImage: data.coverImage,
+        headerImage: data.headerImage,
+        tags: data.tags || [],
+        lang: data.lang || 'ja',
+        content,
+      } as News;
+    });
+
+  return news.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}
+
+export async function getNewsBySlug(slug: string): Promise<News | null> {
+  const news = await getNews();
+  const foundNews = news.find(item => item.slug === slug);
+  return foundNews || null;
+}
 
 
 // Players
@@ -132,12 +139,12 @@ export async function getArticleWithReferences(slug: string): Promise<ArticleWit
   if (!article) return null;
 
   const players = await getPlayers();
-  
+
   const writerData = players.find(p => p.id === article.writer);
-  const collaboratorsData = article.collaborators 
+  const collaboratorsData = article.collaborators
     ? article.collaborators.map(id => players.find(p => p.id === id)).filter(Boolean) as Player[]
     : [];
-  const reviewerData = article.reviewer 
+  const reviewerData = article.reviewer
     ? players.find(p => p.id === article.reviewer)
     : undefined;
 
@@ -159,10 +166,10 @@ export async function getArticleSlugs(): Promise<string[]> {
 export async function getAllTags(): Promise<string[]> {
   const articles = await getArticles();
   const tags = new Set<string>();
-  
+
   articles.forEach(article => {
     article.tags.forEach(tag => tags.add(tag));
   });
-  
+
   return Array.from(tags).sort();
 }

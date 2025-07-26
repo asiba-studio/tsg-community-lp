@@ -5,7 +5,7 @@ export default function Tagline() {
     return (
         <div className="text-xl font-bold lg:text-4xl lg:leading-[7rem]">
             <p>
-                同じ教室、同じ学年、同じ言葉を話しているはずなのに、
+                同じ教室、同じ学年、同じ言葉を話しているはずなのに、ん
                 <Image 
                     src = "/gifs/green-mosaic.gif"
                     alt = "green mosaic"
