@@ -81,7 +81,7 @@ export default async function NewsPage({ params }: Props) {
     };
 
     return (
-        <article className="w-full">
+        <article className="w-full pb-50">
             <Header />
 
             <div className="w-full p-[14px] lg:p-[4vw] flex flex-col lg:flex-row gap-[8vw]">
@@ -147,7 +147,7 @@ export default async function NewsPage({ params }: Props) {
 
                 </div>
 
-                <div className='lg:w-[20%]'>
+                <div className='w-full lg:w-[20%]'>
                     {/* ニュースプロパティ一覧 */}
                     <section className='h-[300vh] relative hidden lg:block'>
                         <div className='text-fluid-sm sticky top-44 h-screen'>

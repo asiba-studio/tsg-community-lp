@@ -6,7 +6,7 @@ date: "2025-07-27"
 excerpt: "本プログラムの企画パートナーASHIBAによる特別トークイベントを開催。申込者も検討中の方も、ぜひご参加ください。表現活動を通じた社会との向き合い方について語り合います。"
 coverImage: "/images/news/news-01/cover.jpg"
 headerImage: "/images/news/news-01/header_2350-1000.jpg"
-tags: ["Creative", "Lab", "Launch"]
+tags: ["Creative", "Lab", "Community"]
 lang: "ja"
 ---
 

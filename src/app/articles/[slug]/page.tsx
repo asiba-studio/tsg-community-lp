@@ -83,7 +83,7 @@ export default async function ArticlePage({ params }: Props) {
     };
 
     return (
-        <article className="w-full">
+        <article className="w-full pb-50">
             <Header />
 
             {/* ヘッダー部分 */}
