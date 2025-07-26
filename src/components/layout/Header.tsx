@@ -14,7 +14,8 @@ export default function Header() {
                 <nav className="hidden lg:flex justify-between items-center">
                     <div>
                         <Link href="/" className="flex items-center gap-2 px-6">
-                            <img src="/images/menu-b.png" alt="Logo" className="w-8 h-8" />
+                            {/*<img src="/images/menu-b.png" alt="Logo" className="w-8 h-8" />*/}
+                            LOGO
                         </Link>
                     </div>
                     <div className="flex justify-end items-center gap-8 font-en font-medium text-lg px-6">
