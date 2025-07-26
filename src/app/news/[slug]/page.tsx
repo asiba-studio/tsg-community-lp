@@ -136,7 +136,7 @@ export default async function NewsPage({ params }: Props) {
                             </div>
                         </section>
 
-                        <Menu className='lg:hidden mt-4 mb-40' />
+                        <Menu className='lg:hidden mt-4 mb-50 translate-x-[14px]' />
 
                         {/* 記事本文 */}
                         <div

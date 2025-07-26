@@ -118,13 +118,13 @@ export default async function ArticlePage({ params }: Props) {
                         />
 
                         {/* タイトル */}
-                        <h1 className="text-3xl md:text-4xl font-bold text-white mt-12 mb-4">
+                        <h1 className="text-2xl md:text-4xl font-bold text-white mt-12 mb-4">
                             {article.title}
                         </h1>
 
                         {/* サブタイトル */}
                         {article.subtitle && (
-                            <p className="text-xl font-bold text-white">
+                            <p className="text-base font-bold text-white">
                                 {article.subtitle}
                             </p>
                         )}
@@ -135,7 +135,7 @@ export default async function ArticlePage({ params }: Props) {
 
             </header>
 
-            <Menu className='lg:hidden' />
+            <Menu className='lg:hidden mb-30' />
 
 
             <div className="w-full p-[14px] lg:p-[4vw] flex flex-col lg:flex-row gap-[8vw]">

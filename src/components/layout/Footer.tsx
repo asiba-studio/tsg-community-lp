@@ -5,8 +5,8 @@ import Link from "next/link";
 export default function Footer() {
 
     return (
-        <footer className="w-full h-auto pt-30 pb-30 px-4 bg-[#1B1B24] flex flex-col items-center justify-center gap-20">
-            <div className="flex gap-14 h-20">
+        <footer className="w-full h-auto py-14 md:py-30 px-4 bg-[#1B1B24] flex flex-col items-center justify-center gap-12 md:gap-20">
+            <div className="flex flex-col md:flex-row gap-4 md:gap-14 h-auto lg:h-20">
                 <div className="flex-1 bg-white">
                     <Image
                         src="/images/logo/logo-tsg-community.png"
@@ -36,7 +36,7 @@ export default function Footer() {
                 </div>
                 
             </div>
-            <div className="flex flex-wrap text-fluid-base font-en text-white gap-x-10 gap-y-2">
+            <div className="flex flex-wrap justify-center text-fluid-base font-en text-white gap-x-10 gap-y-2">
                 <Link href="/news/news-01" className=" no-underline">About</Link>
                 <Link href="/articles" className="no-underline">Article</Link>
                 <Link href="/articles#news" className="no-underline">News</Link>

@@ -18,7 +18,7 @@ export default async function Page() {
   const articles = (await getArticles());
 
   return (
-    <div>
+    <div className="pb-30">
 
       {/* Hero Section */}
       <section className="w-full aspect-[1300/680]">
@@ -91,11 +91,11 @@ export default async function Page() {
         {/* Right Container */}
         <div className="w-full lg:w-1/3">
           {/* Statement Section*/}
-          <section className="w-full pt-100 px-[2.5vw] section-spacing">
+          <section className="w-full pt-0 lg:pt-100 px-[2.5vw] section-spacing">
             <StatementShort />
 
             <div className="w-full mt-20 flex justify-start">
-              <SimpleButton icon="right" href="/about">
+              <SimpleButton icon="right" href="/news/press-release">
                 About Creative Lab.
               </SimpleButton>
             </div>
