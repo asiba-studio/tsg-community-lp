@@ -1,4 +1,5 @@
 
+import Link from 'next/link';
 
 export default function Header() {
 
@@ -12,9 +13,9 @@ export default function Header() {
                 {/* PC */}
                 <nav className="hidden lg:flex justify-between items-center">
                     <div>
-                        <a href="/" className="flex items-center gap-2 px-6">
+                        <Link href="/" className="flex items-center gap-2 px-6">
                             <img src="/images/menu-b.png" alt="Logo" className="w-8 h-8" />
-                        </a>
+                        </Link>
                     </div>
                     <div className="flex justify-end items-center gap-8 font-en font-medium text-lg px-6">
                         <HeaderButton label="About" href="/about" />
@@ -40,13 +41,13 @@ function HeaderButton(props: {
     href: string;
 }) {
     return (
-        <a
+        <Link
             href={props.href}
             className="group font-en text-black hover:text-black transition-colors relative no-underline"
         >
             {props.label}
             <img src="/gifs/green-mosaic.gif" className="absolute top-0 left-0 inset-y-0 my-auto scale-x-[1.4] scale-y-[0.9] h-full -z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
-        </a>
+        </Link>
     );
 }
 
