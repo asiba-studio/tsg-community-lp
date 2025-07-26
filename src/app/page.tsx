@@ -28,17 +28,18 @@ export default async function Page() {
       {/* Navigation */}
       <div className="h-1 border-t border-border" />
       <Header />
-      <div className="h-40"/>
+
+      <Menu className="lg:hidden mt-20 mb-40"/>
       
 
       {/* Tagline */}
-      <section className="w-full h-auto mb-70 p-[4vw]">
+      <section className="w-full h-auto mt-40 mb-70 p-[4vw]">
         <Tagline />
 
 
       </section>
 
-      <Menu />
+      <Menu className="hidden lg:flex"/>
       
 
       {/* Main Container */}

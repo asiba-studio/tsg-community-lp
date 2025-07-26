@@ -94,9 +94,19 @@ export default async function NewsPage({ params }: Props) {
                                 alt={news.title}
                                 width={1200}
                                 height={630}
-                                className="w-full h-auto object-cover mb-8 border border-border"
+                                className="w-full h-auto object-cover mb-8 border border-border hidden lg:block"
                             />
                         )}
+                        {news.headerImage && (
+                            <Image
+                                src={news.coverImage}
+                                alt={news.title}
+                                width={1200}
+                                height={630}
+                                className="w-full h-auto object-cover mb-8 border border-border block lg:hidden"
+                            />
+                        )}
+
                         {/* タイトル */}
                         <p className='text-lg font-bold'>
                             ニュース

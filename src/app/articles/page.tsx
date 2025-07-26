@@ -45,37 +45,39 @@ export default async function ArticlesPage() {
 
 
       <div className='w-full px-[14px] lg:px-[4vw]'>
-      <section className="w-full  pt-30">
-        <h2 className='ml-6 mb-10'>
-          <img
-            src="/gifs/article.gif"
-            className='h-10 lg:h-16'
+        <section className="w-full  pt-30">
+          <h2 className='ml-6 mb-10'>
+            <img
+              src="/gifs/article.gif"
+              className='h-10 lg:h-16'
+            />
+            <span className="sr-only">記事一覧</span>
+          </h2>
+
+
+          <ContentList
+            contents={articles} basePath="/articles" columns={{ default: 1, md: 2, lg: 3 }} gap={"4vw"} description={true}
           />
-          <span className="sr-only">記事一覧</span>
-        </h2>
 
-        <ContentList
-          contents={articles} basePath="/articles" columns={3} gap={100} description={true}
-        />
-      </section>
+        </section>
 
-      <section id="news" className="w-full pt-30 section-spacing border-t border-border">
-        <h2 className='ml-6 mb-10'>
-          <img
-            src="/gifs/news.gif"
-            className='h-10 lg:h-16'
+        <section id="news" className="w-full pt-30 section-spacing border-t border-border">
+          <h2 className='ml-6 mb-10'>
+            <img
+              src="/gifs/news.gif"
+              className='h-10 lg:h-16'
+            />
+            <span className="sr-only">記事一覧</span>
+          </h2>
+
+          <ContentList
+            contents={news} basePath="/news" columns={{ default: 1, md: 2, lg: 3 }} gap={"4vw"} description={true}
           />
-          <span className="sr-only">記事一覧</span>
-        </h2>
-
-        <ContentList
-          contents={news} basePath="/news" columns={3} gap={100} description={true}
-        />
-      </section>
+        </section>
 
 
       </div>
-      
+
 
     </div>
   );

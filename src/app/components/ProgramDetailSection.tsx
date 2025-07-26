@@ -34,7 +34,7 @@ export default function ProgramDetailSection() {
                         </p>
                         <div className="pt-2">
                             <InteractiveMosaic02
-                                imageUrl="/images/mes_2-1.jpg"
+                                imageUrl="/images/home/mes_2-1.jpg"
                                 width="100%"
                                 className="overflow-hidden aspect-square"
                             />
