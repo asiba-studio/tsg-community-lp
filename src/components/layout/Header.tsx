@@ -18,10 +18,10 @@ export default function Header() {
                         </Link>
                     </div>
                     <div className="flex justify-end items-center gap-8 font-en font-medium text-lg px-6">
-                        <HeaderButton label="About" href="/about" />
+                        <HeaderButton label="About" href="/news/press-release" />
                         <HeaderButton label="Articles" href="/articles" />
-                        <HeaderButton label="Players" href="/players" />
-                        <HeaderButton label="Application" href="/application" />
+                        <HeaderButton label="News" href="/articles#news" />
+                        <HeaderButton label="Application" href="/news/press-release#application" />
                     </div>
                 </nav>
 

@@ -177,7 +177,8 @@ Phase 2「真っすぐにつくる」からPhase 3「自分と向き合う」へ
 
 <br>
 <hr>
-<br>
+
+<section id="application" style="padding-top:40px;">
 
 ## 募集要項
 
@@ -223,3 +224,5 @@ Phase 2「真っすぐにつくる」からPhase 3「自分と向き合う」へ
 ## お申込み
 
 本ラボへの参加は下記のフォームからお申込みください。
+
+</section>

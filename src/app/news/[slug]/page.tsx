@@ -1,11 +1,8 @@
-import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { getNews, getNewsBySlug } from '@/lib/cms';
 import { Metadata } from 'next';
 import { Header, Menu } from '@/components/layout';
-import InteractiveMosaic02 from '@/components/InteractiveMosaic02';
 import { markdownToHtml, calculateReadingTime } from '@/lib/markdown';
-import { ContentList } from '@/components/articles';
 import { formatDateDot } from '@/lib/date';
 
 interface Props {
@@ -116,7 +113,7 @@ export default async function NewsPage({ params }: Props) {
                             <div className='mb-4 leading-normal w-3/4 '>
                                 {news.excerpt}
                             </div>
-                            <div className='leading-normal flex justify-end gap-2'>
+                            <div className='leading-normal flex justify-start gap-2'>
                                 {news.tags && news.tags.length > 0 ? (
                                     news.tags.map((tag, index) => (
                                         <span key={index}>
@@ -128,6 +125,8 @@ export default async function NewsPage({ params }: Props) {
                                 )}
                             </div>
                         </section>
+
+                        <Menu className='lg:hidden mt-4 mb-40' />
 
                         {/* 記事本文 */}
                         <div
@@ -181,7 +180,7 @@ export default async function NewsPage({ params }: Props) {
                         </div>
                     </section>
 
-                    <Menu />
+                    <Menu className='hidden lg:block translate-x-[4vw]'/>
 
                 </div>
 

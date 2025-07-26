@@ -12,9 +12,16 @@ interface Props {
    basePath: '/articles' | '/news';
    columns?: number;
    gap?: number | string;
+   description?: boolean; // 追加
 }
 
-export default function ContentList({ contents, basePath, columns = 3, gap = 10 }: Props) {
+export default function ContentList({ 
+   contents, 
+   basePath, 
+   columns = 3, 
+   gap = 10,
+   description = false // デフォルトは非表示
+}: Props) {
    const gapValue = typeof gap === 'number' ? `${gap}px` : gap;
 
    return (
@@ -31,6 +38,7 @@ export default function ContentList({ contents, basePath, columns = 3, gap = 10 
                    <ContentCard
                        content={content}
                        basePath={basePath}
+                       description={description} // プロパティを渡す
                    />
                </div>
            ))}

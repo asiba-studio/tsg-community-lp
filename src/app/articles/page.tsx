@@ -1,7 +1,9 @@
-import { getArticles, getFeaturedArticles } from '@/lib/cms';
+import { getArticles, getFeaturedArticles, getNews } from '@/lib/cms';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Metadata } from 'next';
+import { Header, Menu } from '@/components/layout';
+import { ContentList } from '@/components/articles';
 
 export const metadata: Metadata = {
   title: '記事一覧',
@@ -14,6 +16,8 @@ export default async function ArticlesPage() {
     getFeaturedArticles()
   ]);
 
+  const news = await getNews();
+
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('ja-JP', {
       year: 'numeric',
@@ -23,137 +27,56 @@ export default async function ArticlesPage() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
-      <header className="mb-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">記事一覧</h1>
-        <p className="text-lg text-gray-600">
-          最新の記事や注目のコンテンツをお楽しみください
+    <div className="w-full">
+      <Header />
+      <Menu />
+
+      <div className='pt-30 px-[8vw]'>
+        <h1 className='font-en text-3xl md:text-5xl font-bold'>Article and News</h1>
+        <p className="text-fluid-lg mt-6">
+          TSG Creative Lab. に関する記事や最新情報をお届けします。
         </p>
-      </header>
+      </div>
 
-      {/* 注目記事 */}
-      {featuredArticles.length > 0 && (
-        <section className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">注目記事</h2>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {featuredArticles.map((article) => (
-              <Link
-                key={article.slug}
-                href={`/${article.slug}`}
-                className="group block bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden border border-gray-200"
-              >
-                {article.coverImage && (
-                  <div className="relative w-full h-48">
-                    <Image
-                      src={article.coverImage}
-                      alt={article.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-200"
-                    />
-                  </div>
-                )}
-                <div className="p-6">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="bg-blue-100 text-blue-700 text-xs font-semibold px-2 py-1 rounded-full">
-                      注目
-                    </span>
-                    <time className="text-sm text-gray-500">
-                      {formatDate(article.date)}
-                    </time>
-                  </div>
-                  <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
-                    {article.title}
-                  </h3>
-                  {article.subtitle && (
-                    <p className="text-sm text-gray-600 mb-3">
-                      {article.subtitle}
-                    </p>
-                  )}
-                  {article.excerpt && (
-                    <p className="text-sm text-gray-600 line-clamp-3">
-                      {article.excerpt}
-                    </p>
-                  )}
-                  {article.tags && article.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-1 mt-3">
-                      {article.tags.slice(0, 3).map((tag) => (
-                        <span
-                          key={tag}
-                          className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded"
-                        >
-                          #{tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
 
-      {/* 全記事一覧 */}
-      <section>
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">全記事</h2>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {articles.map((article) => (
-            <Link
-              key={article.slug}
-              href={`/${article.slug}`}
-              className="group block bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden border border-gray-200"
-            >
-              {article.coverImage && (
-                <div className="relative w-full h-48">
-                  <Image
-                    src={article.coverImage}
-                    alt={article.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-200"
-                  />
-                </div>
-              )}
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-2">
-                  <time className="text-sm text-gray-500">
-                    {formatDate(article.date)}
-                  </time>
-                  {article.featured && (
-                    <span className="bg-yellow-100 text-yellow-700 text-xs font-semibold px-2 py-1 rounded-full">
-                      ★
-                    </span>
-                  )}
-                </div>
-                <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
-                  {article.title}
-                </h3>
-                {article.subtitle && (
-                  <p className="text-sm text-gray-600 mb-3">
-                    {article.subtitle}
-                  </p>
-                )}
-                {article.excerpt && (
-                  <p className="text-sm text-gray-600 line-clamp-3">
-                    {article.excerpt}
-                  </p>
-                )}
-                {article.tags && article.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-1 mt-3">
-                    {article.tags.slice(0, 3).map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded"
-                      >
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </Link>
-          ))}
-        </div>
+
+
+
+
+
+      <div className='w-full px-[14px] lg:px-[4vw]'>
+      <section className="w-full  pt-30">
+        <h2 className='ml-6 mb-10'>
+          <img
+            src="/gifs/article.gif"
+            className='h-10 lg:h-16'
+          />
+          <span className="sr-only">記事一覧</span>
+        </h2>
+
+        <ContentList
+          contents={articles} basePath="/articles" columns={3} gap={100} description={true}
+        />
       </section>
+
+      <section id="news" className="w-full pt-30 section-spacing border-t border-border">
+        <h2 className='ml-6 mb-10'>
+          <img
+            src="/gifs/news.gif"
+            className='h-10 lg:h-16'
+          />
+          <span className="sr-only">記事一覧</span>
+        </h2>
+
+        <ContentList
+          contents={news} basePath="/news" columns={3} gap={100} description={true}
+        />
+      </section>
+
+
+      </div>
+      
+
     </div>
   );
 }

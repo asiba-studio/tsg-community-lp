@@ -10,10 +10,16 @@ type ContentItem = Article | News;
 interface Props {
     content: ContentItem;
     featured?: boolean;
-    basePath: '/articles' | '/news'; 
+    basePath: '/articles' | '/news';
+    description?: boolean; // 追加
 }
 
-export default function ContentCard({ content, featured = false, basePath }: Props) {
+export default function ContentCard({ 
+    content, 
+    featured = false, 
+    basePath, 
+    description = false // デフォルトは非表示
+}: Props) {
     return (
         <Link
             href={`${basePath}/${content.slug}`}
@@ -64,6 +70,13 @@ export default function ContentCard({ content, featured = false, basePath }: Pro
                     <h3 className="font-medium font-zen mt-2 text-fluid-lg">
                         {content.title}
                     </h3>
+
+                    {/* Description - 条件付きで表示 */}
+                    {description && content.excerpt && (
+                        <p className="text-fluid-sm text-gray-600 mt-6 w-2/3">
+                            {content.excerpt}
+                        </p>
+                    )}
                 </div>
             </article>
         </Link>
