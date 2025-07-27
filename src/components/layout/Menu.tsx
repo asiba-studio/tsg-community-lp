@@ -89,7 +89,7 @@ export default function Menu({ className }: MenuProps) {
                         className="lg:pointer-events-none" // lg以上でマウスイベント無効
                     >
                         <img
-                            src="/images/menu-b.png"
+                            src="/images/common/menu-b.png"
                             alt="menu-b"
                             className="
           w-25 px-2 lg:px-3 py-2

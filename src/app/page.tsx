@@ -10,6 +10,7 @@ import ProgramDetailSection from "./components/ProgramDetailSection";
 import ApplicationSection from "./components/ApllicationSection";
 //import PlayerSection from "./components/PlayerSection";
 import Tagline from "./components/Tagline";
+import Image from "next/image";
 
 
 export default async function Page() {
@@ -21,12 +22,15 @@ export default async function Page() {
     <div className="pb-30">
 
       {/* Hero Section */}
-      <section className="w-full aspect-[1300/680]">
+      <section className="hidden md:block w-full aspect-[1300/680]">
         <HeroSection />
+      </section>
+      <section className="block md:hidden w-full">
+        <Image src="/images/common/keyvisual-mobile.jpg" alt="Key Visual" width={1200} height={1500} className="w-full object-cover" />
       </section>
 
       {/* Navigation */}
-      <div className="h-1 border-t border-border" />
+      <div className="h-1 md:border-t md:border-border" />
       <Header />
 
       <Menu className="lg:hidden mt-20 mb-40"/>
