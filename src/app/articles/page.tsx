@@ -7,7 +7,7 @@ import { ContentList } from '@/components/articles';
 
 export const metadata: Metadata = {
   title: '記事一覧',
-  description: '最新の記事をご覧ください',
+  description: 'Creative-Lab. の記事一覧です',
 };
 
 export default async function ArticlesPage() {

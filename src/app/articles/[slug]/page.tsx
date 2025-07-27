@@ -28,9 +28,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         openGraph: {
             title: article.title,
             description: article.excerpt,
-            images: article.coverImage ? [
+            images: article.headerImage ? [
                 {
-                    url: article.coverImage,
+                    url: article.headerImage,
                     width: 1200,
                     height: 630,
                     alt: article.title,
@@ -38,14 +38,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             ] : [],
             type: 'article',
             publishedTime: article.date,
-            authors: article.writerData ? [article.writerData.name] : [],
+            authors: [],
             tags: article.tags,
         },
         twitter: {
             card: 'summary_large_image',
             title: article.title,
             description: article.excerpt,
-            images: article.coverImage ? [article.coverImage] : [],
+            images: article.headerImage ? [article.headerImage] : [],
         },
     };
 }

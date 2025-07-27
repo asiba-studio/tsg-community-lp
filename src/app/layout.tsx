@@ -1,12 +1,85 @@
 import './globals.css';
 import Script from 'next/script'
 import { Footer } from '@/components/layout';
+import { Metadata } from 'next';
 
-export const metadata = {
+export const metadata: Metadata = {
+    // 基本情報
     title: {
-        template: '%s | Netlify',
-        default: 'Netlify Starter'
-    }
+        template: '%s | TSG Creative Lab.',
+        default: 'TSG Creative Lab.'
+    },
+    description: 'Creative-Lab.は「何を、どのようにつくるか」だけでなく、「これから、どう生きていきたいか?」という問いを起点に、自分のクリエイションと生き方を結び直す場です。',
+
+    // 言語・地域設定
+    // metadataBase: new URL('https://your-domain.com'), // 実際のドメインに変更
+
+    // OGP設定
+    // 全体のOGP設定
+    openGraph: {
+        siteName: 'Creative Lab.',
+        locale: 'ja_JP',
+        type: 'website',
+        title: 'Creative Lab. - クリエイティブラボ', // デフォルトタイトル
+        description: 'Creative-Lab.は「何を、どのようにつくるか」だけでなく、「これから、どう生きていきたいか?」という問いを起点に、自分のクリエイションと生き方を結び直す場です。',
+        url: 'https://your-domain.com',
+        images: [
+            {
+                url: '/images/og/default-og.jpg', // デフォルトOGP画像
+                width: 1200,
+                height: 630,
+                alt: 'Creative Lab. - 次世代クリエイター育成プログラム',
+            },
+        ],
+    },
+
+    // Twitter設定
+    twitter: {
+        card: 'summary_large_image',
+        creator: '@asiba_studio',
+        title: 'TSG Creative Lab.',
+        description: 'Creative-Lab.は「何を、どのようにつくるか」だけでなく、「これから、どう生きていきたいか?」という問いを起点に、自分のクリエイションと生き方を結び直す場です。',
+        images: ['/images/og/default-og.jpg'], // TwitterでもデフォルトOGP画像を使用
+    },
+
+    // アイコン設定
+    icons: {
+        icon: [
+            { url: '/favicon.svg', sizes: '16x16', type: 'image/png' },
+            //{ url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+        ],
+        apple: [
+            // { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+        ],
+        shortcut: '/favicon.ico',
+    },
+
+    // PWA用マニフェスト（必要に応じて）
+    manifest: '/manifest.json',
+
+    // 検索エンジン設定
+    robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+            index: true,
+            follow: true,
+            'max-video-preview': -1,
+            'max-image-preview': 'large',
+            'max-snippet': -1,
+        },
+    },
+
+    // その他の設定
+    category: 'education', // サイトのカテゴリ
+    keywords: ['クリエイティブ', 'プログラム', '育成', 'Creative Lab', 'デザイン', 'アート'],
+
+    // 検証用（必要に応じて）
+    verification: {
+        google: 'your-google-verification-code', // Google Search Consoleの認証コード
+        // yandex: 'your-yandex-verification-code',
+        // yahoo: 'your-yahoo-verification-code',
+    },
 };
 
 export default function RootLayout({
@@ -21,7 +94,7 @@ export default function RootLayout({
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
                 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
                 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet" />
-                
+
                 <Script
                     id="adobe-fonts"
                     strategy="beforeInteractive"
