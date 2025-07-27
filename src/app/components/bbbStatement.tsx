@@ -65,7 +65,7 @@ export function StatementLeft() {
   return (
     <div>
       <NormalText>
-        同じ教室、同じ学年、同じ言葉を話しているはずなのに、なぜか視線が合わない。ん
+        同じ教室、同じ学年、同じ言葉を話しているはずなのに、なぜか視線が合わない。
       </NormalText>
       <NormalText>
         心のどこかで、「自分の居場所はここではない」と感じてしまう。

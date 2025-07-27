@@ -33,8 +33,8 @@ export default async function Page() {
       <div className="h-1 md:border-t md:border-border" />
       <Header />
 
-      <Menu className="lg:hidden mt-20 mb-40"/>
-      
+      <Menu className="lg:hidden mt-20 mb-40" />
+
 
       {/* Tagline */}
       <section className="w-full h-auto mt-40 mb-70 p-[4vw]">
@@ -43,8 +43,8 @@ export default async function Page() {
 
       </section>
 
-      <Menu className="hidden lg:flex"/>
-      
+      <Menu className="hidden lg:flex" />
+
 
       {/* Main Container */}
       <div className="w-full p-[14px] lg:p-[4vw] -mt-40 flex flex-col lg:flex-row gap-[8vw]">
@@ -59,12 +59,12 @@ export default async function Page() {
               <span className="sr-only">News</span>
             </h2>
             <div className="hidden md:block">
-              <ContentList contents={news} basePath="/news" columns={2} gap={100}/>
+              <ContentList contents={news} basePath="/news" columns={2} gap={100} />
             </div>
             <div className="block md:hidden">
-              <ContentList contents={news} basePath="/news" columns={1} gap={100}/>
+              <ContentList contents={news} basePath="/news" columns={1} gap={100} />
             </div>
-            
+
           </section>
 
           {/* Icon Section */}
@@ -111,7 +111,7 @@ export default async function Page() {
               <img src="/gifs/article.gif" className="h-16 mb-10" alt="" />
               <span className="sr-only">Article</span>
             </h2>
-            <ContentList contents={articles} basePath="/articles" columns={1} gap={100}/>
+            <ContentList contents={articles} basePath="/articles" columns={1} gap={100} />
           </section>
 
           {/* Players Section */}
