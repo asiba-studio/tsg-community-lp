@@ -137,4 +137,6 @@ TOKYO STARTUP GATEWAY(TSG)は、テクノロジーから、モノづくり、ソ
 
 <br>
 
-**||| 申込はこちら： [https://tsg-etic.my.site.com/TSG/s/2025/pre-creative?language=ja](https://tsg-etic.my.site.com/TSG/s/2025/pre-creative?language=ja)**
+
+<a href="https://tsg-etic.my.site.com/TSG/s/2025/pre-creative?language=ja" 
+ target="_blank" rel="noopener noreferrer" style="font-size:30px">||| 申込みはこちら </a>

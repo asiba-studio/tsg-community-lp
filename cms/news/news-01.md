@@ -225,4 +225,10 @@ Phase 2「真っすぐにつくる」からPhase 3「自分と向き合う」へ
 
 本ラボへの参加は下記のフォームからお申込みください。
 
+
+<a href="https://tsg-etic.my.site.com/TSG/s/login/?language=ja&ec=302&startURL=%2FTSG%2Fs%2F2025%2Flab-creative%3F_gl%3D1*g3ickt*_gcl_au*MTY2OTAxNjI0Ni4xNzUzNTE4OTYx*_ga*MTI0NDA3NjA2OS4xNzUwOTI0MDY4*_ga_PN1SX1X1K9*czE3NTM1NDU3MDEkbzMkZzEkdDE3NTM1NDU5MTMkajU0JGwwJGgw" 
+ target="_blank" rel="noopener noreferrer" style="font-size:30px">||| 申込みフォームへ </a>
+
+
+
 </section>

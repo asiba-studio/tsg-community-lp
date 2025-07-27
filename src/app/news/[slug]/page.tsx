@@ -111,9 +111,12 @@ export default async function NewsPage({ params }: Props) {
                         <p className='text-lg font-bold'>
                             ニュース
                         </p>
-                        <h1 className="leading-relaxed text-3xl lg:text-3xl font-bold mb-4">
+                        <h1 className="leading-relaxed text-3xl lg:text-3xl font-bold">
                             {news.title}
                         </h1>
+                        <p className="leading-relaxed text-3xl lg:text-3xl font-bold mb-4">
+                            {news.subtitle}
+                        </p>
 
                         {/* ニュースプロパティ一覧 */}
                         <section className='lg:hidden text-sm'>
