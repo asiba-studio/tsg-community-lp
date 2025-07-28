@@ -1,6 +1,6 @@
 ---
-title: "『つくることは、生きること』運営メンバー鼎談 02"
-subtitle: "クリエイティブと社会"
+title: "北極星を指さす人、「飯を食わない」から始める"
+subtitle: "運営メンバー鼎談 02"
 slug: "creative-lab-discussion-02"
 date: "2025-07-30"
 writer: "creative-lab-team"
@@ -9,12 +9,14 @@ collaborators:
   - "nozomu-sudo"
   - "hiroumi-takano"
 excerpt: "Creative-LAB.の趣旨や雰囲気を伝えるため、運営メンバー同士で行った鼎談。「つくること」と「生きること」の関係性について語り合いました。"
-coverImage: "/images/articles/article-01-03/cover_1-1.jpg"
-headerImage: "/images/articles/article-01-03/cover_2350-1000.jpg"
+coverImage: "/images/articles/article-01-03/cover-02.jpg"
+headerImage: "/images/articles/article-01-03/header-02_2350-1000.jpg"
 tags: ["Creative", "Lab", "Discussion"]
 featured: true
 lang: "ja"
 ---
+
+<hr class="article-section">
 
 ## 北極星を指さす人
 
@@ -46,9 +48,9 @@ lang: "ja"
 
 僕は飛び出そうとしたことはありますね。大学受験で海外大学を受けていた時です。高1の時だったかな、高1の秋くらいに突然目覚めたんですよ。それまでは部活をずっとやって勉強して、を頑張っているような感じだったんですけど、たまたま高1の夏に高校でボストンに行くプログラムがあって、すごく高かったんですけど親に「ちゃんとこの分の価値を出しなさい」と言われて。そこに行ってすごく頑張って取り組んだ時に、今まで自分が過ごしてきた時間とかに対する疑念というか、「もっとやれたんじゃないか」とか「周りの人と感覚が合わないな」みたいな、スタンダードが一気に引き上がったような経験があって。私はすごく進学校にいたので、この中の1/5とか1/6が東大に行くのかと、当時の私はそういう成績とか大学みたいなところしか見えてなかったんですけど、その時に「いやでもそんなのやっても面白くないな」と思って。じゃあ海外に行こう、みたいなところが最初の踏ん切りとしてありました。
 
-![Hiroumi Takano](/images/articles/article-01-03/img14.jpg)
-
-<br>
+<figure>
+  <img src="/images/articles/article-01-03/img14.jpg" alt="Hiroumi Takano">
+</figure>
 
 **森原：** なるほど。チャレンジをしたんですね。
 

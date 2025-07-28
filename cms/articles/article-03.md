@@ -1,6 +1,6 @@
 ---
-title: "『つくることは、生きること』運営メンバー鼎談 03"
-subtitle: "クリエイティブと社会"
+title: "解像度が上がる/動的なデザインシステム"
+subtitle: "運営メンバー鼎談 03"
 slug: "creative-lab-discussion-03"
 date: "2025-07-30"
 writer: "creative-lab-team"
@@ -9,12 +9,14 @@ collaborators:
   - "nozomu-sudo"
   - "hiroumi-takano"
 excerpt: "Creative-LAB.の趣旨や雰囲気を伝えるため、運営メンバー同士で行った鼎談。「つくること」と「生きること」の関係性について語り合いました。"
-coverImage: "/images/articles/article-01-03/cover_1-1.jpg"
-headerImage: "/images/articles/article-01-03/cover_2350-1000.jpg"
+coverImage: "/images/articles/article-01-03/cover-03.jpg"
+headerImage: "/images/articles/article-01-03/header-03_2350-1000.jpg"
 tags: ["Creative", "Lab", "Discussion"]
 featured: true
 lang: "ja"
 ---
+
+<hr class="article-section">
 
 ## デジタルコラボレーションツール「MEs」の導入
 
@@ -32,7 +34,9 @@ lang: "ja"
   </iframe>
 </div>
 
-<br>
+<div class="text-right text-sm text-gray-600mt-1 italic mt-1 mb-10">O株式会社 
+    <a src="https://www.o-me.io/studio/jp" class="text-sm text-gray-600mt-1 italic">MEs Studio</a>
+</div>
 
 **須藤：** MEsを使ってみて面白いのは、メモなどを3次元空間に置けることですね。つまりプロセスを置いておける。それを他の人が見てコメントできる、というのが面白いと思います。プロセス主義をチームやコミュニティで共有できるのはすごく面白いなと思っています。
 
@@ -67,7 +71,9 @@ lang: "ja"
   </iframe>
 </div>
 
-<br>
+<div class="text-right text-sm text-gray-600mt-1 italic mt-1 mb-10"> 
+    <a src="https://challenge.asiba.or.jp/" class="text-sm text-gray-600mt-1 italic">ASIBA Creative Challenge 2025</a>
+</div>
 
 **髙野：** ランディングページもそろそろリリースしますので、ぜひ見ていただければと思います。
 

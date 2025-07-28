@@ -356,6 +356,14 @@
     @apply border-border my-14 lg:my-28;
   }
 
+  .prose figure {
+    @apply mt-4 mb-10;
+  }
+  
+  .prose figcaption {
+    @apply text-sm text-gray-600 text-right mt-1 italic;
+  }
+
   .prose {
 
     /* 見出し */

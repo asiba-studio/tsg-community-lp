@@ -76,12 +76,12 @@ export default function ContentCard({
                 {/* Info */}
                 <div>
                     {/* Subtitle */}
-                    <p className="font-medium text-fluid-base font-zen mt-0">
+                    <p className="font-medium text-fluid-base mt-1">
                         {content.subtitle}
                     </p>
 
                     {/* Title */}
-                    <h3 className="font-medium font-zen mt-2 text-fluid-lg">
+                    <h3 className="font-bold mt-2 text-fluid-lg">
                         {content.title}
                     </h3>
 

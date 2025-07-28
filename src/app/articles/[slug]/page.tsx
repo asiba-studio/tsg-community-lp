@@ -108,29 +108,6 @@ export default async function ArticlePage({ params }: Props) {
                         </div>
                     )}
 
-                    <div className='absolute left-0 md:left-20 px-2 bottom-14'>
-                        <Image
-                            src="/images/common/mosaic-text/article-white.png"
-                            alt="article"
-                            width={450}
-                            height={120}
-                            className="w-[15vw]"
-                        />
-
-                        {/* タイトル */}
-                        <h1 className="text-2xl md:text-4xl font-bold text-white mt-12 mb-4">
-                            {article.title}
-                        </h1>
-
-                        {/* サブタイトル */}
-                        {article.subtitle && (
-                            <p className="text-base font-bold text-white">
-                                {article.subtitle}
-                            </p>
-                        )}
-
-                    </div>
-
                 </div>
 
             </header>
@@ -139,10 +116,12 @@ export default async function ArticlePage({ params }: Props) {
             <div className="w-full p-[14px] lg:p-[4vw] flex flex-col lg:flex-row gap-[8vw]">
                 <div className='flex-1 flex justify-center'>
                     <div className='max-w-200'>
-                        
-
+                
                         {/* ニュースプロパティ一覧 */}
-                        <section className='lg:hidden text-sm'>
+                        <section className='text-fluid-base'>
+                            <h1 className='font-sans font-bold text-fluid-4xl leading-relaxed relative mb-8'>
+                                {article.title}
+                            </h1>
                             <div className='mb-4 leading-normal flex justify-end'>
                                 {article.date ? formatDateDot(article.date) : ''}
                             </div>
@@ -166,7 +145,7 @@ export default async function ArticlePage({ params }: Props) {
 
                         {/* 記事本文 */}
                         <div
-                            className="prose prose-lg mt-20 lg:mt-50"
+                            className="prose prose-lg mt-12 lg:mt-36"
                             dangerouslySetInnerHTML={{ __html: htmlContent }}
                         />
                     </div>
