@@ -20,7 +20,7 @@ export const metadata: Metadata = {
         siteName: 'Creative Lab.',
         locale: 'ja_JP',
         type: 'website',
-        title: 'Creative Lab. - クリエイティブラボ', // デフォルトタイトル
+        title: 'Creative Lab. - クリエイティブラボ',
         description: 'Creative-Lab.は「何を、どのようにつくるか」だけでなく、「これから、どう生きていきたいか?」という問いを起点に、自分のクリエイションと生き方を結び直す場です。',
         url: 'https://your-domain.com',
         images: [
@@ -45,13 +45,12 @@ export const metadata: Metadata = {
     // アイコン設定
     icons: {
         icon: [
-            { url: '/favicon.svg', sizes: '16x16', type: 'image/png' },
-            //{ url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+            { url: '/favicon.svg', type: 'image/svg+xml' },
         ],
         apple: [
             // { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
         ],
-        shortcut: '/favicon.ico',
+        // shortcut: '/favicon.ico', 
     },
 
     // PWA用マニフェスト（必要に応じて）

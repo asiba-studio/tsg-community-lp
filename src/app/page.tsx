@@ -60,7 +60,7 @@ export default async function Page() {
                 alt="green mosaic"
                 width={500}
                 height={140}
-                className="absolute inset-0 w-full h-full scale-x-[1.2] object-cover -z-10"
+                className="absolute inset-0 w-full h-full scale-x-[1.1] object-cover -z-10"
               />
               News
             </h2>
@@ -120,7 +120,7 @@ export default async function Page() {
                 alt="green mosaic"
                 width={500}
                 height={140}
-                className="absolute inset-0 w-full h-full scale-x-[1.2] object-cover -z-10"
+                className="absolute inset-0 w-full h-full scale-x-[1.1] object-cover -z-10"
               />
               Article
             </h2>

@@ -11,9 +11,9 @@ export default function ProgramDetailSection() {
                     alt="green mosaic"
                     width={500}
                     height={140}
-                    className="absolute inset-0 w-full h-full scale-x-[1.2] object-cover -z-10"
+                    className="absolute inset-0 w-full h-full scale-x-[1.1] object-cover -z-10"
                 />
-                Phase 3
+                Program
             </h2>
 
             <div className="w-full gap-6 px-[2vw] mt-8">
