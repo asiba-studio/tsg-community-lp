@@ -69,7 +69,7 @@ export default async function Page() {
               <ContentList contents={news} basePath="/news" columns={2} gap={100} enableMosaic={false} />
             </div>
             <div className="block md:hidden">
-              <ContentList contents={news} basePath="/news" columns={1} gap={100} enableMosaic={false}  />
+              <ContentList contents={news} basePath="/news" columns={1} gap={100} enableMosaic={false} />
             </div>
 
           </section>
@@ -114,7 +114,7 @@ export default async function Page() {
 
           {/* Articles Section */}
           <section className="w-full section-spacing border-t border-border">
-          <h2 className="font-en font-bold text-fluid-5xl leading-none relative px-[1.5vw] inline-block mb-8">
+            <h2 className="font-en font-bold text-fluid-5xl leading-none relative px-[1.5vw] inline-block mb-8">
               <Image
                 src="/gifs/green-mosaic.gif"
                 alt="green mosaic"

@@ -58,6 +58,30 @@ export async function getArticlesByTag(tag: string): Promise<Article[]> {
   return articles.filter(article => article.tags.includes(tag));
 }
 
+export async function getRelatedArticles(currentSlug: string, limit: number = 3) {
+  const articles = await getArticles();
+  
+  // 現在の記事を除外し、日付順でソート（新しい順）
+  const filteredArticles = articles
+    .filter(article => article.slug !== currentSlug)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, limit);
+  
+  return filteredArticles;
+}
+
+export async function getRelatedNews(currentSlug: string, limit: number = 3) {
+  const news = await getNews();
+  
+  // 現在のニュースを除外し、日付順でソート（新しい順）
+  const filteredNews = news
+    .filter(item => item.slug !== currentSlug)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, limit);
+  
+  return filteredNews;
+}
+
 // News
 export async function getNews(): Promise<News[]> {
   const fileNames = fs.readdirSync(NEWS_DIR);

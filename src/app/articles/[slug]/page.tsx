@@ -1,11 +1,12 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import { getArticleWithReferences, getArticleSlugs, getArticles } from '@/lib/cms';
+import { getArticleWithReferences, getArticleSlugs, getArticles, getRelatedArticles } from '@/lib/cms';
 import { Metadata } from 'next';
 import { Header, Menu } from '@/components/layout';
 import InteractiveMosaic02 from '@/components/InteractiveMosaic02';
 import { markdownToHtml, calculateReadingTime } from '@/lib/markdown';
 import { formatDateDot } from '@/lib/date';
+import { ContentList } from '@/components/articles';
 
 interface Props {
     params: Promise<{ slug: string }>;
@@ -62,25 +63,19 @@ export async function generateStaticParams() {
 export default async function ArticlePage({ params }: Props) {
     const { slug } = await params;
     const article = await getArticleWithReferences(slug);
-    const relatedArticles = (await getArticles());
+
 
     if (!article) {
         notFound();
     }
+
+    const relatedArticles = await getRelatedArticles(slug, 3);
 
     // MarkdownをHTMLに変換
     const htmlContent = await markdownToHtml(article.content);
 
     // 読了時間を計算
     const readingTime = calculateReadingTime(article.content);
-
-    const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString('ja-JP', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-        });
-    };
 
     return (
         <article className="w-full pb-50">
@@ -116,7 +111,7 @@ export default async function ArticlePage({ params }: Props) {
             <div className="w-full p-[14px] lg:p-[4vw] flex flex-col lg:flex-row gap-[8vw]">
                 <div className='flex-1 flex justify-center'>
                     <div className='max-w-200'>
-                
+
                         {/* ニュースプロパティ一覧 */}
                         <section className='text-fluid-base'>
                             <h1 className='font-sans font-bold text-fluid-4xl leading-relaxed relative mb-8'>
@@ -195,7 +190,14 @@ export default async function ArticlePage({ params }: Props) {
                         </div>
                     </section>
 
-                    <Menu className='hidden lg:block translate-x-[4vw]'/>
+                    <Menu className='hidden lg:block translate-x-[4vw]' />
+
+                    <section className="w-full section-spacing border-t border-border mt-40 lg:mt-100">
+                        <h2 className="font-en font-bold text-fluid-2xl leading-none relative inline-block mb-8">
+                            Related Articles
+                        </h2>
+                        <ContentList contents={relatedArticles} basePath="/articles" columns={1} gap={100} />
+                    </section>
 
                 </div>
 
