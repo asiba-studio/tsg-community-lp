@@ -67,7 +67,7 @@ lang: "ja"
 
 <div class="relative w-full aspect-video p-2 border border-border">
   <iframe 
-    src="/images/articles/article-01-03/challenge-sketch/index.html"
+    src="https://asiba-studio.github.io/iroiro/p5js/asiba-challenge-blobs/"
     title="p5.js sketch"
     frameborder="0"
     class="absolute inset-0 w-full h-full border-0 block -ml-1 -mt-1">
