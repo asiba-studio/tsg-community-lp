@@ -21,6 +21,7 @@ interface Props {
    columns?: number | ResponsiveColumns;
    gap?: number | string;
    description?: boolean;
+   enableMosaic?: boolean;
 }
 
 export default function ContentList({ 
@@ -28,7 +29,8 @@ export default function ContentList({
    basePath, 
    columns = 3, 
    gap = 10,
-   description = false
+   description = false,
+   enableMosaic = true
 }: Props) {
    const gapValue = typeof gap === 'number' ? `${gap}px` : gap;
 
@@ -60,6 +62,7 @@ export default function ContentList({
                    content={content}
                    basePath={basePath}
                    description={description}
+                   enableMosaic={enableMosaic}
                />
            ))}
        </div>

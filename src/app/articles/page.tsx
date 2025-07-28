@@ -77,7 +77,7 @@ export default async function ArticlesPage() {
             </h2>
 
           <ContentList
-            contents={news} basePath="/news" columns={{ default: 1, md: 2, lg: 3 }} gap={"4vw"} description={true}
+            contents={news} basePath="/news" columns={{ default: 1, md: 2, lg: 3 }} gap={"4vw"} description={true} enableMosaic={false}
           />
         </section>
 

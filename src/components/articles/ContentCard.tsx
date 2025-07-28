@@ -1,5 +1,6 @@
 // src/components/ContentCard.tsx
 import Link from 'next/link';
+import Image from 'next/image';
 import { formatDateDot } from '@/lib/date';
 import { Article, News } from '@/lib/types';
 import InteractiveMosaic02 from '../InteractiveMosaic02';
@@ -11,14 +12,16 @@ interface Props {
     content: ContentItem;
     featured?: boolean;
     basePath: '/articles' | '/news';
-    description?: boolean; // 追加
+    description?: boolean;
+    enableMosaic?: boolean; // モザイク処理の有無を制御
 }
 
 export default function ContentCard({ 
     content, 
     featured = false, 
     basePath, 
-    description = false // デフォルトは非表示
+    description = false,
+    enableMosaic = true // デフォルトはモザイク処理あり
 }: Props) {
     return (
         <Link
@@ -28,10 +31,21 @@ export default function ContentCard({
             <article>
                 {/* Cover Image */}
                 <div className="relative w-full">
-                    <InteractiveMosaic02
-                        imageUrl={content.coverImage}
-                        width="100%"
-                    />
+                    {enableMosaic ? (
+                        <InteractiveMosaic02
+                            imageUrl={content.coverImage}
+                            width="100%"
+                        />
+                    ) : (
+                        <Image
+                            src={content.coverImage}
+                            alt={content.title}
+                            width={800}
+                            height={400}
+                            className="w-full h-auto object-cover"
+                            priority={featured}
+                        />
+                    )}
 
                     {/* Tags */}
                     <div className="absolute bottom-1.5 left-2 flex flex-col gap-1">

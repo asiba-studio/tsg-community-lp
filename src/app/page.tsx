@@ -66,10 +66,10 @@ export default async function Page() {
             </h2>
 
             <div className="hidden md:block">
-              <ContentList contents={news} basePath="/news" columns={2} gap={100} />
+              <ContentList contents={news} basePath="/news" columns={2} gap={100} enableMosaic={false} />
             </div>
             <div className="block md:hidden">
-              <ContentList contents={news} basePath="/news" columns={1} gap={100} />
+              <ContentList contents={news} basePath="/news" columns={1} gap={100} enableMosaic={false}  />
             </div>
 
           </section>
