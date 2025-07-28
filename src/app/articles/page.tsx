@@ -27,7 +27,7 @@ export default async function ArticlesPage() {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full pb-50">
       <Header />
       <Menu />
 
@@ -46,12 +46,15 @@ export default async function ArticlesPage() {
 
       <div className='w-full px-[14px] lg:px-[4vw]'>
         <section className="w-full  pt-30">
-          <h2 className='ml-6 mb-10'>
-            <img
-              src="/gifs/article.gif"
-              className='h-10 lg:h-16'
+          <h2 className="font-en font-bold text-fluid-5xl leading-none relative px-[1.5vw] inline-block mb-8">
+            <Image
+              src="/gifs/green-mosaic.gif"
+              alt="green mosaic"
+              width={500}
+              height={140}
+              className="absolute inset-0 w-full h-full scale-x-[1.1] object-cover -z-10"
             />
-            <span className="sr-only">記事一覧</span>
+            Article
           </h2>
 
 
@@ -62,13 +65,16 @@ export default async function ArticlesPage() {
         </section>
 
         <section id="news" className="w-full pt-30 section-spacing border-t border-border">
-          <h2 className='ml-6 mb-10'>
-            <img
-              src="/gifs/news.gif"
-              className='h-10 lg:h-16'
-            />
-            <span className="sr-only">記事一覧</span>
-          </h2>
+        <h2 className="font-en font-bold text-fluid-5xl leading-none relative px-[1.5vw] inline-block mb-8">
+              <Image
+                src="/gifs/green-mosaic.gif"
+                alt="green mosaic"
+                width={500}
+                height={140}
+                className="absolute inset-0 w-full h-full scale-x-[1.1] object-cover -z-10"
+              />
+              News
+            </h2>
 
           <ContentList
             contents={news} basePath="/news" columns={{ default: 1, md: 2, lg: 3 }} gap={"4vw"} description={true}
