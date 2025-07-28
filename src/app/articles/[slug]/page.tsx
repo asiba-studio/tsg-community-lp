@@ -92,6 +92,7 @@ export default async function ArticlePage({ params }: Props) {
                                 <InteractiveMosaic02
                                     imageUrl={article.headerImage}
                                     width="100%"
+                                    mosaicSize='large'
                                 />
                             </div>
                             <div className='block lg:hidden'>
@@ -196,7 +197,7 @@ export default async function ArticlePage({ params }: Props) {
                         <h2 className="font-en font-bold text-fluid-2xl leading-none relative inline-block mb-8">
                             Related Articles
                         </h2>
-                        <ContentList contents={relatedArticles} basePath="/articles" columns={1} gap={100} />
+                        <ContentList contents={relatedArticles} basePath="/articles" columns={1} gap={100} mosaicSize='small' />
                     </section>
 
                 </div>

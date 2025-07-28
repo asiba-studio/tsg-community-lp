@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { formatDateDot } from '@/lib/date';
 import { Article, News } from '@/lib/types';
-import InteractiveMosaic02 from '../InteractiveMosaic02';
+import InteractiveMosaic02, { MosaicSize } from '../InteractiveMosaic02';
 
 // 共通のプロパティを持つ型を定義
 type ContentItem = Article | News;
@@ -14,6 +14,7 @@ interface Props {
     basePath: '/articles' | '/news';
     description?: boolean;
     enableMosaic?: boolean; // モザイク処理の有無を制御
+    mosaicSize?: MosaicSize; // モザイクサイズを制御
 }
 
 export default function ContentCard({ 
@@ -21,7 +22,8 @@ export default function ContentCard({
     featured = false, 
     basePath, 
     description = false,
-    enableMosaic = true // デフォルトはモザイク処理あり
+    enableMosaic = true, // デフォルトはモザイク処理あり
+    mosaicSize = 'medium' // デフォルトは中程度のモザイク
 }: Props) {
     return (
         <Link
@@ -35,6 +37,7 @@ export default function ContentCard({
                         <InteractiveMosaic02
                             imageUrl={content.coverImage}
                             width="100%"
+                            mosaicSize={mosaicSize}
                         />
                     ) : (
                         <Image

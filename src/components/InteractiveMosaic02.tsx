@@ -4,7 +4,6 @@ import { useRef, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import p5 from "p5";
 
-
 export interface P5SketchProps {
   preload?: (p5: p5) => void;
   setup?: (p5: p5, canvasParentRef: Element) => void;
@@ -18,6 +17,9 @@ const Sketch = dynamic(() => import("react-p5"), {
   ssr: false,
 }) as React.ComponentType<P5SketchProps>;
 
+// モザイクサイズの型定義
+export type MosaicSize = 'small' | 'medium' | 'large';
+
 interface InteractiveMosaic02Props {
   width?: string | number;
   height?: string | number;
@@ -25,6 +27,7 @@ interface InteractiveMosaic02Props {
   className?: string;
   style?: React.CSSProperties;
   imageUrl: string;
+  mosaicSize?: MosaicSize;
 }
 
 // アスペクト比取得関数
@@ -42,13 +45,28 @@ function getAspectRatioFromFilename(imageUrl: string): { width: number; height: 
   return { width: 1, height: 1, ratio: 1 }
 }
 
+// モザイクサイズの強度を取得する関数
+function getMosaicIntensity(size: MosaicSize): [number, number, number] {
+  switch (size) {
+    case 'small':
+      return [8.0, 4.0, 0.1]; // 細かいモザイク
+    case 'medium':
+      return [12.0, 6.0, 0.1]; // 中程度のモザイク（デフォルト）
+    case 'large':
+      return [24.0, 12.0, 0.2]; // 粗いモザイク
+    default:
+      return [12.0, 6.0, 0.1];
+  }
+}
+
 export default function InteractiveMosaic02({
   width = '100%',
   height,
   showTitle = false,
   imageUrl,
   className = '',
-  style = {}
+  style = {},
+  mosaicSize = 'medium'
 }: InteractiveMosaic02Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 800, height: 400 });
@@ -64,7 +82,7 @@ export default function InteractiveMosaic02({
   // シェーダー設定
   const mosaicCounterBase = 100.0;
   const mosaicCounterMin = -50.0;
-  const mosaicIntensity = [12.0, 6.0, 0.1];
+  const mosaicIntensity = getMosaicIntensity(mosaicSize);
 
   // アスペクト比を取得
   useEffect(() => {
@@ -330,6 +348,16 @@ export default function InteractiveMosaic02({
 
   const calculatedHeight = height || `${dimensions.height + (showTitle ? 40 : 0)}px`;
 
+  // タイトル用のサイズ表示テキストを生成
+  const getSizeText = (size: MosaicSize): string => {
+    switch (size) {
+      case 'small': return '細かい';
+      case 'medium': return '中程度';
+      case 'large': return '粗い';
+      default: return '中程度';
+    }
+  };
+
   const containerStyle: React.CSSProperties = {
     width,
     height: calculatedHeight,
@@ -357,7 +385,7 @@ export default function InteractiveMosaic02({
           display: 'flex',
           alignItems: 'center'
         }}>
-          モザイク効果（マウスホバーで解除） - {imageUrl.split('/').pop()} ({aspectRatio.width}:{aspectRatio.height})
+          モザイク効果（{getSizeText(mosaicSize)}・マウスホバーで解除） - {imageUrl.split('/').pop()} ({aspectRatio.width}:{aspectRatio.height})
         </div>
       )}
       <div style={{ flex: 1, position: 'relative', minHeight: 0 }}>

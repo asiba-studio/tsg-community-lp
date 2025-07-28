@@ -3,6 +3,7 @@
 
 import { Article, News } from '@/lib/types';
 import ContentCard from './ContentCard';
+import { MosaicSize } from '../InteractiveMosaic02';
 
 type ContentItem = Article | News;
 
@@ -22,6 +23,7 @@ interface Props {
    gap?: number | string;
    description?: boolean;
    enableMosaic?: boolean;
+   mosaicSize?: MosaicSize; // モザイクサイズを制御
 }
 
 export default function ContentList({ 
@@ -30,7 +32,8 @@ export default function ContentList({
    columns = 3, 
    gap = 10,
    description = false,
-   enableMosaic = true
+   enableMosaic = true,
+   mosaicSize = 'medium' // デフォルトは中程度のモザイク
 }: Props) {
    const gapValue = typeof gap === 'number' ? `${gap}px` : gap;
 
@@ -63,6 +66,7 @@ export default function ContentList({
                    basePath={basePath}
                    description={description}
                    enableMosaic={enableMosaic}
+                   mosaicSize={mosaicSize}
                />
            ))}
        </div>
