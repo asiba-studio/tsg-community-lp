@@ -127,7 +127,7 @@ export function StatementRight() {
         <PixelImage src="/gifs/ikikata.gif" className="translate-y-[8px]" alt="「生き方」" />を重ねていく。
       </NormalText>
       <NormalText>
-        この場所から、あなたの“まだ出し切れていない何か”を、仲間とともに世界へ投げ出してみませんか？
+        この場所から、あなたの“まだ出し切れていない何か”を、仲間とともに世界へ投げ出してみませんか。
       </NormalText>
 
     </div>
