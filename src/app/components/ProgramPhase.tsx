@@ -1,5 +1,7 @@
 import MosaicIcon from "@/components/MosaicIcon";
 import ProgramCard from "./ProgramCard";
+import Image from "next/image";
+
 
 
 
@@ -9,16 +11,21 @@ export function ProgramPhase1() {
     return (
 
         <div className="w-full flex flex-col">
-            <div className="flex flex-wrap gap-4 md:gap-10 items-end">
-                <h3>
-                    <img src="/gifs/phase1.gif" className="h-8 md:h-[1.8em] mb-0" alt="" />
-                    <span className="sr-only mb-0">Phase1</span>
+            <div className="flex flex-wrap gap-4 md:gap-20 items-baseline">
+                <h3 className="font-en font-bold text-4xl leading-none relative">
+                    <Image
+                        src="/gifs/green-mosaic.gif"
+                        alt="green mosaic"
+                        width={500}
+                        height={140}
+                        className="absolute inset-0 w-full h-full scale-x-[1.2] object-cover -z-10"
+                    />
+                    Phase 1
                 </h3>
-                <div className="w-auto flex flex-col md:flex-row gap-2 md:gap-10 pl-8 md:pl-0 mb-0.5 pr-3 font-medium text-sm md:text-base">
+                <div className="w-auto flex flex-col items-baseline md:flex-row gap-2 md:gap-10 pl-8 md:pl-0 pr-3 font-medium text-sm md:text-base">
                     <div className="leading-none font-zen">世界を広げる</div>
                     <div className="font-en leading-none">Expand The World</div>
                 </div>
-
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 w-full md:w-3/4 gap-4 md:gap-6 md:px-0 py-10">
@@ -77,16 +84,21 @@ export function ProgramPhase2() {
     return (
 
         <div className="w-full flex flex-col">
-            <div className="flex flex-wrap gap-4 md:gap-10 items-end">
-                <h3>
-                    <img src="/gifs/phase2.gif" className="h-8 md:h-[1.8em] mb-0" alt="" />
-                    <span className="sr-only mb-0">Phase2</span>
+            <div className="flex flex-wrap gap-4 md:gap-20 items-baseline">
+                <h3 className="font-en font-bold text-4xl leading-none relative">
+                    <Image
+                        src="/gifs/green-mosaic.gif"
+                        alt="green mosaic"
+                        width={500}
+                        height={140}
+                        className="absolute inset-0 w-full h-full scale-x-[1.2] object-cover -z-10"
+                    />
+                    Phase 2
                 </h3>
-                <div className="w-auto flex flex-col md:flex-row gap-2 md:gap-10 pl-8 md:pl-0 mb-0.5 pr-3 font-medium text-sm md:text-base">
+                <div className="w-auto flex flex-col items-baseline md:flex-row gap-2 md:gap-10 pl-8 md:pl-0 pr-3 font-medium text-sm md:text-base">
                     <div className="leading-none font-zen">真っすぐにつくる</div>
                     <div className="font-en leading-none">Make Straight</div>
                 </div>
-
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 w-full md:w-3/4 gap-4 md:gap-6 md:px-0 py-10">
@@ -95,7 +107,7 @@ export function ProgramPhase2() {
                 <div className=""><MosaicIcon number={6} /></div>
             </div>
 
-            
+
 
             <div className="w-full px-0 py-10">
                 <h4 className="sr-only">Phase 2 Program</h4>
@@ -136,17 +148,21 @@ export function ProgramPhase3() {
     return (
 
         <div className="w-full flex flex-col">
-
-            <div className="flex flex-wrap gap-4 md:gap-10 items-end">
-                <h3>
-                    <img src="/gifs/phase3.gif" className="h-8 md:h-[1.8em] mb-0" alt="" />
-                    <span className="sr-only mb-0">Phase3</span>
+            <div className="flex flex-wrap gap-4 md:gap-20 items-baseline">
+                <h3 className="font-en font-bold text-4xl leading-none relative">
+                    <Image
+                        src="/gifs/green-mosaic.gif"
+                        alt="green mosaic"
+                        width={500}
+                        height={140}
+                        className="absolute inset-0 w-full h-full scale-x-[1.2] object-cover -z-10"
+                    />
+                    Phase 3
                 </h3>
-                <div className="w-auto flex flex-col md:flex-row gap-2 md:gap-10 pl-8 md:pl-0 mb-0.5 pr-3 font-medium text-sm md:text-base">
+                <div className="w-auto flex flex-col items-baseline md:flex-row gap-2 md:gap-10 pl-8 md:pl-0 pr-3 font-medium text-sm md:text-base">
                     <div className="leading-none font-zen">自分と向き合う</div>
                     <div className="font-en leading-none">Face Yourself</div>
                 </div>
-
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 w-full gap-4 md:gap-6 md:px-0 py-10">

@@ -1,14 +1,22 @@
 import { SimpleButton } from "@/components/button"
 import InteractiveMosaic02 from "@/components/InteractiveMosaic02"
+import Image from "next/image"
 
 export default function ProgramDetailSection() {
     return (
         <div>
-            <h2>
-                <img src="/gifs/program.gif" className="h-10 lg:h-16 mb-10" alt="" />
-                <span className="sr-only">Program</span>
+            <h2 className="font-en font-bold text-fluid-5xl leading-none relative px-[1.5vw] inline-block">
+                <Image
+                    src="/gifs/green-mosaic.gif"
+                    alt="green mosaic"
+                    width={500}
+                    height={140}
+                    className="absolute inset-0 w-full h-full scale-x-[1.2] object-cover -z-10"
+                />
+                Phase 3
             </h2>
-            <div className="w-full gap-6 px-[2vw]">
+
+            <div className="w-full gap-6 px-[2vw] mt-8">
                 <ul className="custom-ul space-y-6 pl-[1.5vw]">
                     <li className="space-y-1">
                         <p className="font-bold">クリエイティブ領域に特化した、若者向けのコミュニティです。</p>

@@ -54,10 +54,17 @@ export default async function Page() {
 
           {/* News Section */}
           <section className="w-full pt-[100px] border-t border-border">
-            <h2>
-              <img src="/gifs/news.gif" className="h-10 lg:h-16 mb-10" alt="" />
-              <span className="sr-only">News</span>
+            <h2 className="font-en font-bold text-fluid-5xl leading-none relative px-[1.5vw] inline-block mb-8">
+              <Image
+                src="/gifs/green-mosaic.gif"
+                alt="green mosaic"
+                width={500}
+                height={140}
+                className="absolute inset-0 w-full h-full scale-x-[1.2] object-cover -z-10"
+              />
+              News
             </h2>
+
             <div className="hidden md:block">
               <ContentList contents={news} basePath="/news" columns={2} gap={100} />
             </div>
@@ -107,9 +114,15 @@ export default async function Page() {
 
           {/* Articles Section */}
           <section className="w-full section-spacing border-t border-border">
-            <h2>
-              <img src="/gifs/article.gif" className="h-16 mb-10" alt="" />
-              <span className="sr-only">Article</span>
+          <h2 className="font-en font-bold text-fluid-5xl leading-none relative px-[1.5vw] inline-block mb-8">
+              <Image
+                src="/gifs/green-mosaic.gif"
+                alt="green mosaic"
+                width={500}
+                height={140}
+                className="absolute inset-0 w-full h-full scale-x-[1.2] object-cover -z-10"
+              />
+              Article
             </h2>
             <ContentList contents={articles} basePath="/articles" columns={1} gap={100} />
           </section>
