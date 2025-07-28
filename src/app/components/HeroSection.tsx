@@ -12,7 +12,7 @@ export interface P5SketchProps {
 }
 
 const Sketch = dynamic(() => import("react-p5"), {
-  loading: () => <div>Loading...</div>,
+  loading: () => <div className="w-full h-full flex justify-center items-center font-en font-bold">Loading...</div>,
   ssr: false,
 }) as React.ComponentType<P5SketchProps>;
 
