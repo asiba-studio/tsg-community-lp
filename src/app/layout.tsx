@@ -6,7 +6,7 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
     // 基本情報
     title: {
-        template: '%s | TSG Creative Lab.',
+        template: '%s | Creative Lab.',
         default: 'TSG Creative Lab.'
     },
     description: 'Creative-Lab.は「何を、どのようにつくるか」だけでなく、「これから、どう生きていきたいか?」という問いを起点に、自分のクリエイションと生き方を結び直す場です。',
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
         siteName: 'Creative Lab.',
         locale: 'ja_JP',
         type: 'website',
-        title: 'Creative Lab. - クリエイティブラボ',
+        title: 'Creative Lab. - つくることは、生きること。',
         description: 'Creative-Lab.は「何を、どのようにつくるか」だけでなく、「これから、どう生きていきたいか?」という問いを起点に、自分のクリエイションと生き方を結び直す場です。',
         url: 'https://your-domain.com',
         images: [
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
                 url: '/images/og/default-og.jpg', // デフォルトOGP画像
                 width: 1200,
                 height: 630,
-                alt: 'Creative Lab. - 次世代クリエイター育成プログラム',
+                alt: 'Creative Lab. - つくることは、生きること。',
             },
         ],
     },
@@ -37,9 +37,9 @@ export const metadata: Metadata = {
     twitter: {
         card: 'summary_large_image',
         creator: '@asiba_studio',
-        title: 'TSG Creative Lab.',
+        title: 'Creative Lab.',
         description: 'Creative-Lab.は「何を、どのようにつくるか」だけでなく、「これから、どう生きていきたいか?」という問いを起点に、自分のクリエイションと生き方を結び直す場です。',
-        images: ['/images/og/default-og.jpg'], // TwitterでもデフォルトOGP画像を使用
+        images: ['/images/og/default-og.jpg'], 
     },
 
     // アイコン設定
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     },
 
     // PWA用マニフェスト（必要に応じて）
-    manifest: '/manifest.json',
+    // manifest: '/manifest.json',
 
     // 検索エンジン設定
     robots: {
@@ -72,13 +72,6 @@ export const metadata: Metadata = {
     // その他の設定
     category: 'education', // サイトのカテゴリ
     keywords: ['クリエイティブ', 'プログラム', '育成', 'Creative Lab', 'デザイン', 'アート'],
-
-    // 検証用（必要に応じて）
-    verification: {
-        google: 'your-google-verification-code', // Google Search Consoleの認証コード
-        // yandex: 'your-yandex-verification-code',
-        // yahoo: 'your-yahoo-verification-code',
-    },
 };
 
 export default function RootLayout({
