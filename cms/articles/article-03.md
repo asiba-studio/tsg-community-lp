@@ -46,14 +46,7 @@ lang: "ja"
 
 **森原：** 今回グラフィックは泉田さんが作ってくださっています。このグラフィックのロゴ、2つの線が入っていると思うのですが、Creative-LAB.という部分の左側が解像度が荒くて、右に行くにつれて解像度が上がっていくようになっています。ウェブサイトを見ていただくと、ぬるぬる動くようになっていて、左右にホバーできるような機能もついていたりするのですが、まあ遊びでつけています（笑）。
 
-<div class="relative w-full aspect-[2401/1261] p-1 border border-border">
-  <iframe 
-    src="https://asiba-studio.github.io/iroiro/p5js/creativelab-motion/”
-    title="p5.js sketch"
-    frameborder="0"
-    class="absolute inset-0 w-full h-full border-0 block -ml-1 -mt-1">
-  </iframe>
-</div>
+![Key Visual](/images/articles/article-01-03/img11.jpg)
 
 <br>
 
