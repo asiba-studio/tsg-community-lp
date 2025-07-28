@@ -48,7 +48,7 @@ lang: "ja"
 
 <div class="relative w-full aspect-[2401/1261] p-1 border border-border">
   <iframe 
-    src="https://asiba-studio.github.io/iroiro/p5js/creativelab-motion”
+    src="https://asiba-studio.github.io/iroiro/p5js/creativelab-motion/”
     title="p5.js sketch"
     frameborder="0"
     class="absolute inset-0 w-full h-full border-0 block -ml-1 -mt-1">
