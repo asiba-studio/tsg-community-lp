@@ -143,9 +143,7 @@ export default function InteractiveMosaic02({
     // 画像を読み込み
     loadedImageRef.current = p5.loadImage(imageUrl, () => {
       imageLoadedRef.current = true;
-      console.log("画像が読み込まれました:", imageUrl);
     }, (error: any) => {
-      console.error("画像の読み込みに失敗しました:", error);
     });
   };
 

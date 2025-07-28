@@ -3,35 +3,37 @@ import Image from "next/image";
 export default function Tagline() {
 
     return (
-        <div className="text-xl font-bold lg:text-4xl lg:leading-[7rem]">
+        <div className="text-2xl font-bold md:text-3xl lg:text-5xl lg:leading-[7rem]">
             <p>
-                同じ教室、同じ学年、同じ言葉を話しているはずなのに、ん
-                <Image 
-                    src = "/gifs/green-mosaic.gif"
-                    alt = "green mosaic"
-                    width = {500}
-                    height = {140}
-                    className="inline w-24 -mr-24 lg:w-50 lg:-mr-50"
+                建築・デザイン・アートなどの
+            </p>
+            <p>
+                クリエイティブを志す若者を対象に、
+            </p>
+            <p>
+                自ら
+                <Image
+                    src="/gifs/green-mosaic.gif"
+                    alt="green mosaic"
+                    width={500}
+                    height={140}
+                    className="inline w-24 -mr-24 lg:w-60 lg:-mr-60"
                 />
-                なぜか視線が合わない。
+                「つくること」を通して、
             </p>
             <p>
-                心のどこかで、「自分の居場所はここではない」と感じてしまう。
+                <span className="-ml-[0.8rem] lg:-ml-[1.5rem]">
+                    <Image
+                        src="/gifs/green-mosaic.gif"
+                        alt="green mosaic"
+                        width={500}
+                        height={140}
+                        className="inline w-24 -mr-24 lg:w-45 lg:-mr-45"
+                    />
+                    「生き方」を探していくための3ヶ月のオープンなラボプログラム
+                </span>
             </p>
-            <p>
-                そんな人々にとって、学校は「生きる場所」ではなく、「生きるための場所」だった。
-            </p>
-            <p>
-                そんな人々にとって、自分で「つくること」とは、
-                <Image 
-                    src = "/gifs/green-mosaic.gif"
-                    alt = "green mosaic"
-                    width = {500}
-                    height = {140}
-                    className="inline w-24 -mr-24 lg:w-50 lg:-mr-50"
-                />
-                表現と思考の必死なあらわれであり、まさぐな「生き方」の表現だったはず。
-            </p>
+
         </div>
     );
 }
