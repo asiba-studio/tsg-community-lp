@@ -342,23 +342,37 @@
     line-height: 1;
   }
 
+  .prose .profile-section,
+  .prose .profile-section strong,
+  .prose .profile-section a {
+    @apply text-sm leading-tight m-0;
+  }
+
+  .prose .profile-section h3 {
+    @apply text-base leading-tight mb-2;
+  }
+
+  .prose hr.article-section {
+    @apply border-border my-14 lg:my-28;
+  }
+
   .prose {
 
     /* 見出し */
     & h1 {
-      @apply font-zen text-2xl md:text-5xl font-bold text-text-primary mb-6 mt-8;
+      @apply font-zen text-2xl md:text-5xl font-bold text-text-primary mb-10 mt-8 leading-normal;
     }
 
     & h2 {
-      @apply font-zen text-2xl md:text-5xl font-bold text-text-primary mb-5 mt-5 lg:mt-14 pb-2;
+      @apply font-zen text-2xl md:text-5xl font-bold text-text-primary mb-10 mt-5 lg:mt-14 pb-2 leading-normal;
     }
 
     & h3 {
-      @apply font-zen text-xl md:text-3xl font-semibold text-text-primary mb-5 mt-5;
+      @apply font-zen text-xl md:text-3xl font-semibold text-text-primary mb-10 mt-5 leading-normal;
     }
 
     & h4 {
-      @apply font-zen text-lg md:text-2xl font-semibold text-text-primary mb-5 mt-5;
+      @apply font-zen text-lg md:text-2xl font-semibold text-text-primary mb-5 mt-5 leading-normal;
     }
 
     /* テキスト */

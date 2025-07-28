@@ -5,7 +5,7 @@ import { Metadata } from 'next';
 import { Header, Menu } from '@/components/layout';
 import InteractiveMosaic02 from '@/components/InteractiveMosaic02';
 import { markdownToHtml, calculateReadingTime } from '@/lib/markdown';
-import { ContentList } from '@/components/articles';
+import { formatDateDot } from '@/lib/date';
 
 interface Props {
     params: Promise<{ slug: string }>;
@@ -135,37 +135,94 @@ export default async function ArticlePage({ params }: Props) {
 
             </header>
 
-            <Menu className='lg:hidden mb-30' />
-
 
             <div className="w-full p-[14px] lg:p-[4vw] flex flex-col lg:flex-row gap-[8vw]">
                 <div className='flex-1 flex justify-center'>
-                    {/* 記事本文 */}
-                    <div
-                        className="prose prose-lg max-w-200"
-                        dangerouslySetInnerHTML={{ __html: htmlContent }}
-                    />
+                    <div className='max-w-200'>
+                        
+
+                        {/* ニュースプロパティ一覧 */}
+                        <section className='lg:hidden text-sm'>
+                            <div className='mb-4 leading-normal flex justify-end'>
+                                {article.date ? formatDateDot(article.date) : ''}
+                            </div>
+                            <div className='mb-4 leading-normal w-3/4 '>
+                                {article.excerpt}
+                            </div>
+                            <div className='leading-normal flex justify-start gap-2'>
+                                {article.tags && article.tags.length > 0 ? (
+                                    article.tags.map((tag, index) => (
+                                        <span key={index}>
+                                            #{tag}
+                                        </span>
+                                    ))
+                                ) : (
+                                    <span className='text-gray-500'>No tags</span>
+                                )}
+                            </div>
+                        </section>
+
+                        <Menu className='lg:hidden mt-4 mb-50 translate-x-[14px]' />
+
+                        {/* 記事本文 */}
+                        <div
+                            className="prose prose-lg mt-20 lg:mt-50"
+                            dangerouslySetInnerHTML={{ __html: htmlContent }}
+                        />
+                    </div>
 
                 </div>
 
-                <div className='w-full lg:w-[20%] pt-50'>
-                    <Menu className='hidden lg:block'/>
+                <div className='w-full lg:w-[20%]'>
+                    {/* ニュースプロパティ一覧 */}
+                    <section className='h-[300vh] relative hidden lg:block'>
+                        <div className='text-fluid-sm sticky top-44 h-screen'>
+                            <div className='border border-border px-1.5'>
+                                <div className='font-en underline'>
+                                    Title
+                                </div>
+                                <div className='mb-6 leading-normal'>
+                                    {article.title}<br />
+                                    {article.subtitle}
+                                </div>
+                                <div className='font-en underline'>
+                                    Date
+                                </div>
+                                <div className='mb-6 leading-normal'>
+                                    {article.date ? formatDateDot(article.date) : ''}
+                                </div>
+                                <div className='font-en underline'>
+                                    Description
+                                </div>
+                                <div className='mb-6 leading-normal'>
+                                    {article.excerpt}
+                                </div>
+                                <div className='font-en underline'>
+                                    Key Word
+                                </div>
+                                <div className='leading-normal'>
+                                    {article.tags && article.tags.length > 0 ? (
+                                        article.tags.map((tag, index) => (
+                                            <span key={index}>
+                                                # {tag}<br />
+                                            </span>
+                                        ))
+                                    ) : (
+                                        <span className='text-gray-500'>No tags</span>
+                                    )}
+                                </div>
+                            </div>
 
-                    <section className="w-full section-spacing border-t border-border mt-150">
-                        <h2>
-                            <img src="/gifs/article.gif" className="h-12 mb-10" alt="" />
-                            <span className="sr-only">Article</span>
-                        </h2>
-                        <ContentList contents={relatedArticles} basePath="/articles" columns={1} gap={100} />
+                        </div>
                     </section>
+
+                    <Menu className='hidden lg:block translate-x-[4vw]'/>
 
                 </div>
 
             </div>
 
 
-
-
-        </article>
+        </article >
     );
 }
