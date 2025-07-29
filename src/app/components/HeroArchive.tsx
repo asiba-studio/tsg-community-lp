@@ -25,7 +25,7 @@ export default function HeroSection() {
     useEffect(() => {
         const timer = setTimeout(() => {
             setIsLoading(false);
-        }, 1800);
+        }, 1800); 
 
         return () => clearTimeout(timer);
     }, []);
@@ -72,22 +72,19 @@ export default function HeroSection() {
         vec2 uv = vTexCoord;
         uv.y = 1.0 - uv.y;
         
-        // テクスチャ選択をstep関数で実装
-        float isLeft = step(uv.x, u_linePositions.x);
-        float isRight = step(u_linePositions.y, uv.x);
-        float isCenter = (1.0 - isLeft) * (1.0 - isRight);
+        vec4 texColor;
+        vec4 backColor;
         
-        // 各テクスチャをサンプリング（条件分岐なし）
-        vec4 logoL_sample = texture2D(logoL, uv);
-        vec4 logoC_sample = texture2D(logoC, uv);
-        vec4 logoR_sample = texture2D(logoR, uv);
-        vec4 backL_sample = texture2D(backL, uv);
-        vec4 backC_sample = texture2D(backC, uv);
-        vec4 backR_sample = texture2D(backR, uv);
-        
-        // mix関数でテクスチャを合成
-        vec4 texColor = logoL_sample * isLeft + logoC_sample * isCenter + logoR_sample * isRight;
-        vec4 backColor = backL_sample * isLeft + backC_sample * isCenter + backR_sample * isRight;
+        if (uv.x < u_linePositions.x) {
+            texColor = texture2D(logoL, uv);
+            backColor = texture2D(backL, uv);
+        } else if (uv.x > u_linePositions.y) {
+            texColor = texture2D(logoR, uv);
+            backColor = texture2D(backR, uv);
+        } else {
+            texColor = texture2D(logoC, uv);
+            backColor = texture2D(backC, uv);
+        }
         
         vec2 screenCoord = uv * u_resolution;
         float lineWidth = 1.0;
@@ -100,53 +97,33 @@ export default function HeroSection() {
         
         float lineTop = u_resolution.y * 0.1;
         float lineBottom = u_resolution.y * 0.75;
+        bool inLineHeight = screenCoord.y > lineTop && screenCoord.y < lineBottom;
         
-        // inLineHeightをsmoothstepで計算
-        float inLineHeight = smoothstep(lineTop - 1.0, lineTop, screenCoord.y) * 
-                            (1.0 - smoothstep(lineBottom, lineBottom + 1.0, screenCoord.y));
-        
-        // isLineをstep関数で計算
-        float isLeftLine = step(distToLeftLine, lineWidth);
-        float isRightLine = step(distToRightLine, lineWidth);
-        float isLine = (isLeftLine + isRightLine - isLeftLine * isRightLine) * inLineHeight;
-        
-        // isLineOutをstep関数で計算
-        float isLeftLineOut = step(distToLeftLine, subLineWidth);
-        float isRightLineOut = step(distToRightLine, subLineWidth);
-        float isLineOut = (isLeftLineOut + isRightLineOut - isLeftLineOut * isRightLineOut) * (1.0 - inLineHeight);
+        bool isLine = (distToLeftLine < lineWidth || distToRightLine < lineWidth) && inLineHeight;
+        bool isLineOut = (distToLeftLine < subLineWidth || distToRightLine < subLineWidth) && !inLineHeight;
         
         float gap = max(u_resolution.x * 0.02, 50.0);
-        
-        // gap領域の計算をstep関数で実装
-        float leftGapStart = step(0.0, screenCoord.x - leftLineX);
-        float leftGapEnd = 1.0 - step(gap, screenCoord.x - leftLineX);
-        float isLeftLineRight = leftGapStart * leftGapEnd;
-        
-        float rightGapStart = step(0.0, screenCoord.x - rightLineX);
-        float rightGapEnd = 1.0 - step(gap, screenCoord.x - rightLineX);
-        float isRightLineRight = rightGapStart * rightGapEnd;
+        bool isLeftLineRight = (screenCoord.x - leftLineX < gap ) && (screenCoord.x - leftLineX > 0.0);
+        bool isRightLineRight = (screenCoord.x - rightLineX < gap ) && (screenCoord.x - rightLineX > 0.0);
         
         float leftGapEdgeX = leftLineX + gap;
         float rightGapEdgeX = rightLineX + gap;
+
+        bool isGapEdge = (abs(screenCoord.x - leftGapEdgeX) < subLineWidth && screenCoord.x > leftLineX) || 
+                         (abs(screenCoord.x - rightGapEdgeX) < subLineWidth && screenCoord.x > rightLineX);
         
-        // gap edge の計算
-        float isLeftGapEdge = step(abs(screenCoord.x - leftGapEdgeX), subLineWidth) * step(leftLineX, screenCoord.x);
-        float isRightGapEdge = step(abs(screenCoord.x - rightGapEdgeX), subLineWidth) * step(rightLineX, screenCoord.x);
-        float isGapEdge = isLeftGapEdge + isRightGapEdge - isLeftGapEdge * isRightGapEdge;
+        if (isLeftLineRight || isRightLineRight) {
+            backColor = vec4(0.0, 0.0, 0.0, 0.0);
+        }
         
-        // gap領域でのアルファ処理
-        float gapAlpha = 1.0 - (isLeftLineRight + isRightLineRight - isLeftLineRight * isRightLineRight);
-        backColor.a *= gapAlpha;
+        backColor.a *= u_alphaAnimation;
+        backColor.a *= 0.8;
         
-        backColor.a *= u_alphaAnimation * 0.8;
-        
-        // 最終的な色の決定をmix関数で実装
-        vec4 lineColor = vec4(0.0, 0.0, 0.0, 1.0);
-        vec4 gapEdgeColor = vec4(0.0, 0.0, 0.0, 0.5);
-        
-        // 優先順位: line > gapEdge/lineOut > backColor
-        backColor = mix(backColor, gapEdgeColor, isGapEdge + isLineOut - isGapEdge * isLineOut);
-        backColor = mix(backColor, lineColor, isLine);
+        if (isLine) {
+            backColor = vec4(0.0, 0.0, 0.0, 1.0);
+        } else if (isGapEdge || isLineOut) {
+            backColor = vec4(0.0, 0.0, 0.0, 0.5);
+        } 
         
         gl_FragColor = mix(backColor, texColor, texColor.a);
     }
