@@ -17,7 +17,6 @@ const Sketch = dynamic(() => import("react-p5"), {
   ssr: false,
 }) as React.ComponentType<P5SketchProps>;
 
-// モザイクサイズの型定義
 export type MosaicSize = 'small' | 'medium' | 'large';
 
 interface InteractiveMosaic02Props {
@@ -28,9 +27,9 @@ interface InteractiveMosaic02Props {
   style?: React.CSSProperties;
   imageUrl: string;
   mosaicSize?: MosaicSize;
+  targetFPS?: number; // 新規: FPSを制限するオプション
 }
 
-// アスペクト比取得関数
 function getAspectRatioFromFilename(imageUrl: string): { width: number; height: number; ratio: number } {
   const filename = imageUrl.split('/').pop() || ''
   const aspectRatioMatch = filename.match(/_(\d+)-(\d+)\.(jpg|jpeg|png|webp)$/i)
@@ -45,15 +44,14 @@ function getAspectRatioFromFilename(imageUrl: string): { width: number; height: 
   return { width: 1, height: 1, ratio: 1 }
 }
 
-// モザイクサイズの強度を取得する関数
 function getMosaicIntensity(size: MosaicSize): [number, number, number] {
   switch (size) {
     case 'small':
-      return [8.0, 4.0, 0.1]; // 細かいモザイク
+      return [8.0, 4.0, 0.1];
     case 'medium':
-      return [12.0, 6.0, 0.1]; // 中程度のモザイク（デフォルト）
+      return [12.0, 6.0, 0.1];
     case 'large':
-      return [24.0, 12.0, 0.2]; // 粗いモザイク
+      return [24.0, 12.0, 0.2];
     default:
       return [12.0, 6.0, 0.1];
   }
@@ -66,7 +64,8 @@ export default function InteractiveMosaic02({
   imageUrl,
   className = '',
   style = {},
-  mosaicSize = 'medium'
+  mosaicSize = 'medium',
+  targetFPS = 30 // デフォルト30FPS
 }: InteractiveMosaic02Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 800, height: 400 });
@@ -78,19 +77,29 @@ export default function InteractiveMosaic02({
   const mosaicShaderRef = useRef<any>(null);
   const mosaicCounterRef = useRef(100.0);
   const prevMouseXRef = useRef(0);
+  const prevMouseYRef = useRef(0);
+  
+  // パフォーマンス最適化用の変数
+  const lastUpdateTimeRef = useRef(0);
+  const needsRedrawRef = useRef(true);
+  const frameIntervalRef = useRef(1000 / targetFPS);
+  const isMouseInCanvasRef = useRef(false);
+  const prevMosaicCounterRef = useRef(100.0);
 
   // シェーダー設定
   const mosaicCounterBase = 100.0;
   const mosaicCounterMin = -50.0;
   const mosaicIntensity = getMosaicIntensity(mosaicSize);
 
-  // アスペクト比を取得
   useEffect(() => {
     const ratio = getAspectRatioFromFilename(imageUrl);
     setAspectRatio(ratio);
   }, [imageUrl]);
 
-  // サイズ計算
+  useEffect(() => {
+    frameIntervalRef.current = 1000 / targetFPS;
+  }, [targetFPS]);
+
   useEffect(() => {
     const updateDimensions = () => {
       if (containerRef.current) {
@@ -112,10 +121,16 @@ export default function InteractiveMosaic02({
           finalHeight = finalWidth / aspectRatio.ratio;
         }
 
-        setDimensions({
+        const newDimensions = {
           width: Math.max(finalWidth, 100),
           height: Math.max(finalHeight, 100)
-        });
+        };
+
+        // サイズが変わった場合のみ更新
+        if (newDimensions.width !== dimensions.width || newDimensions.height !== dimensions.height) {
+          setDimensions(newDimensions);
+          needsRedrawRef.current = true;
+        }
       }
     };
 
@@ -137,10 +152,15 @@ export default function InteractiveMosaic02({
           finalHeight = finalWidth / aspectRatio.ratio;
         }
 
-        setDimensions({
+        const newDimensions = {
           width: Math.max(finalWidth, 100),
           height: Math.max(finalHeight, 100)
-        });
+        };
+
+        if (newDimensions.width !== dimensions.width || newDimensions.height !== dimensions.height) {
+          setDimensions(newDimensions);
+          needsRedrawRef.current = true;
+        }
       }
     });
 
@@ -155,26 +175,28 @@ export default function InteractiveMosaic02({
       resizeObserver.disconnect();
       clearTimeout(timer);
     };
-  }, [showTitle, aspectRatio, height]);
+  }, [showTitle, aspectRatio, height, dimensions]);
 
   const preload = (p5: p5) => {
-    // 画像を読み込み
     loadedImageRef.current = p5.loadImage(imageUrl, () => {
       imageLoadedRef.current = true;
+      needsRedrawRef.current = true;
     }, (error: any) => {
+      console.error("画像の読み込みに失敗しました:", error);
     });
   };
 
   const setup = (p5: p5, canvasParentRef: Element) => {
-    // WebGLモードでキャンバスを作成
     const canvas = p5.createCanvas(dimensions.width, dimensions.height, (p5 as any).WEBGL);
     canvas.parent(canvasParentRef);
 
-    // Vertex shader
+    // FPSを制限
+    p5.frameRate(targetFPS);
+
+    // 最適化されたシェーダー（uniform変数を減らし、計算を簡素化）
     const vert = `
       attribute vec3 aPosition;
       attribute vec2 aTexCoord;
-
       varying vec2 vTexCoord;
 
       void main() {
@@ -185,29 +207,22 @@ export default function InteractiveMosaic02({
       }
     `;
 
-    // Fragment shader
+    // 最適化されたフラグメントシェーダー
     const frag = `
       precision mediump float;
 
       uniform sampler2D u_texture;
       uniform vec2 u_resolution;
-      uniform float u_mosaicCounter;
-      uniform vec3 u_mosaicIntensity;
-      uniform float u_time;
+      uniform float u_mosaicFactor;
+      uniform vec3 u_mosaicSizes;
       varying vec2 vTexCoord;
 
-      float random(vec2 st) {
-          return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);
-      }
-
       vec4 mosaic(sampler2D tex, vec2 uv, float intensity) {
-        if (intensity <= 0.0) {
+        if (intensity <= 0.1) {
           return texture2D(tex, uv);
         }
-
-        vec2 mosaicSize = vec2(intensity);
         
-        // セルの中央を基準にした座標計算
+        vec2 mosaicSize = vec2(intensity);
         vec2 gridCoord = floor(uv * u_resolution / mosaicSize);
         vec2 cellCenter = (gridCoord + 0.5) * mosaicSize / u_resolution;
         
@@ -218,50 +233,41 @@ export default function InteractiveMosaic02({
         vec2 uv = vTexCoord;
         uv.y = 1.0 - uv.y;
         
-        // 3段階のモザイク強度を計算
         float x = uv.x;
         float baseIntensity;
-
-        float leftX = 0.33;
-        float rightX = 0.67;
-        float lineWidth = 0.5;
         
-        if (x < leftX) {
-          // 左側: 強いモザイク
-          baseIntensity = u_mosaicIntensity.x;
-        } else if (x < rightX) {
-          // 中央: 中程度のモザイク
-          baseIntensity = u_mosaicIntensity.y;
+        // 3分割の境界を事前計算
+        if (x < 0.33) {
+          baseIntensity = u_mosaicSizes.x;
+        } else if (x < 0.67) {
+          baseIntensity = u_mosaicSizes.y;  
         } else {
-          // 右側: 弱いモザイク
-          baseIntensity = u_mosaicIntensity.z;
+          baseIntensity = u_mosaicSizes.z;
         }
 
-        // 減衰
-        float mosaicIntensityFactor = clamp(u_mosaicCounter, 0.0, 100.0) / 100.0;
-
-        // オリジナル色とモザイク色を別々に計算
         vec4 originalColor = texture2D(u_texture, uv);
         vec4 mosaicColor = mosaic(u_texture, uv, baseIntensity);
-
-        // 線形補間で滑らかに変化
-        vec4 finalColor = mix(originalColor, mosaicColor, mosaicIntensityFactor);
         
-        // 2本の線
-        vec4 lineLayer = vec4(0.0, 0.0, 0.0, 0.0);
-        bool isLine = (abs(x - leftX) * u_resolution.x < lineWidth) || (abs(x - rightX) * u_resolution.x < lineWidth);
-        float lineStrength = 0.7 * clamp(u_mosaicCounter, 10.0, 100.0) / 100.0;
-        if (isLine) {
-          lineLayer = vec4(0.5, 0.5, 0.5, lineStrength);
+        vec4 finalColor = mix(originalColor, mosaicColor, u_mosaicFactor);
+        
+        // 線の描画（簡素化）
+        float lineAlpha = 0.0;
+        float distToLine1 = abs(x - 0.33) * u_resolution.x;
+        float distToLine2 = abs(x - 0.67) * u_resolution.x;
+        
+        if (distToLine1 < 0.5 || distToLine2 < 0.5) {
+          lineAlpha = 0.7 * u_mosaicFactor;
         }
-
-        // 最終グラフィック
-        gl_FragColor = mix(finalColor, lineLayer, lineLayer.a);
+        
+        if (lineAlpha > 0.0) {
+          finalColor = mix(finalColor, vec4(0.5, 0.5, 0.5, 1.0), lineAlpha);
+        }
+        
+        gl_FragColor = finalColor;
       }
     `;
 
     try {
-      // シェーダーを作成
       mosaicShaderRef.current = p5.createShader(vert, frag);
     } catch (error) {
       console.error("シェーダーの作成に失敗しました:", error);
@@ -269,57 +275,77 @@ export default function InteractiveMosaic02({
 
     p5.noStroke();
     p5.background(50);
-
-    // モザイクカウンターを初期化
     mosaicCounterRef.current = mosaicCounterBase;
+    needsRedrawRef.current = true;
   };
 
   const draw = (p5: p5) => {
+    const currentTime = p5.millis();
+    
+    // FPS制限チェック
+    if (currentTime - lastUpdateTimeRef.current < frameIntervalRef.current) {
+      return;
+    }
+
     if (!loadedImageRef.current || !imageLoadedRef.current || !mosaicShaderRef.current) {
       p5.background(50);
       return;
     }
 
-    p5.background(50);
-
-    // マウスがキャンバス内にあるかチェック
+    // マウス位置と移動の検出
     const isMouseInCanvas = p5.mouseX >= 0 && p5.mouseX <= p5.width &&
       p5.mouseY >= 0 && p5.mouseY <= p5.height;
+    
+    const mouseMovement = Math.abs(p5.mouseX - prevMouseXRef.current) + Math.abs(p5.mouseY - prevMouseYRef.current);
+    const hasMovement = isMouseInCanvas && mouseMovement > 1.0;
 
-    // キャンバス内でのマウス移動を検出
-    const hasMovement = isMouseInCanvas && Math.abs(p5.mouseX - prevMouseXRef.current) > 0.01;
+    // 状態変化の検出
+    const stateChanged = isMouseInCanvas !== isMouseInCanvasRef.current || hasMovement;
 
-    // カウンターの更新
+    // モザイクカウンターの更新
+    let counterChanged = false;
+    const prevCounter = mosaicCounterRef.current;
+
     if (isMouseInCanvas) {
       if (hasMovement) {
-        // キャンバス内でマウス移動中は大幅に減少
         mosaicCounterRef.current -= 15.0;
       } else {
-        // キャンバス内でマウス停止中は少し減少
         mosaicCounterRef.current -= 5.0;
       }
     } else {
-      // キャンバス外では増加
-      mosaicCounterRef.current += 3.0;
+      mosaicCounterRef.current += 7.0;
     }
 
-    prevMouseXRef.current = p5.mouseX;
     mosaicCounterRef.current = p5.constrain(mosaicCounterRef.current, mosaicCounterMin, mosaicCounterBase);
+    counterChanged = Math.abs(mosaicCounterRef.current - prevCounter) > 0.5;
 
-    // シェーダーを使用
+    // 再描画が必要かチェック
+    if (!needsRedrawRef.current && !stateChanged && !counterChanged) {
+      return;
+    }
+
+    // 状態の更新
+    prevMouseXRef.current = p5.mouseX;
+    prevMouseYRef.current = p5.mouseY;
+    isMouseInCanvasRef.current = isMouseInCanvas;
+    prevMosaicCounterRef.current = mosaicCounterRef.current;
+    lastUpdateTimeRef.current = currentTime;
+    needsRedrawRef.current = false;
+
+    // 描画処理
+    p5.background(50);
     p5.shader(mosaicShaderRef.current);
 
-    // シェーダーにuniformを渡す
+    // uniform変数を最小限に
+    const mosaicFactor = p5.constrain(mosaicCounterRef.current, 0.0, 100.0) / 100.0;
+    
     mosaicShaderRef.current.setUniform('u_texture', loadedImageRef.current);
     mosaicShaderRef.current.setUniform('u_resolution', [dimensions.width, dimensions.height]);
-    mosaicShaderRef.current.setUniform('u_mosaicCounter', mosaicCounterRef.current);
-    mosaicShaderRef.current.setUniform('u_mosaicIntensity', mosaicIntensity);
-    mosaicShaderRef.current.setUniform('u_time', p5.millis() / 1000.0);
+    mosaicShaderRef.current.setUniform('u_mosaicFactor', mosaicFactor);
+    mosaicShaderRef.current.setUniform('u_mosaicSizes', mosaicIntensity);
 
     p5.noStroke();
     p5.fill(255);
-
-    // WebGLモードでは座標系が異なるため調整
     p5.rect(-p5.width / 2, -p5.height / 2, p5.width, p5.height);
   };
 
@@ -343,12 +369,12 @@ export default function InteractiveMosaic02({
 
       p5.resizeCanvas(newWidth, newHeight);
       setDimensions({ width: newWidth, height: newHeight });
+      needsRedrawRef.current = true;
     }
   };
 
   const calculatedHeight = height || `${dimensions.height + (showTitle ? 40 : 0)}px`;
 
-  // タイトル用のサイズ表示テキストを生成
   const getSizeText = (size: MosaicSize): string => {
     switch (size) {
       case 'small': return '細かい';
@@ -385,7 +411,7 @@ export default function InteractiveMosaic02({
           display: 'flex',
           alignItems: 'center'
         }}>
-          モザイク効果（{getSizeText(mosaicSize)}・マウスホバーで解除） - {imageUrl.split('/').pop()} ({aspectRatio.width}:{aspectRatio.height})
+          モザイク効果（{getSizeText(mosaicSize)}・マウスホバーで解除・最適化版） - FPS: {targetFPS}
         </div>
       )}
       <div style={{ flex: 1, position: 'relative', minHeight: 0 }}>
