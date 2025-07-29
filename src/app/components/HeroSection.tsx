@@ -1,45 +1,57 @@
 'use client'
 
 import React, { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
-import p5 from "p5";
-
-
 
 export interface P5SketchProps {
-    preload?: (p5: p5) => void;
-    setup?: (p5: p5, canvasParentRef: Element) => void;
-    draw?: (p5: p5) => void;
-    windowResized?: (p5: p5) => void;
+    preload?: (p5: any) => void;
+    setup?: (p5: any, canvasParentRef: Element) => void;
+    draw?: (p5: any) => void;
+    windowResized?: (p5: any) => void;
     [key: string]: any;
 }
 
-const Sketch = dynamic(() => import("react-p5"), {
-    ssr: false,
-}) as React.ComponentType<P5SketchProps>;
-
 export default function HeroSection() {
     const [isLoading, setIsLoading] = useState(true);
-    const [canShowSketch, setCanShowSketch] = useState(false);
+    const [P5Component, setP5Component] = useState<React.ComponentType<any> | null>(null);
+    const [loadError, setLoadError] = useState<string | null>(null);
 
     useEffect(() => {
-        const timer = setTimeout(() => {
+        const initialTimer = setTimeout(() => {
             setIsLoading(false);
         }, 1800);
 
-        return () => clearTimeout(timer);
+        return () => clearTimeout(initialTimer);
     }, []);
 
+    // P5コンポーネントの動的読み込み（タイムアウト付き）
     useEffect(() => {
-        // react-p5の読み込み完了を待つ
-        const loadTimer = setTimeout(() => {
-            setCanShowSketch(true);
-        }, 100); // 少し遅延させてreact-p5の準備を確実にする
+        if (!isLoading && !P5Component && !loadError) {
+            const timeoutId = setTimeout(() => {
+                console.warn("P5 component loading timeout");
+                setLoadError("Loading timeout - showing static version");
+            }, 8000);
 
-        return () => clearTimeout(loadTimer);
-    }, []);
+            const loadP5Component = async () => {
+                try {
+                    // react-p5を動的インポート
+                    const { default: Sketch } = await import("react-p5");
+                    clearTimeout(timeoutId);
+                    setP5Component(() => Sketch);
+                } catch (error) {
+                    console.error("Failed to load P5 component:", error);
+                    clearTimeout(timeoutId);
+                    setLoadError("Failed to load interactive canvas");
+                }
+            };
 
-    // シェーダーコード
+            loadP5Component();
+
+            // クリーンアップ関数
+            return () => clearTimeout(timeoutId);
+        }
+    }, [isLoading, P5Component, loadError]);
+
+    // 最適化されたシェーダーコード
     const vert = `
     attribute vec3 aPosition;
     attribute vec2 aTexCoord;
@@ -50,7 +62,7 @@ export default function HeroSection() {
         positionVec4.xy = positionVec4.xy *2.0 - 1.0;
         gl_Position = positionVec4;
     }
-    `
+    `;
 
     const frag = `
     #ifdef GL_ES
@@ -150,286 +162,269 @@ export default function HeroSection() {
         
         gl_FragColor = mix(backColor, texColor, texColor.a);
     }
-    `
+    `;
 
-    // 変数定義
-    let logoL: any, logoC: any, logoR: any
-    let backL: any, backC: any, backR: any
-    let posL = 1.2, posR = 1.35
-    let targetPosL = 0.425, targetPosR = 0.575
-    let finalPosL = 0.425, finalPosR = 0.575
-    let theShader: any
-    let resolution: number[] = []
-    let imageAspectRatio = 1
+    // P5スケッチの変数とロジック
+    const createSketchFunctions = () => {
+        let logoL: any, logoC: any, logoR: any;
+        let backL: any, backC: any, backR: any;
+        let posL = 1.2, posR = 1.35;
+        let targetPosL = 0.425, targetPosR = 0.575;
+        let finalPosL = 0.425, finalPosR = 0.575;
+        let theShader: any;
+        let resolution: number[] = [];
+        let imageAspectRatio = 1;
 
-    // アニメーション制御パラメータ
-    let animationComplete = false
-    let interactionEnabled = false
-    let animationStartTime = 0
-    let animationDuration = 2000
-    let interactionDelay = -200
+        // アニメーション制御パラメータ
+        let animationComplete = false;
+        let interactionEnabled = false;
+        let animationStartTime = 0;
+        let animationDuration = 2000;
+        let interactionDelay = -200;
 
-    // マウス制御パラメータ
-    let centerAreaRatio = 0.173
-    let mouseSensitivity = 0.8
-    let lineInertia = 0.96
+        // マウス制御パラメータ
+        let centerAreaRatio = 0.173;
+        let mouseSensitivity = 0.8;
+        let lineInertia = 0.96;
 
-    // マウス追跡用変数
-    let prevMouseX = 0
-    let mouseVelocityX = 0
-    let smoothedVelocity = 0
-    let velocityHistory: number[] = []
-    let historyLength = 5
+        // マウス追跡用変数
+        let prevMouseX = 0;
+        let mouseVelocityX = 0;
+        let smoothedVelocity = 0;
+        let velocityHistory: number[] = [];
+        let historyLength = 5;
 
-    // エリア計算用変数
-    let leftAreaEnd: number, rightAreaStart: number
+        // エリア計算用変数
+        let leftAreaEnd: number, rightAreaStart: number;
 
-    const preload = (p: p5) => {
-        logoL = p.loadImage('/p5sketches/top-motion/logoL.png')
-        logoC = p.loadImage('/p5sketches/top-motion/logoC.png')
-        logoR = p.loadImage('/p5sketches/top-motion/logoR.png')
-        backL = p.loadImage('/p5sketches/top-motion/backL.png')
-        backC = p.loadImage('/p5sketches/top-motion/backC.png')
-        backR = p.loadImage('/p5sketches/top-motion/backR.png')
-    }
+        const preload = (p: any) => {
+            logoL = p.loadImage('/p5sketches/top-motion/logoL.png');
+            logoC = p.loadImage('/p5sketches/top-motion/logoC.png');
+            logoR = p.loadImage('/p5sketches/top-motion/logoR.png');
+            backL = p.loadImage('/p5sketches/top-motion/backL.png');
+            backC = p.loadImage('/p5sketches/top-motion/backC.png');
+            backR = p.loadImage('/p5sketches/top-motion/backR.png');
+        };
 
-    const setup = (p: p5, canvasParentRef: Element) => {
-        if (logoL && logoL.width && logoL.height) {
-            imageAspectRatio = logoL.width / logoL.height
-        }
-
-        // アスペクト比1300:680に固定
-        const aspectRatio = 1300 / 680
-        const canvasWidth = p.windowWidth
-        const canvasHeight = canvasWidth / aspectRatio
-
-        p.createCanvas(canvasWidth, canvasHeight, p.WEBGL).parent(canvasParentRef)
-        resolution = [canvasWidth, canvasHeight]
-
-        // シェーダー初期化
-        theShader = p.createShader(vert, frag)
-
-        // エリア境界を計算
-        calculateAreas()
-
-        // マウス位置を初期化
-        prevMouseX = p.mouseX / p.width
-
-        // 速度履歴を初期化
-        velocityHistory = []
-        for (let i = 0; i < historyLength; i++) {
-            velocityHistory.push(0)
-        }
-
-        // アニメーション開始
-        animationStartTime = p.millis()
-    }
-
-    const draw = (p: p5) => {
-        p.background(255)
-        centerAreaRatio = 0.25
-
-        // アニメーション処理
-        if (!animationComplete) {
-            updateAnimation(p)
-        } else if (!interactionEnabled) {
-            updateInteractionDelay(p)
-            posL = finalPosL
-            posR = finalPosR
-            targetPosL = finalPosL
-            targetPosR = finalPosR
-        } else {
-            calculateMouseVelocity(p)
-            updateLinePositions(p)
-        }
-
-        // シェーダーの描画
-        p.shader(theShader)
-        theShader.setUniform('logoL', logoL)
-        theShader.setUniform('logoC', logoC)
-        theShader.setUniform('logoR', logoR)
-        theShader.setUniform('backL', backL)
-        theShader.setUniform('backC', backC)
-        theShader.setUniform('backR', backR)
-        theShader.setUniform('u_resolution', resolution)
-        theShader.setUniform('u_linePositions', [posL, posR])
-        theShader.setUniform('u_time', p.millis() * 0.001)
-
-        let animationProgress = p.constrain(p.map(p.millis() - animationStartTime, animationDuration - 250, animationDuration + 750, 0, 1), 0, 1)
-        theShader.setUniform('u_alphaAnimation', animationProgress)
-
-        p.noStroke()
-        p.fill(255)
-        p.rect(0, 0, resolution[0], resolution[1])
-    }
-
-    const updateAnimation = (p: p5) => {
-        let currentTime = p.millis()
-        let elapsed = currentTime - animationStartTime
-        let progress = elapsed / animationDuration
-
-        if (progress >= 1.0) {
-            progress = 1.0
-            animationComplete = true
-            posL = finalPosL
-            posR = finalPosR
-            targetPosL = finalPosL
-            targetPosR = finalPosR
-        } else {
-            let easedProgress = easeOut(progress)
-            posL = p.lerp(1.2, finalPosL, easedProgress)
-            posR = p.lerp(1.35, finalPosR, easedProgress)
-        }
-    }
-
-    const updateInteractionDelay = (p: p5) => {
-        let currentTime = p.millis()
-        let timeSinceComplete = currentTime - (animationStartTime + animationDuration)
-
-        if (timeSinceComplete >= interactionDelay) {
-            interactionEnabled = true
-            let initialMouseX = 0.5
-            if (p.mouseX >= 0 && p.mouseX <= p.width && p.mouseY >= 0 && p.mouseY <= p.height) {
-                initialMouseX = p.mouseX / p.width
+        const setup = (p: any, canvasParentRef: Element) => {
+            if (logoL && logoL.width && logoL.height) {
+                imageAspectRatio = logoL.width / logoL.height;
             }
 
-            prevMouseX = initialMouseX
+            const aspectRatio = 1300 / 680;
+            const canvasWidth = p.windowWidth;
+            const canvasHeight = canvasWidth / aspectRatio;
+
+            p.createCanvas(canvasWidth, canvasHeight, p.WEBGL).parent(canvasParentRef);
+            resolution = [canvasWidth, canvasHeight];
+
+            theShader = p.createShader(vert, frag);
+            calculateAreas();
+
+            prevMouseX = p.mouseX / p.width;
+            velocityHistory = [];
             for (let i = 0; i < historyLength; i++) {
-                velocityHistory[i] = 0
+                velocityHistory.push(0);
             }
-            smoothedVelocity = 0
-            mouseVelocityX = 0
-        }
-    }
 
-    const easeOut = (t: number) => {
-        return 1 - Math.pow(1 - t, 2)
-    }
+            animationStartTime = p.millis();
+        };
 
-    const calculateAreas = () => {
-        let sideAreaRatio = (1.0 - centerAreaRatio) / 2.0
-        leftAreaEnd = sideAreaRatio
-        rightAreaStart = 1.0 - sideAreaRatio
-    }
+        const draw = (p: any) => {
+            p.background(255);
+            centerAreaRatio = 0.25;
 
-    const calculateMouseVelocity = (p: p5) => {
-        let currentMouseX = p.mouseX / p.width
-        currentMouseX = p.constrain(currentMouseX, 0, 1)
+            if (!animationComplete) {
+                updateAnimation(p);
+            } else if (!interactionEnabled) {
+                updateInteractionDelay(p);
+                posL = finalPosL;
+                posR = finalPosR;
+                targetPosL = finalPosL;
+                targetPosR = finalPosR;
+            } else {
+                calculateMouseVelocity(p);
+                updateLinePositions(p);
+            }
 
-        mouseVelocityX = currentMouseX - prevMouseX
+            p.shader(theShader);
+            theShader.setUniform('logoL', logoL);
+            theShader.setUniform('logoC', logoC);
+            theShader.setUniform('logoR', logoR);
+            theShader.setUniform('backL', backL);
+            theShader.setUniform('backC', backC);
+            theShader.setUniform('backR', backR);
+            theShader.setUniform('u_resolution', resolution);
+            theShader.setUniform('u_linePositions', [posL, posR]);
+            theShader.setUniform('u_time', p.millis() * 0.001);
 
-        velocityHistory.push(mouseVelocityX)
-        velocityHistory.shift()
+            let animationProgress = p.constrain(
+                p.map(p.millis() - animationStartTime, animationDuration - 250, animationDuration + 750, 0, 1),
+                0,
+                1
+            );
+            theShader.setUniform('u_alphaAnimation', animationProgress);
 
-        smoothedVelocity = 0
-        for (let vel of velocityHistory) {
-            smoothedVelocity += vel
-        }
-        smoothedVelocity /= historyLength
+            p.noStroke();
+            p.fill(255);
+            p.rect(0, 0, resolution[0], resolution[1]);
+        };
 
-        prevMouseX = currentMouseX
-    }
+        const windowResized = (p: any) => {
+            const aspectRatio = 1300 / 680;
+            const canvasWidth = p.windowWidth;
+            const canvasHeight = canvasWidth / aspectRatio;
 
-    const updateLinePositions = (p: p5) => {
-        if (p.mouseX <= 0 || p.mouseX >= p.width || p.mouseY <= 0 || p.mouseY >= p.height) {
-            return
-        }
+            p.resizeCanvas(canvasWidth, canvasHeight);
+            resolution = [canvasWidth, canvasHeight];
 
-        let velocityInfluence = smoothedVelocity * mouseSensitivity
-        let currentMouseX = p.mouseX / p.width
-        currentMouseX = p.constrain(currentMouseX, 0, 1)
-        let mouseArea = getMouseArea(currentMouseX)
+            if (theShader) {
+                theShader.setUniform('u_resolution', resolution);
+            }
+        };
 
-        switch (mouseArea) {
-            case 'left':
-                let leftTarget = p.lerp(0.05, leftAreaEnd - 0.02, p.map(currentMouseX, 0, leftAreaEnd, 0, 1))
-                targetPosL = leftTarget
-                targetPosR += (leftTarget - posL) * 0.1
-                break
+        // ヘルパー関数群
+        const updateAnimation = (p: any) => {
+            let currentTime = p.millis();
+            let elapsed = currentTime - animationStartTime;
+            let progress = elapsed / animationDuration;
 
-            case 'right':
-                let rightTarget = p.lerp(rightAreaStart + 0.02, 0.95, p.map(currentMouseX, rightAreaStart, 1, 0, 1))
-                targetPosR = rightTarget
-                targetPosL += (rightTarget - posR) * 0.1
-                break
+            if (progress >= 1.0) {
+                progress = 1.0;
+                animationComplete = true;
+                posL = finalPosL;
+                posR = finalPosR;
+                targetPosL = finalPosL;
+                targetPosR = finalPosR;
+            } else {
+                let easedProgress = easeOut(progress);
+                posL = p.lerp(1.2, finalPosL, easedProgress);
+                posR = p.lerp(1.35, finalPosR, easedProgress);
+            }
+        };
 
-            case 'center':
-            default:
-                targetPosL += velocityInfluence * 0.5
-                targetPosR += velocityInfluence * 0.5
-                break
-        }
+        const updateInteractionDelay = (p: any) => {
+            let currentTime = p.millis();
+            let timeSinceComplete = currentTime - (animationStartTime + animationDuration);
 
-        ensureDistance()
+            if (timeSinceComplete >= interactionDelay) {
+                interactionEnabled = true;
+                let initialMouseX = 0.5;
+                if (p.mouseX >= 0 && p.mouseX <= p.width && p.mouseY >= 0 && p.mouseY <= p.height) {
+                    initialMouseX = p.mouseX / p.width;
+                }
 
-        posL = p.lerp(posL, targetPosL, 1 - lineInertia)
-        posR = p.lerp(posR, targetPosR, 1 - lineInertia)
-    }
+                prevMouseX = initialMouseX;
+                for (let i = 0; i < historyLength; i++) {
+                    velocityHistory[i] = 0;
+                }
+                smoothedVelocity = 0;
+                mouseVelocityX = 0;
+            }
+        };
 
-    const getMouseArea = (mouseX: number) => {
-        if (mouseX < leftAreaEnd) {
-            return 'left'
-        } else if (mouseX > rightAreaStart) {
-            return 'right'
-        } else {
-            return 'center'
-        }
-    }
+        const easeOut = (t: number) => {
+            return 1 - Math.pow(1 - t, 2);
+        };
 
-    const ensureDistance = () => {
-        let targetDistance = centerAreaRatio
-        let currentDistance = targetPosR - targetPosL
-        let distanceDiff = targetDistance - currentDistance
-        let correction = distanceDiff * 0.3
-        let halfCorrection = correction * 0.5
+        const calculateAreas = () => {
+            let sideAreaRatio = (1.0 - centerAreaRatio) / 2.0;
+            leftAreaEnd = sideAreaRatio;
+            rightAreaStart = 1.0 - sideAreaRatio;
+        };
 
-        targetPosL -= halfCorrection
-        targetPosR += halfCorrection
+        const calculateMouseVelocity = (p: any) => {
+            let currentMouseX = p.mouseX / p.width;
+            currentMouseX = p.constrain(currentMouseX, 0, 1);
 
-        if (targetPosL < 0.05) {
-            let overflow = 0.05 - targetPosL
-            targetPosL = 0.05
-            targetPosR += overflow
-        }
+            mouseVelocityX = currentMouseX - prevMouseX;
 
-        if (targetPosR > 0.95) {
-            let overflow = targetPosR - 0.95
-            targetPosR = 0.95
-            targetPosL -= overflow
-        }
-    }
+            velocityHistory.push(mouseVelocityX);
+            velocityHistory.shift();
 
-    const calculateCanvasSize = (maxWidth: number, maxHeight: number) => {
-        let windowAspect = maxWidth / maxHeight
-        let canvasWidth: number, canvasHeight: number
+            smoothedVelocity = 0;
+            for (let vel of velocityHistory) {
+                smoothedVelocity += vel;
+            }
+            smoothedVelocity /= historyLength;
 
-        if (imageAspectRatio > windowAspect) {
-            canvasWidth = maxWidth
-            canvasHeight = maxWidth / imageAspectRatio
-        } else {
-            canvasHeight = maxHeight
-            canvasWidth = maxHeight * imageAspectRatio
-        }
+            prevMouseX = currentMouseX;
+        };
 
-        return { width: canvasWidth, height: canvasHeight }
-    }
+        const updateLinePositions = (p: any) => {
+            if (p.mouseX <= 0 || p.mouseX >= p.width || p.mouseY <= 0 || p.mouseY >= p.height) {
+                return;
+            }
 
-    const windowResized = (p: p5) => {
-        // アスペクト比1300:680に固定
-        const aspectRatio = 1300 / 680
-        const canvasWidth = p.windowWidth
-        const canvasHeight = canvasWidth / aspectRatio
+            let velocityInfluence = smoothedVelocity * mouseSensitivity;
+            let currentMouseX = p.mouseX / p.width;
+            currentMouseX = p.constrain(currentMouseX, 0, 1);
+            let mouseArea = getMouseArea(currentMouseX);
 
-        p.resizeCanvas(canvasWidth, canvasHeight)
-        resolution = [canvasWidth, canvasHeight]
+            switch (mouseArea) {
+                case 'left':
+                    let leftTarget = p.lerp(0.05, leftAreaEnd - 0.02, p.map(currentMouseX, 0, leftAreaEnd, 0, 1));
+                    targetPosL = leftTarget;
+                    targetPosR += (leftTarget - posL) * 0.1;
+                    break;
 
-        if (theShader) {
-            theShader.setUniform('u_resolution', resolution)
-        }
-    }
+                case 'right':
+                    let rightTarget = p.lerp(rightAreaStart + 0.02, 0.95, p.map(currentMouseX, rightAreaStart, 1, 0, 1));
+                    targetPosR = rightTarget;
+                    targetPosL += (rightTarget - posR) * 0.1;
+                    break;
 
-    if (isLoading || !canShowSketch) {
+                case 'center':
+                default:
+                    targetPosL += velocityInfluence * 0.5;
+                    targetPosR += velocityInfluence * 0.5;
+                    break;
+            }
 
+            ensureDistance();
+
+            posL = p.lerp(posL, targetPosL, 1 - lineInertia);
+            posR = p.lerp(posR, targetPosR, 1 - lineInertia);
+        };
+
+        const getMouseArea = (mouseX: number) => {
+            if (mouseX < leftAreaEnd) {
+                return 'left';
+            } else if (mouseX > rightAreaStart) {
+                return 'right';
+            } else {
+                return 'center';
+            }
+        };
+
+        const ensureDistance = () => {
+            let targetDistance = centerAreaRatio;
+            let currentDistance = targetPosR - targetPosL;
+            let distanceDiff = targetDistance - currentDistance;
+            let correction = distanceDiff * 0.3;
+            let halfCorrection = correction * 0.5;
+
+            targetPosL -= halfCorrection;
+            targetPosR += halfCorrection;
+
+            if (targetPosL < 0.05) {
+                let overflow = 0.05 - targetPosL;
+                targetPosL = 0.05;
+                targetPosR += overflow;
+            }
+
+            if (targetPosR > 0.95) {
+                let overflow = targetPosR - 0.95;
+                targetPosR = 0.95;
+                targetPosL -= overflow;
+            }
+        };
+
+        return { preload, setup, draw, windowResized };
+    };
+
+    // 初期ローディング中
+    if (isLoading) {
         return (
             <div className="w-full h-full flex flex-col justify-center items-center font-en font-bold">
                 <img
@@ -442,14 +437,47 @@ export default function HeroSection() {
         );
     }
 
+    // エラー時のフォールバック
+    if (loadError) {
+        return (
+            <div className="w-full h-full flex flex-col justify-center items-center font-en font-bold">
+                <div className="text-red-500">⚠️ Canvas loading failed</div>
+                <div className="text-sm text-gray-600 mt-2">Falling back to static content...</div>
+                {/* 静的な代替コンテンツを表示 */}
+                <img 
+                    src="/p5sketches/top-motion/logoC.png" 
+                    alt="Logo" 
+                    className="mt-4 max-w-md opacity-80"
+                />
+            </div>
+        );
+    }
+
+    // P5コンポーネントの読み込み中
+    if (!P5Component) {
+        return (
+            <div className="w-full h-full flex flex-col justify-center items-center font-en font-bold">
+                <img
+                    src="/gifs/icon/icon-01.gif"
+                    alt="Loading..."
+                    className="w-30"
+                />
+                <span className="ml-2 text-black">Loading Canvas...</span>
+            </div>
+        );
+    }
+
+    // P5スケッチを描画
+    const sketchFunctions = createSketchFunctions();
+
     return (
         <div className="w-full h-full">
-            <Sketch
-                preload={preload}
-                setup={setup}
-                draw={draw}
-                windowResized={windowResized}
+            <P5Component
+                preload={sketchFunctions.preload}
+                setup={sketchFunctions.setup}
+                draw={sketchFunctions.draw}
+                windowResized={sketchFunctions.windowResized}
             />
         </div>
-    )
+    );
 }
