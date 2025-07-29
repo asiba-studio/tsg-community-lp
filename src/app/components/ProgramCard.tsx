@@ -1,5 +1,6 @@
 // components/ProgramCard.tsx
 import InteractiveMosaic02 from "@/components/InteractiveMosaic02";
+import Image from "next/image";
 
 interface ProgramCardProps {
     imageUrl: string;
@@ -19,10 +20,19 @@ export default function ProgramCard({
     return (
         <div className="flex flex-wrap gap-2 gap-y-4 md:gap-4">
             <div className="w-full md:w-44">
-                <InteractiveMosaic02
-                    imageUrl={imageUrl}
-                    width="100%"
-                />
+                <div className="hidden lg:block w-full">
+                    <InteractiveMosaic02
+                        imageUrl={imageUrl}
+                        width="100%"
+                    />
+                </div>
+                <div className="block lg:hidden">
+                    <Image 
+                        src={imageUrl}
+                        alt="program image" 
+                        width={1000} height={1000} 
+                        className="w-full object-cover" />
+                </div>
             </div>
             <div className="text-fluid-lg">|||</div>
             <div className="flex-1">

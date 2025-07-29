@@ -40,11 +40,19 @@ export default function ProgramDetailSection() {
                             モノづくりに没入する時間こそ最も重要だからこそ、仲間のクリエイションに触れながら、
                             自然にフロー状態へと導かれるクリエイティブな環境をつくります。
                         </p>
-                        <div className="pt-2">
+                        <div className="pt-2 hidden lg:block">
                             <InteractiveMosaic02
                                 imageUrl="/images/home/mes_2-1.jpg"
                                 width="100%"
                                 className="overflow-hidden aspect-square"
+                            />
+                        </div>
+                        <div className="pt-2 block lg:hidden">
+                            <Image 
+                                src="/images/home/mes_2-1.jpg"
+                                alt="MEs image"
+                                width={2400} height={1200}
+                                className="w-full object-cover"
                             />
                         </div>
                         <div className="w-full flex justify-end">

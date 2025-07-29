@@ -57,10 +57,18 @@ export default async function ArticlesPage() {
             Article
           </h2>
 
-
-          <ContentList
-            contents={articles} basePath="/articles" columns={{ default: 1, md: 2, lg: 3 }} gap={"4vw"} description={true}
-          />
+          <div className="w-full">
+              <div className="hidden lg:block w-full">
+                <ContentList 
+                  contents={articles} basePath="/articles" columns={{ default: 1, md: 2, lg: 3 }} gap={"4vw"} description={true} enableMosaic={true}
+                />
+              </div>
+              <div className="block lg:hidden w-full">
+                <ContentList 
+                  contents={articles} basePath="/articles" columns={{ default: 1, md: 2, lg: 3 }} gap={"4vw"} description={true} enableMosaic={false}
+                />
+              </div>
+            </div>
 
         </section>
 

@@ -96,9 +96,12 @@ export default async function ArticlePage({ params }: Props) {
                                 />
                             </div>
                             <div className='block lg:hidden'>
-                                <InteractiveMosaic02
-                                    imageUrl={article.coverImage}
-                                    width="100%"
+                                <Image
+                                    src={article.coverImage}
+                                    alt={article.title}
+                                    width={750}
+                                    height={750}
+                                    className="w-full h-auto object-cover"
                                 />
                             </div>
                         </div>
@@ -197,7 +200,14 @@ export default async function ArticlePage({ params }: Props) {
                         <h2 className="font-en font-bold text-fluid-2xl leading-none relative inline-block mb-8">
                             Related Articles
                         </h2>
-                        <ContentList contents={relatedArticles} basePath="/articles" columns={1} gap={100} mosaicSize='small' />
+                        <div className="w-full">
+                            <div className="hidden lg:block w-full">
+                                <ContentList contents={relatedArticles} basePath="/articles" columns={1} gap={100} enableMosaic={true} mosaicSize='small'  />
+                            </div>
+                            <div className="block lg:hidden w-full">
+                                <ContentList contents={relatedArticles} basePath="/articles" columns={1} gap={100} enableMosaic={false} />
+                            </div>
+                        </div>
                     </section>
 
                 </div>

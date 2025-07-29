@@ -124,7 +124,15 @@ export default async function Page() {
               />
               Article
             </h2>
-            <ContentList contents={articles} basePath="/articles" columns={1} gap={100} />
+            <div className="w-full">
+              <div className="hidden lg:block w-full">
+                <ContentList contents={articles} basePath="/articles" columns={1} gap={100} enableMosaic={true}/>
+              </div>
+              <div className="block lg:hidden w-full">
+                <ContentList contents={articles} basePath="/articles" columns={1} gap={100} enableMosaic={false}/>
+              </div>
+            </div>
+            
           </section>
 
           {/* Players Section */}
