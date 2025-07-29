@@ -26,7 +26,7 @@ export default async function Page() {
         <HeroSection />
       </section>
       <section className="block md:hidden w-full">
-        <Image src="/images/common/keyvisual-mobile.jpg" alt="Key Visual" width={1200} height={1500} className="w-full object-cover" />
+        <Image src="/images/common/keyvisual-mobile.jpg" alt="Key Visual" width={1200} height={1500} className="w-full object-cover" quality={60} sizes="100vw"/>
       </section>
 
       {/* Navigation */}
@@ -61,6 +61,8 @@ export default async function Page() {
                 width={500}
                 height={140}
                 className="absolute inset-0 w-full h-full scale-x-[1.1] object-cover -z-10"
+                quality={80}
+                sizes="(max-width: 768px) 50vw, 30vw"
               />
               News
             </h2>
@@ -121,6 +123,8 @@ export default async function Page() {
                 width={500}
                 height={140}
                 className="absolute inset-0 w-full h-full scale-x-[1.1] object-cover -z-10"
+                quality={80}
+                sizes="(max-width: 768px) 50vw, 30vw"
               />
               Article
             </h2>

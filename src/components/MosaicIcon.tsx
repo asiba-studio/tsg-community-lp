@@ -1,4 +1,4 @@
-
+import Image from 'next/image';
 
 
 const Words: Record<number, string> = {
@@ -24,7 +24,15 @@ export default function MosaicIcon({ number }: {number:number}) {
 
     return (
         <div className="w-full flex flex-col items-center gap-2">
-            <img src={gifPath} className="w-full" alt=""/>
+            <Image 
+                src={gifPath}
+                alt={`Icon ${number}`}
+                width={500}
+                height={500}
+                className="w-full"
+                quality={80}
+                sizes="(max-width: 768px) 50vw, 25vw"
+            />
             <div className="font-bold text-sm lg:text-base flex lg:gap-2">
                 <div className="font-en mt-[1px]">{number.toString().padStart(2,'0')}.</div>
                 <div className="font-zen">{word}</div>

@@ -53,6 +53,8 @@ export default function ProgramDetailSection() {
                                 alt="MEs image"
                                 width={2400} height={1200}
                                 className="w-full object-cover"
+                                quality={60}
+                                sizes="90vw"
                             />
                         </div>
                         <div className="w-full flex justify-end">

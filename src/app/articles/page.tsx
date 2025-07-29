@@ -53,6 +53,8 @@ export default async function ArticlesPage() {
               width={500}
               height={140}
               className="absolute inset-0 w-full h-full scale-x-[1.1] object-cover -z-10"
+              quality={80}
+              sizes="(max-width: 768px) 50vw, 30vw"
             />
             Article
           </h2>
@@ -80,6 +82,8 @@ export default async function ArticlesPage() {
                 width={500}
                 height={140}
                 className="absolute inset-0 w-full h-full scale-x-[1.1] object-cover -z-10"
+                quality={80}
+                sizes="(max-width: 768px) 50vw, 30vw"
               />
               News
             </h2>

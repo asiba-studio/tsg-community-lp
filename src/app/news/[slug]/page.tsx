@@ -104,6 +104,8 @@ export default async function NewsPage({ params }: Props) {
                                 width={1200}
                                 height={630}
                                 className="w-full h-auto object-cover mb-8 border border-border block lg:hidden"
+                                quality={60}
+                                sizes="100vw"
                             />
                         )}
 

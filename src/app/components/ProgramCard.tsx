@@ -27,11 +27,14 @@ export default function ProgramCard({
                     />
                 </div>
                 <div className="block lg:hidden">
-                    <Image 
+                    <Image
                         src={imageUrl}
-                        alt="program image" 
-                        width={1000} height={1000} 
-                        className="w-full object-cover" />
+                        alt="program image"
+                        width={1000} height={1000}
+                        className="w-full object-cover"
+                        quality={80}
+                        sizes="100vw"
+                    />
                 </div>
             </div>
             <div className="text-fluid-lg">|||</div>

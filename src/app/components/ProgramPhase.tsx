@@ -19,6 +19,8 @@ export function ProgramPhase1() {
                         width={500}
                         height={140}
                         className="absolute inset-0 w-full h-full scale-x-[1.2] object-cover -z-10"
+                        quality={80}
+                        sizes="(max-width: 768px) 50vw, 30vw"
                     />
                     Phase 1
                 </h3>
@@ -92,6 +94,8 @@ export function ProgramPhase2() {
                         width={500}
                         height={140}
                         className="absolute inset-0 w-full h-full scale-x-[1.2] object-cover -z-10"
+                        quality={80}
+                        sizes="(max-width: 768px) 50vw, 30vw"
                     />
                     Phase 2
                 </h3>
@@ -156,6 +160,8 @@ export function ProgramPhase3() {
                         width={500}
                         height={140}
                         className="absolute inset-0 w-full h-full scale-x-[1.2] object-cover -z-10"
+                        quality={80}
+                        sizes="(max-width: 768px) 50vw, 30vw"
                     />
                     Phase 3
                 </h3>

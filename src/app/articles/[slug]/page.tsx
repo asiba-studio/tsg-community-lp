@@ -102,6 +102,8 @@ export default async function ArticlePage({ params }: Props) {
                                     width={750}
                                     height={750}
                                     className="w-full h-auto object-cover"
+                                    quality={60}
+                                    sizes="100vw"
                                 />
                             </div>
                         </div>

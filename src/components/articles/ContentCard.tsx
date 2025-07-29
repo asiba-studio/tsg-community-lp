@@ -43,10 +43,12 @@ export default function ContentCard({
                         <Image
                             src={content.coverImage}
                             alt={content.title}
-                            width={800}
-                            height={400}
+                            width={750}
+                            height={750}
                             className="w-full h-auto object-cover"
                             priority={featured}
+                            quality={80}
+                            sizes="100vw"
                         />
                     )}
 
