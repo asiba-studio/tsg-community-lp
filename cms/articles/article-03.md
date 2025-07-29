@@ -50,11 +50,17 @@ lang: "ja"
 
 **森原：** 今回グラフィックは泉田さんが作ってくださっています。このグラフィックのロゴ、2つの線が入っていると思うのですが、Creative-LAB.という部分の左側が解像度が荒くて、右に行くにつれて解像度が上がっていくようになっています。ウェブサイトを見ていただくと、ぬるぬる動くようになっていて、左右にホバーできるような機能もついていたりするのですが、まあ遊びでつけています（笑）。
 
-![Key Visual](/images/articles/article-01-03/img11.jpg)
-
-<br>
-
-
+<div class="article-image-container">
+  <Image
+    src="/images/articles/article-01-03/img11.jpg" 
+    alt="Key Visual" 
+    width={1200} height={800}
+    quality={85}
+    sizes="(max-width: 768px) 100vw, 80vw"
+    class="article-image"
+  >
+  <div class="article-caption"></div>
+</div>
 
 プログラムの設計も同じようにしていて、最初は何をしたいか分からないとか、どういうものがクリエイティブなのかよく分からないとか、具体性はなくとも何かを求めている、みたいな人は全然OKだと思っています。プログラムを通して、色々なレクチャーやワークショップ、フィールドワークなどを通しながら、なんとなく自分の輪郭が見えてくる、生きることとつくることが結びついてきて解像度が上がっていく、というのをグラフィックでは表現しています。伝わっているといいなと思いますが。
 
@@ -62,13 +68,26 @@ lang: "ja"
 
 **須藤：** ASIBA全体で言えることだけど、動的・ダイナミックさ、みたいなのがめちゃくちゃ重要だなと思っていて。この場所としても色々な人が集まって、わちゃわちゃすることで、わちゃわちゃというか相互作用を与えることで良くなっていく。止まってない、動いている感じは大事で、それは多分ウェブサイトでもそれをコンセプト的に表すとしたら、やっぱりマウスとかの移動で対応反応するといいよね、という。だから基本的にASIBAのサイトは全部動いてます。
 
-<div class="relative w-full aspect-video p-2 border border-border">
+
+<div class="hidden lg:block relative w-full aspect-video p-2 border border-border">
   <iframe 
     src="https://asiba-studio.github.io/iroiro/p5js/asiba-challenge-blobs/"
     title="p5.js sketch"
     frameborder="0"
     class="absolute inset-0 w-full h-full border-0 block -ml-1 -mt-1">
   </iframe>
+</div>
+
+<div class="block lg:hidden article-image-container">
+  <Image
+    src="/images/articles/article-01-03/img12.jpg" 
+    alt="ASIBA Challenge Blobs" 
+    width={1200} height={800}
+    quality={85}
+    sizes="(max-width: 768px) 100vw, 80vw"
+    class="article-image"
+  >
+  <div class="article-caption"></div>
 </div>
 
 <div class="text-right text-sm text-gray-600mt-1 italic mt-1 mb-10"> 
@@ -89,9 +108,17 @@ lang: "ja"
 
 **森原：** そうだね。割とゴリゴリのプログラムというよりかはスタジオ形式というか、集まりながら考えたり、フィールドワークに行ったり、レクチャーを聞いたりしながら、知的交流をして、でもそれで終わらせない。よくあるプログラムだとピッチ資料を作って終わり、みたいなことになってしまうんですが、もう少しモノをつくるところまで。スタディでもいいんですけど、プロダクトの形があったりとか、サービスの形があったりとか、イメージがあるみたいなところまで持っていくことが、今回はゴールですね。
 
-![Studio](/images/articles/article-01-03/img09.jpg)
-
-<br>
+<div class="article-image-container">
+  <Image
+    src="/images/articles/article-01-03/img09.jpg" 
+    alt="Studio" 
+    width={1200} height={800}
+    quality={85}
+    sizes="(max-width: 768px) 100vw, 80vw"
+    class="article-image"
+  >
+  <div class="article-caption"></div>
+</div>
 
 **髙野：** かつそれがちゃんと自己変容と結びついていることを、プログラム設計者側の意図としては大事にしたいなと思っていて、そのための工夫とかも色々考えているところですね。
 

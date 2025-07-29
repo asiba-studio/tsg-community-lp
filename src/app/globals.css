@@ -342,6 +342,18 @@
     line-height: 1;
   }
 
+  .prose .article-image-container {
+    @apply mt-4 mb-10;
+  }
+
+  .prose .article-image-container .article-image {
+    @apply w-full h-auto m-0;
+  }
+  
+  .prose .article-caption {
+    @apply text-sm text-gray-600 text-right mt-1 italic;
+  }
+
   .prose .profile-section,
   .prose .profile-section strong,
   .prose .profile-section a {
