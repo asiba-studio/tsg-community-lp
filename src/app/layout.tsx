@@ -2,6 +2,7 @@ import './globals.css';
 import Script from 'next/script'
 import { Footer } from '@/components/layout';
 import { Metadata } from 'next';
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 export const metadata: Metadata = {
     // 基本情報
@@ -108,6 +109,7 @@ export default function RootLayout({
                     <main className='min-h-screen flex flex-col'>{children}</main>
                     <Footer />
                 </div>
+                <SpeedInsights />
             </body>
         </html>
     );
