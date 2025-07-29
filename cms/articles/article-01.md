@@ -161,4 +161,18 @@ lang: "ja"
 
 僕の場合、TEDxTokyoを立ち上げた時も、たまたまシェアハウスに住んでいて、上の年代の住人たちがギリギリ昔のTEDxを知っている世代で、私はコロナで一番影響を受けている世代で、ずっと本郷にいて、学部1,2年生の時に色々な活動をしてきてある程度のネットワークがある、となった時に「僕しかできないな」「僕が一番うまくできるな」という感覚があったから始められた、と思います。
 
+<div class="article-image-container">
+  <Image
+    src="/images/articles/article-01-03/img16.jpg" 
+    alt="Design Planning" 
+    width={1200} height={800}
+    quality={85}
+    sizes="(max-width: 768px) 100vw, 80vw"
+    class="article-image"
+  >
+  <div class="article-caption">
+    <a href="https://tedxutokyo.com/" class="text-sm" >TEDxUTokyoで発表をする高野</a>
+  </div>
+</div>
+
 **森原：** めちゃくちゃそうだと思います。自分にしかできない、と思う環境要因が揃う、というのは、もう「やらなきゃならないんだ」という踏ん切りがつく時というのは大きいと思うし、よく分からない万能感とか「いけるわ」と思える自己肯定感の高さみたいなものもありますよね。万能感と使命感が混じり合って一体化してしまう、ということがありますね。私もそうでした。
