@@ -222,8 +222,8 @@ Phase 2「真っすぐにつくる」からPhase 3「自分と向き合う」へ
 ## 運営団体
 
 * 主催: 東京都
-* 企画運営事務局: 認定NPO法人ETIC.
-* 企画パートナー：一般社団法人ASIBA
+* 運営事務局: <a href="https://etic.or.jp/" target="_blank" rel="noopener noreferrer">NPO法人ETIC.</a>
+* 企画パートナー：<a href="https://asiba.or.jp/" target="_blank" rel="noopener noreferrer">一般社団法人ASIBA</a>（共同代表 森原正希）
 
 <hr class="article-section">
 
