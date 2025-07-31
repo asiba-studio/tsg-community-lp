@@ -41,7 +41,11 @@ export default function ApplicationSection() {
                     </li>
                 </ol>
                 <div className="w-full flex justify-end pt-4 pb-10">
-                    <SimpleButton icon="right" className="font-zen">お申し込み</SimpleButton>
+                    <SimpleButton href="https://tsg-etic.my.site.com/TSG/s/login/?language=ja&ec=302&startURL=%2FTSG%2Fs%2F2025%2Flab-creative%3F_gl%3D1*g3ickt*_gcl_au*MTY2OTAxNjI0Ni4xNzUzNTE4OTYx*_ga*MTI0NDA3NjA2OS4xNzUwOTI0MDY4*_ga_PN1SX1X1K9*czE3NTM1NDU3MDEkbzMkZzEkdDE3NTM1NDU5MTMkajU0JGwwJGgw" 
+                        icon="right" 
+                        external
+                        className="font-zen"
+                    >お申し込み</SimpleButton>
                 </div>
             </section>
 
