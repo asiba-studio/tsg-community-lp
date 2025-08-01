@@ -43,7 +43,7 @@ export default function Footer() {
                 <Link href="/news/news-01#application" className="no-underline">Application</Link>
             </div>
             <div className="text-fluid-sm font-en text-white">
-                © {new Date().getFullYear()} aaaaaa. All rights reserved.
+                © {new Date().getFullYear()} 2025 ASIBA Stuido. All rights reserved.
             </div>
         </footer>
     );
