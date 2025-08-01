@@ -19,7 +19,7 @@ export default async function Page() {
   const articles = (await getArticles());
 
   return (
-    <div className="pb-30">
+    <div>
 
       {/* Hero Section */}
       <section className="hidden md:block w-full aspect-[1300/680]">
