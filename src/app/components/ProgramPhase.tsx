@@ -129,7 +129,7 @@ export function ProgramPhase2() {
                             imageUrl="/images/home/program-2-2.png"
                             title="#4 制作集中DAY"
                             dateTime="2025.10.11 13:00-17:00"
-                            location="インターナショナルデザインリエゾンセンター"
+                            location="インターナショナル・デザイン・リエゾンセンター"
                         >
                             <div className="text-fluid-sm leading-snug">
                                 とにかくつくる！メンター陣とともに自分のアウトプットを極限まで高めます。

@@ -18,7 +18,7 @@ export default async function Page() {
 
   const news = (await getNews());
   const articles = (await getArticles());
-  const openTalks = OPEN_TALKS;
+  const openTalks = OPEN_TALKS.slice(0,2); // 最新の2件を表示
 
   return (
     <div>
@@ -80,7 +80,7 @@ export default async function Page() {
 
           {/* Peatix Section */}
           <section className="w-full section-spacing border-t border-border">
-            <h2 className="font-en font-bold text-fluid-5xl leading-none relative px-[1.5vw] inline-block mb-8">
+            <h2 className="font-en font-bold text-fluid-4xl leading-none relative px-[1.5vw] inline-block mb-8">
               <Image
                 src="/gifs/green-mosaic.gif"
                 alt="green mosaic"
@@ -90,11 +90,11 @@ export default async function Page() {
                 quality={80}
                 sizes="(max-width: 768px) 50vw, 30vw"
               />
-              LAB. Open Talks
+              Creative-LAB. Open TALKs
             </h2>
             <div className="text-fluid-sm leading-normal pb-6 w-full">
-              Creative LAB. Open TALK は、自らの表現活動やクリエイティブワークを通して、既存の枠組みにとらわれず、
-              自らの衝動から表現と生き方を切り拓いてきたゲストを招いた対話型トークシリーズです。<br></br>
+              Creative-LAB. Open TALK は、自らの表現活動やクリエイティブワークを通して、既存の枠組みにとらわれず、
+              自らの衝動から表現と生き方を切り拓いてきたゲストを招いた <b><u>全5回の対話型トークシリーズ</u></b> です。<br></br>
               彼らの語る経験や問いを通じて、「どうつくるか」だけでなく「どう生きるか」という視点から、
               ものづくりの現場で培われた知見、挑戦、そして越境の技法を共有します。デザインと生の関係性を捉え直し、
               これからの時代におけるクリエイターの新たなモデルを探る機会を探ります。
@@ -105,6 +105,15 @@ export default async function Page() {
             </div>
             <div className="block md:hidden">
               <ContentList contents={openTalks} basePath="/open-talks" columns={1} gap={50} enableMosaic={false} />
+            </div>
+
+            <div className="text-fluid-lg leading-normal pt-14 pl-6 w-full">
+              ◾️第3回以降は随時公開予定です。開催日は以下の通りです。
+              <ul className="mt-4 ml-4">
+                <li>#3 開催日：2025.10.23</li>
+                <li>#4 開催日：2025.11.2</li>
+                <li>#5 開催日：2025.11.14</li>
+              </ul>
             </div>
 
           </section>
