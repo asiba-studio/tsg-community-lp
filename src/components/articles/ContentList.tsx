@@ -1,11 +1,11 @@
 // src/components/ContentList.tsx
 'use client';
 
-import { Article, News } from '@/lib/types';
+import { Article, News, OpenTalk } from '@/lib/types';
 import ContentCard from './ContentCard';
 import { MosaicSize } from '../InteractiveMosaic02';
 
-type ContentItem = Article | News;
+type ContentItem = Article | News | OpenTalk;
 
 interface ResponsiveColumns {
   default?: number;
@@ -18,7 +18,7 @@ interface ResponsiveColumns {
 
 interface Props {
    contents: ContentItem[];
-   basePath: '/articles' | '/news';
+   basePath: '/articles' | '/news' | '/open-talks';
    columns?: number | ResponsiveColumns;
    gap?: number | string;
    description?: boolean;

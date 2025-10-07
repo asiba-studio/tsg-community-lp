@@ -61,6 +61,7 @@ function MenuModal({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }
                 <Link href="/news/press-release" className='no-underline px-2 w-auto mr-auto inline-block bg-white' onClick={onClose}>About</Link>
                 <Link href="/articles" className='no-underline px-2 w-auto mr-auto inline-block bg-white' onClick={onClose}>Articles</Link>
                 <Link href="/articles#news" className='no-underline px-2 w-auto mr-auto inline-block bg-white' onClick={onClose}>News</Link>
+                <Link href="/open-talks" className='no-underline px-2 w-auto mr-auto inline-block bg-white' onClick={onClose}>Open TALKs</Link>
                 <Link href="/news/press-release#application" className='no-underline px-2 w-auto mr-auto inline-block bg-white' onClick={onClose}>Application</Link>
             </div>
         </div>

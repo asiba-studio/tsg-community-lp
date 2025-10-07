@@ -43,6 +43,19 @@ export interface News {
     content: string;
 }
 
+export interface OpenTalk {
+    slug: string;
+    link: string;
+    title: string;
+    subtitle: string;
+    date: string;
+    excerpt: string;
+    coverImage: string;
+    lang: string;
+    tags?: string[];
+    content: string;
+}
+
 export interface Article {
     slug: string;
     title: string;

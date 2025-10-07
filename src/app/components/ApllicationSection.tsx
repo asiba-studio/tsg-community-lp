@@ -14,6 +14,7 @@ export default function ApplicationSection() {
                 <ol className="space-y-2 custom-ol pt-10 pl-[1.5vw]">
                     <li>TSGの応募条件を満たしていること</li>
                     <li>建築・デザイン・アートといった、クリエイションに向き合いながら、起業やビジネスを考えている若者/学生</li>
+                    {/*
                     <li>
                         以下のプログラム日程に参加できること
                         <div className="mt-2 ml-0 lg:ml-6 grid grid-cols-1 lg:grid-cols-[auto_0.97fr] gap-x-4">
@@ -39,6 +40,7 @@ export default function ApplicationSection() {
                             ※可能な限り全日程へのご参加をお願いしておりますが、難しい場合はご相談ください。
                         </p>
                     </li>
+                    */}
                 </ol>
                 <div className="w-full flex justify-end pt-4 pb-10">
                     <SimpleButton href="https://tsg-etic.my.site.com/TSG/s/login/?language=ja&ec=302&startURL=%2FTSG%2Fs%2F2025%2Flab-creative%3F_gl%3D1*g3ickt*_gcl_au*MTY2OTAxNjI0Ni4xNzUzNTE4OTYx*_ga*MTI0NDA3NjA2OS4xNzUwOTI0MDY4*_ga_PN1SX1X1K9*czE3NTM1NDU3MDEkbzMkZzEkdDE3NTM1NDU5MTMkajU0JGwwJGgw" 

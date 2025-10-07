@@ -42,9 +42,9 @@ export function ProgramPhase1() {
                     <li>
                         <ProgramCard
                             imageUrl="/images/home/program-1-1.png"
-                            title="ラボ合同キックオフ"
+                            title="#1 LAB.合同キックオフ"
                             dateTime="2025.08.24 13:00-17:00"
-                            location="Tokyo Innovation Base"
+                            location="TiB(Tokyo Innovation Base)"
                         >
                             <div className="text-fluid-sm leading-snug">
                                 6種類のラボの参加者が一堂に会す合同キックオフ。実施事項は以下の通りです。
@@ -59,18 +59,14 @@ export function ProgramPhase1() {
                     <li>
                         <ProgramCard
                             imageUrl="/images/home/program-1-2.png"
-                            title="フィールドワーク合宿"
-                            dateTime="2025.08.31"
-                            location="総武線亀戸駅より徒歩10分"
+                            title="#2 フィールドワーク"
+                            dateTime="2025.08.31 10:30-15:30"
+                            location="SHIMOKITA COLLEGE"
                         >
                             <p className="text-fluid-sm leading-snug">
-                                見る」「感じる」「つくる」を繰り返す1泊2日のフィールドワーク合宿。
-                                クリエイターにとって、「心の機敏さ」「じっくり見る体験」は欠かせない感覚です。世界の微細な違和感に気づくこと。
-                                誰もが見過ごす風景の中に、自分だけの発見を見つけ出すこと。クリエイションの原点に立ち返る合宿です。
-                            </p>
-                            <p className="text-fluid-sm leading-snug pt-1">
-                                ※プログラムに宿泊を含むか否かは8月上旬には決定いたします。宿泊を含まない場合、遠方の方の参加は柔軟に対応させていただきます。
-                                宿泊有無に関わらず2日間のプログラムは実施いたします。
+                            「見る」「感じる」「つくる」を繰り返す1day フィールドワーク。
+                            クリエイターにとって、「心の機敏さ」「じっくり見る体験」は欠かせない感覚です。
+                            世界の微細な違和感に気づくこと。誰もが見過ごす風景の中に、自分だけの発見を見つけ出すこと。クリエイションの原点に立ち返ります。
                             </p>
                         </ProgramCard>
                     </li>
@@ -119,9 +115,9 @@ export function ProgramPhase2() {
                     <li>
                         <ProgramCard
                             imageUrl="/images/home/program-2-1.png"
-                            title="レクチャー & Meetup #01"
-                            dateTime="2025.09.28"
-                            location="TBD in Tokyo"
+                            title="#3 レクチャー & Meetup"
+                            dateTime="2025.09.28 13:00-15:00"
+                            location="東京大学工学部14号館"
                         >
                             <div className="text-fluid-sm leading-snug">
                                 Phase 1「世界を広げる」からPhase 2「真っすぐにつくる」へ
@@ -131,9 +127,9 @@ export function ProgramPhase2() {
                     <li>
                         <ProgramCard
                             imageUrl="/images/home/program-2-2.png"
-                            title="制作集中期間"
-                            dateTime="2025.10.11-13"
-                            location="総武線亀戸駅より徒歩10分"
+                            title="#4 制作集中DAY"
+                            dateTime="2025.10.11 13:00-17:00"
+                            location="インターナショナルデザインリエゾンセンター"
                         >
                             <div className="text-fluid-sm leading-snug">
                                 とにかくつくる！メンター陣とともに自分のアウトプットを極限まで高めます。
@@ -184,9 +180,9 @@ export function ProgramPhase3() {
                     <li>
                         <ProgramCard
                             imageUrl="/images/home/program-3-1.png"
-                            title="レクチャー&Meetup #02"
-                            dateTime="2025.11.02"
-                            location="TBD in Tokyo"
+                            title="#5 レクチャー&Meetup"
+                            dateTime="2025.11.02 13:00-17:00"
+                            location="都内某所"
                         >
                             <div className="text-fluid-sm leading-snug">
                                 Phase 2「真っすぐにつくる」からPhase 3「自分と向き合う」へ
@@ -196,9 +192,9 @@ export function ProgramPhase3() {
                     <li>
                         <ProgramCard
                             imageUrl="/images/home/program-3-2.png"
-                            title="成果発表会・展示会「プロジェクト・フェア」"
+                            title="#6 成果発表会・展示会「プロジェクト・フェア」"
                             dateTime="2025.11.30"
-                            location="TBD in Tokyo"
+                            location="TiB (Tokyo Innovation Base)"
                         >
                             <p className="text-fluid-sm leading-snug">
                                 ラボを通じて磨いてきたアウトプットを発表・体験してもらうことで、共に歩んでくれる仲間を見つけたり、
