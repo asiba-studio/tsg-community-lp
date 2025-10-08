@@ -45,6 +45,7 @@ export function ProgramPhase1() {
                             title="#1 LAB.合同キックオフ"
                             dateTime="2025.08.24 13:00-17:00"
                             location="TiB(Tokyo Innovation Base)"
+                            reportSlug="report-day1"
                         >
                             <div className="text-fluid-sm leading-snug">
                                 6種類のラボの参加者が一堂に会す合同キックオフ。実施事項は以下の通りです。
