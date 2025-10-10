@@ -137,6 +137,22 @@ NPO法人ETIC.とASIBAは、Tokyo Startup Gateway と連携した探求・実践
 > **MEsとは**  
 > 3D空間で創発的にモノづくりに没入できるデジタルツールです。オンライン上でも、互いのクリエイティビティに触れ合いながら、自由自在にコラボレーションできる、クリエイティブな環境をサポートします。
 
+
+<div class="article-image-container">
+  <Image
+    src="/images/news/news-01/mes.jpg" 
+    alt="MEs" 
+    width={1200} height={800}
+    quality={85}
+    sizes="(max-width: 768px) 100vw, 80vw"
+    class="article-image"
+  >
+  <div class="article-caption">
+    <a href="https://www.o-me.io/" target="_blank" class="text-sm" >https://www.o-me.io/</a>
+  </div>
+</div>
+
+
 <div class="article-image-container">
   <Image
     src="/images/articles/day2/img07.jpg" 

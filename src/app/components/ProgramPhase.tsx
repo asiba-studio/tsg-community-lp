@@ -63,6 +63,7 @@ export function ProgramPhase1() {
                             title="#2 フィールドワーク"
                             dateTime="2025.08.31 10:30-15:30"
                             location="SHIMOKITA COLLEGE"
+                            reportSlug="report-day2"
                         >
                             <p className="text-fluid-sm leading-snug">
                             「見る」「感じる」「つくる」を繰り返す1day フィールドワーク。
