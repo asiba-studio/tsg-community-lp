@@ -18,7 +18,7 @@ export default async function Page() {
 
   const news = (await getNews());
   const articles = (await getArticles());
-  const openTalks = OPEN_TALKS.slice(0,2); // 最新の2件を表示
+  const openTalks = OPEN_TALKS.slice(2,4); // 最新の2件を表示
 
   return (
     <div>
@@ -108,10 +108,8 @@ export default async function Page() {
             </div>
 
             <div className="text-fluid-lg leading-normal pt-14 pl-6 w-full">
-              ◾️第3回以降は随時公開予定です。開催日は以下の通りです。
+              ◾️第5回は随時公開予定です。開催日は以下の通りです。
               <ul className="mt-4 ml-4">
-                <li>#3 開催日：2025.10.23</li>
-                <li>#4 開催日：2025.11.2</li>
                 <li>#5 開催日：2025.11.14</li>
               </ul>
             </div>
