@@ -45,10 +45,11 @@ export default function ProgramDetailSection() {
                                 imageUrl="/images/home/mes_2-1.jpg"
                                 width="100%"
                                 className="overflow-hidden aspect-square"
+                                aspectRatio={2}
                             />
                         </div>
                         <div className="pt-2 block lg:hidden">
-                            <Image 
+                            <Image
                                 src="/images/home/mes_2-1.jpg"
                                 alt="MEs image"
                                 width={2400} height={1200}

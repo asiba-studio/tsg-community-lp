@@ -61,7 +61,7 @@ export default function ContentCard({
 
     // 画像URLの生成
     const rawImageUrl = content.coverImage || '';
-    const imageUrl = getResizedImageUrl(rawImageUrl, 500, 500);
+    const imageUrl = getResizedImageUrl(rawImageUrl, 800, 800);
     const hasImage = Boolean(rawImageUrl);
 
     return (
