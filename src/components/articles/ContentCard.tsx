@@ -44,17 +44,24 @@ export default function ContentCard({
     mosaicSize = 'medium'
 }: Props) {
 
-    // 【修正】リンク生成ロジック
-    // Articleの場合は、noteUrl(link)があっても強制的に内部詳細ページ(/articles/[slug])へ遷移させます。
-    // NewsやOpenTalksなど、外部記事として扱いたいものは引き続き外部linkを優先します。
-    const isInternal = content.type === 'article' || !content.link;
+    // リンク生成ロジック
+    // Article: noteUrl(link)があっても強制的に内部詳細ページへ遷移
+    // News / OpenTalks: link(外部URL)があれば外部へ、なければ内部詳細ページへ遷移
+    let isInternal = true;
+
+    if (content.type === 'article') {
+        isInternal = true;
+    } else {
+        // News, OpenTalksなどは link があれば外部とみなす
+        isInternal = !content.link;
+    }
 
     const href = isInternal ? `${basePath}/${content.slug}` : content.link!;
     const target = isInternal ? '_self' : '_blank';
 
     // 画像URLの生成
     const rawImageUrl = content.coverImage || '';
-    const imageUrl = getResizedImageUrl(rawImageUrl, 700, 700);
+    const imageUrl = getResizedImageUrl(rawImageUrl, 500, 500);
     const hasImage = Boolean(rawImageUrl);
 
     return (

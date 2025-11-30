@@ -11,12 +11,13 @@ import ApplicationSection from "./components/ApllicationSection";
 //import PlayerSection from "./components/PlayerSection";
 import Tagline from "./components/Tagline";
 import Image from "next/image";
-import { getArticles } from "@/lib/api";
+import { getArticles, getNews } from "@/lib/api";
 
 
 export default async function Page() {
 
   const articles = await getArticles();
+  const news = await getNews();
   const openTalks = OPEN_TALKS.slice(2, 4); // 最新の2件を表示
 
   return (
@@ -68,7 +69,7 @@ export default async function Page() {
               News
             </h2>
 
-            {/*}
+
 
             <div className="hidden md:block">
               <ContentList contents={news} basePath="/news" columns={2} gap={100} enableMosaic={false} />
@@ -77,7 +78,7 @@ export default async function Page() {
               <ContentList contents={news} basePath="/news" columns={1} gap={100} enableMosaic={false} />
             </div>
 
-            */}
+
 
           </section>
 
