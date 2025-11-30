@@ -15,25 +15,21 @@ interface Props {
 
 // Contentfulの画像URLにリサイズパラメータを付与するヘルパー関数
 const getResizedImageUrl = (url: string, width: number, height?: number) => {
-    // URLがない場合は空文字を返す
     if (!url) return '';
-
-    // 【修正】URLの前後の空白を除去（稀に混入することがあるため）
     let finalUrl = url.trim();
 
-    // プロトコル補完: // で始まる場合は https: を付与
     if (finalUrl.startsWith('//')) {
         finalUrl = `https:${finalUrl}`;
     }
 
     if (!finalUrl.includes('ctfassets.net')) return finalUrl;
 
-    // 既にパラメータがあるかチェック
     const separator = finalUrl.includes('?') ? '&' : '?';
 
-    let params = `w=${width}&q=80`; // 幅指定、画質80%
+    // fm=autoは削除 (Contentfulのエラー回避)
+    let params = `w=${width}&q=80`;
     if (height) {
-        params += `&h=${height}&fit=fill`; // 高さ指定がある場合は切り抜き
+        params += `&h=${height}&fit=fill`;
     }
 
     return `${finalUrl}${separator}${params}`;
@@ -48,25 +44,27 @@ export default function ContentCard({
     mosaicSize = 'medium'
 }: Props) {
 
-    let href = `${basePath}/${content.slug}`;
-    if (content.link) {
-        href = content.link;
-    }
+    // 【修正】リンク生成ロジック
+    // Articleの場合は、noteUrl(link)があっても強制的に内部詳細ページ(/articles/[slug])へ遷移させます。
+    // NewsやOpenTalksなど、外部記事として扱いたいものは引き続き外部linkを優先します。
+    const isInternal = content.type === 'article' || !content.link;
+
+    const href = isInternal ? `${basePath}/${content.slug}` : content.link!;
+    const target = isInternal ? '_self' : '_blank';
 
     // 画像URLの生成
     const rawImageUrl = content.coverImage || '';
-    const imageUrl = getResizedImageUrl(rawImageUrl, 800, 800);
+    const imageUrl = getResizedImageUrl(rawImageUrl, 700, 700);
     const hasImage = Boolean(rawImageUrl);
 
     return (
         <Link
             href={href}
             className="group block no-underline overflow-hidden hover:opacity-100"
-            target={content.link ? '_blank' : '_self'}
+            target={target}
         >
             <article>
                 {/* Cover Image */}
-                {/* aspect-squareでラッパーも1:1を強制。画像がない場合はグレー背景を表示 */}
                 <div className="relative w-full aspect-square bg-gray-100">
                     {hasImage ? (
                         enableMosaic ? (
@@ -85,11 +83,10 @@ export default function ContentCard({
                                 priority={featured}
                                 quality={80}
                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                unoptimized={true} // Next.jsの最適化をスキップし、ContentfulのURLを直接使用
+                                unoptimized={true}
                             />
                         )
                     ) : (
-                        // 画像がない場合のフォールバック
                         <div className="absolute inset-0 flex items-center justify-center text-gray-300">
                             <span className="text-sm font-bold">No Image</span>
                         </div>
@@ -103,7 +100,7 @@ export default function ContentCard({
                                     key={tag}
                                     className="text-gray-500 leading-none font-en font-medium 
                                         text-fluid-sm transition-colors duration-200 
-                                        group-hover:text-gray-100"
+                                        group-hover:text-gray-100 bg-white/10 backdrop-blur-[2px] px-1 rounded-sm"
                                 >
                                     # {tag}
                                 </span>

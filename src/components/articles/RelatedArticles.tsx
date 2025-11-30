@@ -1,25 +1,47 @@
-// src/components/RelatedArticles.tsx
 import Image from 'next/image';
 import Link from 'next/link';
-import { getArticles } from '@/lib/cms';
-import { formatDate } from '@/lib/date';
+import { getArticles } from '@/lib/api';
+import { formatDateDot } from '@/lib/date';
 
 interface Props {
   currentSlug: string;
   tags: string[];
 }
 
+// ContentCardと同じ画像処理ロジック
+const getResizedImageUrl = (url: string, width: number, height?: number) => {
+  if (!url) return '';
+  let finalUrl = url.trim();
+
+  if (finalUrl.startsWith('//')) {
+    finalUrl = `https:${finalUrl}`;
+  }
+
+  if (!finalUrl.includes('ctfassets.net')) return finalUrl;
+
+  const separator = finalUrl.includes('?') ? '&' : '?';
+
+  // fm=autoは削除
+  let params = `w=${width}&q=80`;
+  if (height) {
+    params += `&h=${height}&fit=fill`;
+  }
+
+  return `${finalUrl}${separator}${params}`;
+};
+
 export default async function RelatedArticles({ currentSlug, tags }: Props) {
   const allArticles = await getArticles();
-  
+
   // 現在の記事を除外
   const otherArticles = allArticles.filter(article => article.slug !== currentSlug);
-  
+
   // タグが一致する記事を優先的に取得
   const relatedArticles = otherArticles
     .map(article => ({
       ...article,
-      matchingTags: article.tags.filter(tag => tags.includes(tag)).length
+      // tagsが存在しない場合の安全策を追加
+      matchingTags: article.tags ? article.tags.filter(tag => tags.includes(tag)).length : 0
     }))
     .sort((a, b) => {
       // マッチするタグ数で並び替え、同じ場合は日付で並び替え
@@ -37,74 +59,93 @@ export default async function RelatedArticles({ currentSlug, tags }: Props) {
   return (
     <div className="bg-white rounded-lg shadow-sm p-6">
       <h2 className="text-2xl font-bold text-gray-900 mb-6">関連記事</h2>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {relatedArticles.map((article) => (
-          <Link
-            key={article.slug}
-            href={`/articles/${article.slug}`}
-            className="group block bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow"
-          >
-            {/* カバー画像 */}
-            <div className="relative aspect-[16/9]">
-              <Image
-                src={article.coverImage}
-                alt={article.title}
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              {article.featured && (
-                <div className="absolute top-3 left-3">
-                  <span className="px-2 py-1 bg-yellow-500 text-white text-xs font-medium rounded">
-                    注目
-                  </span>
+        {relatedArticles.map((article) => {
+          // 画像URLの生成 (16:9比率)
+          const imageUrl = getResizedImageUrl(article.coverImage, 400, 225);
+
+          return (
+            <Link
+              key={article.slug}
+              href={`/articles/${article.slug}`}
+              className="group block bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow"
+            >
+              {/* カバー画像 */}
+              <div className="relative aspect-[16/9] bg-gray-100">
+                {imageUrl ? (
+                  <Image
+                    src={imageUrl}
+                    alt={article.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    unoptimized={true} // Contentful画像対応
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center text-gray-300">
+                    <span className="text-sm font-bold">No Image</span>
+                  </div>
+                )}
+
+                {/* featuredフラグは現在の型定義には含まれていないため、
+                   もしContentful側でfeaturedフラグを追加した場合はここを復活させてください 
+                */}
+                {/* {article.featured && (
+                  <div className="absolute top-3 left-3">
+                    <span className="px-2 py-1 bg-yellow-500 text-white text-xs font-medium rounded">
+                      注目
+                    </span>
+                  </div>
+                )} */}
+              </div>
+
+              {/* 記事情報 */}
+              <div className="p-4">
+                <h3 className="font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">
+                  {article.title}
+                </h3>
+
+                {article.excerpt && (
+                  <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+                    {article.excerpt}
+                  </p>
+                )}
+
+                {/* メタ情報 */}
+                <div className="flex items-center justify-between text-xs text-gray-500">
+                  <time>{formatDateDot(article.date)}</time>
+                  {article.matchingTags > 0 && (
+                    <span className="text-blue-600">
+                      {article.matchingTags}個の共通タグ
+                    </span>
+                  )}
                 </div>
-              )}
-            </div>
 
-            {/* 記事情報 */}
-            <div className="p-4">
-              <h3 className="font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">
-                {article.title}
-              </h3>
-              
-              <p className="text-gray-600 text-sm mb-3 line-clamp-2">
-                {article.excerpt}
-              </p>
-
-              {/* メタ情報 */}
-              <div className="flex items-center justify-between text-xs text-gray-500">
-                <time>{formatDate(article.date, 'ja-JP')}</time>
-                {article.matchingTags > 0 && (
-                  <span className="text-blue-600">
-                    {article.matchingTags}個の共通タグ
-                  </span>
+                {/* タグ */}
+                {article.tags && article.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-1 mt-3">
+                    {article.tags.slice(0, 2).map((tag) => (
+                      <span
+                        key={tag}
+                        className={`px-2 py-1 text-xs rounded-full ${tags.includes(tag)
+                            ? 'bg-blue-100 text-blue-800'
+                            : 'bg-gray-100 text-gray-600'
+                          }`}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                    {article.tags.length > 2 && (
+                      <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">
+                        +{article.tags.length - 2}
+                      </span>
+                    )}
+                  </div>
                 )}
               </div>
-
-              {/* タグ */}
-              <div className="flex flex-wrap gap-1 mt-3">
-                {article.tags.slice(0, 2).map((tag) => (
-                  <span
-                    key={tag}
-                    className={`px-2 py-1 text-xs rounded-full ${
-                      tags.includes(tag)
-                        ? 'bg-blue-100 text-blue-800'
-                        : 'bg-gray-100 text-gray-600'
-                    }`}
-                  >
-                    {tag}
-                  </span>
-                ))}
-                {article.tags.length > 2 && (
-                  <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">
-                    +{article.tags.length - 2}
-                  </span>
-                )}
-              </div>
-            </div>
-          </Link>
-        ))}
+            </Link>
+          );
+        })}
       </div>
 
       {/* もっと見るボタン */}
