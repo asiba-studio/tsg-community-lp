@@ -1,17 +1,15 @@
-// src/lib/api.ts
-
 import {
     createClient,
     EntryFieldTypes,
     Asset,
 } from 'contentful';
+import { unstable_cache } from 'next/cache'; // ★追加
 import { Article, News } from './types';
 
 // Site Skeleton
 type SiteSkeleton = {
     contentTypeId: 'site';
     fields: {
-        // nameかtitleかはどちらでもOKですが、前の会話に基づき定義
         title: EntryFieldTypes.Symbol;
         slug: EntryFieldTypes.Symbol;
     }
@@ -26,7 +24,6 @@ type ArticleSkeleton = {
         slug: EntryFieldTypes.Symbol;
         cover: EntryFieldTypes.AssetLink;
         cover2: EntryFieldTypes.AssetLink;
-        // publishSites は Siteモデルへの参照配列
         publishSites: EntryFieldTypes.Array<EntryFieldTypes.EntryLink<SiteSkeleton>>;
         summary: EntryFieldTypes.Text;
         body: EntryFieldTypes.RichText;
@@ -43,7 +40,6 @@ type NewsSkeleton = {
         title: EntryFieldTypes.Symbol;
         subtitle: EntryFieldTypes.Symbol;
         slug: EntryFieldTypes.Symbol;
-        // publishSites は Siteモデルへの参照配列
         publishSites: EntryFieldTypes.Array<EntryFieldTypes.EntryLink<SiteSkeleton>>;
         cover: EntryFieldTypes.AssetLink;
         summary: EntryFieldTypes.Text;
@@ -87,14 +83,16 @@ async function getSiteIdBySlug(slug: string): Promise<string | null> {
     return null;
 }
 
-// 記事取得
-export async function getArticles(): Promise<Article[]> {
+// ----------------------------------------------------------------
+// ★ここから変更: 元の処理を関数として定義し、unstable_cache でラップする
+// ----------------------------------------------------------------
 
+// Article取得の生ロジック
+const fetchArticlesData = async (): Promise<Article[]> => {
     // 1. まずSiteのIDを取得する
-    const targetSiteSlug = 'creative-lab-lp'; // ← Siteのslugを指定
+    const targetSiteSlug = 'creative-lab-lp';
     const siteId = await getSiteIdBySlug(targetSiteSlug);
 
-    // Siteが見つからない場合は空配列を返して終了（エラー回避）
     if (!siteId) {
         console.warn(`Site not found with slug: ${targetSiteSlug}`);
         return [];
@@ -106,11 +104,7 @@ export async function getArticles(): Promise<Article[]> {
         .withAllLocales
         .getEntries<ArticleSkeleton>({
             content_type: 'article',
-
-            // 【重要】配列Referenceの検索は、中身ではなく「sys.id」で行う必要があります
-            // 「publishSitesの中に、このIDが含まれているか」という検索になります
             'fields.publishSites.sys.id[in]': [siteId],
-
             order: ['-fields.publishDate'] as any,
         });
 
@@ -146,16 +140,22 @@ export async function getArticles(): Promise<Article[]> {
             body: body,
         };
     });
-}
+};
 
-// News取得関数 (変更なし)
-export async function getNews(): Promise<News[]> {
+// ★エクスポートする関数 (キャッシュ付き)
+export const getArticles = unstable_cache(
+    fetchArticlesData,
+    ['articles-list'], // 内部的なキャッシュキー (識別子)
+    { tags: ['contentful-lp'] } // ★ Webhookで指定するタグ
+);
 
+
+// News取得の生ロジック
+const fetchNewsData = async (): Promise<News[]> => {
     // 1. まずSiteのIDを取得する
-    const targetSiteSlug = 'creative-lab-lp'; // ← Siteのslugを指定
+    const targetSiteSlug = 'creative-lab-lp';
     const siteId = await getSiteIdBySlug(targetSiteSlug);
 
-    // Siteが見つからない場合は空配列を返して終了（エラー回避）
     if (!siteId) {
         console.warn(`Site not found with slug: ${targetSiteSlug}`);
         return [];
@@ -166,11 +166,7 @@ export async function getNews(): Promise<News[]> {
         .withAllLocales
         .getEntries<NewsSkeleton>({
             content_type: 'news',
-
-            // 【重要】配列Referenceの検索は、中身ではなく「sys.id」で行う必要があります
-            // 「publishSitesの中に、このIDが含まれているか」という検索になります
             'fields.publishSites.sys.id[in]': [siteId],
-
             order: ['-fields.publishDate'] as any,
         });
 
@@ -203,4 +199,11 @@ export async function getNews(): Promise<News[]> {
             body: body,
         };
     });
-}
+};
+
+// ★エクスポートする関数 (キャッシュ付き)
+export const getNews = unstable_cache(
+    fetchNewsData,
+    ['news-list'], // 内部的なキャッシュキー
+    { tags: ['contentful-lp'] } // ★ Webhookで指定するタグ
+);

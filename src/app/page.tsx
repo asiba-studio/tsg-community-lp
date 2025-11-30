@@ -1,3 +1,4 @@
+// src/app/page.tsx
 
 import HeroSection from "./components/HeroSection";
 import { StatementShort } from "./components/Statement";
