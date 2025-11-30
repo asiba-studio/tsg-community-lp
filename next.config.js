@@ -4,6 +4,7 @@ const nextConfig = {
   // output: 'export',
   images: {
     unoptimized: false,
+    domains: ['images.ctfassets.net'],
   },
 };
 

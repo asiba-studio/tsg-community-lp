@@ -58,7 +58,7 @@ export default function ContentList({
     >
       {contents.map((content) => (
         <ContentCard
-          key={content.slug} // Contentfulでもslugを一意のキーとして利用
+          key={content.slug}
           content={content}
           basePath={basePath}
           description={description}

@@ -1,18 +1,43 @@
-// src/components/ContentCard.tsx
 import Link from 'next/link';
 import Image from 'next/image';
 import { formatDateDot } from '@/lib/date';
-import { ContentItem } from '@/lib/types'; // 統一した型をインポート
+import { ContentItem } from '@/lib/types';
 import InteractiveMosaic02, { MosaicSize } from '../InteractiveMosaic02';
 
 interface Props {
-    content: ContentItem; // 型を統一
+    content: ContentItem;
     featured?: boolean;
     basePath: '/articles' | '/news' | '/open-talks';
     description?: boolean;
     enableMosaic?: boolean;
     mosaicSize?: MosaicSize;
 }
+
+// Contentfulの画像URLにリサイズパラメータを付与するヘルパー関数
+const getResizedImageUrl = (url: string, width: number, height?: number) => {
+    // URLがない場合は空文字を返す
+    if (!url) return '';
+
+    // 【修正】URLの前後の空白を除去（稀に混入することがあるため）
+    let finalUrl = url.trim();
+
+    // プロトコル補完: // で始まる場合は https: を付与
+    if (finalUrl.startsWith('//')) {
+        finalUrl = `https:${finalUrl}`;
+    }
+
+    if (!finalUrl.includes('ctfassets.net')) return finalUrl;
+
+    // 既にパラメータがあるかチェック
+    const separator = finalUrl.includes('?') ? '&' : '?';
+
+    let params = `w=${width}&q=80`; // 幅指定、画質80%
+    if (height) {
+        params += `&h=${height}&fit=fill`; // 高さ指定がある場合は切り抜き
+    }
+
+    return `${finalUrl}${separator}${params}`;
+};
 
 export default function ContentCard({
     content,
@@ -28,11 +53,10 @@ export default function ContentCard({
         href = content.link;
     }
 
-    // 【重要】Contentfulの画像URL対応
-    // Contentfulの画像URLが "//images.ctfassets.net/..." のように返ってくる場合の対策
-    const imageUrl = content.coverImage.startsWith('//')
-        ? `https:${content.coverImage}`
-        : content.coverImage;
+    // 画像URLの生成
+    const rawImageUrl = content.coverImage || '';
+    const imageUrl = getResizedImageUrl(rawImageUrl, 800, 800);
+    const hasImage = Boolean(rawImageUrl);
 
     return (
         <Link
@@ -41,42 +65,45 @@ export default function ContentCard({
             target={content.link ? '_blank' : '_self'}
         >
             <article>
-                {/* Cover Image Area */}
-                <div className="relative w-full aspect-square">
-                    {/* ↑ aspect-square (1x1) を親divに強制指定します。
-                      Contentfulから来る画像が1x1でない場合でもレイアウト崩れを防ぐためです。
-                      もし画像自体が厳密に1x1なら aspect-auto でも構いません。
-                    */}
-
-                    {enableMosaic ? (
-                        <InteractiveMosaic02
-                            imageUrl={imageUrl} // 正規化したURLを渡す
-                            width="100%"
-                            mosaicSize={mosaicSize}
-                        />
+                {/* Cover Image */}
+                {/* aspect-squareでラッパーも1:1を強制。画像がない場合はグレー背景を表示 */}
+                <div className="relative w-full aspect-square bg-gray-100">
+                    {hasImage ? (
+                        enableMosaic ? (
+                            <InteractiveMosaic02
+                                imageUrl={imageUrl}
+                                width="100%"
+                                mosaicSize={mosaicSize}
+                                aspectRatio={1}
+                            />
+                        ) : (
+                            <Image
+                                src={imageUrl}
+                                alt={content.title}
+                                fill
+                                className="object-cover"
+                                priority={featured}
+                                quality={80}
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                unoptimized={true} // Next.jsの最適化をスキップし、ContentfulのURLを直接使用
+                            />
+                        )
                     ) : (
-                        <Image
-                            src={imageUrl} // 正規化したURLを渡す
-                            alt={content.title}
-                            width={750}
-                            height={750}
-                            className="w-full h-full object-cover" // h-fullに変更してaspect比に追従
-                            priority={featured}
-                            quality={80}
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        />
+                        // 画像がない場合のフォールバック
+                        <div className="absolute inset-0 flex items-center justify-center text-gray-300">
+                            <span className="text-sm font-bold">No Image</span>
+                        </div>
                     )}
 
                     {/* Tags */}
                     {content.tags && content.tags.length > 0 && (
-                        <div className="absolute bottom-1.5 left-2 flex flex-col gap-1 z-10">
+                        <div className="absolute bottom-1.5 left-2 flex flex-col gap-1 z-10 pointer-events-none">
                             {content.tags.slice(0, 3).map((tag) => (
                                 <span
                                     key={tag}
                                     className="text-gray-500 leading-none font-en font-medium 
                                         text-fluid-sm transition-colors duration-200 
-                                        group-hover:text-gray-100 bg-white/10 backdrop-blur-[2px] px-1 rounded-sm"
-                                // ↑ 視認性向上のため、背景ぼかしなどを少し入れるとContentfulの様々な画像に対応しやすいです
+                                        group-hover:text-gray-100"
                                 >
                                     # {tag}
                                 </span>
@@ -92,7 +119,7 @@ export default function ContentCard({
                             leading-none text-fluid-sm 
                             transition-colors duration-200 
                             group-hover:text-gray-100
-                            z-10
+                            z-10 pointer-events-none
                         ">
                             {formatDateDot(content.date)}
                         </div>
@@ -113,10 +140,9 @@ export default function ContentCard({
                         {content.title}
                     </h3>
 
-                    {/* Description - RichText由来のexcerptを表示 */}
+                    {/* Description */}
                     {description && content.excerpt && (
                         <p className="text-fluid-sm text-gray-600 mt-6 w-2/3 line-clamp-3">
-                            {/* line-clampで行数制限をかけると安全です */}
                             {content.excerpt}
                         </p>
                     )}
