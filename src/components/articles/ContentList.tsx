@@ -1,11 +1,9 @@
 // src/components/ContentList.tsx
 'use client';
 
-import { Article, News, OpenTalk } from '@/lib/types';
+import { ContentItem } from '@/lib/types';
 import ContentCard from './ContentCard';
 import { MosaicSize } from '../InteractiveMosaic02';
-
-type ContentItem = Article | News | OpenTalk;
 
 interface ResponsiveColumns {
   default?: number;
@@ -17,58 +15,57 @@ interface ResponsiveColumns {
 }
 
 interface Props {
-   contents: ContentItem[];
-   basePath: '/articles' | '/news' | '/open-talks';
-   columns?: number | ResponsiveColumns;
-   gap?: number | string;
-   description?: boolean;
-   enableMosaic?: boolean;
-   mosaicSize?: MosaicSize; // モザイクサイズを制御
+  contents: ContentItem[]; // 統一型を利用
+  basePath: '/articles' | '/news' | '/open-talks';
+  columns?: number | ResponsiveColumns;
+  gap?: number | string;
+  description?: boolean;
+  enableMosaic?: boolean;
+  mosaicSize?: MosaicSize;
 }
 
-export default function ContentList({ 
-   contents, 
-   basePath, 
-   columns = 3, 
-   gap = 10,
-   description = false,
-   enableMosaic = true,
-   mosaicSize = 'medium' // デフォルトは中程度のモザイク
+export default function ContentList({
+  contents,
+  basePath,
+  columns = 3,
+  gap = 10,
+  description = false,
+  enableMosaic = true,
+  mosaicSize = 'medium'
 }: Props) {
-   const gapValue = typeof gap === 'number' ? `${gap}px` : gap;
+  const gapValue = typeof gap === 'number' ? `${gap}px` : gap;
 
-   // CSS Grid用のクラス生成
-   const getGridClasses = () => {
-     if (typeof columns === 'number') {
-       return `grid-cols-${columns}`;
-     }
+  const getGridClasses = () => {
+    if (typeof columns === 'number') {
+      return `grid-cols-${columns}`;
+    }
 
-     let classes = '';
-     if (columns.default) classes += `grid-cols-${columns.default} `;
-     if (columns.sm) classes += `sm:grid-cols-${columns.sm} `;
-     if (columns.md) classes += `md:grid-cols-${columns.md} `;
-     if (columns.lg) classes += `lg:grid-cols-${columns.lg} `;
-     if (columns.xl) classes += `xl:grid-cols-${columns.xl} `;
-     if (columns['2xl']) classes += `2xl:grid-cols-${columns['2xl']} `;
-     
-     return classes.trim();
-   };
+    let classes = '';
+    if (columns.default) classes += `grid-cols-${columns.default} `;
+    if (columns.sm) classes += `sm:grid-cols-${columns.sm} `;
+    if (columns.md) classes += `md:grid-cols-${columns.md} `;
+    if (columns.lg) classes += `lg:grid-cols-${columns.lg} `;
+    if (columns.xl) classes += `xl:grid-cols-${columns.xl} `;
+    if (columns['2xl']) classes += `2xl:grid-cols-${columns['2xl']} `;
 
-   return (
-       <div 
-         className={`grid ${getGridClasses()}`}
-         style={{ gap: gapValue }}
-       >
-           {contents.map((content) => (
-               <ContentCard
-                   key={content.slug}
-                   content={content}
-                   basePath={basePath}
-                   description={description}
-                   enableMosaic={enableMosaic}
-                   mosaicSize={mosaicSize}
-               />
-           ))}
-       </div>
-   );
+    return classes.trim();
+  };
+
+  return (
+    <div
+      className={`grid ${getGridClasses()}`}
+      style={{ gap: gapValue }}
+    >
+      {contents.map((content) => (
+        <ContentCard
+          key={content.slug} // Contentfulでもslugを一意のキーとして利用
+          content={content}
+          basePath={basePath}
+          description={description}
+          enableMosaic={enableMosaic}
+          mosaicSize={mosaicSize}
+        />
+      ))}
+    </div>
+  );
 }

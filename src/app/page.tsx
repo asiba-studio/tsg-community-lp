@@ -3,7 +3,6 @@ import HeroSection from "./components/HeroSection";
 import { StatementShort } from "./components/Statement";
 import { SimpleButton } from "@/components/button";
 import ContentList from "@/components/articles/ContentList";
-import { getArticles, getNews } from "@/lib/cms";
 import { OPEN_TALKS } from "@/lib/openTalks";
 import { ProgramPhase1, ProgramPhase2, ProgramPhase3 } from "./components/ProgramPhase";
 import { Header, Menu } from "@/components/layout";
@@ -12,13 +11,13 @@ import ApplicationSection from "./components/ApllicationSection";
 //import PlayerSection from "./components/PlayerSection";
 import Tagline from "./components/Tagline";
 import Image from "next/image";
+import { getArticles } from "@/lib/api";
 
 
 export default async function Page() {
 
-  const news = (await getNews());
-  const articles = (await getArticles());
-  const openTalks = OPEN_TALKS.slice(2,4); // 最新の2件を表示
+  const articles = await getArticles();
+  const openTalks = OPEN_TALKS.slice(2, 4); // 最新の2件を表示
 
   return (
     <div>
@@ -28,7 +27,7 @@ export default async function Page() {
         <HeroSection />
       </section>
       <section className="block md:hidden w-full">
-        <Image src="/images/common/keyvisual-mobile.jpg" alt="Key Visual" width={1200} height={1500} className="w-full object-cover" quality={60} sizes="100vw"/>
+        <Image src="/images/common/keyvisual-mobile.jpg" alt="Key Visual" width={1200} height={1500} className="w-full object-cover" quality={60} sizes="100vw" />
       </section>
 
       {/* Navigation */}
@@ -69,12 +68,16 @@ export default async function Page() {
               News
             </h2>
 
+            {/*}
+
             <div className="hidden md:block">
               <ContentList contents={news} basePath="/news" columns={2} gap={100} enableMosaic={false} />
             </div>
             <div className="block md:hidden">
               <ContentList contents={news} basePath="/news" columns={1} gap={100} enableMosaic={false} />
             </div>
+
+            */}
 
           </section>
 
@@ -170,13 +173,13 @@ export default async function Page() {
             </h2>
             <div className="w-full">
               <div className="hidden lg:block w-full">
-                <ContentList contents={articles} basePath="/articles" columns={1} gap={100} enableMosaic={true}/>
+                <ContentList contents={articles} basePath="/articles" columns={1} gap={100} enableMosaic={true} />
               </div>
               <div className="block lg:hidden w-full">
-                <ContentList contents={articles} basePath="/articles" columns={1} gap={100} enableMosaic={false}/>
+                <ContentList contents={articles} basePath="/articles" columns={1} gap={100} enableMosaic={false} />
               </div>
             </div>
-            
+
           </section>
 
 
