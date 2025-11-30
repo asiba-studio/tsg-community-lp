@@ -15,7 +15,7 @@ export default function Header() {
                     <div>
                         <Link href="/" className="group flex items-center gap-2 px-6 relative">
                             <img src="/images/logo/logo-creative-lab.png" alt="Logo" className="h-12" />
-                            <img src="/gifs/green-mosaic.gif" className="absolute top-0 left-0 inset-y-0 my-auto scale-x-[1.2] scale-y-[0.9] h-full -z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                            <img src="/gifs/green-mosaic.gif" alt="Green Mosaic" className="absolute top-0 left-0 inset-y-0 my-auto scale-x-[1.2] scale-y-[0.9] h-full -z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
                         </Link>
                     </div>
                     <div className="flex justify-end items-center gap-8 font-en font-medium text-lg px-6">
