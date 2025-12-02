@@ -1,7 +1,7 @@
 // src/components/ContentList.tsx
 'use client';
 
-import { ContentItem } from 'lib/types';
+import { ContentItem, ProgramTerm } from 'lib/types';
 import ContentCard from './ContentCard';
 import { MosaicSize } from '../InteractiveMosaic02';
 
@@ -22,6 +22,7 @@ interface Props {
   description?: boolean;
   enableMosaic?: boolean;
   mosaicSize?: MosaicSize;
+  programTerms?: ProgramTerm[];
 }
 
 export default function ContentList({
@@ -31,9 +32,31 @@ export default function ContentList({
   gap = 10,
   description = false,
   enableMosaic = true,
-  mosaicSize = 'medium'
+  mosaicSize = 'medium',
+  programTerms
 }: Props) {
   const gapValue = typeof gap === 'number' ? `${gap}px` : gap;
+
+  // フィルタリング対象の期のリストを作成
+  let targetTerms: ProgramTerm[] | undefined;
+  if (programTerms) {
+    targetTerms = Array.isArray(programTerms) ? programTerms : [programTerms];
+  }
+
+  // フィルタリングされたコンテンツ
+  const filteredContents = contents.filter(content => {
+    // 1. フィルタ条件がない、または空の場合は「全て表示」
+    if (!targetTerms || targetTerms.length === 0) return true;
+
+    // 2. 記事側の期を取得（データ取得は成功しているので、ここには ['2ND'] などが入っているはず）
+    const contentTerms = content.programTerms || [];
+
+    if (contentTerms.length === 0) return false;
+
+    // 3. 【重要】some + includes で交差判定
+    // 「記事が持つタグのどれか一つでも、ターゲットに含まれているか？」
+    return contentTerms.some(term => targetTerms!.includes(term));
+  });
 
   const getGridClasses = () => {
     if (typeof columns === 'number') {
@@ -56,7 +79,7 @@ export default function ContentList({
       className={`grid ${getGridClasses()}`}
       style={{ gap: gapValue }}
     >
-      {contents.map((content) => (
+      {filteredContents.map((content) => (
         <ContentCard
           key={content.slug}
           content={content}

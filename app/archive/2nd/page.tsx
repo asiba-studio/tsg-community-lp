@@ -138,10 +138,10 @@ export default async function Page() {
               </h2>
               <div className="w-full">
                 <div className="hidden lg:block w-full">
-                  <ContentList contents={articles} basePath="/articles" columns={1} gap={100} enableMosaic={true} />
+                  <ContentList contents={articles} basePath="/articles" columns={1} gap={100} enableMosaic={true} programTerms={['2ND']} />
                 </div>
                 <div className="block lg:hidden w-full">
-                  <ContentList contents={articles} basePath="/articles" columns={1} gap={100} enableMosaic={false} />
+                  <ContentList contents={articles} basePath="/articles" columns={1} gap={100} enableMosaic={false} programTerms={['2ND']} />
                 </div>
               </div>
 

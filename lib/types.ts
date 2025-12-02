@@ -1,3 +1,7 @@
+// lib/types.ts
+
+export type ProgramTerm = '2ND' | '3RD';
+
 export interface ContentItem {
     id: string;
     slug: string;
@@ -16,6 +20,7 @@ export interface ContentItem {
     link?: string;   // 外部URL (NewsやOpenTalks用、ArticleではnoteUrl)
 
     type: 'article' | 'news' | 'open-talks';
+    programTerms?: ProgramTerm[];
 }
 
 // Article型
@@ -35,6 +40,17 @@ export type OpenTalk = ContentItem & {
     type: 'open-talks';
 };
 
+
+// customDataについて
+export interface CreativeLabData {
+    programTerms: ProgramTerm[];
+    // ... 他の creative-lab 関連のプロパティ
+}
+
+export interface CustomData {
+    'creative-lab-lp'?: CreativeLabData;
+    [key: string]: any; // 他のLPのデータも許容
+}
 
 import p5 from "p5";
 export interface P5SketchProps {

@@ -1,10 +1,12 @@
+// lib/api.ts
+
 import {
     createClient,
     EntryFieldTypes,
     Asset,
 } from 'contentful';
 import { unstable_cache } from 'next/cache'; // ★追加
-import { Article, News } from './types';
+import { Article, News, CreativeLabData, CustomData, ProgramTerm } from './types';
 
 // Site Skeleton
 type SiteSkeleton = {
@@ -30,6 +32,7 @@ type ArticleSkeleton = {
         keywords: EntryFieldTypes.Array<EntryFieldTypes.Symbol>;
         publishDate: EntryFieldTypes.Date;
         noteUrl: EntryFieldTypes.Symbol;
+        customData?: EntryFieldTypes.Object;
     }
 }
 
@@ -119,6 +122,25 @@ const fetchArticlesData = async (): Promise<Article[]> => {
         const noteUrl = getLocValue<string>(fields.noteUrl, 'ja');
         const body = getLocValue<any>(fields.body, 'ja');
 
+        // customData (JSONオブジェクト) を取得
+        // .withAllLocales を使っているため、getLocValue で皮（ja）を剥く必要があります
+        const customData = getLocValue<CustomData>(fields.customData, 'ja');
+        // これで customData は純粋な JSON オブジェクトになります
+        const creativeLabInfo = customData?.['creative-lab-lp'];
+
+        let terms: ProgramTerm[] = [];
+
+        if (creativeLabInfo?.programTerms) {
+            const rawTerm = creativeLabInfo.programTerms;
+            if (Array.isArray(rawTerm)) {
+                // 既に配列の場合 (例: ["2ND", "3RD"])
+                terms = rawTerm;
+            } else {
+                // 文字列の場合、配列に変換 (例: "2ND" -> ["2ND"])
+                terms = [rawTerm];
+            }
+        }
+
         const coverImage = getAssetUrl(fields.cover2, 'ja');
         const headerImage = getAssetUrl(fields.cover, 'ja');
 
@@ -138,6 +160,7 @@ const fetchArticlesData = async (): Promise<Article[]> => {
             link: noteUrl,
             type: 'article',
             body: body,
+            programTerms: terms,
         };
     });
 };
