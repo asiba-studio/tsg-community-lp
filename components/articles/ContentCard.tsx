@@ -72,7 +72,7 @@ export default function ContentCard({
         >
             <article>
                 {/* Cover Image */}
-                <div className="relative w-full aspect-square bg-gray-100">
+                <div className="relative w-full h-auto bg-gray-100">
                     {hasImage ? (
                         enableMosaic ? (
                             <InteractiveMosaic02
@@ -82,16 +82,22 @@ export default function ContentCard({
                                 aspectRatio={1}
                             />
                         ) : (
-                            <Image
-                                src={imageUrl}
-                                alt={content.title}
-                                fill
-                                className="object-cover"
-                                priority={featured}
-                                quality={80}
-                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                unoptimized={true}
-                            />
+                            <div
+                                className={`relative ${basePath === '/open-talks' ? 'aspect-[1200/580]' : 'aspect-[500/500]'
+                                    } inset-0 flex items-center justify-center text-gray-300`}
+                            >
+
+                                <Image
+                                    src={imageUrl}
+                                    alt={content.title}
+                                    fill
+                                    className="object-cover"
+                                    priority={featured}
+                                    quality={80}
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                    unoptimized={true}
+                                />
+                            </div>
                         )
                     ) : (
                         <div className="absolute inset-0 flex items-center justify-center text-gray-300">
