@@ -54,7 +54,7 @@ export default function ApplicationSection() {
             </section>
 
             {/* CTA Section*/}
-            <section>
+            <section id="application">
                 <h2>お申し込み</h2>
                 <ul className="space-y-2 custom-ul py-10 pl-[1.5vw]">
                     <li>Creative-LAB.への参加は、以下のリンクからアクセスいただきお申込みください。

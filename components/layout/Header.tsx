@@ -23,7 +23,7 @@ export default function Header() {
                         <HeaderButton label="Articles" href="/articles" />
                         <HeaderButton label="News" href="/articles#news" />
                         <HeaderButton label="Open TALKs" href="/open-talks" />
-                        <HeaderButton label="Application" href="/news/press-release#application" />
+                        <HeaderButton label="Application" href="/#application" />
                         <HeaderButton label="Archive" href="/archive/2nd" />
                     </div>
                 </nav>
