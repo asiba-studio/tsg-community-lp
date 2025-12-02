@@ -11,7 +11,7 @@ export default function ApplicationSection() {
             {/* Application Section */}
             <section>
                 <h2>募集要項</h2>
-                <ol className="space-y-2 custom-ol pt-10 pl-[1.5vw]">
+                <ol className="space-y-2 custom-ol py-10 pl-[1.5vw]">
                     <li>TSGの応募条件を満たしていること</li>
                     <li>建築・デザイン・アートといった、クリエイションに向き合いながら、起業やビジネスを考えている若者/学生</li>
                     {/*
@@ -42,13 +42,6 @@ export default function ApplicationSection() {
                     </li>
                     */}
                 </ol>
-                <div className="w-full flex justify-end pt-4 pb-10">
-                    <SimpleButton href="https://tsg-etic.my.site.com/TSG/s/login/?language=ja&ec=302&startURL=%2FTSG%2Fs%2F2025%2Flab-creative%3F_gl%3D1*g3ickt*_gcl_au*MTY2OTAxNjI0Ni4xNzUzNTE4OTYx*_ga*MTI0NDA3NjA2OS4xNzUwOTI0MDY4*_ga_PN1SX1X1K9*czE3NTM1NDU3MDEkbzMkZzEkdDE3NTM1NDU5MTMkajU0JGwwJGgw"
-                        icon="right"
-                        external
-                        className="font-zen"
-                    >お申し込み</SimpleButton>
-                </div>
             </section>
 
             {/* Special Notes Section*/}
