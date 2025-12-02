@@ -3,9 +3,9 @@ import Image from 'next/image';
 import { Metadata } from 'next';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS, INLINES } from '@contentful/rich-text-types';
-import { getNews } from '@/lib/api';
-import { Header, Menu } from '@/components/layout';
-import { formatDateDot } from '@/lib/date';
+import { getNews } from 'lib/api';
+import { Header, Menu } from 'components/layout';
+import { formatDateDot } from 'lib/date';
 
 interface Props {
     params: Promise<{ slug: string }>;

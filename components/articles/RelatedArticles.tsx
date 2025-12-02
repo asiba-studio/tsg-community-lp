@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { getArticles } from '@/lib/api';
-import { formatDateDot } from '@/lib/date';
+import { getArticles } from 'lib/api';
+import { formatDateDot } from 'lib/date';
 
 interface Props {
   currentSlug: string;
@@ -128,8 +128,8 @@ export default async function RelatedArticles({ currentSlug, tags }: Props) {
                       <span
                         key={tag}
                         className={`px-2 py-1 text-xs rounded-full ${tags.includes(tag)
-                            ? 'bg-blue-100 text-blue-800'
-                            : 'bg-gray-100 text-gray-600'
+                          ? 'bg-blue-100 text-blue-800'
+                          : 'bg-gray-100 text-gray-600'
                           }`}
                       >
                         {tag}

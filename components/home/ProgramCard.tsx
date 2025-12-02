@@ -2,7 +2,7 @@
 
 "use client";
 
-import InteractiveMosaic02 from "@/components/InteractiveMosaic02";
+import InteractiveMosaic02 from "components/InteractiveMosaic02";
 import Image from "next/image";
 import Link from "next/link";
 import { report } from "process";
@@ -28,7 +28,7 @@ export default function ProgramCard({
     const [isHovered, setIsHovered] = useState(false);
 
     const cardContent = (
-        <div 
+        <div
             className="flex flex-wrap gap-2 gap-y-4 md:gap-4 relative"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
@@ -44,7 +44,7 @@ export default function ProgramCard({
                     <Image
                         src={imageUrl}
                         alt="program image"
-                        width={1000} 
+                        width={1000}
                         height={1000}
                         className="w-full object-cover"
                         quality={80}
@@ -56,11 +56,11 @@ export default function ProgramCard({
             <div className="flex-1">
                 <div className="font-bold text-fluid-lg">
                     {title}
-                        {reportSlug && isHovered && (
-                            <span className="ml-2 bg-[#00FF00] px-2 py-1 mt-1">
-                                ：レポートを見る→
-                            </span>
-                        )}
+                    {reportSlug && isHovered && (
+                        <span className="ml-2 bg-[#00FF00] px-2 py-1 mt-1">
+                            ：レポートを見る→
+                        </span>
+                    )}
                 </div>
                 <div className="pt-3 md:pt-6">
                     {children}
@@ -88,11 +88,11 @@ export default function ProgramCard({
     );
 
     // reportSlugがある場合はLinkでラップ
-    
+
     if (reportSlug) {
         return (
-            <Link 
-                href={`/articles/${reportSlug}`} 
+            <Link
+                href={`/articles/${reportSlug}`}
                 className="group block no-underline overflow-hidden hover:opacity-100"
             >
                 {cardContent}

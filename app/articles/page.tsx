@@ -2,9 +2,9 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Metadata } from 'next';
-import { Header, Menu } from '@/components/layout';
-import { ContentList } from '@/components/articles';
-import { getArticles, getNews } from '@/lib/api';
+import { Header, Menu } from 'components/layout';
+import { ContentList } from 'components/articles';
+import { getArticles, getNews } from 'lib/api';
 
 export const metadata: Metadata = {
   title: '記事一覧',

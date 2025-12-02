@@ -1,6 +1,6 @@
 import './globals.css';
 import Script from 'next/script'
-import { Footer } from '@/components/layout';
+import { Footer } from 'components/layout';
 import { Metadata } from 'next';
 import { SpeedInsights } from '@vercel/speed-insights/next'
 
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
         creator: '@asiba_studio',
         title: 'Creative Lab.',
         description: 'Creative-Lab.は「何を、どのようにつくるか」だけでなく、「これから、どう生きていきたいか?」という問いを起点に、自分のクリエイションと生き方を結び直す場です。',
-        images: ['/images/og/default-og.jpg'], 
+        images: ['/images/og/default-og.jpg'],
     },
 
     // アイコン設定

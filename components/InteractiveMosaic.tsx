@@ -1,4 +1,4 @@
-import getAspectRatioFromFilename from '@/lib/getAspectRatioFromFilename'
+import getAspectRatioFromFilename from 'lib/getAspectRatioFromFilename'
 
 interface InteractiveMosaicProps {
   imageUrl: string;

@@ -1,4 +1,4 @@
-import MosaicIcon from "@/components/MosaicIcon";
+import MosaicIcon from "components/MosaicIcon";
 import ProgramCard from "./ProgramCard";
 import Image from "next/image";
 
@@ -66,9 +66,9 @@ export function ProgramPhase1() {
                             reportSlug="report-day2"
                         >
                             <p className="text-fluid-sm leading-snug">
-                            「見る」「感じる」「つくる」を繰り返す1day フィールドワーク。
-                            クリエイターにとって、「心の機敏さ」「じっくり見る体験」は欠かせない感覚です。
-                            世界の微細な違和感に気づくこと。誰もが見過ごす風景の中に、自分だけの発見を見つけ出すこと。クリエイションの原点に立ち返ります。
+                                「見る」「感じる」「つくる」を繰り返す1day フィールドワーク。
+                                クリエイターにとって、「心の機敏さ」「じっくり見る体験」は欠かせない感覚です。
+                                世界の微細な違和感に気づくこと。誰もが見過ごす風景の中に、自分だけの発見を見つけ出すこと。クリエイションの原点に立ち返ります。
                             </p>
                         </ProgramCard>
                     </li>

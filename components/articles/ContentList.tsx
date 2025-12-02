@@ -1,7 +1,7 @@
 // src/components/ContentList.tsx
 'use client';
 
-import { ContentItem } from '@/lib/types';
+import { ContentItem } from 'lib/types';
 import ContentCard from './ContentCard';
 import { MosaicSize } from '../InteractiveMosaic02';
 

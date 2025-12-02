@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { formatDateDot } from '@/lib/date';
-import { ContentItem } from '@/lib/types';
+import { formatDateDot } from 'lib/date';
+import { ContentItem } from 'lib/types';
 import InteractiveMosaic02, { MosaicSize } from '../InteractiveMosaic02';
 
 interface Props {

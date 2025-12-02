@@ -1,5 +1,5 @@
-import { SimpleButton } from "@/components/button"
-import InteractiveMosaic02 from "@/components/InteractiveMosaic02"
+import { SimpleButton } from "components/button"
+import InteractiveMosaic02 from "components/InteractiveMosaic02"
 import Image from "next/image"
 
 export default function ProgramDetailSection() {

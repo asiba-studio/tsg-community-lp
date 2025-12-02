@@ -1,18 +1,18 @@
 // src/app/page.tsx
 
-import HeroSection from "./components/HeroSection";
-import { StatementShort } from "./components/Statement";
-import { SimpleButton } from "@/components/button";
-import ContentList from "@/components/articles/ContentList";
-import { OPEN_TALKS } from "@/lib/openTalks";
-import { ProgramPhase1, ProgramPhase2, ProgramPhase3 } from "./components/ProgramPhase";
-import { Header, Menu } from "@/components/layout";
-import ProgramDetailSection from "./components/ProgramDetailSection";
-import ApplicationSection from "./components/ApllicationSection";
+import HeroSection from "../components/home/HeroSection";
+import { StatementShort } from "../components/home/Statement";
+import { SimpleButton } from "components/button";
+import ContentList from "components/articles/ContentList";
+import { OPEN_TALKS } from "lib/openTalks";
+import { ProgramPhase1, ProgramPhase2, ProgramPhase3 } from "../components/home/ProgramPhase";
+import { Header, Menu } from "components/layout";
+import ProgramDetailSection from "../components/home/ProgramDetailSection";
+import ApplicationSection from "../components/home/ApllicationSection";
 //import PlayerSection from "./components/PlayerSection";
-import Tagline from "./components/Tagline";
+import Tagline from "../components/home/Tagline";
 import Image from "next/image";
-import { getArticles, getNews } from "@/lib/api";
+import { getArticles, getNews } from "lib/api";
 
 
 export default async function Page() {

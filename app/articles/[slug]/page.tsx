@@ -3,11 +3,11 @@ import Image from 'next/image';
 import { Metadata } from 'next';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS, INLINES } from '@contentful/rich-text-types';
-import { getArticles } from '@/lib/api';
-import { Header, Menu } from '@/components/layout';
-import InteractiveMosaic02 from '@/components/InteractiveMosaic02';
-import { formatDateDot } from '@/lib/date';
-import { ContentList } from '@/components/articles';
+import { getArticles } from 'lib/api';
+import { Header, Menu } from 'components/layout';
+import InteractiveMosaic02 from 'components/InteractiveMosaic02';
+import { formatDateDot } from 'lib/date';
+import { ContentList } from 'components/articles';
 
 interface Props {
     params: Promise<{ slug: string }>;
