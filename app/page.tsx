@@ -19,6 +19,7 @@ export default async function Page() {
 
   const articles = await getArticles();
   const news = await getNews();
+  const newsSlice = news.slice(0, 2);
   const openTalks = OPEN_TALKS.slice(2, 4); // 最新の2件を表示
 
   return (
@@ -73,17 +74,17 @@ export default async function Page() {
 
 
             <div className="hidden md:block">
-              <ContentList contents={news} basePath="/news" columns={2} gap={100} enableMosaic={false} />
+              <ContentList contents={newsSlice} basePath="/news" columns={2} gap={100} enableMosaic={false} />
             </div>
             <div className="block md:hidden">
-              <ContentList contents={news} basePath="/news" columns={1} gap={100} enableMosaic={false} />
+              <ContentList contents={newsSlice} basePath="/news" columns={1} gap={100} enableMosaic={false} />
             </div>
 
 
 
           </section>
 
-          {/* Peatix Section */}
+          {/* Peatix Section 
           <section className="w-full section-spacing border-t border-border">
             <h2 className="font-en font-bold text-fluid-4xl leading-none relative px-[1.5vw] inline-block mb-8">
               <Image
@@ -106,10 +107,10 @@ export default async function Page() {
             </div>
 
             <div className="hidden md:block">
-              <ContentList contents={openTalks} basePath="/open-talks" columns={2} gap={50} enableMosaic={false} />
+              <ContentList contents={openTalks} basePath="/open-talks" columns={2} gap={100} enableMosaic={false} />
             </div>
             <div className="block md:hidden">
-              <ContentList contents={openTalks} basePath="/open-talks" columns={1} gap={50} enableMosaic={false} />
+              <ContentList contents={openTalks} basePath="/open-talks" columns={1} gap={100} enableMosaic={false} />
             </div>
 
             <div className="text-fluid-lg leading-normal pt-14 pl-6 w-full">
@@ -119,7 +120,7 @@ export default async function Page() {
               </ul>
             </div>
 
-          </section>
+          </section>*/}
 
           {/* Icon Section */}
           <section className="w-full section-spacing pb-4 border-t border-border">

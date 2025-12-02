@@ -19,7 +19,7 @@ export default function Header() {
                         </Link>
                     </div>
                     <div className="flex justify-end items-center gap-8 font-en font-medium text-lg px-6">
-                        <HeaderButton label="About" href="/news/press-release" />
+                        <HeaderButton label="About" href="/news/creative-lab-3rd-release" />
                         <HeaderButton label="Articles" href="/articles" />
                         <HeaderButton label="News" href="/articles#news" />
                         <HeaderButton label="Open TALKs" href="/open-talks" />

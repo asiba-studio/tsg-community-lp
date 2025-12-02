@@ -34,7 +34,7 @@ export default function Footer() {
                         className="h-full object-contain"
                     />
                 </div>
-                
+
             </div>
             <div className="flex flex-wrap justify-center text-fluid-base font-en text-white gap-x-10 gap-y-2">
                 <Link href="/news/news-01" className=" no-underline">About</Link>
