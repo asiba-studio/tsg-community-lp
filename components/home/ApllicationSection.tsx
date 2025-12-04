@@ -11,7 +11,7 @@ export default function ApplicationSection() {
             {/* Application Section */}
             <section>
                 <h2>募集要項</h2>
-                <ol className="space-y-2 custom-ol pt-10 pl-[1.5vw]">
+                <ol className="space-y-2 custom-ol py-10 pl-[1.5vw]">
                     <li>TSGの応募条件を満たしていること</li>
                     <li>建築・デザイン・アートといった、クリエイションに向き合いながら、起業やビジネスを考えている若者/学生（15歳〜25歳前後を対象）</li>
                     <li>以下のプログラム日程に参加できること

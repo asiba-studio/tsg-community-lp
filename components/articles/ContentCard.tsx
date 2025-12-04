@@ -11,6 +11,7 @@ interface Props {
     description?: boolean;
     enableMosaic?: boolean;
     mosaicSize?: MosaicSize;
+    enableProgramTerm?: boolean;
 }
 
 // Contentfulの画像URLにリサイズパラメータを付与するヘルパー関数
@@ -41,7 +42,8 @@ export default function ContentCard({
     basePath,
     description = false,
     enableMosaic = true,
-    mosaicSize = 'medium'
+    mosaicSize = 'medium',
+    enableProgramTerm = false,
 }: Props) {
 
     // リンク生成ロジック
@@ -54,6 +56,10 @@ export default function ContentCard({
     } else {
         // News, OpenTalksなどは link があれば外部とみなす
         isInternal = !content.link;
+    }
+
+    if(enableProgramTerm && content.programTerms && content.programTerms.length > 0) {  
+        isInternal = true;
     }
 
     const href = isInternal ? `${basePath}/${content.slug}` : content.link!;
@@ -102,6 +108,22 @@ export default function ContentCard({
                     ) : (
                         <div className="absolute inset-0 flex items-center justify-center text-gray-300">
                             <span className="text-sm font-bold">No Image</span>
+                        </div>
+                    )}
+
+                    {/* Program Terms */}
+                    {enableProgramTerm && content.programTerms && content.programTerms.length > 0 && (
+                        <div className="absolute top-1.5 left-2 flex flex-col gap-1.5 z-10 pointer-events-none">
+                            {content.programTerms.slice(0, 3).map((term) => (
+                                <span
+                                    key={term}
+                                    className="text-black leading-snug font-en font-medium 
+                                        text-fluid-sm transition-colors duration-200 
+                                        bg-white/90 px-2"
+                                >
+                                    {term} Program
+                                </span>
+                            ))}
                         </div>
                     )}
 

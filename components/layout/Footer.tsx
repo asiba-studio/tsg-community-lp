@@ -34,13 +34,6 @@ export default function Footer() {
                         className="h-full object-contain"
                     />
                 </div>
-
-            </div>
-            <div className="flex flex-wrap justify-center text-fluid-base font-en text-white gap-x-10 gap-y-2">
-                <Link href="/news/news-01" className=" no-underline">About</Link>
-                <Link href="/articles" className="no-underline">Article</Link>
-                <Link href="/articles#news" className="no-underline">News</Link>
-                <Link href="/news/news-01#application" className="no-underline">Application</Link>
             </div>
             <div className="text-fluid-sm font-en text-white">
                 © {new Date().getFullYear()} 2025 ASIBA Stuido. All rights reserved.

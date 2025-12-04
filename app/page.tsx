@@ -155,7 +155,7 @@ export default async function Page() {
             <StatementShort />
 
             <div className="w-full mt-20 flex justify-start">
-              <SimpleButton icon="right" href="/news/press-release">
+              <SimpleButton icon="right" href="/news/creative-lab-3rd-release">
                 About Creative Lab.
               </SimpleButton>
             </div>
@@ -194,7 +194,10 @@ export default async function Page() {
       </div>
 
       {/* Floating Application Button */}
-      <FloatingApplicationButton />
+      <div className="hidden md:block">
+              <FloatingApplicationButton />
+      </div>
+
 
     </div>
   );

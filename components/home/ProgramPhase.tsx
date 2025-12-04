@@ -66,7 +66,7 @@ export function ProgramPhase1() {
                     </li>
                     <li>
                         <ProgramCard
-                            imageUrl="/images/home/program-1-2.png"
+                            imageUrl="/images/home/program-2-2.png"
                             title="Open Lecture #1"
                             dateTime="2026.01.30 19:00-21:00"
                             location="都内（対面開催・調整中）"

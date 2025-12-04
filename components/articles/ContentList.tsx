@@ -87,6 +87,7 @@ export default function ContentList({
           description={description}
           enableMosaic={enableMosaic}
           mosaicSize={mosaicSize}
+          enableProgramTerm={content.type === 'article'}
         />
       ))}
     </div>
