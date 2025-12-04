@@ -113,7 +113,7 @@ export default function ContentCard({
 
                     {/* Program Terms */}
                     {enableProgramTerm && content.programTerms && content.programTerms.length > 0 && (
-                        <div className="absolute top-1.5 left-2 flex flex-col gap-1.5 z-10 pointer-events-none">
+                        <div className="absolute top-2 left-2 flex flex-col gap-1.5 z-10 pointer-events-none">
                             {content.programTerms.slice(0, 3).map((term) => (
                                 <span
                                     key={term}

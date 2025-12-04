@@ -195,7 +195,7 @@ export default async function Page() {
 
       {/* Floating Application Button */}
       <div className="hidden md:block">
-              <FloatingApplicationButton />
+        <FloatingApplicationButton />
       </div>
 
 
