@@ -1,7 +1,11 @@
 
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function Header() {
+    const pathname = usePathname();
 
     return (
         <div className="
@@ -19,12 +23,12 @@ export default function Header() {
                         </Link>
                     </div>
                     <div className="flex justify-end items-center gap-8 font-en font-medium text-lg px-6">
-                        <HeaderButton label="About" href="/news/creative-lab-3rd-release" />
-                        <HeaderButton label="Articles" href="/articles" />
-                        <HeaderButton label="News" href="/articles#news" />
-                        <HeaderButton label="Open TALKs" href="/open-talks" />
-                        <HeaderButton label="Application" href="/#application" />
-                        <HeaderButton label="Archive" href="/archive/2nd" />
+                        <HeaderButton label="About" href="/news/creative-lab-3rd-release" pathname={pathname} />
+                        <HeaderButton label="Articles" href="/articles" pathname={pathname} />
+                        <HeaderButton label="News" href="/articles#news" pathname={pathname} />
+                        <HeaderButton label="Open TALKs" href="/open-talks" pathname={pathname} />
+                        <HeaderButton label="Application" href="/#application" pathname={pathname} />
+                        <HeaderButton label="Archive" href="/archive/2nd" pathname={pathname} />
                     </div>
                 </nav>
 
@@ -46,14 +50,24 @@ export default function Header() {
 function HeaderButton(props: {
     label: string;
     href: string;
+    pathname: string;
 }) {
+    // アクティブ判定: hrefのパス部分（ハッシュを除く）で現在のパスと照合
+    const hrefPath = props.href.split('#')[0];
+    const isActive = props.pathname.startsWith(hrefPath) && hrefPath !== '/';
+    
     return (
         <Link
             href={props.href}
             className="group font-en text-black hover:text-black transition-colors relative no-underline"
         >
             {props.label}
-            <img src="/gifs/green-mosaic.gif" className="absolute top-0 left-0 inset-y-0 my-auto scale-x-[1.4] scale-y-[0.9] h-full -z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <img 
+                src="/gifs/green-mosaic.gif" 
+                className={`absolute top-0 left-0 inset-y-0 my-auto scale-x-[1.4] scale-y-[0.9] h-full -z-10 transition-opacity ${
+                    isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+                }`} 
+            />
         </Link>
     );
 }
