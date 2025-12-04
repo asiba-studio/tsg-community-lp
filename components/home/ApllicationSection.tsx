@@ -48,7 +48,10 @@ export default function ApplicationSection() {
                         <Link href="https://etic.or.jp/" target="_blank" rel="noopener noreferrer" className="text-blue-600">NPO法人ETIC.</Link>
                     </li>
                     <li>企画パートナー：
-                        <Link href="https://asiba.or.jp/" target="_blank" rel="noopener noreferrer" className="text-blue-600">一般社団法人ASIBA</Link>（共同代表 森原正希）
+                        <Link href="https://asiba.or.jp/" target="_blank" rel="noopener noreferrer" className="text-blue-600">一般社団法人ASIBA</Link>（代表理事 二瓶雄太）
+                    </li>
+                    <li>後援：
+                        <Link href="https://www.jidp.or.jp/" target="_blank" rel="noopener noreferrer" className="text-blue-600">公益財団法人日本デザイン振興会</Link>
                     </li>
                 </ul>
             </section>
@@ -60,7 +63,7 @@ export default function ApplicationSection() {
                     <li>Creative-LAB.への参加は、以下のリンクからアクセスいただきお申込みください。
                         <div className="mt-10 text-left">
                             <a
-                                href={"https://tsg-etic.my.site.com/TSG/s/login/?language=ja&ec=302&startURL=%2FTSG%2Fs%2F2025%2Flab-creative%3F_gl%3D1*g3ickt*_gcl_au*MTY2OTAxNjI0Ni4xNzUzNTE4OTYx*_ga*MTI0NDA3NjA2OS4xNzUwOTI0MDY4*_ga_PN1SX1X1K9*czE3NTM1NDU3MDEkbzMkZzEkdDE3NTM1NDU5MTMkajU0JGwwJGgw"}
+                                href={"https://tsg-etic.my.site.com/TSG/s/login/?language=ja&ec=302&startURL=%2FTSG%2Fs%2F2025%2Flab3-creative%3F_gl%3D1*1db7g8e*_gcl_au*MjE0NjY2NDUzNi4xNzU3OTkzNzYy*_ga*MzU0OTU4MjczLjE3NDkyNjE5MDY.*_ga_PN1SX1X1K9*czE3NjQ4NjYyNDMkbzYwJGcxJHQxNzY0ODY2MjQ3JGo1NiRsMCRoMA"}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center justify-center bg-black text-white px-8 py-3 font-bold font-sans hover:bg-gray-800 transition-colors duration-300"

@@ -74,34 +74,6 @@ export default function ProgramDetailSection() {
 
             </div>
 
-            <div className="w-full gap-6 px-[2vw] pt-20">
-                <h3 className="font-bold pb-10">オンライン・任意参加のコンテンツ</h3>
-                <ul className="custom-ul  pl-[1.5vw] space-y-8">
-                    <li>
-                        <div className="font-bold">オープンレクチャー</div>
-                        <div className="text-fluid-sm leading-snug">
-                            プログラム前半を中心に、合計3回程度のオープンレクチャーセッションをオンラインで実施します。
-                        </div>
-                    </li>
-                    <li>
-                        <div className="font-bold">メンタリング</div>
-                        <div className="text-fluid-sm leading-snug">
-                            グッドデザイン・ニューホープ賞、未踏アドバンストをはじめ、クリエイティブ領域で受賞歴があり、
-                            実際に起業家として活躍している若手メンター陣によるメンタリングを行います。
-                        </div>
-                    </li>
-                    <li>
-                        <div className="font-bold">オンライン・ギャラリーウォーク</div>
-                        <div className="text-fluid-sm leading-snug">
-                            ラボの後半には、それぞれの制作物をメタバース空間「MEs」に展示し、
-                            互いにフィードバックを行う「オンライン・ギャラリーウォーク」を実施し、
-                            切磋琢磨しながらクリエイティブ・モードを深めていきます。
-                        </div>
-                    </li>
-                </ul>
-            </div>
-
-
         </div>
     )
 }

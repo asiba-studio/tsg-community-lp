@@ -27,8 +27,15 @@ export default async function Page() {
 
       <div className='pt-30 px-[8vw]'>
         <h1 className='font-en text-3xl md:text-5xl font-bold'>Archive</h1>
-        <p className="text-fluid-lg mt-6">
-          2025年7月より開催したプログラム第2期のアーカイブです
+        <p className="text-fluid-lg mt-12 w-full md:w-2/3">
+          2025年7月より開催したプログラム
+          <Image
+            src="/gifs/green-mosaic.gif"
+            alt="green mosaic"
+            width={500}
+            height={140}
+            className="inline w-22 -mr-20"
+          /> 第2期のアーカイブです
         </p>
       </div>
 

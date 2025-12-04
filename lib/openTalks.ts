@@ -49,23 +49,10 @@ export const OPEN_TALKS: OpenTalk[] = [
         title: "「つくること」と「生きること」の重ね方とは？【11/2】",
         subtitle: "Creative-LAB. Open TALK #4",
         date: "2025-11-2",
-        excerpt: "安全地帯を出て、まだ誰にも見せていない100%でつくってみる。 まだ知らない場所や人と出会い、その人の「生き方」に触れてみる。 好奇心でドキドキする瞬間に、共感をして身体が動いてしまう瞬間に、自分で気づいてみる。必要なのは、「正しい答え」を探すのではなく「自分の問い」から始めること。 自分の問いにまっすぐに答えるように「つくること」で、社会の課題や問題に出会うはずです。",
+        excerpt: "※リンク先のPeatixページのバナーにて、株式会社BIOTAは「共催」とありますが、正しくは「協力」です。",
         coverImage: "/images/open-talks/open-talk-04.png",
         headerImage: "/images/open-talks/open-talk-04.png", // headerImageを追加
         tags: [],
         link: "https://creativelabtsg.peatix.com/view"
-    },
-    {
-        id: "open-talk-05",
-        slug: "open-talk-05",
-        type: "open-talks",
-        title: "詳細は随時公開【11/14 開催】",
-        subtitle: "Creative-LAB. Open TALK #5",
-        date: "2099-12-31",
-        excerpt: "",
-        coverImage: "/images/open-talks/open-talk-dummy.png",
-        headerImage: "/images/open-talks/open-talk-dummy.png", // headerImageを追加
-        tags: [],
-        link: ""
     }
 ];
