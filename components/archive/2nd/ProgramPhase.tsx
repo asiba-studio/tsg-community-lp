@@ -45,7 +45,7 @@ export function ProgramPhase1() {
                             title="#1 LAB.合同キックオフ"
                             dateTime="2025.08.24 13:00-17:00"
                             location="TiB(Tokyo Innovation Base)"
-                            reportSlug="report-day1"
+                            reportSlug="creative-lab-day-1"
                         >
                             <div className="text-fluid-sm leading-snug">
                                 6種類のラボの参加者が一堂に会す合同キックオフ。実施事項は以下の通りです。
@@ -63,7 +63,7 @@ export function ProgramPhase1() {
                             title="#2 フィールドワーク"
                             dateTime="2025.08.31 10:30-15:30"
                             location="SHIMOKITA COLLEGE"
-                            reportSlug="report-day2"
+                            reportSlug="creative-lab-day-2"
                         >
                             <p className="text-fluid-sm leading-snug">
                                 「見る」「感じる」「つくる」を繰り返す1day フィールドワーク。
@@ -132,6 +132,7 @@ export function ProgramPhase2() {
                             title="#4 制作集中DAY"
                             dateTime="2025.10.11 13:00-17:00"
                             location="インターナショナル・デザイン・リエゾンセンター"
+                            reportSlug="creative-lab-day-4"
                         >
                             <div className="text-fluid-sm leading-snug">
                                 とにかくつくる！メンター陣とともに自分のアウトプットを極限まで高めます。
