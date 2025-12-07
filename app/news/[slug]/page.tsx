@@ -47,7 +47,7 @@ const customRenderOptions: Partial<Options> = {
             <h3 className="text-xl font-bold mt-18 mb-5 font-sans">{children}</h3>
         ),
         [BLOCKS.HEADING_4]: (node: any, children: any) => (
-            <h4 className="text-lg md:text-xl font-semibold text-text-primary mb-5 mt-5 leading-normal">{children}</h4>
+            <h4 className="text-sm md:text-base font-semibold text-text-primary mb-5 mt-5 leading-normal">{children}</h4>
         ),
         [BLOCKS.UL_LIST]: (node: any, children: any) => (
             <ul className="list-disc pl-5 mb-6 space-y-2">{children}</ul>
@@ -56,7 +56,7 @@ const customRenderOptions: Partial<Options> = {
             <ol className="list-decimal pl-5 mb-6 space-y-2">{children}</ol>
         ),
         [BLOCKS.LIST_ITEM]: (node: any, children: any) => (
-            <li className="text-gray-700">{children}</li>
+            <li className="text-gray-700 mb-0">{children}</li>
         ),
         [BLOCKS.QUOTE]: (node: any, children: any) => (
             <blockquote className="border-l-4 border-[#00ff00] pl-6 py-3 my-6 italic bg-gray-50 text-gray-600">
@@ -100,17 +100,74 @@ const customRenderOptions: Partial<Options> = {
             const width = fileField.details?.image?.width || 800;
             const height = fileField.details?.image?.height || 600;
 
+            // ----------------------------------------------------
+            // 💡 特殊コマンドの解析ロジック
+            // ----------------------------------------------------
+            let displayCaption = titleField;
+            // デフォルトはやや広めの幅を設定
+            let customWidthClass = 'max-w-4xl';
+            let showCaption = false;
+
+            // 抽象サイズと Tailwind max-w クラスのマッピング
+            const sizeMap: { [key: string]: string } = {
+                'xs': 'max-w-xs',
+                'sm': 'max-w-sm',
+                'md': 'max-w-xl',      // 例: md は xl にマッピング
+                'lg': 'max-w-3xl',
+                'full': 'w-full max-w-none', // full の場合は max-w を無効化
+            };
+
+            // 1. 幅コマンドの解析: [w:値]
+            // 値は、アルファベット (sm, md) またはピクセル値 (250px)
+            const widthMatch = titleField.match(/\[w:(sm|md|lg|full)\]/);
+            if (widthMatch) {
+                const value = widthMatch[1];
+
+                // if/else if 形式で静的なクラス名を割り当てる
+                if (value === 'sm') {
+                    customWidthClass = 'max-w-50'; // 例: 顔写真など小さな画像
+                } else if (value === 'md') {
+                    customWidthClass = 'max-w-80'; // 例: 中程度の画像
+                } else if (value === 'lg') {
+                    customWidthClass = 'max-w-130'; // 例: 広めの画像
+                } else if (value === 'full') {
+                    customWidthClass = 'w-full max-w-none'; // 全幅（親要素いっぱい）
+                }
+                // デフォルトは 'max-w-4xl' のまま維持
+            }
+
+            // 2. キャプション表示コマンドの解析: [caption]
+            if (titleField.includes('[caption]')) {
+                showCaption = true;
+            }
+
+            // 3. キャプションからコマンド部分を削除
+            // [w:...] と [caption] を削除
+            displayCaption = titleField
+                .replace(/\[w:(sm|md|lg|full)\]/g, '')
+                .replace(/\[caption\]/g, '')
+                .trim();
+
+            // コンテナクラス: 幅クラスと中央寄せ（w-full/max-w-none 以外の場合）を適用
+            // w-full が適用されている場合は、mx-auto は不要
+            const isFullWidth = customWidthClass.includes('w-full');
+            const containerClasses = `my-2 flex w-full ${customWidthClass}`;
+
             return (
-                <div className="my-10">
+                <div className={containerClasses}>
                     <Image
                         src={imageUrl}
                         width={width}
                         height={height}
                         alt={titleField || 'Embedded Image'}
                         className="w-full h-auto object-cover"
-                        unoptimized={true} // Contentful画像用
+                        unoptimized={true}
                     />
-                    {/*{titleField && <p className="text-center text-sm text-gray-500 mt-2">{titleField}</p>}*/}
+
+                    {/* キャプション表示の制御 */}
+                    {displayCaption && showCaption && (
+                        <p className="text-sm text-gray-500 mt-2">{displayCaption}</p>
+                    )}
                 </div>
             );
         },
@@ -267,7 +324,7 @@ export default async function NewsPage({ params }: Props) {
                         <Menu className='lg:hidden mt-4 mb-50 translate-x-[14px]' />
 
                         {/* 記事本文 */}
-                        <div className="prose prose-lg mt-20 lg:mt-50 max-w-none">
+                        <div className="mt-20 lg:mt-50">
                             {contentBody ? documentToReactComponents(contentBody, customRenderOptions) : (
                                 <p className="text-gray-500 py-10 text-center">No content available</p>
                             )}

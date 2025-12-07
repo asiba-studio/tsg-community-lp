@@ -107,17 +107,74 @@ const customRenderOptions: Partial<Options> = {
             const width = fileField.details?.image?.width || 800;
             const height = fileField.details?.image?.height || 600;
 
+            // ----------------------------------------------------
+            // 💡 特殊コマンドの解析ロジック
+            // ----------------------------------------------------
+            let displayCaption = titleField;
+            // デフォルトはやや広めの幅を設定
+            let customWidthClass = 'max-w-4xl';
+            let showCaption = false;
+
+            // 抽象サイズと Tailwind max-w クラスのマッピング
+            const sizeMap: { [key: string]: string } = {
+                'xs': 'max-w-xs',
+                'sm': 'max-w-sm',
+                'md': 'max-w-xl',      // 例: md は xl にマッピング
+                'lg': 'max-w-3xl',
+                'full': 'w-full max-w-none', // full の場合は max-w を無効化
+            };
+
+            // 1. 幅コマンドの解析: [w:値]
+            // 値は、アルファベット (sm, md) またはピクセル値 (250px)
+            const widthMatch = titleField.match(/\[w:(sm|md|lg|full)\]/);
+            if (widthMatch) {
+                const value = widthMatch[1];
+
+                // if/else if 形式で静的なクラス名を割り当てる
+                if (value === 'sm') {
+                    customWidthClass = 'max-w-50'; // 例: 顔写真など小さな画像
+                } else if (value === 'md') {
+                    customWidthClass = 'max-w-80'; // 例: 中程度の画像
+                } else if (value === 'lg') {
+                    customWidthClass = 'max-w-130'; // 例: 広めの画像
+                } else if (value === 'full') {
+                    customWidthClass = 'w-full max-w-none'; // 全幅（親要素いっぱい）
+                }
+                // デフォルトは 'max-w-4xl' のまま維持
+            }
+
+            // 2. キャプション表示コマンドの解析: [caption]
+            if (titleField.includes('[caption]')) {
+                showCaption = true;
+            }
+
+            // 3. キャプションからコマンド部分を削除
+            // [w:...] と [caption] を削除
+            displayCaption = titleField
+                .replace(/\[w:(sm|md|lg|full)\]/g, '')
+                .replace(/\[caption\]/g, '')
+                .trim();
+
+            // コンテナクラス: 幅クラスと中央寄せ（w-full/max-w-none 以外の場合）を適用
+            // w-full が適用されている場合は、mx-auto は不要
+            const isFullWidth = customWidthClass.includes('w-full');
+            const containerClasses = `my-2 flex w-full ${customWidthClass}`;
+
             return (
-                <div className="my-10">
+                <div className={containerClasses}>
                     <Image
                         src={imageUrl}
                         width={width}
                         height={height}
                         alt={titleField || 'Embedded Image'}
                         className="w-full h-auto object-cover"
-                        unoptimized={true} // Contentful画像用
+                        unoptimized={true}
                     />
-                    {/*{titleField && <p className="text-center text-sm text-gray-500 mt-2">{titleField}</p>}*/}
+
+                    {/* キャプション表示の制御 */}
+                    {displayCaption && showCaption && (
+                        <p className="text-sm text-gray-500 mt-2">{displayCaption}</p>
+                    )}
                 </div>
             );
         },
