@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
 
     // 2. タグを指定してキャッシュをパージ
     // これにより 'contentful-lp' タグがついた fetch だけが再取得されます
-    revalidateTag('contentful-lp');
+    revalidateTag('contentful-lp', 'default');
 
     return NextResponse.json({ revalidated: true, now: Date.now() });
 }
