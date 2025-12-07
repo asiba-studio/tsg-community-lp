@@ -1,9 +1,8 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { Metadata } from 'next';
-import React from 'react';
-import { documentToReactComponents, Options } from '@contentful/rich-text-react-renderer';
-import { BLOCKS, INLINES, MARKS } from '@contentful/rich-text-types';
+import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
+import { BLOCKS, INLINES } from '@contentful/rich-text-types';
 import { getArticles } from 'lib/api';
 import { Header, Menu } from 'components/layout';
 import InteractiveMosaic02 from 'components/InteractiveMosaic02';
@@ -26,67 +25,9 @@ async function getRelatedPosts(currentSlug: string) {
         .slice(0, 3);
 }
 
-const customRenderOptions: Partial<Options> = {
-
-    // 1. 📝 テキストノードの処理 (ラインブレイク対応)
-    renderText: (text: string) => {
-        // Shift + Enter (\n) を <br /> に変換するロジックは共通
-        return text.split('\n').map((item, i) => (
-            <React.Fragment key={i}>
-                {item}
-                {i < text.split('\n').length - 1 && <br />}
-            </React.Fragment>
-        ));
-    },
-
-    // 2. 🧱 ブロックノードの定義 (BLOCKS)
+// RichTextのレンダリングオプション
+const renderOptions = {
     renderNode: {
-        [BLOCKS.PARAGRAPH]: (node: any, children: any) => (
-            <p className="text-gray-700 leading-relaxed tracking-wide mb-6 text-sm md:text-base text-text-primary">{children}</p>
-        ),
-        [BLOCKS.HEADING_1]: (node: any, children: any) => (
-            <h2 className="text-4xl font-bold mt-16 mb-6 border-l-4 border-red-500 pl-4">{children}</h2>
-        ),
-        [BLOCKS.HEADING_2]: (node: any, children: any) => (
-            <h2 className="text-2xl md:text-3xl font-bold text-text-primary mb-10 mt-5 lg:mt-40 pb-2 leading-normal">{children}</h2>
-        ),
-        [BLOCKS.HEADING_3]: (node: any, children: any) => (
-            <h3 className="text-xl font-bold mt-18 mb-5 font-sans">{children}</h3>
-        ),
-        [BLOCKS.HEADING_4]: (node: any, children: any) => (
-            <h4 className="text-lg md:text-xl font-semibold text-text-primary mb-5 mt-5 leading-normal">{children}</h4>
-        ),
-        [BLOCKS.UL_LIST]: (node: any, children: any) => (
-            <ul className="list-disc pl-5 mb-6 space-y-2">{children}</ul>
-        ),
-        [BLOCKS.OL_LIST]: (node: any, children: any) => (
-            <ol className="list-decimal pl-5 mb-6 space-y-2">{children}</ol>
-        ),
-        [BLOCKS.LIST_ITEM]: (node: any, children: any) => (
-            <li className="text-gray-700">{children}</li>
-        ),
-        [BLOCKS.QUOTE]: (node: any, children: any) => (
-            <blockquote className="border-l-4 border-[#00ff00] pl-6 py-3 my-6 italic bg-gray-50 text-gray-600">
-                {children}
-            </blockquote>
-        ),
-        [BLOCKS.HR]: () => (
-            <hr className="my-12 border-t border-gray-300" />
-        ),
-        [BLOCKS.TABLE]: (node: any, children: any) => (
-            <div className="overflow-x-auto my-8 border border-gray-200 rounded-lg">
-                <table className="min-w-full divide-y divide-gray-200">{children}</table>
-            </div>
-        ),
-        [BLOCKS.TABLE_ROW]: (node: any, children: any) => <tr className="divide-x divide-gray-200">{children}</tr>,
-        [BLOCKS.TABLE_HEADER_CELL]: (node: any, children: any) => (
-            <th className="px-6 py-3 bg-gray-100 text-left text-xs font-medium text-gray-700 uppercase">{children}</th>
-        ),
-        [BLOCKS.TABLE_CELL]: (node: any, children: any) => (
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{children}</td>
-        ),
-
-        // --- 🖼️ 埋め込みアセット (画像) ---
         [BLOCKS.EMBEDDED_ASSET]: (node: any) => {
             const target = node.data.target;
             if (!target || !target.fields) return null;
@@ -114,44 +55,33 @@ const customRenderOptions: Partial<Options> = {
                         width={width}
                         height={height}
                         alt={titleField || 'Embedded Image'}
-                        className="w-full h-auto object-cover"
+                        className="w-full h-auto object-cover rounded-sm"
                         unoptimized={true} // Contentful画像用
                     />
                     {/*{titleField && <p className="text-center text-sm text-gray-500 mt-2">{titleField}</p>}*/}
                 </div>
             );
         },
-
-        // --- 外部リンク ---
+        [BLOCKS.PARAGRAPH]: (node: any, children: any) => {
+            return <p className="mb-6 leading-relaxed text-gray-800 tracking-wide">{children}</p>;
+        },
+        [BLOCKS.HEADING_2]: (node: any, children: any) => {
+            return <h2 className="text-3xl font-bold mt-40 mb-8 font-sans">{children}</h2>;
+        },
+        [BLOCKS.HEADING_3]: (node: any, children: any) => {
+            return <h3 className="text-xl font-bold mt-18 mb-5 font-sans">{children}</h3>;
+        },
+        [BLOCKS.UL_LIST]: (node: any, children: any) => (
+            <ul className="list-disc pl-5 mb-6 space-y-2">{children}</ul>
+        ),
+        [BLOCKS.OL_LIST]: (node: any, children: any) => (
+            <ol className="list-decimal pl-5 mb-6 space-y-2">{children}</ol>
+        ),
         [INLINES.HYPERLINK]: (node: any, children: any) => {
-            return <a href={node.data.uri} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline transition-colors">{children}</a>;
-        },
-
-        // --- 内部リンク (エントリー) ---
-        [INLINES.ENTRY_HYPERLINK]: (node: any, children: any) => {
-            // 内部リンクは、Contentful IDからNext.jsのパスに変換するロジックが必要です
-            const entryId = node.data.target?.sys?.id;
-            // 🚨 ここを実際のルーティングに合わせる
-            const linkPath = `/articles/${entryId}`;
-
-            return <a href={linkPath} className="text-green-600 hover:underline transition-colors">{children}</a>;
-        },
-        // INLINES.ASSET_HYPERLINK: (node: any, children: any) => { /* ダウンロードリンクなど */ },
-
-        // --- 🔗 埋め込みエントリー ---
-        // BLOCKS.EMBEDDED_ENTRY: (node: any) => { /* 内部リンクのカスタムコンポーネント定義 */ },
-    },
-
-    // 3. ✍️ テキストマークアップの定義
-    renderMark: {
-        [MARKS.BOLD]: children => <strong className="font-bold font-dnp">{children}</strong>,
-        [MARKS.ITALIC]: children => <em className="italic">{children}</em>,
-        [MARKS.UNDERLINE]: children => <u className="underline">{children}</u>,
-        [MARKS.CODE]: children => <code className="bg-gray-100 p-1 rounded text-sm font-mono text-red-700">{children}</code>,
+            return <a href={node.data.uri} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline break-words">{children}</a>;
+        }
     },
 };
-
-
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
@@ -277,8 +207,8 @@ export default async function ArticlePage({ params }: Props) {
                         <Menu className='lg:hidden mt-4 mb-50 translate-x-[14px]' />
 
                         {/* 記事本文 (Rich Text) */}
-                        <div className="prose prose-lg max-w-none mt-8 lg:mt-20">
-                            {contentBody ? documentToReactComponents(contentBody, customRenderOptions) : (
+                        <div className="max-w-none mt-8 lg:mt-20">
+                            {contentBody ? documentToReactComponents(contentBody, renderOptions) : (
                                 <p className="text-gray-500 py-10 text-center">No content available</p>
                             )}
                         </div>
