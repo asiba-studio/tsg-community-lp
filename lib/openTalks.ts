@@ -49,7 +49,7 @@ export const OPEN_TALKS: OpenTalk[] = [
         title: "「つくること」と「生きること」の重ね方とは？【11/2】",
         subtitle: "Creative-LAB. Open TALK #4",
         date: "2025-11-2",
-        excerpt: "※リンク先のPeatixページのバナーにて、株式会社BIOTAは「共催」とありますが、正しくは「協力」です。",
+        excerpt: "※リンク先のPeatixページのバナー及び案内文にて、株式会社BIOTAは「共催」とありますが、正しくは「協力」です。",
         coverImage: "/images/open-talks/open-talk-04.png",
         headerImage: "/images/open-talks/open-talk-04.png", // headerImageを追加
         tags: [],
