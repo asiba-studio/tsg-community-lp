@@ -21,9 +21,10 @@ export default function ApplicationSection() {
                             <span>2026年1月30日(金)　Open Lecture #1</span><br></br>
                             <span>2026年2月14日(土)　Workshop #2: Prototyping＋メンタリング</span><br></br>
                             <span>2026年2月28日(土)　Open Lecture #2＋メンタリング</span><br></br>
-                            <span>2026年3月14日(土) 　成果発表会・展示会「プロジェクト・フェア」</span><br></br>
+                            <span>2026年3月15日(日) 　成果発表会・展示会「プロジェクト・フェア」</span><br></br>
                         </div>
-                        <span>※メンタリング付きのセッション（1/24, 2/14, 2/28）は原則参加をお願いします。</span>
+                        <span>※メンタリング付きのセッション（1/24, 2/14, 2/28）は原則参加をお願いします。</span><br></br>
+                        <span>※プロジェクト・フェアは当初は3/14(土)に開催の予定でしたが、変更となりました</span>
                     </li>
                 </ol>
             </section>

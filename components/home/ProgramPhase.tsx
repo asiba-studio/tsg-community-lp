@@ -185,13 +185,16 @@ export function ProgramPhase3() {
                         <ProgramCard
                             imageUrl="/images/home/program-3-2.png"
                             title="成果発表会・展示会「プロジェクト・フェア」"
-                            dateTime="2026.03.14 終日"
+                            dateTime="2026.03.15 終日"
                             location="TiB (Tokyo Innovation Base)"
                         >
                             <p className="text-fluid-sm leading-snug">
                                 LAB.プログラムを通じて磨いてきたアウトプットを発表・体験してもらうことで、
                                 共に歩んでくれる仲間を見つけたり、次のステージへと進む足がかりを作ります。
                                 個々のプロジェクトの可能性を探り、事業やプロジェクトをさらに磨き上げる機会となります。
+                            </p>
+                            <p className="text-fluid-sm leading-snug">
+                                ※当初は3/14(土)に開催の予定でしたが、変更となりました
                             </p>
                         </ProgramCard>
                     </li>
