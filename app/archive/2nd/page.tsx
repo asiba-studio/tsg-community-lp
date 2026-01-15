@@ -18,7 +18,7 @@ export default async function Page() {
 
   const articles = await getArticles();
   const news = await getNews();
-  const openTalks = OPEN_TALKS.slice(2, 4); // 最新の2件を表示
+  const openTalks = OPEN_TALKS.slice(0, 4); //2期で開催した4件のみを表示
 
   return (
     <div className="w-full pb-50">
@@ -80,7 +80,7 @@ export default async function Page() {
               </h2>
               <div className="text-fluid-sm leading-normal pb-6 w-full">
                 Creative-LAB. Open TALK は、自らの表現活動やクリエイティブワークを通して、既存の枠組みにとらわれず、
-                自らの衝動から表現と生き方を切り拓いてきたゲストを招いた <b><u>全5回の対話型トークシリーズ</u></b> です。<br></br>
+                自らの衝動から表現と生き方を切り拓いてきたゲストを招いた <b><u>全4回の対話型トークシリーズ</u></b> です。<br></br>
                 彼らの語る経験や問いを通じて、「どうつくるか」だけでなく「どう生きるか」という視点から、
                 ものづくりの現場で培われた知見、挑戦、そして越境の技法を共有します。デザインと生の関係性を捉え直し、
                 これからの時代におけるクリエイターの新たなモデルを探る機会を探ります。
@@ -92,12 +92,10 @@ export default async function Page() {
               <div className="block md:hidden">
                 <ContentList contents={openTalks} basePath="/open-talks" columns={1} gap={50} enableMosaic={false} />
               </div>
-
-              <div className="text-fluid-lg leading-normal pt-14 pl-6 w-full">
-                ◾️第5回は随時公開予定です。開催日は以下の通りです。
-                <ul className="mt-4 ml-4">
-                  <li>#5 開催日：2025.11.14</li>
-                </ul>
+              <div className="w-full mt-20 flex justify-start">
+                <SimpleButton icon="right" href="/open-talks">
+                  OPEN TALKs.
+                </SimpleButton>
               </div>
 
             </section>
