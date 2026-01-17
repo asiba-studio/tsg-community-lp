@@ -26,13 +26,13 @@ export interface ContentItem {
 // Article型
 export type Article = ContentItem & {
     type: 'article';
-    body?: any; // RichText
+    body?: string; // HTML string
 };
 
 // News型
 export type News = ContentItem & {
     type: 'news';
-    body?: any; // RichText
+    body?: string; // HTML string
 };
 
 // OpenTalk型 (必要に応じて拡張)

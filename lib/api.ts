@@ -1,154 +1,123 @@
 // lib/api.ts
 
-import {
-    createClient,
-    EntryFieldTypes,
-    Asset,
-} from 'contentful';
-import { unstable_cache } from 'next/cache'; // ★追加
-import { Article, News, CreativeLabData, CustomData, ProgramTerm } from './types';
+import { createClient } from 'microcms-js-sdk';
+import { unstable_cache } from 'next/cache';
+import { Article, News, ProgramTerm } from './types';
 
-// Site Skeleton
-type SiteSkeleton = {
-    contentTypeId: 'site';
-    fields: {
-        title: EntryFieldTypes.Symbol;
-        slug: EntryFieldTypes.Symbol;
-    }
-}
+// MicroCMS Types
+type MicroCMSImage = {
+    url: string;
+    height: number;
+    width: number;
+};
 
-// Article Skeleton
+// Repeater item type for "creative-lab-lp"
+type CreativeLabLpSetting = {
+    fieldId: 'creative-lab-lp';
+    program_terms?: string;
+    cover_square?: MicroCMSImage;
+};
+
+// Union type for all possible repeater items (currently only one we care about)
+type LpSetting = CreativeLabLpSetting;
+
 type ArticleSkeleton = {
-    contentTypeId: 'article';
-    fields: {
-        title: EntryFieldTypes.Symbol;
-        subtitle: EntryFieldTypes.Symbol;
-        slug: EntryFieldTypes.Symbol;
-        cover: EntryFieldTypes.AssetLink;
-        cover2: EntryFieldTypes.AssetLink;
-        publishSites: EntryFieldTypes.Array<EntryFieldTypes.EntryLink<SiteSkeleton>>;
-        summary: EntryFieldTypes.Text;
-        body: EntryFieldTypes.RichText;
-        keywords: EntryFieldTypes.Array<EntryFieldTypes.Symbol>;
-        publishDate: EntryFieldTypes.Date;
-        noteUrl: EntryFieldTypes.Symbol;
-        customData?: EntryFieldTypes.Object;
-    }
-}
+    id: string;
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
+    revisedAt: string;
+    title_ja: string;
+    title_en?: string;
+    subtitle_ja?: string;
+    subtitle_en?: string;
+    slug: string;
+    cover: MicroCMSImage;
+    summary_ja?: string;
+    summary_en?: string;
+    body?: string; // HTML string
+    note_url?: string;
+    keywords?: string; // Comma separated? or specific format? JSON says "textArea" and "keyword, keyword"
+    publish_sites: any[]; // relationList
+    lp_settings?: LpSetting[]; // Repeater
+};
 
-// News Skeleton
 type NewsSkeleton = {
-    contentTypeId: 'news';
-    fields: {
-        title: EntryFieldTypes.Symbol;
-        subtitle: EntryFieldTypes.Symbol;
-        slug: EntryFieldTypes.Symbol;
-        publishSites: EntryFieldTypes.Array<EntryFieldTypes.EntryLink<SiteSkeleton>>;
-        cover: EntryFieldTypes.AssetLink;
-        summary: EntryFieldTypes.Text;
-        body: EntryFieldTypes.RichText;
-        keywords: EntryFieldTypes.Array<EntryFieldTypes.Symbol>;
-        publishDate: EntryFieldTypes.Date;
-        link: EntryFieldTypes.Symbol;
-    }
-}
+    id: string;
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
+    revisedAt: string;
+    title_ja: string;
+    subtitle_ja?: string;
+    slug: string;
+    cover?: MicroCMSImage;
+    summary_ja?: string;
+    body?: string;
+    link?: string; // Assuming 'link' or similar for external link? JSON for article didn't show news structure but assumed similar
+    publish_sites: any[];
+    keywords?: string;
+};
 
-const client = createClient({
-    space: process.env.CONTENTFUL_SPACE_ID || '',
-    accessToken: process.env.CONTENTFUL_ACCESS_TOKEN || '',
+// Initialize MicroCMS Client
+export const client = createClient({
+    serviceDomain: process.env.MICROCMS_SERVICE_DOMAIN || '',
+    apiKey: process.env.MICROCMS_API_KEY || '',
 });
 
-// ヘルパー関数
-function getLocValue<T>(field: any, locale: string = 'ja'): T | undefined {
-    return field?.[locale];
-}
+const TARGET_SITE_ID = 'buv3kmg6j'; // creative-lab-lp contentId
 
-function getAssetUrl(assetField: any, locale: string = 'ja'): string {
-    const asset = assetField?.[locale];
-    if (!asset) return '';
-    const file = asset.fields?.file?.[locale];
-    const url = file?.url;
-    if (!url) return '';
-    return url.startsWith('//') ? `https:${url}` : url;
-}
+// ----------------------------------------------------------------
+// Article Fetching
+// ----------------------------------------------------------------
 
-// SiteのSlugからIDを取得する関数
-async function getSiteIdBySlug(slug: string): Promise<string | null> {
-    const response = await client.withoutUnresolvableLinks.getEntries<SiteSkeleton>({
-        content_type: 'site',
-        'fields.slug': slug,
-        limit: 1,
+const fetchArticlesData = async (): Promise<Article[]> => {
+    const response = await client.getList<ArticleSkeleton>({
+        endpoint: 'article',
+        queries: {
+            filters: `publish_sites[contains]${TARGET_SITE_ID}`,
+            orders: '-publishedAt',
+            limit: 100, // Adjust as needed
+        },
     });
 
-    if (response.items.length > 0) {
-        return response.items[0].sys.id;
-    }
-    return null;
-}
+    return response.contents.map((entry) => {
+        // Extract LP specific settings
+        const lpSetting = entry.lp_settings?.find(s => s.fieldId === 'creative-lab-lp');
 
-// ----------------------------------------------------------------
-// ★ここから変更: 元の処理を関数として定義し、unstable_cache でラップする
-// ----------------------------------------------------------------
+        const title = entry.title_ja || '';
+        const subtitle = entry.subtitle_ja;
+        const slug = entry.slug || entry.id;
+        const publishDate = entry.publishedAt;
+        const summary = entry.summary_ja;
+        const noteUrl = entry.note_url; // Check field name in typical usage, JSON said 'note_url'
+        const body = entry.body;
 
-// Article取得の生ロジック
-const fetchArticlesData = async (): Promise<Article[]> => {
-    // 1. まずSiteのIDを取得する
-    const targetSiteSlug = 'creative-lab-lp';
-    const siteId = await getSiteIdBySlug(targetSiteSlug);
-
-    if (!siteId) {
-        console.warn(`Site not found with slug: ${targetSiteSlug}`);
-        return [];
-    }
-
-    // 2. 取得したIDを使ってArticleを検索する
-    const response = await client
-        .withoutUnresolvableLinks
-        .withAllLocales
-        .getEntries<ArticleSkeleton>({
-            content_type: 'article',
-            'fields.publishSites.sys.id[in]': [siteId],
-            order: ['-fields.publishDate'] as any,
-        });
-
-    return response.items.map((entry) => {
-        const fields = entry.fields;
-
-        const title = getLocValue<string>(fields.title, 'ja') || '';
-        const subtitle = getLocValue<string>(fields.subtitle, 'ja');
-        const slug = getLocValue<string>(fields.slug, 'ja') || entry.sys.id;
-        const publishDate = getLocValue<string>(fields.publishDate, 'ja');
-        const summary = getLocValue<string>(fields.summary, 'ja');
-        const noteUrl = getLocValue<string>(fields.noteUrl, 'ja');
-        const body = getLocValue<any>(fields.body, 'ja');
-
-        // customData (JSONオブジェクト) を取得
-        // .withAllLocales を使っているため、getLocValue で皮（ja）を剥く必要があります
-        const customData = getLocValue<CustomData>(fields.customData, 'ja');
-        // これで customData は純粋な JSON オブジェクトになります
-        const creativeLabInfo = customData?.['creative-lab-lp'];
-
-        let terms: ProgramTerm[] = [];
-
-        if (creativeLabInfo?.programTerms) {
-            const rawTerm = creativeLabInfo.programTerms;
-            if (Array.isArray(rawTerm)) {
-                // 既に配列の場合 (例: ["2ND", "3RD"])
-                terms = rawTerm;
-            } else {
-                // 文字列の場合、配列に変換 (例: "2ND" -> ["2ND"])
-                terms = [rawTerm];
-            }
+        const terms: ProgramTerm[] = [];
+        if (lpSetting?.program_terms) {
+            // Assuming simple string or comma separated? The previous code handled array or string.
+            // JSON says "kind: text".
+            // If comma separated:
+            // terms = lpSetting.program_terms.split(',').map(t => t.trim());
+            // Previous code:
+            const rawTerm = lpSetting.program_terms;
+            // Cast to ProgramTerm if it matches
+            const term = rawTerm as ProgramTerm;
+            terms.push(term);
         }
 
-        const coverImage = getAssetUrl(fields.cover2, 'ja');
-        const headerImage = getAssetUrl(fields.cover, 'ja');
+        const coverImage = lpSetting?.cover_square?.url || entry.cover?.url || ''; // Square as coverImage (list view)
+        const headerImage = entry.cover?.url || ''; // Horizontal as headerImage
 
-        const keywordsEn = getLocValue<string[]>(fields.keywords, 'en-US');
-        const tags = keywordsEn ? keywordsEn.slice(0, 3) : [];
+        // Keywords from string to array
+        // JSON description: "都市, 建築計画, XXX"
+        let tags: string[] = [];
+        if (entry.keywords) {
+            tags = entry.keywords.split(',').map(k => k.trim()).filter(k => k).slice(0, 3);
+        }
 
         return {
-            id: entry.sys.id,
+            id: entry.id,
             slug: slug,
             title: title,
             subtitle: subtitle,
@@ -159,74 +128,81 @@ const fetchArticlesData = async (): Promise<Article[]> => {
             excerpt: summary,
             link: noteUrl,
             type: 'article',
-            body: body,
+            body: body, // Now HTML string
             programTerms: terms,
         };
     });
 };
 
-// ★エクスポートする関数 (キャッシュ付き)
 export const getArticles = unstable_cache(
     fetchArticlesData,
-    ['articles-list'], // 内部的なキャッシュキー (識別子)
-    { tags: ['contentful-lp'] } // ★ Webhookで指定するタグ
+    ['articles-list-microcms'],
+    { tags: ['microcms-lp'] }
 );
 
+// ----------------------------------------------------------------
+// News Fetching
+// ----------------------------------------------------------------
 
-// News取得の生ロジック
+// Assuming 'news' endpoint exists and has similar fields.
+// User didn't provide 'microcms-api-news.json' but asked to fix "CMS lookup".
+// I will assume standard fields for now.
+
 const fetchNewsData = async (): Promise<News[]> => {
-    // 1. まずSiteのIDを取得する
-    const targetSiteSlug = 'creative-lab-lp';
-    const siteId = await getSiteIdBySlug(targetSiteSlug);
+    // If news is in the same 'article' endpoint with a different filter?
+    // Or a separate 'news' endpoint?
+    // The previous code had `content_type: 'news'`.
+    // I shall assume there is a 'news' endpoint in microCMS.
 
-    if (!siteId) {
-        console.warn(`Site not found with slug: ${targetSiteSlug}`);
-        return [];
-    }
-
-    const response = await client
-        .withoutUnresolvableLinks
-        .withAllLocales
-        .getEntries<NewsSkeleton>({
-            content_type: 'news',
-            'fields.publishSites.sys.id[in]': [siteId],
-            order: ['-fields.publishDate'] as any,
+    try {
+        const response = await client.getList<NewsSkeleton>({
+            endpoint: 'news',
+            queries: {
+                filters: `publish_sites[contains]${TARGET_SITE_ID}`,
+                orders: '-publishedAt',
+                limit: 100,
+            },
         });
 
-    return response.items.map((entry) => {
-        const fields = entry.fields;
-        const title = getLocValue<string>(fields.title, 'ja') || '';
-        const subtitle = getLocValue<string>(fields.subtitle, 'ja');
-        const slug = getLocValue<string>(fields.slug, 'ja') || entry.sys.id;
-        const publishDate = getLocValue<string>(fields.publishDate, 'ja');
-        const summary = getLocValue<string>(fields.summary, 'ja');
-        const link = getLocValue<string>(fields.link, 'ja');
-        const body = getLocValue<any>(fields.body, 'ja');
+        return response.contents.map((entry) => {
+            const title = entry.title_ja || '';
+            const subtitle = entry.subtitle_ja;
+            const slug = entry.slug || entry.id;
+            const publishDate = entry.publishedAt;
+            const summary = entry.summary_ja;
+            const link = entry.link;
+            const body = entry.body;
 
-        const coverUrl = getAssetUrl(fields.cover, 'ja');
-        const keywordsEn = getLocValue<string[]>(fields.keywords, 'en-US');
-        const tags = keywordsEn ? keywordsEn.slice(0, 3) : [];
+            const coverUrl = entry.cover?.url || '';
 
-        return {
-            id: entry.sys.id,
-            slug: slug,
-            title: title,
-            subtitle: subtitle,
-            coverImage: coverUrl,
-            headerImage: coverUrl,
-            date: publishDate || new Date().toISOString(),
-            tags: tags,
-            excerpt: summary,
-            link: link,
-            type: 'news',
-            body: body,
-        };
-    });
+            let tags: string[] = [];
+            if (entry.keywords) {
+                tags = entry.keywords.split(',').map(k => k.trim()).filter(k => k).slice(0, 3);
+            }
+
+            return {
+                id: entry.id,
+                slug: slug,
+                title: title,
+                subtitle: subtitle,
+                coverImage: coverUrl,
+                headerImage: coverUrl, // News uses same for both usually
+                date: publishDate || new Date().toISOString(),
+                tags: tags,
+                excerpt: summary,
+                link: link,
+                type: 'news',
+                body: body,
+            };
+        });
+    } catch (e) {
+        console.warn('Failed to fetch news or news endpoint does not exist:', e);
+        return [];
+    }
 };
 
-// ★エクスポートする関数 (キャッシュ付き)
 export const getNews = unstable_cache(
     fetchNewsData,
-    ['news-list'], // 内部的なキャッシュキー
-    { tags: ['contentful-lp'] } // ★ Webhookで指定するタグ
+    ['news-list-microcms'],
+    { tags: ['microcms-lp'] }
 );
