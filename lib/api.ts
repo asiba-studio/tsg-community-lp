@@ -40,6 +40,7 @@ type ArticleSkeleton = {
     keywords?: string; // Comma separated? or specific format? JSON says "textArea" and "keyword, keyword"
     publish_sites: any[]; // relationList
     lp_settings?: LpSetting[]; // Repeater
+    date: string;
 };
 
 type NewsSkeleton = {
@@ -57,6 +58,7 @@ type NewsSkeleton = {
     link?: string; // Assuming 'link' or similar for external link? JSON for article didn't show news structure but assumed similar
     publish_sites: any[];
     keywords?: string;
+    date: string;
 };
 
 // Initialize MicroCMS Client
@@ -76,7 +78,7 @@ const fetchArticlesData = async (): Promise<Article[]> => {
         endpoint: 'article',
         queries: {
             filters: `publish_sites[contains]${TARGET_SITE_ID}`,
-            orders: '-publishedAt',
+            orders: '-date',
             limit: 100, // Adjust as needed
         },
     });
@@ -88,22 +90,19 @@ const fetchArticlesData = async (): Promise<Article[]> => {
         const title = entry.title_ja || '';
         const subtitle = entry.subtitle_ja;
         const slug = entry.slug || entry.id;
-        const publishDate = entry.publishedAt;
+        const publishDate = entry.date || entry.publishedAt;
         const summary = entry.summary_ja;
         const noteUrl = entry.note_url; // Check field name in typical usage, JSON said 'note_url'
         const body = entry.body;
 
         const terms: ProgramTerm[] = [];
         if (lpSetting?.program_terms) {
-            // Assuming simple string or comma separated? The previous code handled array or string.
-            // JSON says "kind: text".
-            // If comma separated:
-            // terms = lpSetting.program_terms.split(',').map(t => t.trim());
-            // Previous code:
-            const rawTerm = lpSetting.program_terms;
-            // Cast to ProgramTerm if it matches
-            const term = rawTerm as ProgramTerm;
-            terms.push(term);
+            // Split by comma and trim
+            const splitTerms = lpSetting.program_terms.split(',').map(t => t.trim()) as ProgramTerm[];
+            terms.push(...splitTerms);
+        } else {
+            // Default to all terms if empty or undefined
+            terms.push('2ND', '3RD');
         }
 
         const coverImage = lpSetting?.cover_square?.url || entry.cover?.url || ''; // Square as coverImage (list view)
@@ -159,7 +158,7 @@ const fetchNewsData = async (): Promise<News[]> => {
             endpoint: 'news',
             queries: {
                 filters: `publish_sites[contains]${TARGET_SITE_ID}`,
-                orders: '-publishedAt',
+                orders: '-date',
                 limit: 100,
             },
         });
@@ -168,7 +167,7 @@ const fetchNewsData = async (): Promise<News[]> => {
             const title = entry.title_ja || '';
             const subtitle = entry.subtitle_ja;
             const slug = entry.slug || entry.id;
-            const publishDate = entry.publishedAt;
+            const publishDate = entry.date || entry.publishedAt;
             const summary = entry.summary_ja;
             const link = entry.link;
             const body = entry.body;

@@ -277,7 +277,7 @@ export default async function ArticlePage({ params }: Props) {
                         <Menu className='lg:hidden mt-4 mb-50 translate-x-[14px]' />
 
                         {/* 記事本文 (MicroCMS HTML) */}
-                        <div className="prose prose-lg max-w-none mt-8 lg:mt-20">
+                        <div className="max-w-none mt-8 lg:mt-20">
                             {contentBody ? parse(contentBody, options) : (
                                 <p className="text-gray-500 py-10 text-center">No content available</p>
                             )}

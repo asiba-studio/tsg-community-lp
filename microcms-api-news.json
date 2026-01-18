@@ -1,1 +1,48 @@
-{"apiFields":[{"fieldId":"title","name":"タイトル","kind":"text","required":true},{"fieldId":"subtitle","name":"サブタイトル","kind":"text","required":false},{"fieldId":"slug","name":"スラッグ","kind":"text","required":true,"isUnique":true},{"fieldId":"body","name":"本文","kind":"richEditorV2","required":false},{"fieldId":"cover","name":"カバー","kind":"media","required":false},{"fieldId":"publish-sites","name":"配信サイト","kind":"relationList","required":true}],"customFields":[]}
+{
+    "apiFields": [
+        {
+            "fieldId": "title",
+            "name": "タイトル",
+            "kind": "text",
+            "required": true
+        },
+        {
+            "fieldId": "subtitle",
+            "name": "サブタイトル",
+            "kind": "text",
+            "required": false
+        },
+        {
+            "fieldId": "publish-sites",
+            "name": "配信サイト",
+            "kind": "relationList",
+            "required": true
+        },
+        {
+            "fieldId": "slug",
+            "name": "スラッグ",
+            "kind": "text",
+            "required": true,
+            "isUnique": true
+        },
+        {
+            "fieldId": "date",
+            "name": "日時",
+            "kind": "boolean",
+            "required": true
+        },
+        {
+            "fieldId": "cover",
+            "name": "カバー",
+            "kind": "media",
+            "required": false
+        },
+        {
+            "fieldId": "body",
+            "name": "本文",
+            "kind": "richEditorV2",
+            "required": false
+        }
+    ],
+    "customFields": []
+}
