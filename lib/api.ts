@@ -67,7 +67,7 @@ export const client = createClient({
     apiKey: process.env.MICROCMS_API_KEY || '',
 });
 
-const TARGET_SITE_ID = 'buv3kmg6j'; // creative-lab-lp contentId
+const TARGET_SITE_ID = 'tsg-creative-lab';
 
 // ----------------------------------------------------------------
 // Article Fetching
