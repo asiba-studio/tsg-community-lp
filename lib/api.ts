@@ -62,9 +62,23 @@ type NewsSkeleton = {
 };
 
 // Initialize MicroCMS Client
+if (!process.env.MICROCMS_SERVICE_DOMAIN) {
+    if (process.env.NODE_ENV === 'production') {
+        throw new Error('MICROCMS_SERVICE_DOMAIN is required in environment variables.');
+    }
+    console.warn('MICROCMS_SERVICE_DOMAIN is missing. MicroCMS client will not work correctly.');
+}
+
+if (!process.env.MICROCMS_API_KEY) {
+    if (process.env.NODE_ENV === 'production') {
+        throw new Error('MICROCMS_API_KEY is required in environment variables.');
+    }
+    console.warn('MICROCMS_API_KEY is missing. MicroCMS client will not work correctly.');
+}
+
 export const client = createClient({
-    serviceDomain: process.env.MICROCMS_SERVICE_DOMAIN || '',
-    apiKey: process.env.MICROCMS_API_KEY || '',
+    serviceDomain: process.env.MICROCMS_SERVICE_DOMAIN || 'MISSING_DOMAIN',
+    apiKey: process.env.MICROCMS_API_KEY || 'MISSING_KEY',
 });
 
 const TARGET_SITE_ID = 'tsg-creative-lab';
