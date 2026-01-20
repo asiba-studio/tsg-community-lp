@@ -14,7 +14,7 @@ interface Props {
     enableProgramTerm?: boolean;
 }
 
-// Contentfulの画像URLにリサイズパラメータを付与するヘルパー関数
+// Contentful / MicroCMSの画像URLにリサイズパラメータを付与するヘルパー関数
 const getResizedImageUrl = (url: string, width: number, height?: number) => {
     if (!url) return '';
     let finalUrl = url.trim();
@@ -23,17 +23,27 @@ const getResizedImageUrl = (url: string, width: number, height?: number) => {
         finalUrl = `https:${finalUrl}`;
     }
 
-    if (!finalUrl.includes('ctfassets.net')) return finalUrl;
-
-    const separator = finalUrl.includes('?') ? '&' : '?';
-
-    // fm=autoは削除 (Contentfulのエラー回避)
-    let params = `w=${width}&q=80`;
-    if (height) {
-        params += `&h=${height}&fit=fill`;
+    // Contentful
+    if (finalUrl.includes('ctfassets.net')) {
+        const separator = finalUrl.includes('?') ? '&' : '?';
+        let params = `w=${width}&q=80`;
+        if (height) {
+            params += `&h=${height}&fit=fill`;
+        }
+        return `${finalUrl}${separator}${params}`;
     }
 
-    return `${finalUrl}${separator}${params}`;
+    // MicroCMS
+    if (finalUrl.includes('microcms-assets.io')) {
+        const separator = finalUrl.includes('?') ? '&' : '?';
+        let params = `w=${width}`;
+        if (height) {
+            params += `&h=${height}`;
+        }
+        return `${finalUrl}${separator}${params}`;
+    }
+
+    return finalUrl;
 };
 
 export default function ContentCard({
@@ -58,7 +68,7 @@ export default function ContentCard({
         isInternal = !content.link;
     }
 
-    if(enableProgramTerm && content.programTerms && content.programTerms.length > 0) {  
+    if (enableProgramTerm && content.programTerms && content.programTerms.length > 0) {
         isInternal = true;
     }
 

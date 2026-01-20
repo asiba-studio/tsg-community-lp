@@ -191,7 +191,7 @@ export default async function NewsPage({ params }: Props) {
         notFound();
     }
 
-    const contentBody = news.body;
+    const contentBody = news.body_ja;
 
     return (
         <article className="w-full pb-50">

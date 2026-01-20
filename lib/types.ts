@@ -32,7 +32,7 @@ export type Article = ContentItem & {
 // News型
 export type News = ContentItem & {
     type: 'news';
-    body?: string; // HTML string
+    body_ja?: string; // HTML string
 };
 
 // OpenTalk型 (必要に応じて拡張)

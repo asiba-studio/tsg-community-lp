@@ -54,9 +54,9 @@ type NewsSkeleton = {
     slug: string;
     cover?: MicroCMSImage;
     summary_ja?: string;
-    body?: string;
+    body_ja?: string;
     link?: string; // Assuming 'link' or similar for external link? JSON for article didn't show news structure but assumed similar
-    publish_sites: any[];
+    "publish-sites": any[];
     keywords?: string;
     date: string;
 };
@@ -162,56 +162,46 @@ export const getArticles = unstable_cache(
 // I will assume standard fields for now.
 
 const fetchNewsData = async (): Promise<News[]> => {
-    // If news is in the same 'article' endpoint with a different filter?
-    // Or a separate 'news' endpoint?
-    // The previous code had `content_type: 'news'`.
-    // I shall assume there is a 'news' endpoint in microCMS.
+    const response = await client.getList<NewsSkeleton>({
+        endpoint: 'news',
+        queries: {
+            filters: `publish-sites[contains]${TARGET_SITE_ID}`,
+            orders: '-date',
+            limit: 100,
+        },
+    });
 
-    try {
-        const response = await client.getList<NewsSkeleton>({
-            endpoint: 'news',
-            queries: {
-                filters: `publish_sites[contains]${TARGET_SITE_ID}`,
-                orders: '-date',
-                limit: 100,
-            },
-        });
+    return response.contents.map((entry) => {
+        const title = entry.title_ja || '';
+        const subtitle = entry.subtitle_ja;
+        const slug = entry.slug || entry.id;
+        const publishDate = entry.date || entry.publishedAt;
+        const summary = entry.summary_ja;
+        const link = entry.link;
+        const body_ja = entry.body_ja;
 
-        return response.contents.map((entry) => {
-            const title = entry.title_ja || '';
-            const subtitle = entry.subtitle_ja;
-            const slug = entry.slug || entry.id;
-            const publishDate = entry.date || entry.publishedAt;
-            const summary = entry.summary_ja;
-            const link = entry.link;
-            const body = entry.body;
+        const coverUrl = entry.cover?.url || '';
 
-            const coverUrl = entry.cover?.url || '';
+        let tags: string[] = [];
+        if (entry.keywords) {
+            tags = entry.keywords.split(',').map(k => k.trim()).filter(k => k).slice(0, 3);
+        }
 
-            let tags: string[] = [];
-            if (entry.keywords) {
-                tags = entry.keywords.split(',').map(k => k.trim()).filter(k => k).slice(0, 3);
-            }
-
-            return {
-                id: entry.id,
-                slug: slug,
-                title: title,
-                subtitle: subtitle,
-                coverImage: coverUrl,
-                headerImage: coverUrl, // News uses same for both usually
-                date: publishDate || new Date().toISOString(),
-                tags: tags,
-                excerpt: summary,
-                link: link,
-                type: 'news',
-                body: body,
-            };
-        });
-    } catch (e) {
-        console.warn('Failed to fetch news or news endpoint does not exist:', e);
-        return [];
-    }
+        return {
+            id: entry.id,
+            slug: slug,
+            title: title,
+            subtitle: subtitle,
+            coverImage: coverUrl,
+            headerImage: coverUrl, // News uses same for both usually
+            date: publishDate || new Date().toISOString(),
+            tags: tags,
+            excerpt: summary,
+            link: link,
+            type: 'news',
+            body_ja: body_ja,
+        };
+    });
 };
 
 export const getNews = unstable_cache(
