@@ -1,13 +1,13 @@
 {
     "apiFields": [
         {
-            "fieldId": "title",
+            "fieldId": "title_ja",
             "name": "タイトル",
             "kind": "text",
             "required": true
         },
         {
-            "fieldId": "subtitle",
+            "fieldId": "subtitle_ja",
             "name": "サブタイトル",
             "kind": "text",
             "required": false
@@ -19,17 +19,17 @@
             "required": true
         },
         {
+            "fieldId": "date",
+            "name": "日付",
+            "kind": "date",
+            "required": true
+        },
+        {
             "fieldId": "slug",
             "name": "スラッグ",
             "kind": "text",
             "required": true,
             "isUnique": true
-        },
-        {
-            "fieldId": "date",
-            "name": "日時",
-            "kind": "boolean",
-            "required": true
         },
         {
             "fieldId": "cover",
@@ -38,7 +38,7 @@
             "required": false
         },
         {
-            "fieldId": "body",
+            "fieldId": "body_ja",
             "name": "本文",
             "kind": "richEditorV2",
             "required": false

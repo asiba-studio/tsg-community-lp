@@ -207,7 +207,7 @@ export default async function ArticlePage({ params }: Props) {
     }
 
     const relatedArticles = await getRelatedPosts(slug);
-    const contentBody = article.body;
+    const contentBody = article.body_ja;
 
     return (
         <article className="w-full pb-50">

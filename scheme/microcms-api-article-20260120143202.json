@@ -101,7 +101,7 @@
             "isUnique": false
         },
         {
-            "fieldId": "body",
+            "fieldId": "body_ja",
             "name": "本文",
             "kind": "richEditorV2",
             "required": false,

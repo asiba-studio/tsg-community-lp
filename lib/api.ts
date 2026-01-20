@@ -35,7 +35,7 @@ type ArticleSkeleton = {
     cover: MicroCMSImage;
     summary_ja?: string;
     summary_en?: string;
-    body?: string; // HTML string
+    body_ja?: string; // HTML string
     note_url?: string;
     keywords?: string; // Comma separated? or specific format? JSON says "textArea" and "keyword, keyword"
     publish_sites: any[]; // relationList
@@ -107,7 +107,7 @@ const fetchArticlesData = async (): Promise<Article[]> => {
         const publishDate = entry.date || entry.publishedAt;
         const summary = entry.summary_ja;
         const noteUrl = entry.note_url; // Check field name in typical usage, JSON said 'note_url'
-        const body = entry.body;
+        const body_ja = entry.body_ja;
 
         const terms: ProgramTerm[] = [];
         if (lpSetting?.program_terms) {
@@ -141,7 +141,7 @@ const fetchArticlesData = async (): Promise<Article[]> => {
             excerpt: summary,
             link: noteUrl,
             type: 'article',
-            body: body, // Now HTML string
+            body_ja: body_ja, // Now HTML string
             programTerms: terms,
         };
     });

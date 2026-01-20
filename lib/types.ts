@@ -26,7 +26,7 @@ export interface ContentItem {
 // Article型
 export type Article = ContentItem & {
     type: 'article';
-    body?: string; // HTML string
+    body_ja?: string; // HTML string
 };
 
 // News型
