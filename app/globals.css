@@ -66,6 +66,11 @@
     @apply text-text-primary;
   }
 
+  p:empty {
+    min-height: 1.5em;
+    content: "\00a0";
+  }
+
   div {
     @apply text-text-primary leading-loose;
   }

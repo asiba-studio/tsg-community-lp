@@ -134,6 +134,11 @@ const options = {
                     </div>
                 );
             }
+
+            // <br>
+            if (domNode.name === 'br') {
+                return <br className="my-2 block content-['']" />;
+            }
         }
     }
 };
