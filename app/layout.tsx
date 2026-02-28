@@ -3,6 +3,7 @@ import Script from 'next/script'
 import { Footer } from 'components/layout';
 import { Metadata } from 'next';
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 export const metadata: Metadata = {
     // 基本情報
@@ -111,6 +112,7 @@ export default function RootLayout({
                 </div>
                 <SpeedInsights />
             </body>
+            <GoogleAnalytics gaId="G-7WM09XRQ9L" />
         </html>
     );
 }
