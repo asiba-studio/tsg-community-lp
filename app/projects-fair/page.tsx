@@ -97,6 +97,24 @@ const projects = [
 export const metadata = {
     title: 'Projects Fair | Creative-LAB.',
     description: 'Creative-LAB. 最終成果展（PROJECTS FAIR SPRING 2026）',
+    openGraph: {
+        title: 'Projects Fair | Creative-LAB.',
+        description: 'Creative-LAB. 最終成果展（PROJECTS FAIR SPRING 2026）',
+        images: [
+            {
+                url: '/images/og/default-og.jpg',
+                width: 1200,
+                height: 630,
+                alt: 'Projects Fair | Creative-LAB.',
+            },
+        ],
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'Projects Fair | Creative-LAB.',
+        description: 'Creative-LAB. 最終成果展（PROJECTS FAIR SPRING 2026）',
+        images: ['/images/og/default-og.jpg'],
+    },
 };
 
 export default function ProjectsFairPage() {
