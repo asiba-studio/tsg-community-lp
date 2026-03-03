@@ -190,7 +190,7 @@ export default async function Page() {
             <StatementShort />
 
             <div className="w-full mt-20 flex justify-start">
-              <SimpleButton icon="right" href="/news/creative-lab-3rd-release">
+              <SimpleButton icon="right" href="/about">
                 About Creative Lab.
               </SimpleButton>
             </div>

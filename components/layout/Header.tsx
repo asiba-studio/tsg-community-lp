@@ -22,12 +22,13 @@ export default function Header() {
                             <img src="/gifs/green-mosaic.gif" alt="Green Mosaic" className="absolute top-0 left-0 inset-y-0 my-auto scale-x-[1.2] scale-y-[0.9] h-full -z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
                         </Link>
                     </div>
-                    <div className="flex justify-end items-center gap-8 font-en font-medium text-lg px-6">
-                        <HeaderButton label="About" href="/news/creative-lab-3rd-release" pathname={pathname} />
+                    <div className="flex justify-end items-center gap-6 font-en font-medium text-lg px-6">
+                        <HeaderButton label="About" href="/about" pathname={pathname} />
                         <HeaderButton label="Articles" href="/articles" pathname={pathname} />
                         <HeaderButton label="News" href="/articles#news" pathname={pathname} />
                         <HeaderButton label="Open TALKs" href="/open-talks" pathname={pathname} />
                         <HeaderButton label="Application" href="/#application" pathname={pathname} />
+                        <HeaderButton label="Projects Fair" href="/projects-fair" pathname={pathname} />
                         <HeaderButton label="Archive" href="/archive/2nd" pathname={pathname} />
                     </div>
                 </nav>
@@ -55,18 +56,17 @@ function HeaderButton(props: {
     // アクティブ判定: hrefのパス部分（ハッシュを除く）で現在のパスと照合
     const hrefPath = props.href.split('#')[0];
     const isActive = props.pathname.startsWith(hrefPath) && hrefPath !== '/';
-    
+
     return (
         <Link
             href={props.href}
             className="group font-en text-black hover:text-black transition-colors relative no-underline"
         >
             {props.label}
-            <img 
-                src="/gifs/green-mosaic.gif" 
-                className={`absolute top-0 left-0 inset-y-0 my-auto scale-x-[1.4] scale-y-[0.9] h-full -z-10 transition-opacity ${
-                    isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
-                }`} 
+            <img
+                src="/gifs/green-mosaic.gif"
+                className={`absolute top-0 left-0 inset-y-0 my-auto scale-x-[1.4] scale-y-[0.9] h-full -z-10 transition-opacity ${isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+                    }`}
             />
         </Link>
     );

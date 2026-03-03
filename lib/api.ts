@@ -56,7 +56,7 @@ type NewsSkeleton = {
     summary_ja?: string;
     body_ja?: string;
     link?: string; // Assuming 'link' or similar for external link? JSON for article didn't show news structure but assumed similar
-    "publish-sites": any[];
+    publish_sites: any[];
     keywords?: string;
     date: string;
 };
@@ -165,7 +165,7 @@ const fetchNewsData = async (): Promise<News[]> => {
     const response = await client.getList<NewsSkeleton>({
         endpoint: 'news',
         queries: {
-            filters: `publish-sites[contains]${TARGET_SITE_ID}`,
+            filters: `publish_sites[contains]${TARGET_SITE_ID}`,
             orders: '-date',
             limit: 100,
         },
