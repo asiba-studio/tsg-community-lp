@@ -116,12 +116,12 @@ export default function ProjectsFairPage() {
             <div className="h-1 md:border-t md:border-border" />
             <Header />
 
-            <div className="w-full p-[14px] lg:p-[4vw] flex flex-col items-center">
+            <div className="w-full p-3 lg:p-[4vw] flex flex-col items-center">
                 <div className='w-full'>
 
-                    <div className="w-full space-y-32 px-[2vw] py-20 text-fluid-base md:mt-12 mt-6">
+                    <div className="w-full space-y-32 md:px-[2vw] py-20 text-fluid-base md:mt-12 mt-6">
                         <div>
-                            <h1 className="font-en font-bold text-4xl md:text-6xl relative inline-block">
+                            <h1 className="font-en font-bold text-5xl md:text-6xl relative inline-block">
                                 Projects Fair
                                 <Image
                                     src="/gifs/green-mosaic.gif"
@@ -134,7 +134,7 @@ export default function ProjectsFairPage() {
                                 />
                             </h1>
                             <div>
-                                <div className="mt-20 text-right">
+                                <div className="mt-20 text-left md:text-right">
                                     <a
                                         href="https://tsg.metro.tokyo.lg.jp/community/pf2026spring/"
                                         target="_blank"
