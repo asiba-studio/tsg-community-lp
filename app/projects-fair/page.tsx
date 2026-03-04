@@ -137,7 +137,7 @@ export default function ProjectsFairPage() {
             <div className="w-full p-3 lg:p-[4vw] flex flex-col items-center">
                 <div className='w-full'>
 
-                    <div className="w-full space-y-32 md:px-[2vw] py-20 text-fluid-base md:mt-12 mt-6">
+                    <div className="w-full space-y-18 md:space-y-32 md:px-[2vw] py-20 text-fluid-base md:mt-12 mt-6">
                         <div>
                             <h1 className="font-en font-bold text-5xl md:text-6xl relative inline-block">
                                 Projects Fair
@@ -151,29 +151,22 @@ export default function ProjectsFairPage() {
                                     sizes="(max-width: 768px) 50vw, 30vw"
                                 />
                             </h1>
-                            <div>
-                                <div className="mt-20 text-left md:text-right">
-                                    <a
-                                        href="https://tsg.metro.tokyo.lg.jp/community/pf2026spring/"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex items-center justify-center bg-black text-white px-8 py-3 font-bold font-sans hover:bg-gray-800 transition-colors duration-300"
-                                    >
-                                        詳細はこちらから
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                                        </svg>
-                                    </a>
-                                </div>
-
+                            <div className='mt-12 md:mt-20 space-y-3 max-w-5xl text-fluid-base'>
+                                <p>
+                                    Creative-LAB.の3期生による最終成果展を開催します。</p>
+                                <p>
+                                    Creative-LAB.は、建築・デザイン・アートなどのクリエイティブ領域に関心を持つ若者／学生（15〜25歳前後を対象）に向けた、 実験的な学びの機会と対話の場を提供しています。 「自分の中にある”つくるため”の問いに向き合いながら、 自らの”生き方”を重ねていく」ことを目標にし、若手クリエイターによるメンタリング機会や、 思考の幅を広げ、問いを磨くためのワークショップ、 自ら問いを持ち実践をする若手クリエイターによる連続レクチャーを2ヶ月間限定で提供するコミュニティです。
+                                    新たな表現や手段を獲得した3期生による、【最終成果展】を有楽町のTiBにて開催します。
+                                </p>
                             </div>
+
 
                         </div>
 
                         {/* Projects Section */}
                         <section>
                             <h2 className='font-en text-fluid-4xl font-semibold'>Projects</h2>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-[2vw] gap-y-12 py-10">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-[2vw] gap-y-6 md:gap-y-12 py-10">
                                 {projects.filter(p => p.show).map(project => (
                                     <div key={project.id} className="group block no-underline overflow-hidden hover:opacity-100">
                                         <article>
@@ -196,7 +189,7 @@ export default function ProjectsFairPage() {
                                             </div>
 
                                             {/* Info */}
-                                            <div className="mt-4">
+                                            <div className="mt-2 md:mt-4">
                                                 <p className="font-medium text-fluid-base">
                                                     {project.team}
                                                 </p>
@@ -211,7 +204,7 @@ export default function ProjectsFairPage() {
                                     </div>
                                 ))}
                             </div>
-                            <div className="space-y-2 mt-10">
+                            <div className="space-y-2 mt-2 md:mt-10">
                                 {projects.filter(p => !p.show).map(project => (
                                     <div key={project.id} className='flex flex-row gap-6 items-baseline'>
                                         <p className="font-medium text-fluid-base">
@@ -321,29 +314,6 @@ export default function ProjectsFairPage() {
                                 </div>
                             </div>
                         </section>
-
-                        {/* CTA Section */}
-                        <section id="application">
-                            <h2>詳細はこちら</h2>
-                            <ul className="space-y-4 custom-ul py-10 pl-[1.5vw]">
-                                <li>イベントの詳細については、以下のリンクからアクセスしてご覧ください。
-                                    <div className="mt-10 text-left">
-                                        <a
-                                            href="https://tsg.metro.tokyo.lg.jp/community/pf2026spring/"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="inline-flex items-center justify-center bg-black text-white px-8 py-3 font-bold font-sans hover:bg-gray-800 transition-colors duration-300"
-                                        >
-                                            詳細はこちらから
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                                            </svg>
-                                        </a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </section>
-
                     </div>
                 </div>
             </div>
