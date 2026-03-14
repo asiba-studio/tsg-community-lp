@@ -6,55 +6,31 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import { GoogleAnalytics } from '@next/third-parties/google'
 
 export const metadata: Metadata = {
-    // 基本情報
+    metadataBase: new URL('https://tsg-community.asiba.or.jp'), // ドメインを正しく設定
     title: {
-        template: '%s | Creative Lab.',
-        default: 'TSG Creative Lab.'
+        template: '%s | ASIBA Creative Lab.', // ASIBAを冠する
+        default: 'TSG Creative Lab. | ASIBA'
     },
     description: 'Creative-Lab.は「何を、どのようにつくるか」だけでなく、「これから、どう生きていきたいか?」という問いを起点に、自分のクリエイションと生き方を結び直す場です。',
-
-    // 言語・地域設定
-    // metadataBase: new URL('https://your-domain.com'), // 実際のドメインに変更
-
-    // OGP設定
-    // 全体のOGP設定
     openGraph: {
-        siteName: 'Creative Lab.',
+        siteName: 'ASIBA Creative Lab.',
         locale: 'ja_JP',
         type: 'website',
-        title: 'Creative Lab. - つくることは、生きること。',
+        title: 'ASIBA Creative Lab. - つくることは、生きること。',
         description: 'Creative-Lab.は「何を、どのようにつくるか」だけでなく、「これから、どう生きていきたいか?」という問いを起点に、自分のクリエイションと生き方を結び直す場です。',
-        url: 'https://your-domain.com',
-        images: [
-            {
-                url: '/images/og/default-og.jpg', // デフォルトOGP画像
-                width: 1200,
-                height: 630,
-                alt: 'Creative Lab. - つくることは、生きること。',
-            },
-        ],
+        url: 'https://tsg-community.asiba.or.jp',
+        images: [{ url: '/images/og/default-og.jpg', width: 1200, height: 630 }],
     },
-
-    // Twitter設定
     twitter: {
         card: 'summary_large_image',
         creator: '@asiba_studio',
-        title: 'Creative Lab.',
+        title: 'ASIBA Creative Lab.',
         description: 'Creative-Lab.は「何を、どのようにつくるか」だけでなく、「これから、どう生きていきたいか?」という問いを起点に、自分のクリエイションと生き方を結び直す場です。',
         images: ['/images/og/default-og.jpg'],
     },
-
-    // アイコン設定
     icons: {
-        icon: [
-            { url: '/favicon.svg', type: 'image/svg+xml' },
-        ],
-        apple: [
-            // { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
-        ],
-        // shortcut: '/favicon.ico', 
+        icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
     },
-
     // PWA用マニフェスト（必要に応じて）
     // manifest: '/manifest.json',
 
@@ -81,9 +57,42 @@ export default function RootLayout({
 }: {
     children: React.ReactNode
 }) {
+    // 構造化データの定義
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Organization",
+                "@id": "https://asiba.or.jp/#organization", // 共通ID
+                "name": "ASIBA Studio",
+                "url": "https://asiba.or.jp",
+                "logo": "https://asiba.or.jp/icon.png"
+            },
+            {
+                "@type": "WebSite",
+                "@id": "https://tsg-community.asiba.or.jp/#website",
+                "url": "https://tsg-community.asiba.or.jp",
+                "name": "TSG Creative Lab.",
+                "publisher": { "@id": "https://asiba.or.jp/#organization" },
+                "inLanguage": "ja"
+            },
+            {
+                "@type": "WebPage",
+                "@id": "https://tsg-community.asiba.or.jp/#webpage",
+                "url": "https://tsg-community.asiba.or.jp",
+                "name": "TSG Creative Lab.",
+                "isPartOf": { "@id": "https://tsg-community.asiba.or.jp/#website" },
+                "description": metadata.description
+            }
+        ]
+    };
     return (
         <html lang="ja">
             <head>
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+                />
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
                 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
