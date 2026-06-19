@@ -2,13 +2,15 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import React from 'react';
 import { Metadata } from 'next';
+import { draftMode } from 'next/headers';
 import parse, { DOMNode, Element, domToReact } from 'html-react-parser';
-import { getNews } from 'lib/api';
+import { getNews, getNewsDraft } from 'lib/api';
 import { Header, Menu } from 'components/layout';
 import { formatDateDot } from 'lib/date';
 
 interface Props {
     params: Promise<{ slug: string }>;
+    searchParams: Promise<{ draftKey?: string; contentId?: string }>;
 }
 
 async function getNewsItem(slug: string) {
@@ -144,9 +146,14 @@ const options = {
 };
 
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
     const { slug } = await params;
-    const news = await getNewsItem(slug);
+    const { draftKey, contentId } = await searchParams;
+    const { isEnabled } = await draftMode();
+
+    const news = isEnabled && draftKey && contentId
+        ? await getNewsDraft(contentId, draftKey)
+        : await getNewsItem(slug);
 
     if (!news) {
         return {
@@ -188,9 +195,14 @@ export async function generateStaticParams() {
     }));
 }
 
-export default async function NewsPage({ params }: Props) {
+export default async function NewsPage({ params, searchParams }: Props) {
     const { slug } = await params;
-    const news = await getNewsItem(slug);
+    const { draftKey, contentId } = await searchParams;
+    const { isEnabled: isDraft } = await draftMode();
+
+    const news = isDraft && draftKey && contentId
+        ? await getNewsDraft(contentId, draftKey)
+        : await getNewsItem(slug);
 
     if (!news) {
         notFound();
@@ -200,6 +212,14 @@ export default async function NewsPage({ params }: Props) {
 
     return (
         <article className="w-full pb-50">
+            {isDraft && (
+                <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-4 bg-black text-white text-sm font-en font-bold px-5 py-3 shadow-lg">
+                    <span>DRAFT PREVIEW MODE</span>
+                    <a href="/api/disable-draft" className="underline text-[#00ff00] no-underline hover:opacity-80">
+                        Exit
+                    </a>
+                </div>
+            )}
             <Header />
 
             <div className="w-full p-[14px] lg:p-[4vw] flex flex-col lg:flex-row gap-[8vw]">

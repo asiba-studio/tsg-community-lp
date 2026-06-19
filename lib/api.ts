@@ -209,3 +209,81 @@ export const getNews = unstable_cache(
     ['news-list-microcms'],
     { tags: ['microcms-lp'] }
 );
+
+// ----------------------------------------------------------------
+// Draft Fetching (no cache — for Draft Mode preview)
+// ----------------------------------------------------------------
+
+export async function getArticleDraft(contentId: string, draftKey: string): Promise<Article | null> {
+    try {
+        const entry = await client.get<ArticleSkeleton>({
+            endpoint: 'article',
+            contentId,
+            queries: { draftKey },
+        });
+
+        const lpSetting = entry.lp_settings?.find(s => s.fieldId === 'creative-lab-lp');
+        const terms: ProgramTerm[] = [];
+        if (lpSetting?.program_terms) {
+            const splitTerms = lpSetting.program_terms.split(',').map(t => t.trim()) as ProgramTerm[];
+            terms.push(...splitTerms);
+        } else {
+            terms.push('2ND', '3RD');
+        }
+
+        let tags: string[] = [];
+        if (entry.keywords) {
+            tags = entry.keywords.split(',').map(k => k.trim()).filter(k => k).slice(0, 3);
+        }
+
+        return {
+            id: entry.id,
+            slug: entry.slug || entry.id,
+            title: entry.title_ja || '',
+            subtitle: entry.subtitle_ja,
+            coverImage: lpSetting?.cover_square?.url || entry.cover?.url || '',
+            headerImage: entry.cover?.url || '',
+            date: entry.date || entry.publishedAt || new Date().toISOString(),
+            tags,
+            excerpt: entry.summary_ja,
+            link: entry.note_url,
+            type: 'article',
+            body_ja: entry.body_ja,
+            programTerms: terms,
+        };
+    } catch {
+        return null;
+    }
+}
+
+export async function getNewsDraft(contentId: string, draftKey: string): Promise<News | null> {
+    try {
+        const entry = await client.get<NewsSkeleton>({
+            endpoint: 'news',
+            contentId,
+            queries: { draftKey },
+        });
+
+        let tags: string[] = [];
+        if (entry.keywords) {
+            tags = entry.keywords.split(',').map(k => k.trim()).filter(k => k).slice(0, 3);
+        }
+
+        return {
+            id: entry.id,
+            slug: entry.slug || entry.id,
+            title: entry.title_ja || '',
+            subtitle: entry.subtitle_ja,
+            coverImage: entry.cover?.url || '',
+            headerImage: entry.cover?.url || '',
+            date: entry.date || entry.publishedAt || new Date().toISOString(),
+            tags,
+            excerpt: entry.summary_ja,
+            link: entry.link,
+            type: 'news',
+            body_ja: entry.body_ja,
+        };
+    } catch {
+        return null;
+    }
+}

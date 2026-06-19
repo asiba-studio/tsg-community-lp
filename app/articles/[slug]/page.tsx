@@ -2,8 +2,9 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { Metadata } from 'next';
 import React from 'react';
+import { draftMode } from 'next/headers';
 import parse, { DOMNode, Element, domToReact } from 'html-react-parser';
-import { getArticles } from 'lib/api';
+import { getArticles, getArticleDraft } from 'lib/api';
 import { Header, Menu } from 'components/layout';
 import InteractiveMosaic02 from 'components/InteractiveMosaic02';
 import { formatDateDot } from 'lib/date';
@@ -11,6 +12,7 @@ import { ContentList } from 'components/articles';
 
 interface Props {
     params: Promise<{ slug: string }>;
+    searchParams: Promise<{ draftKey?: string; contentId?: string }>;
 }
 
 async function getArticle(slug: string) {
@@ -159,9 +161,14 @@ const options = {
 
 
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
     const { slug } = await params;
-    const article = await getArticle(slug);
+    const { draftKey, contentId } = await searchParams;
+    const { isEnabled } = await draftMode();
+
+    const article = isEnabled && draftKey && contentId
+        ? await getArticleDraft(contentId, draftKey)
+        : await getArticle(slug);
 
     if (!article) {
         return {
@@ -204,9 +211,14 @@ export async function generateStaticParams() {
     }));
 }
 
-export default async function ArticlePage({ params }: Props) {
+export default async function ArticlePage({ params, searchParams }: Props) {
     const { slug } = await params;
-    const article = await getArticle(slug);
+    const { draftKey, contentId } = await searchParams;
+    const { isEnabled: isDraft } = await draftMode();
+
+    const article = isDraft && draftKey && contentId
+        ? await getArticleDraft(contentId, draftKey)
+        : await getArticle(slug);
 
     if (!article) {
         notFound();
@@ -217,6 +229,14 @@ export default async function ArticlePage({ params }: Props) {
 
     return (
         <article className="w-full pb-50">
+            {isDraft && (
+                <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-4 bg-black text-white text-sm font-en font-bold px-5 py-3 shadow-lg">
+                    <span>DRAFT PREVIEW MODE</span>
+                    <a href="/api/disable-draft" className="underline text-[#00ff00] no-underline hover:opacity-80">
+                        Exit
+                    </a>
+                </div>
+            )}
             <Header />
 
             {/* ヘッダー部分 */}
