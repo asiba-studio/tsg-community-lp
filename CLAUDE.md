@@ -30,11 +30,13 @@ app/                    # Next.js App Router ページ
   open-talks/           # Open TALKsイベント一覧・詳細
   projects-fair/        # Projects Fair ページ
   archive/2nd/          # 2期生アーカイブ
-  api/revalidate/       # MicroCMSウェブフックによるキャッシュ再検証
+  api/revalidate/       # MicroCMS Webhook によるキャッシュ再検証
+  api/draft/            # Draft Mode 有効化（プレビュー用）
+  api/disable-draft/    # Draft Mode 解除
 
 components/
   home/                 # トップページ専用コンポーネント群
-    HeroSection.tsx     # p5.js + WebGLインタラクティブキービジュアル（PC専用）
+    HeroSection.tsx     # p5.js + WebGL インタラクティブキービジュアル（PC専用）
     Statement.tsx       # ステートメント文
     Tagline.tsx
     ProgramPhase.tsx    # プログラムの3フェーズ説明
@@ -48,10 +50,10 @@ components/
     ContentCard.tsx     # 記事・ニュース・OpenTalksのカードコンポーネント
     ContentList.tsx     # カードリスト（Masonryレイアウト対応）
     TagFilter.tsx
-  InteractiveMosaic02.tsx  # p5.jsを使ったモザイク画像エフェクト
+  InteractiveMosaic02.tsx  # canvas 2D API によるモザイク画像エフェクト（p5.js 不使用）
 
 lib/
-  api.ts                # MicroCMS APIクライアント（記事・ニュース取得）
+  api.ts                # MicroCMS APIクライアント（記事・ニュース取得・下書き取得）
   types.ts              # 型定義（ContentItem, Article, News, OpenTalk等）
   openTalks.ts          # Open Talks静的データ（ハードコード）
   date.ts               # 日付フォーマット
@@ -74,8 +76,23 @@ public/
 filters: `publish_sites[contains]tsg-creative-lab`
 ```
 
-キャッシュ再検証は `POST /api/revalidate` エンドポイント経由（`x-contentful-secret` ヘッダーで認証）。
-※ヘッダー名が `x-contentful-secret` になっているが実際はMicroCMSウェブフックを想定している。
+キャッシュ再検証は `POST /api/revalidate` エンドポイント経由。
+- ヘッダー: `x-microcms-secret: [MICROCMS_REVALIDATE_SECRET]`
+- MicroCMS 管理画面の Webhook でこのヘッダーを設定する
+
+### MicroCMS 下書きプレビュー（Draft Mode）
+
+Next.js の Draft Mode を使用。記事・ニュースの下書きをブラウザで確認できる。
+
+**フロー:**
+1. MicroCMS のプレビューURLを設定: `http://localhost:3000/api/draft?secret=XXX&contentId={CONTENT_ID}&draftKey={DRAFT_KEY}&type=article`
+2. `/api/draft` が Draft Mode を有効化（クッキーをセット）し `/articles/[slug]` にリダイレクト
+3. ページが `draftMode().isEnabled` を確認し、`getArticleDraft(contentId, draftKey)` で下書きを取得
+4. 画面下部に "DRAFT PREVIEW MODE" バナー + Exit リンクを表示
+
+**ローカル確認:** `npm run dev` 後、MicroCMS の下書き記事URLから `CONTENT_ID` と `DRAFT_KEY` をコピーしてプレビューURLに貼り付けるだけで確認可能。
+
+**複数LPの扱い:** MicroCMS はプレビューURLを1つしか設定できない。複数LPで共有している場合はスプレッドシート等にLPごとのURLテンプレートを用意し、メンバーが手動で `CONTENT_ID` と `DRAFT_KEY` を書き換えて使う運用を推奨。
 
 ### Open Talks
 
@@ -101,10 +118,11 @@ interface ContentItem {
   - `--color-primary: #00ff00`（蛍光グリーン）
   - `--color-secondary: #016969`
   - `--color-border: #d1d5db`
+  - `--color-text-primary: #111111`（メインテキスト色。変更するならここだけ）
   - フォント: `--font-sans`（fot-cezanne-pron → Zen Kaku Gothic New）、`--font-en`（helvetica-neue-lt-pro → Inter）
 - **流体テキストサイズ**: `text-fluid-xs` 〜 `text-fluid-9xl`（`clamp()` ベース）
 - **セクション間隔**: `.section-spacing` クラスで統一
-- **green-mosaic.gif**: 見出しの背景・ホバーエフェクトとして多用
+- **green-mosaic.gif**: 見出しの背景・ホバーエフェクトとして多用。`<Image>` で使う場合は必ず `unoptimized` を付ける
 
 ## フォント
 
@@ -131,10 +149,12 @@ interface ContentItem {
 - `Header.tsx` はPC（`lg:block`）のみ表示。モバイルはコメントアウト済み。
 - モバイルのキービジュアルは静的画像 `/images/common/keyvisual-mobile.jpg`、PCは `HeroSection`（p5.js + WebGL）。
 - `ContentCard` では Article は強制的に内部ページへ、News/OpenTalks は `link` フィールドがあれば外部リンク。
-- MicroCMSの画像URLには自動でリサイズパラメータ（`?w=800&h=800`）が付与される（`ContentCard` の `getResizedImageUrl`）。
-- `.env.local` に `MICROCMS_SERVICE_DOMAIN`・`MICROCMS_API_KEY`・`CONTENTFUL_REVALIDATE_SECRET` が必要（`.env.example` 参照）。
+- MicroCMSの画像URLには自動でリサイズパラメータ（`?w=1200&h=1200`）が付与される（`ContentCard` の `getResizedImageUrl`）。
+- `InteractiveMosaic02` は **canvas 2D API** で実装（p5.js/WebGL 不使用）。ホバーで0/1切り替え。WebGLコンテキスト枯渇・CORS問題の回避のため書き直した経緯あり。
+- `.env.local` に `MICROCMS_SERVICE_DOMAIN`・`MICROCMS_API_KEY`・`MICROCMS_REVALIDATE_SECRET`・`MICROCMS_PREVIEW_SECRET` が必要（`.env.example` 参照）。
 - `FloatingApplicationButton` はデスクトップ（`hidden md:block`）のみ表示。
 - `ApllicationSection` ファイル名にtypo（"Apllication"）——変更しないこと（import多数）。
+- テキスト色は原則 `text-text-primary` / `var(--color-text-primary)` を使うこと。`text-gray-*` や `text-black` のハードコードは避ける。
 
 ## ブランチ運用
 
