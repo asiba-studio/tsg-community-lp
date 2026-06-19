@@ -79,7 +79,7 @@ export default function ContentList({
       className={`grid ${getGridClasses()}`}
       style={{ gap: gapValue }}
     >
-      {contents.map((content) => (
+      {filteredContents.map((content) => (
         <ContentCard
           key={content.slug}
           content={content}

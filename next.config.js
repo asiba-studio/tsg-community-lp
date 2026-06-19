@@ -3,8 +3,10 @@ const nextConfig = {
   reactStrictMode: true,
   // output: 'export',
   images: {
-    unoptimized: false,
-    domains: ['images.ctfassets.net'],
+    remotePatterns: [
+      { protocol: 'https', hostname: 'images.ctfassets.net' },
+      { protocol: 'https', hostname: 'images.microcms-assets.io' },
+    ],
   },
 };
 

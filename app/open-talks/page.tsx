@@ -35,6 +35,7 @@ export default async function OpenTalksPage() {
           自らの衝動から表現と生き方を切り拓いてきたゲストを招いた
           <Image
             src="/gifs/green-mosaic.gif"
+            unoptimized
             alt="green mosaic"
             width={500}
             height={140}

@@ -15,6 +15,7 @@ export function ProgramPhase1() {
                 <h3 className="font-en font-bold text-4xl leading-none relative">
                     <Image
                         src="/gifs/green-mosaic.gif"
+                        unoptimized
                         alt="green mosaic"
                         width={500}
                         height={500}
@@ -91,6 +92,7 @@ export function ProgramPhase2() {
                 <h3 className="font-en font-bold text-4xl leading-none relative">
                     <Image
                         src="/gifs/green-mosaic.gif"
+                        unoptimized
                         alt="green mosaic"
                         width={500}
                         height={500}
@@ -145,6 +147,7 @@ export function ProgramPhase3() {
                 <h3 className="font-en font-bold text-4xl leading-none relative">
                     <Image
                         src="/gifs/green-mosaic.gif"
+                        unoptimized
                         alt="green mosaic"
                         width={500}
                         height={500}

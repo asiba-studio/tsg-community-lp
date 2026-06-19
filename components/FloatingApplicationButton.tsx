@@ -131,6 +131,7 @@ export default function FloatingApplicationButton() {
             >
                 <Image
                     src="/gifs/green-mosaic.gif"
+                    unoptimized
                     alt="green mosaic"
                     // widthとheightはボタンのサイズに合わせる
                     width={BUTTON_WIDTH}

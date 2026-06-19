@@ -62,6 +62,7 @@ export default async function Page() {
             <h2 className="font-en font-bold text-fluid-5xl leading-none relative px-[1.5vw] inline-block mb-8">
               <Image
                 src="/gifs/green-mosaic.gif"
+                unoptimized
                 alt="green mosaic"
                 width={500}
                 height={140}
@@ -90,6 +91,7 @@ export default async function Page() {
             <h2 className="font-en font-bold text-fluid-4xl leading-none relative px-[1.5vw] inline-block mb-8">
               <Image
                 src="/gifs/green-mosaic.gif"
+                unoptimized
                 alt="green mosaic"
                 width={500}
                 height={140}
@@ -127,6 +129,7 @@ export default async function Page() {
             <h2 className="font-en font-bold text-fluid-4xl leading-none relative px-[1.5vw] inline-block mb-8">
               <Image
                 src="/gifs/green-mosaic.gif"
+                unoptimized
                 alt="green mosaic"
                 width={500}
                 height={140}
@@ -201,6 +204,7 @@ export default async function Page() {
             <h2 className="font-en font-bold text-fluid-5xl leading-none relative px-[1.5vw] inline-block mb-8">
               <Image
                 src="/gifs/green-mosaic.gif"
+                unoptimized
                 alt="green mosaic"
                 width={500}
                 height={140}

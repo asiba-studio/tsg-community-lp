@@ -143,6 +143,7 @@ export default function ProjectsFairPage() {
                                 Projects Fair
                                 <Image
                                     src="/gifs/green-mosaic.gif"
+                                    unoptimized
                                     alt="green mosaic"
                                     width={500}
                                     height={140}

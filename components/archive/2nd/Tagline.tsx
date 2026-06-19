@@ -14,6 +14,7 @@ export default function Tagline() {
                 自ら
                 <Image
                     src="/gifs/green-mosaic.gif"
+                    unoptimized
                     alt="green mosaic"
                     width={500}
                     height={140}
@@ -26,6 +27,7 @@ export default function Tagline() {
                     <div className="-ml-[0.8rem] lg:-ml-[1.5rem]">
                         <Image
                             src="/gifs/green-mosaic.gif"
+                            unoptimized
                             alt="green mosaic"
                             width={500}
                             height={140}

@@ -76,6 +76,7 @@ export default function ProgramCard({
                     <div className="px-6 py-3 w-1/2 font-bold pointer-events-auto">
                         <Image
                             src="/gifs/green-mosaic.gif"
+                            unoptimized
                             alt="green mosaic"
                             width={500}
                             height={140}

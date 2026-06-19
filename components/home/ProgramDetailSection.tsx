@@ -8,6 +8,7 @@ export default function ProgramDetailSection() {
             <h2 className="font-en font-bold text-fluid-5xl leading-none relative px-[1.5vw] inline-block">
                 <Image
                     src="/gifs/green-mosaic.gif"
+                    unoptimized
                     alt="green mosaic"
                     width={500}
                     height={140}
