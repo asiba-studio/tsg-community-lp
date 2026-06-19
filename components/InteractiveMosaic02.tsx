@@ -24,6 +24,8 @@ interface InteractiveMosaic02Props {
   mosaicSize?: MosaicSize;
   targetFPS?: number;    // API互換のため残す
   aspectRatio?: number;
+  objectFit?: 'cover' | 'contain';
+  background?: string;
 }
 
 export default function InteractiveMosaic02({
@@ -34,18 +36,24 @@ export default function InteractiveMosaic02({
   style = {},
   mosaicSize = 'medium',
   aspectRatio = 1,
+  objectFit = 'cover',
+  background = '#ffffff',
 }: InteractiveMosaic02Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imageRef = useRef<HTMLImageElement | null>(null);
   const isHoveredRef = useRef(false);
   const mosaicSizeRef = useRef(mosaicSize);
+  const objectFitRef = useRef(objectFit);
+  const backgroundRef = useRef(background);
 
   const [loadError, setLoadError] = useState(false);
   const [dimensions, setDimensions] = useState({ width: 800, height: 800 });
   const lastDimsRef = useRef({ width: 800, height: 800 });
 
   useEffect(() => { mosaicSizeRef.current = mosaicSize; }, [mosaicSize]);
+  useEffect(() => { objectFitRef.current = objectFit; }, [objectFit]);
+  useEffect(() => { backgroundRef.current = background; }, [background]);
 
   // canvas に描画する関数
   const drawCanvas = () => {
@@ -59,39 +67,61 @@ export default function InteractiveMosaic02({
     const w = canvas.width;
     const h = canvas.height;
 
+    // 背景塗りつぶし
+    ctx.fillStyle = backgroundRef.current;
+    ctx.fillRect(0, 0, w, h);
+
+    // contain / cover に応じた描画領域を算出
+    let drawX = 0, drawY = 0, drawW = w, drawH = h;
+    if (objectFitRef.current === 'contain') {
+      const imgAspect = img.naturalWidth / img.naturalHeight;
+      const canvasAspect = w / h;
+      if (imgAspect > canvasAspect) {
+        drawW = w;
+        drawH = Math.round(w / imgAspect);
+        drawX = 0;
+        drawY = Math.round((h - drawH) / 2);
+      } else {
+        drawH = h;
+        drawW = Math.round(h * imgAspect);
+        drawX = Math.round((w - drawW) / 2);
+        drawY = 0;
+      }
+    }
+
     if (isHoveredRef.current) {
       ctx.imageSmoothingEnabled = true;
-      ctx.drawImage(img, 0, 0, w, h);
+      ctx.drawImage(img, drawX, drawY, drawW, drawH);
       return;
     }
 
     const [sizeL, sizeC, sizeR] = getMosaicBlockSize(mosaicSizeRef.current);
-    const x1 = Math.floor(w * 0.33);
-    const x2 = Math.floor(w * 0.67);
+    const ax1 = drawX + Math.floor(drawW * 0.33);
+    const ax2 = drawX + Math.floor(drawW * 0.67);
 
     const sections = [
-      { x: 0,  sw: x1,     blockSize: sizeL },
-      { x: x1, sw: x2 - x1, blockSize: sizeC },
-      { x: x2, sw: w - x2,  blockSize: sizeR },
+      { x: drawX, sw: ax1 - drawX,       blockSize: sizeL },
+      { x: ax1,   sw: ax2 - ax1,          blockSize: sizeC },
+      { x: ax2,   sw: drawX + drawW - ax2, blockSize: sizeR },
     ];
 
     for (const s of sections) {
       if (s.sw <= 0) continue;
-      const srcX = (s.x / w) * img.naturalWidth;
-      const srcW = (s.sw / w) * img.naturalWidth;
+      const srcX = ((s.x - drawX) / drawW) * img.naturalWidth;
+      const srcW = (s.sw / drawW) * img.naturalWidth;
 
       if (s.blockSize <= 1) {
         ctx.imageSmoothingEnabled = true;
-        ctx.drawImage(img, srcX, 0, srcW, img.naturalHeight, s.x, 0, s.sw, h);
+        ctx.drawImage(img, srcX, 0, srcW, img.naturalHeight, s.x, drawY, s.sw, drawH);
       } else {
         const pw = Math.max(1, Math.ceil(s.sw / s.blockSize));
-        const ph = Math.max(1, Math.ceil(h / s.blockSize));
+        const ph = Math.max(1, Math.ceil(drawH / s.blockSize));
         const tmp = document.createElement('canvas');
         tmp.width = pw;
         tmp.height = ph;
         tmp.getContext('2d')!.drawImage(img, srcX, 0, srcW, img.naturalHeight, 0, 0, pw, ph);
         ctx.imageSmoothingEnabled = false;
-        ctx.drawImage(tmp, s.x, 0, s.sw, h);
+        ctx.drawImage(tmp, s.x, drawY, s.sw, drawH);
       }
     }
   };

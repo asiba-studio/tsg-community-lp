@@ -252,15 +252,17 @@ export default async function ArticlePage({ params, searchParams }: Props) {
                                     width="100%"
                                     mosaicSize='large'
                                     aspectRatio={2.35}
+                                    objectFit="contain"
+                                    background="#00ff00"
                                 />
                             </div>
                             {/* Mobile: 通常画像 */}
-                            <div className='block lg:hidden w-full aspect-[2.35/1] relative'>
+                            <div className='block lg:hidden w-full aspect-[2.35/1] relative bg-primary'>
                                 <Image
                                     src={article.headerImage}
                                     alt={article.title}
                                     fill
-                                    className="object-cover"
+                                    className="object-contain"
                                     priority
                                     unoptimized={true}
                                 />
