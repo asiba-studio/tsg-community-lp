@@ -432,7 +432,7 @@ export default function HeroSection() {
                     alt="Loading..."
                     className="w-30"
                 />
-                <span className="ml-2 text-black">Loading...</span>
+                <span className="ml-2 text-text-primary">Loading...</span>
             </div>
         );
     }
@@ -442,7 +442,7 @@ export default function HeroSection() {
         return (
             <div className="w-full h-full flex flex-col justify-center items-center font-en font-bold">
                 <div className="text-red-500">⚠️ Canvas loading failed</div>
-                <div className="text-sm text-gray-600 mt-2">Falling back to static content...</div>
+                <div className="text-sm text-text-primary mt-2">Falling back to static content...</div>
                 {/* 静的な代替コンテンツを表示 */}
                 <img 
                     src="/p5sketches/top-motion/logoC.png" 
@@ -462,7 +462,7 @@ export default function HeroSection() {
                     alt="Loading..."
                     className="w-30"
                 />
-                <span className="ml-2 text-black">Loading Canvas...</span>
+                <span className="ml-2 text-text-primary">Loading Canvas...</span>
             </div>
         );
     }

@@ -13,7 +13,6 @@ import ApplicationSection from "../components/home/ApllicationSection";
 import Tagline from "../components/home/Tagline";
 import Image from "next/image";
 import { getArticles, getNews } from "lib/api";
-import FloatingApplicationButton from "@/components/FloatingApplicationButton";
 
 
 export default async function Page() {
@@ -231,12 +230,6 @@ export default async function Page() {
         </div>
 
       </div>
-
-      {/* Floating Application Button */}
-      <div className="hidden md:block">
-        <FloatingApplicationButton />
-      </div>
-
 
     </div>
   );

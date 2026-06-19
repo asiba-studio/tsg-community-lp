@@ -7,7 +7,7 @@ const styles = {
     fontSize: '22px',
     lineHeight: '2.0',
     margin: '0 0 30px 0',
-    color: '#333333',
+    color: 'var(--color-text-primary)',
     fontWeight: 700,
     WebkitFontSmoothing: 'antialiased' as const,
     MozOsxFontSmoothing: 'grayscale' as const,
