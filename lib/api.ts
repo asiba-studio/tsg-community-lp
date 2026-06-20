@@ -103,7 +103,7 @@ const fetchArticlesData = async (): Promise<Article[]> => {
 
         const title = entry.title_ja || '';
         const subtitle = entry.subtitle_ja;
-        const slug = entry.slug || entry.id;
+        const slug = entry.id;
         const publishDate = entry.date || entry.publishedAt;
         const summary = entry.summary_ja;
         const noteUrl = entry.note_url; // Check field name in typical usage, JSON said 'note_url'
@@ -174,7 +174,7 @@ const fetchNewsData = async (): Promise<News[]> => {
     return response.contents.map((entry) => {
         const title = entry.title_ja || '';
         const subtitle = entry.subtitle_ja;
-        const slug = entry.slug || entry.id;
+        const slug = entry.id;
         const publishDate = entry.date || entry.publishedAt;
         const summary = entry.summary_ja;
         const link = entry.link;
@@ -238,7 +238,7 @@ export async function getArticleDraft(contentId: string, draftKey: string): Prom
 
         return {
             id: entry.id,
-            slug: entry.slug || entry.id,
+            slug: entry.id,
             title: entry.title_ja || '',
             subtitle: entry.subtitle_ja,
             coverImage: lpSetting?.cover_square?.url || entry.cover?.url || '',
@@ -271,7 +271,7 @@ export async function getNewsDraft(contentId: string, draftKey: string): Promise
 
         return {
             id: entry.id,
-            slug: entry.slug || entry.id,
+            slug: entry.id,
             title: entry.title_ja || '',
             subtitle: entry.subtitle_ja,
             coverImage: entry.cover?.url || '',
