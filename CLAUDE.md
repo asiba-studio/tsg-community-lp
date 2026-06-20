@@ -73,12 +73,25 @@ public/
 
 ```ts
 // フィルター: publish_sites に 'tsg-creative-lab' が含まれるもののみ取得
+// publish_sites[contains] は関連コンテンツの content ID で絞り込む（slug ではない）
 filters: `publish_sites[contains]tsg-creative-lab`
 ```
 
 キャッシュ再検証は `POST /api/revalidate` エンドポイント経由。
-- ヘッダー: `x-microcms-secret: [MICROCMS_REVALIDATE_SECRET]`
-- MicroCMS 管理画面の Webhook でこのヘッダーを設定する
+
+**MicroCMS Webhook 設定手順（APIエンドポイントごとに設定）:**
+1. Webhook タイプは **「Custom」** を選択（「Vercel」タイプはカスタムヘッダー非対応のため不可）
+2. URL: `https://tsg-community.asiba.or.jp/api/revalidate`
+3. Custom Request Headers に追加:
+   - Key: `X-MICROCMS-SECRET`（MicroCMSの仕様上 `X-` プレフィックス必須・大文字）
+   - Value: 環境変数 `MICROCMS_REVALIDATE_SECRET` と同じ値
+4. Notification Timing の推奨設定:
+   - Publish グループ: 全チェック
+   - Unpublish グループ: 「Unpublish content or revert it to draft in the editor」「Unpublish scheduled content」をチェック
+   - Delete published content: 「Delete published content in the editor」をチェック
+   - Draft 系・API 設定系: 不要
+
+**複数LP運用時:** 同一 MicroCMS で複数 LP を運用している場合、APIエンドポイント（article/news 等）ごとに各 LP の revalidate URL を Webhook 通知先として追加する（3 API × LP数 = 合計 Webhook 数）。
 
 ### MicroCMS 下書きプレビュー（Draft Mode）
 
@@ -86,7 +99,7 @@ Next.js の Draft Mode を使用。記事・ニュースの下書きをブラウ
 
 **フロー:**
 1. MicroCMS のプレビューURLを設定: `http://localhost:3000/api/draft?secret=XXX&contentId={CONTENT_ID}&draftKey={DRAFT_KEY}&type=article`
-2. `/api/draft` が Draft Mode を有効化（クッキーをセット）し `/articles/[slug]` にリダイレクト
+2. `/api/draft` が Draft Mode を有効化（クッキーをセット）し `/articles/[contentId]` にリダイレクト
 3. ページが `draftMode().isEnabled` を確認し、`getArticleDraft(contentId, draftKey)` で下書きを取得
 4. 画面下部に "DRAFT PREVIEW MODE" バナー + Exit リンクを表示
 
@@ -102,7 +115,9 @@ Next.js の Draft Mode を使用。記事・ニュースの下書きをブラウ
 
 ```ts
 interface ContentItem {
-  id, slug, title, subtitle?,
+  id,            // MicroCMS content ID
+  slug,          // URL識別子 = content ID（api.ts で entry.id をセット。MicroCMS の slug フィールドは廃止予定）
+  title, subtitle?,
   coverImage,    // リスト表示用（正方形）
   headerImage,   // 詳細ページヘッダー用（横長）
   date, tags, excerpt?, link?,
@@ -122,7 +137,7 @@ interface ContentItem {
   - フォント: `--font-sans`（fot-cezanne-pron → Zen Kaku Gothic New）、`--font-en`（helvetica-neue-lt-pro → Inter）
 - **流体テキストサイズ**: `text-fluid-xs` 〜 `text-fluid-9xl`（`clamp()` ベース）
 - **セクション間隔**: `.section-spacing` クラスで統一
-- **green-mosaic.gif**: 見出しの背景・ホバーエフェクトとして多用。`<Image>` で使う場合は必ず `unoptimized` を付ける
+- **GIF画像全般**: `<Image>` で GIF を使う場合は必ず `unoptimized` を付ける（Next.js はアニメーション GIF を最適化できないため警告が出る）。`<img>` タグや `PixelImage` コンポーネントは対象外。`MosaicIcon.tsx` など動的パスの場合も同様。
 
 ## フォント
 
@@ -136,9 +151,9 @@ interface ContentItem {
 | `/` | トップ（HeroSection, News, OpenTalks, Programs, Articles） |
 | `/about` | Creative-LAB.の説明（簡素、要拡充） |
 | `/articles` | 記事一覧 |
-| `/articles/[slug]` | 記事詳細 |
+| `/articles/[slug]` | 記事詳細（`[slug]` は MicroCMS の content ID） |
 | `/news` | ニュース一覧 |
-| `/news/[slug]` | ニュース詳細 |
+| `/news/[slug]` | ニュース詳細（`[slug]` は MicroCMS の content ID） |
 | `/open-talks` | Open Talks一覧 |
 | `/open-talks/[slug]` | Open Talks詳細 |
 | `/projects-fair` | Projects Fair |
