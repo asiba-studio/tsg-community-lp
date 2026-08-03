@@ -54,7 +54,6 @@ export default function ProgramCard({
                     />
                 </div>
             </div>
-            <div className="text-lg">|||</div>
             <div className="flex-1">
                 <div className="font-bold text-lg">
                     {title}

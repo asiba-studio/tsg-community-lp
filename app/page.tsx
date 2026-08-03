@@ -9,7 +9,6 @@ import ProgramDetailSection from "../components/home/ProgramDetailSection";
 import ApplicationSection from "../components/home/ApllicationSection";
 //import PlayerSection from "./components/PlayerSection";
 import Tagline from "../components/home/Tagline";
-import Image from "next/image";
 import { getArticles, getNews } from "lib/api";
 
 
@@ -45,17 +44,7 @@ export default async function Page() {
 
           {/* News Section */}
           <section className="w-full pt-[100px] border-t border-border">
-            <h2 className="font-en font-bold text-5xl leading-none relative px-[1.5vw] inline-block mb-8">
-              <Image
-                src="/gifs/green-mosaic.gif"
-                unoptimized
-                alt="green mosaic"
-                width={500}
-                height={140}
-                className="absolute inset-0 w-full h-full scale-x-[1.1] object-cover -z-10"
-                quality={80}
-                sizes="(max-width: 768px) 50vw, 30vw"
-              />
+            <h2 className="font-en font-bold text-5xl leading-none inline-block mb-8 text-primary">
               News
             </h2>
 
@@ -112,17 +101,7 @@ export default async function Page() {
 
           {/* Articles Section */}
           <section className="w-full section-spacing border-t border-border">
-            <h2 className="font-en font-bold text-5xl leading-none relative px-[1.5vw] inline-block mb-8">
-              <Image
-                src="/gifs/green-mosaic.gif"
-                unoptimized
-                alt="green mosaic"
-                width={500}
-                height={140}
-                className="absolute inset-0 w-full h-full scale-x-[1.1] object-cover -z-10"
-                quality={80}
-                sizes="(max-width: 768px) 50vw, 30vw"
-              />
+            <h2 className="font-en font-bold text-5xl leading-none inline-block mb-8 text-primary">
               Article
             </h2>
             <div className="w-full">

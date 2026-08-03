@@ -34,30 +34,23 @@
   }
 
   h1 {
-    @apply font-bold tracking-tight text-text-primary;
-    font-size: 36px;
+    @apply font-bold tracking-tight text-text-primary text-5xl;
   }
 
   h2 {
-    @apply font-bold text-text-primary;
-    font-size: 30px;
+    @apply font-bold text-text-primary text-4xl;
   }
 
   h3 {
-    @apply font-bold text-text-primary;
-    font-size: 23px;
+    @apply font-bold text-text-primary text-xl;
   }
 
   h4,
   h5,
-  h6 {
-    @apply font-bold text-text-primary;
-    font-size: 18px;
-  }
+  h6,
 
   p {
-    @apply text-text-primary;
-    font-size: 16px;
+    @apply text-text-primary text-base leading-loose;
   }
 
   p:empty {
@@ -272,7 +265,7 @@
   }
 
   .custom-ul>li::before {
-    content: "|||";
+    content: "・";
     position: absolute;
     left: 0;
   }

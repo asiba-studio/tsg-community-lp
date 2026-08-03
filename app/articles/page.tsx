@@ -43,17 +43,7 @@ export default async function ArticlesPage() {
 
       <div className='w-full px-[14px] lg:px-[4vw]'>
         <section className="w-full  pt-30">
-          <h2 className="font-en font-bold text-5xl leading-none relative px-[1.5vw] inline-block mb-8">
-            <Image
-              src="/gifs/green-mosaic.gif"
-              unoptimized
-              alt="green mosaic"
-              width={500}
-              height={140}
-              className="absolute inset-0 w-full h-full scale-x-[1.1] object-cover -z-10"
-              quality={80}
-              sizes="(max-width: 768px) 50vw, 30vw"
-            />
+          <h2 className="font-en font-bold text-5xl leading-none inline-block mb-8 text-primary">
             Article
           </h2>
 

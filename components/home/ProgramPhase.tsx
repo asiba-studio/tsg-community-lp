@@ -27,7 +27,7 @@ function PhaseCard({ title, homework = false }: { title: string; homework?: bool
             dateTime={homework ? HOMEWORK_DATETIME : DUMMY_DATETIME}
             location={homework ? HOMEWORK_VENUE : DUMMY_VENUE}
         >
-            <div className="text-sm leading-snug">
+            <div className="text-sm">
                 {DUMMY_DESCRIPTION}
             </div>
         </ProgramCard>
@@ -40,9 +40,9 @@ export function ProgramPhase1() {
 
         <div className="w-full flex flex-col">
             <div className="flex flex-wrap gap-4 items-baseline">
-                <h3 className="font-en font-bold text-4xl leading-none">
+                <h2 className="font-en font-bold text-4xl leading-none">
                     <span className="text-primary">Phase 1</span>
-                </h3>
+                </h2>
                 <div className="font-zen font-bold text-xl lg:text-2xl">世界観を磨く</div>
             </div>
 
@@ -53,8 +53,8 @@ export function ProgramPhase1() {
             </div>
 
             <div className="w-full px-0 py-10">
-                <h4 className="hidden">Phase 1 Program</h4>
-                <ul className="px-[3%] space-y-8">
+                <h3 className="hidden">Phase 1 Program</h3>
+                <ul className="space-y-8">
                     <li><PhaseCard title="LAB合同キックオフ" /></li>
                     <li><PhaseCard title="ゼミ #1" /></li>
                     <li><PhaseCard title="homework" homework /></li>
@@ -71,9 +71,9 @@ export function ProgramPhase2() {
 
         <div className="w-full flex flex-col">
             <div className="flex flex-wrap gap-4 items-baseline">
-                <h3 className="font-en font-bold text-4xl leading-none">
+                <h2 className="font-en font-bold text-4xl leading-none">
                     <span className="text-primary">Phase 2</span>
-                </h3>
+                </h2>
                 <div className="font-zen font-bold text-xl lg:text-2xl">場を生み出す</div>
             </div>
 
@@ -84,8 +84,8 @@ export function ProgramPhase2() {
             </div>
 
             <div className="w-full px-0 py-10">
-                <h4 className="hidden">Phase 2 Program</h4>
-                <ul className="px-[3%] space-y-8">
+                <h3 className="hidden">Phase 2 Program</h3>
+                <ul className="space-y-8">
                     <li><PhaseCard title="ゼミ #2" /></li>
                     <li><PhaseCard title="homework" homework /></li>
                 </ul>
@@ -100,9 +100,9 @@ export function ProgramPhase3() {
 
         <div className="w-full flex flex-col">
             <div className="flex flex-wrap gap-4 items-baseline">
-                <h3 className="font-en font-bold text-4xl leading-none">
+                <h2 className="font-en font-bold text-4xl leading-none">
                     <span className="text-primary">Phase 3</span>
-                </h3>
+                </h2>
                 <div className="font-zen font-bold text-xl lg:text-2xl">場を育てる</div>
             </div>
 
@@ -114,8 +114,8 @@ export function ProgramPhase3() {
             </div>
 
             <div className="w-full px-0 py-10">
-                <h4 className="hidden">Phase 3 Program</h4>
-                <ul className="px-[3%] space-y-8">
+                <h3 className="hidden">Phase 3 Program</h3>
+                <ul className="space-y-8">
                     <li><PhaseCard title="1Day キャンプ" /></li>
                     <li><PhaseCard title="ゼミ #3" /></li>
                     <li><PhaseCard title="homework" homework /></li>
