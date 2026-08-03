@@ -32,18 +32,18 @@ export default async function Page() {
 
 
       {/* Tagline */}
-      <section className="w-full h-auto mt-40 mb-70 p-[4vw]">
+      <section className="w-full h-auto mt-40 p-[4vw]">
         <Tagline />
       </section>
 
       {/* Main Container */}
-      <div className="w-full p-[14px] lg:p-8 -mt-40 flex flex-col lg:flex-row lg:gap-40">
+      <div className="w-full px-[14px] lg:px-8 grid grid-cols-1 lg:grid-cols-[5fr_2fr] lg:gap-x-[14vw]">
 
         {/* Left Conteiner */}
-        <div className="w-full lg:w-2/3">
+        <div className="w-full">
 
           {/* News Section */}
-          <section className="w-full pt-[100px] border-t border-border">
+          <section className="w-full pt-[100px]">
             <h2 className="font-en font-bold text-5xl leading-none inline-block mb-8 text-primary">
               News
             </h2>
@@ -62,23 +62,23 @@ export default async function Page() {
           </section>
 
           {/* Icon Section */}
-          <section id="program" className="w-full section-spacing pb-4 border-t border-border">
+          <section id="program" className="w-full mt-30">
             <ProgramPhase1 />
           </section>
-          <section className="w-full section-spacing pb-4 border-t border-border">
+          <section className="w-full mt-30">
             <ProgramPhase2 />
           </section>
-          <section className="w-full section-spacing pb-4 border-t border-border">
+          <section className="w-full mt-30">
             <ProgramPhase3 />
           </section>
 
           {/* Program Section */}
-          <section className="w-full section-spacing border-t border-border">
+          <section className="w-full mt-30">
             <ProgramDetailSection />
           </section>
 
           {/* Application Section */}
-          <div className="w-full section-spacing border-t border-border">
+          <div className="w-full mt-30">
             <ApplicationSection />
           </div>
 
@@ -87,9 +87,9 @@ export default async function Page() {
         </div>
 
         {/* Right Container */}
-        <div className="w-full lg:w-1/3">
+        <div className="w-full">
           {/* Statement Section*/}
-          <section className="w-full pt-0 lg:pt-100 px-[2.5vw] section-spacing">
+          <section className="w-full mt-46">
             <StatementShort />
 
             <div className="w-full mt-20 flex justify-start">
@@ -100,7 +100,7 @@ export default async function Page() {
           </section>
 
           {/* Articles Section */}
-          <section className="w-full section-spacing border-t border-border">
+          <section className="w-full mt-16">
             <h2 className="font-en font-bold text-5xl leading-none inline-block mb-8 text-primary">
               Article
             </h2>

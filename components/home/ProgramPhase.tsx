@@ -27,9 +27,9 @@ function PhaseCard({ title, homework = false }: { title: string; homework?: bool
             dateTime={homework ? HOMEWORK_DATETIME : DUMMY_DATETIME}
             location={homework ? HOMEWORK_VENUE : DUMMY_VENUE}
         >
-            <div className="text-sm">
+            <p>
                 {DUMMY_DESCRIPTION}
-            </div>
+            </p>
         </ProgramCard>
     );
 }
@@ -39,7 +39,7 @@ export function ProgramPhase1() {
     return (
 
         <div className="w-full flex flex-col">
-            <div className="flex flex-wrap gap-4 items-baseline">
+            <div className="flex flex-wrap gap-8 items-baseline">
                 <h2 className="font-en font-bold text-4xl leading-none">
                     <span className="text-primary">Phase 1</span>
                 </h2>
@@ -52,7 +52,7 @@ export function ProgramPhase1() {
                 <PhaseIcon label="問いをみつける" />
             </div>
 
-            <div className="w-full px-0 py-10">
+            <div className="w-full px-0 mt-4">
                 <h3 className="hidden">Phase 1 Program</h3>
                 <ul className="space-y-8">
                     <li><PhaseCard title="LAB合同キックオフ" /></li>
@@ -70,7 +70,7 @@ export function ProgramPhase2() {
     return (
 
         <div className="w-full flex flex-col">
-            <div className="flex flex-wrap gap-4 items-baseline">
+            <div className="flex flex-wrap gap-8 items-baseline">
                 <h2 className="font-en font-bold text-4xl leading-none">
                     <span className="text-primary">Phase 2</span>
                 </h2>
@@ -83,7 +83,7 @@ export function ProgramPhase2() {
                 <PhaseIcon label="ダミー概念6" />
             </div>
 
-            <div className="w-full px-0 py-10">
+            <div className="w-full px-0 mt-4">
                 <h3 className="hidden">Phase 2 Program</h3>
                 <ul className="space-y-8">
                     <li><PhaseCard title="ゼミ #2" /></li>
@@ -99,7 +99,7 @@ export function ProgramPhase3() {
     return (
 
         <div className="w-full flex flex-col">
-            <div className="flex flex-wrap gap-4 items-baseline">
+            <div className="flex flex-wrap gap-8 items-baseline">
                 <h2 className="font-en font-bold text-4xl leading-none">
                     <span className="text-primary">Phase 3</span>
                 </h2>
@@ -113,7 +113,7 @@ export function ProgramPhase3() {
                 <PhaseIcon label="ダミー概念10" />
             </div>
 
-            <div className="w-full px-0 py-10">
+            <div className="w-full px-0 mt-4">
                 <h3 className="hidden">Phase 3 Program</h3>
                 <ul className="space-y-8">
                     <li><PhaseCard title="1Day キャンプ" /></li>

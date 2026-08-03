@@ -30,11 +30,11 @@ export default function ProgramCard({
 
     const cardContent = (
         <div
-            className="flex flex-wrap gap-2 gap-y-4 md:gap-4 relative"
+            className="flex flex-wrap gap-2 gap-y-4 md:gap-8 relative"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
-            <div className="w-full md:w-44">
+            <div className="w-full md:w-1/4">
                 <div className="hidden lg:block w-full">
                     <HalftoneHoverImage
                         normalSrc={imageUrl}
@@ -55,7 +55,7 @@ export default function ProgramCard({
                 </div>
             </div>
             <div className="flex-1">
-                <div className="font-bold text-lg">
+                <div className="font-bold text-xl leading-snug">
                     {title}
                     {reportSlug && isHovered && (
                         <span className="ml-2 bg-primary px-2 py-1 mt-1">

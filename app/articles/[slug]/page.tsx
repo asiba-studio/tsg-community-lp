@@ -7,6 +7,7 @@ import parse, { DOMNode, Element, domToReact } from 'html-react-parser';
 import { getArticles, getArticleDraft } from 'lib/api';
 import { Header, Menu } from 'components/layout';
 import InteractiveMosaic02 from 'components/InteractiveMosaic02';
+import CTAButton from 'components/CTAButton';
 import { formatDateDot } from 'lib/date';
 import { ContentList } from 'components/articles';
 
@@ -312,18 +313,10 @@ export default async function ArticlePage({ params, searchParams }: Props) {
                         </div>
 
                         {article.link && (
-                            <div className="mt-40 text-left">
-                                <a
-                                    href={article.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="btn btn-lg font-en"
-                                >
+                            <div className="mt-40">
+                                <CTAButton href={article.link} className="font-en">
                                     Read on Note
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                                    </svg>
-                                </a>
+                                </CTAButton>
                             </div>
                         )}
                     </div>
