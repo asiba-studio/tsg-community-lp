@@ -22,24 +22,22 @@ export default function Tagline() {
                 />
                 「つくること」を通して、
             </p>
-            <p>
-                <div className="flex flex-wrap gap-x-4">
-                    <div className="-ml-[0.8rem] lg:-ml-[1.5rem]">
-                        <Image
-                            src="/gifs/green-mosaic.gif"
-                            unoptimized
-                            alt="green mosaic"
-                            width={500}
-                            height={140}
-                            className="inline w-24 -mr-24 lg:w-45 lg:-mr-45"
-                        />
-                        「生き方」を探していくための
-                    </div>
-                    <div>
-                        3ヶ月のオープンなラボプログラム
-                    </div>
+            <div className="flex flex-wrap gap-x-4">
+                <div className="-ml-[0.8rem] lg:-ml-[1.5rem]">
+                    <Image
+                        src="/gifs/green-mosaic.gif"
+                        unoptimized
+                        alt="green mosaic"
+                        width={500}
+                        height={140}
+                        className="inline w-24 -mr-24 lg:w-45 lg:-mr-45"
+                    />
+                    「生き方」を探していくための
                 </div>
-            </p>
+                <div>
+                    3ヶ月のオープンなラボプログラム
+                </div>
+            </div>
 
         </div>
     );

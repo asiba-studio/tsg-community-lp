@@ -1,24 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap');
-
 @import 'tailwindcss';
 
 @theme {
-  --color-primary: #00ff00;
-  --color-primary-content: #171717;
-  --color-secondary: #016969;
+  --color-primary: #ff0067;
+  --color-primary-content: #ffffff;
 
-  --color-text-primary: #111111;
-  --color-text-secondary: #016968;
+  --color-text-primary: #252525;
+  --color-link: #0000ff;
 
   --color-border-light: #e5e7eb;
   --color-border: #d1d5db;
 
-
-  --font-sans: 'fot-cezanne-pron', 'Zen Kaku Gothic New', system-ui, sans-serif;
-  --font-dnp: 'dnp-shuei-gothic-gin-std', 'fot-cezanne-pron', 'Zen Kaku Gothic New', system-ui, sans-serif;
-  --font-en: 'helvetica-neue-lt-pro', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-  --font-zen: 'Zen Kaku Gothic New', 'Inter', system-ui, sans-serif;
+  /* Latin: Helvetica / Japanese: Noto Sans JP（Adobe Fonts / Zen Kaku Gothic New / Inter から統一） */
+  --font-sans: 'Noto Sans JP', system-ui, sans-serif;
+  --font-en: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-zen: 'Noto Sans JP', system-ui, sans-serif;
 
   --section-margin-top: 5rem;
   --section-padding-y: 5rem;
@@ -39,31 +34,30 @@
   }
 
   h1 {
-    @apply text-4xl font-bold tracking-tight sm:text-5xl text-text-primary;
+    @apply font-bold tracking-tight text-text-primary;
+    font-size: 36px;
   }
 
   h2 {
-    @apply text-2xl font-bold sm:text-3xl text-text-primary;
+    @apply font-bold text-text-primary;
+    font-size: 30px;
   }
 
   h3 {
-    @apply text-xl font-bold text-text-primary;
+    @apply font-bold text-text-primary;
+    font-size: 23px;
   }
 
-  h4 {
-    @apply text-lg font-bold text-text-primary;
-  }
-
-  h5 {
-    @apply text-lg font-bold text-text-primary;
-  }
-
+  h4,
+  h5,
   h6 {
-    @apply text-lg font-bold text-text-primary;
+    @apply font-bold text-text-primary;
+    font-size: 18px;
   }
 
   p {
     @apply text-text-primary;
+    font-size: 16px;
   }
 
   p:empty {
@@ -77,6 +71,8 @@
 
   a:not(.btn) {
     @apply underline transition hover:opacity-80;
+    color: var(--color-link);
+    font-size: 16px;
   }
 
   :not(pre)>code {
@@ -281,71 +277,81 @@
     left: 0;
   }
 
-  /* Fluid Text Sizes - font-sizeとline-heightの両方を定義 */
+  /*
+   * Text Sizes - 旧デザインではvwベースのclamp()による可変フォントサイズだったが、
+   * 新デザインシステム（固定px・非レスポンシブ）への統一に伴い固定値に変更。
+   * クラス名は既存コンポーネントとの互換性のため "text-fluid-*" のまま維持している。
+   * base=16px(Body) / lg=18px(H4) / 3xl=30px(H2) / 4xl=36px(H1) は仕様の固定サイズと一致。
+   */
   .text-fluid-xs {
-    font-size: clamp(0.625rem, 1.5vw, 0.75rem);
-    line-height: clamp(0.875rem, 2vw, 1rem);
+    font-size: 0.75rem;
+    line-height: 1rem;
   }
 
   .text-fluid-sm {
-    font-size: clamp(0.75rem, 2vw, 0.875rem);
-    line-height: clamp(1rem, 2.5vw, 1.25rem);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
   }
 
   .text-fluid-base {
-    font-size: clamp(0.875rem, 2.5vw, 1rem);
-    line-height: clamp(1.25rem, 3vw, 1.5rem);
+    font-size: 1rem;
+    line-height: 1.5rem;
   }
 
   .text-fluid-lg {
-    font-size: clamp(1rem, 3vw, 1.125rem);
-    line-height: clamp(1.5rem, 4vw, 1.75rem);
+    font-size: 1.125rem;
+    line-height: 1.75rem;
   }
 
   .text-fluid-xl {
-    font-size: clamp(1.125rem, 3.5vw, 1.25rem);
-    line-height: clamp(1.5rem, 4vw, 1.75rem);
+    font-size: 1.25rem;
+    line-height: 1.75rem;
   }
 
   .text-fluid-2xl {
-    font-size: clamp(1.25rem, 4vw, 1.5rem);
-    line-height: clamp(1.75rem, 4.5vw, 2rem);
+    font-size: 1.5rem;
+    line-height: 2rem;
   }
 
   .text-fluid-3xl {
-    font-size: clamp(1.5rem, 5vw, 1.875rem);
-    line-height: clamp(2rem, 5.5vw, 2.25rem);
+    font-size: 1.875rem;
+    line-height: 2.25rem;
   }
 
   .text-fluid-4xl {
-    font-size: clamp(1.875rem, 6vw, 2.25rem);
-    line-height: clamp(2.25rem, 6.5vw, 2.5rem);
+    font-size: 2.25rem;
+    line-height: 2.5rem;
   }
 
   .text-fluid-5xl {
-    font-size: clamp(2.25rem, 7vw, 3rem);
+    font-size: 3rem;
     line-height: 1;
-    /* 大きなサイズは line-height: 1 */
   }
 
   .text-fluid-6xl {
-    font-size: clamp(3rem, 8vw, 3.75rem);
+    font-size: 3.75rem;
     line-height: 1;
   }
 
   .text-fluid-7xl {
-    font-size: clamp(3.75rem, 9vw, 4.5rem);
+    font-size: 4.5rem;
     line-height: 1;
   }
 
   .text-fluid-8xl {
-    font-size: clamp(4.5rem, 10vw, 6rem);
+    font-size: 6rem;
     line-height: 1;
   }
 
   .text-fluid-9xl {
-    font-size: clamp(6rem, 12vw, 8rem);
+    font-size: 8rem;
     line-height: 1;
+  }
+
+  /* Caption: 仕様の13px固定サイズ */
+  .text-caption {
+    font-size: 13px;
+    line-height: 1.5;
   }
 
 }

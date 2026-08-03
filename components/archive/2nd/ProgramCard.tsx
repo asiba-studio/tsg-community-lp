@@ -57,7 +57,7 @@ export default function ProgramCard({
                 <div className="font-bold text-fluid-lg">
                     {title}
                     {reportSlug && isHovered && (
-                        <span className="ml-2 bg-[#00FF00] px-2 py-1 mt-1">
+                        <span className="ml-2 bg-primary px-2 py-1 mt-1">
                             ：レポートを見る→
                         </span>
                     )}

@@ -1,6 +1,5 @@
 // src/app/page.tsx
 
-import HeroSection from "../components/home/HeroSection";
 import { StatementShort } from "../components/home/Statement";
 import { SimpleButton } from "components/button";
 import ContentList from "components/articles/ContentList";
@@ -25,13 +24,8 @@ export default async function Page() {
   return (
     <div>
 
-      {/* Hero Section */}
-      <section className="hidden md:block w-full aspect-[1300/680]">
-        <HeroSection />
-      </section>
-      <section className="block md:hidden w-full">
-        <Image src="/images/common/keyvisual-mobile.jpg" alt="Key Visual" width={1200} height={1500} className="w-full object-cover" quality={60} sizes="100vw" />
-      </section>
+      {/* Hero Section: 4期のキービジュアル未定のためプレースホルダー */}
+      <section className="w-full aspect-[16/9] md:aspect-[1300/680] border border-border bg-white" />
 
       {/* Navigation */}
       <div className="h-1 md:border-t md:border-border" />

@@ -231,7 +231,7 @@ export default function ProjectsFairPage() {
                                 </li>
                                 <li>
                                     <span className="font-bold">会場：</span>Tokyo Innovation Base 1F{' '}
-                                    <a href="https://tib.metro.tokyo.lg.jp/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 transition-colors">
+                                    <a href="https://tib.metro.tokyo.lg.jp/" target="_blank" rel="noopener noreferrer" className="transition-colors">
                                         WEB
                                     </a>
                                 </li>
@@ -246,7 +246,7 @@ export default function ProjectsFairPage() {
                                 </li>
                                 <li>
                                     <span className="font-bold">参加方法：</span>事前登録制 別途入場にはTiB専用アプリが必要になります。
-                                    <a href="https://tib.metro.tokyo.lg.jp/posts/pxFOffuM" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 transition-colors">
+                                    <a href="https://tib.metro.tokyo.lg.jp/posts/pxFOffuM" target="_blank" rel="noopener noreferrer" className="transition-colors">
                                         こちら
                                     </a>
                                     よりご確認いただき事前登録のご協力をお願いいたします。
@@ -269,7 +269,7 @@ export default function ProjectsFairPage() {
                                 <li>東京メトロ有楽町線「有楽町駅」D9出口すぐ</li>
                                 <li>東京メトロ有楽町線「銀座一丁目駅」1出口｜徒歩3分</li>
                                 <li>
-                                    <a href="https://www.google.co.jp/maps/place/Tokyo+Innovation+Base/@35.676286,139.763566,17z/data=!3m1!4b1!4m5!3m4!1s0x60188b6663611767:0x3c2b3b3b3b3b3b3b!8m2!3d35.676286!4d139.765355" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 transition-colors">
+                                    <a href="https://www.google.co.jp/maps/place/Tokyo+Innovation+Base/@35.676286,139.763566,17z/data=!3m1!4b1!4m5!3m4!1s0x60188b6663611767:0x3c2b3b3b3b3b3b3b!8m2!3d35.676286!4d139.765355" target="_blank" rel="noopener noreferrer" className="transition-colors">
                                         google map
                                     </a>
                                 </li>
@@ -307,7 +307,7 @@ export default function ProjectsFairPage() {
                                     <h3 className="font-bold text-fluid-lg mb-4">運営事務局：一般社団法人ASIBA</h3>
                                     <p className="leading-relaxed text-fluid-sm">
                                         ASIBAは、建築・デザイン・アート領域に問いと実践を往復する「クリエイティブ・アントレプレナー」を育み、誰もが自分の可能性や才能を諦めずに、クリエイションに挑戦できる社会を目指すオープンプラットフォームです。(参考：
-                                        <a href="https://asiba.or.jp/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 transition-colors">
+                                        <a href="https://asiba.or.jp/" target="_blank" rel="noopener noreferrer" className="transition-colors">
                                             https://asiba.or.jp/
                                         </a>
                                         )

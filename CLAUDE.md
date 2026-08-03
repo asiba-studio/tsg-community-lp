@@ -30,18 +30,20 @@ app/                    # Next.js App Router ページ
   open-talks/           # Open TALKsイベント一覧・詳細
   projects-fair/        # Projects Fair ページ
   archive/2nd/          # 2期生アーカイブ
+  archive/3rd/          # 3期生アーカイブ
   api/revalidate/       # MicroCMS Webhook によるキャッシュ再検証
   api/draft/            # Draft Mode 有効化（プレビュー用）
   api/disable-draft/    # Draft Mode 解除
 
 components/
   home/                 # トップページ専用コンポーネント群
-    HeroSection.tsx     # p5.js + WebGL インタラクティブキービジュアル（PC専用）
+    HeroSection.tsx     # p5.js + WebGL インタラクティブキービジュアル（PC専用・4期からトップページでは不使用。/projects-fair では使用中）
     Statement.tsx       # ステートメント文
     Tagline.tsx
     ProgramPhase.tsx    # プログラムの3フェーズ説明
     ProgramDetailSection.tsx
     ApllicationSection.tsx  # 応募セクション（typo注意: "Apllication"）
+  archive/2nd/, archive/3rd/  # 各期アーカイブページ専用のコンポーネント群（home配下のスナップショットをコピーして保持）
   layout/
     Header.tsx          # スティッキーナビゲーション（PC専用・'use client'）
     Footer.tsx          # フッター
@@ -129,26 +131,30 @@ interface ContentItem {
 ## スタイリング規則
 
 - **Tailwind v4**（`@import 'tailwindcss'` 形式）
-- **カスタムテーマ** (`globals.css` の `@theme`):
-  - `--color-primary: #00ff00`（蛍光グリーン）
-  - `--color-secondary: #016969`
-  - `--color-border: #d1d5db`
-  - `--color-text-primary: #111111`（メインテキスト色。変更するならここだけ）
-  - フォント: `--font-sans`（fot-cezanne-pron → Zen Kaku Gothic New）、`--font-en`（helvetica-neue-lt-pro → Inter）
-- **流体テキストサイズ**: `text-fluid-xs` 〜 `text-fluid-9xl`（`clamp()` ベース）
+- **カスタムテーマ** (`globals.css` の `@theme`)（2026-08 改訂。デザイン仕様書に合わせて統一）:
+  - `--color-primary: #ff0067`（アクセントレッド。`.btn`背景・`bg-primary`等で使用。文字色は `--color-primary-content: #ffffff`）
+  - `--color-text-primary: #252525`（メインテキスト色。変更するならここだけ）
+  - `--color-link: #0000ff`（テキストリンク色。`a:not(.btn)` に base layer で適用済み）
+  - `--color-border` / `--color-border-light`: 区切り線用の中立グレー（ブランドカラーではないため変更対象外）
+  - フォント: `--font-sans`（日本語・既定 = Noto Sans JP）、`--font-en`（英語見出し用 = Helvetica Neue / Helvetica / Arial）、`--font-zen`（旧Zen Kaku Gothic New。現在はNoto Sans JPと同一、既存コンポーネント互換のため残置）
+  - 旧 `--color-secondary` / `--color-text-secondary` は未使用だったため削除
+- **テキストサイズ**: `text-fluid-xs` 〜 `text-fluid-9xl`。旧デザインはvwベースの`clamp()`による可変サイズだったが、固定px（非レスポンシブ）に統一済み。クラス名は互換性のため維持。`base`=16px(Body)/`lg`=18px(H4)/`3xl`=30px(H2)/`4xl`=36px(H1)がデザイン仕様の値と一致。13px相当は新設の `.text-caption` を使う。
+- **h1〜h4のベーススタイル**: 36px/30px/23px/18px固定（`@layer base`）。ただしほとんどのコンポーネントは `text-fluid-*` 等のユーティリティで上書きしているため、生の見出しタグへの依存は少ない。
 - **セクション間隔**: `.section-spacing` クラスで統一
+- **色のハードコード禁止**: `text-gray-*`/`text-black`に加え、ボタン枠線やホバーアクセントに直接 `#00ff00`/`#0000ff` 等の16進数を書かず、`--color-primary`/`--color-link` などのトークン経由にすること（2026-08にコード内の残存箇所は`bg-primary`/`border-primary`/`text-primary`等に置換済み）。ただし `green-mosaic.gif` などの画像アセット自体は対象外（緑のまま）。
 - **GIF画像全般**: `<Image>` で GIF を使う場合は必ず `unoptimized` を付ける（Next.js はアニメーション GIF を最適化できないため警告が出る）。`<img>` タグや `PixelImage` コンポーネントは対象外。`MosaicIcon.tsx` など動的パスの場合も同様。
 
 ## フォント
 
-- Adobe Fonts (Typekit kit ID: `qpe7cyw`): `fot-cezanne-pron`、`helvetica-neue-lt-pro`、`dnp-shuei-gothic-gin-std`
-- Google Fonts: Zen Kaku Gothic New、Inter（フォールバック）
+- **2026-08にAdobe Fonts (Typekit) を廃止**。`fot-cezanne-pron`/`helvetica-neue-lt-pro`/`dnp-shuei-gothic-gin-std`、および旧Google Fonts（Zen Kaku Gothic New、Inter）は使用しない。
+- 現行: Google Fonts の **Noto Sans JP**（日本語）＋ システムフォントの **Helvetica Neue / Helvetica / Arial**（英語見出し）。`app/layout.tsx` の `<head>` で Noto Sans JP を読み込み。
+- Typekitのwebfontloaderが `<html>` に付与していた `wf-loading`/`wf-active` クラスも無くなったため、旧環境で発生していたハイドレーション不一致の警告も解消。
 
 ## ページ構成
 
 | パス | 内容 |
 |------|------|
-| `/` | トップ（HeroSection, News, OpenTalks, Programs, Articles） |
+| `/` | トップ（キービジュアルはプレースホルダー div、News, OpenTalks, Programs, Articles） |
 | `/about` | Creative-LAB.の説明（簡素、要拡充） |
 | `/articles` | 記事一覧 |
 | `/articles/[slug]` | 記事詳細（`[slug]` は MicroCMS の content ID） |
@@ -158,11 +164,14 @@ interface ContentItem {
 | `/open-talks/[slug]` | Open Talks詳細 |
 | `/projects-fair` | Projects Fair |
 | `/archive/2nd` | 2期生アーカイブ |
+| `/archive/3rd` | 3期生アーカイブ |
 
 ## 注意事項
 
 - `Header.tsx` はPC（`lg:block`）のみ表示。モバイルはコメントアウト済み。
-- モバイルのキービジュアルは静的画像 `/images/common/keyvisual-mobile.jpg`、PCは `HeroSection`（p5.js + WebGL）。
+- トップページ（4期）のキービジュアルは未定のためプレースホルダー div（`app/page.tsx` 冒頭）。旧キービジュアル（`HeroSection` p5.js/WebGL + モバイル静止画 `/images/common/keyvisual-mobile.jpg`）は `/projects-fair` で現役使用中のため削除しないこと。archive/2nd, archive/3rd の各アーカイブページも将来的にキービジュアルを動画か静止画に置き換え予定（未着手）。
+- アーカイブページを新規追加する場合は `app/archive/2nd/page.tsx` を雛形にする（Header/Menu/タイトル文 + Phase1-3 + OpenTalks + Program詳細 + 応募要項 + Statement + Article一覧、Hero/News/Taglineは無し）。使用するコンポーネントはそのタイミングの `components/home/*` をコピーして `components/archive/{期}/` に保存するスナップショット方式。
+- MicroCMS の article スキーマに `lp_settings`（creative-lab-lp用カスタムフィールド。`cover_square`/`cover_sq_halftone`/`cover_landscape`/`cover_la_halftone` 等）が追加された。既存の `InteractiveMosaic02`（canvasでのリアルタイムモザイク処理）を、ホバー前=ハーフトーン画像・ホバー後=通常画像という単純な画像差し替えに置き換える計画があるが、詳細仕様は未確定・未実装（2026-08時点）。
 - `ContentCard` では Article は強制的に内部ページへ、News/OpenTalks は `link` フィールドがあれば外部リンク。
 - MicroCMSの画像URLには自動でリサイズパラメータ（`?w=1200&h=1200`）が付与される（`ContentCard` の `getResizedImageUrl`）。
 - `InteractiveMosaic02` は **canvas 2D API** で実装（p5.js/WebGL 不使用）。ホバーで0/1切り替え。WebGLコンテキスト枯渇・CORS問題の回避のため書き直した経緯あり。

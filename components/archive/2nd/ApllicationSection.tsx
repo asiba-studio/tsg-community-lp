@@ -63,10 +63,10 @@ export default function ApplicationSection() {
                 <ul className="space-y-2 custom-ul py-10 pl-[1.5vw]">
                     <li>主催：東京都</li>
                     <li>運営事務局：
-                        <Link href="https://etic.or.jp/" target="_blank" rel="noopener noreferrer" className="text-blue-600">NPO法人ETIC.</Link>
+                        <Link href="https://etic.or.jp/" target="_blank" rel="noopener noreferrer">NPO法人ETIC.</Link>
                     </li>
                     <li>企画パートナー：
-                        <Link href="https://asiba.or.jp/" target="_blank" rel="noopener noreferrer" className="text-blue-600">一般社団法人ASIBA</Link>（共同代表 森原正希）
+                        <Link href="https://asiba.or.jp/" target="_blank" rel="noopener noreferrer">一般社団法人ASIBA</Link>（共同代表 森原正希）
                     </li>
                 </ul>
             </section>

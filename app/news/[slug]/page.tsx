@@ -70,7 +70,7 @@ const options = {
             // <blockquote>
             if (domNode.name === 'blockquote') {
                 return (
-                    <blockquote className="border-l-4 border-[#00ff00] pl-6 py-3 my-6 italic bg-gray-50 text-gray-600">
+                    <blockquote className="border-l-4 border-primary pl-6 py-3 my-6 italic bg-gray-50 text-gray-600">
                         {domToReact(domNode.children as DOMNode[], options)}
                     </blockquote>
                 );
@@ -86,7 +86,7 @@ const options = {
                         href={domNode.attribs.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-600 hover:underline transition-colors"
+                        className="hover:underline transition-colors"
                     >
                         {domToReact(domNode.children as DOMNode[], options)}
                     </a>
@@ -215,7 +215,7 @@ export default async function NewsPage({ params, searchParams }: Props) {
             {isDraft && (
                 <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-4 bg-black text-white text-sm font-en font-bold px-5 py-3 shadow-lg">
                     <span>DRAFT PREVIEW MODE</span>
-                    <a href="/api/disable-draft" className="underline text-[#00ff00] no-underline hover:opacity-80">
+                    <a href="/api/disable-draft" className="underline text-primary no-underline hover:opacity-80">
                         Exit
                     </a>
                 </div>
