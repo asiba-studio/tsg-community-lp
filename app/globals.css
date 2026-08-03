@@ -277,78 +277,7 @@
     left: 0;
   }
 
-  /*
-   * Text Sizes - 旧デザインではvwベースのclamp()による可変フォントサイズだったが、
-   * 新デザインシステム（固定px・非レスポンシブ）への統一に伴い固定値に変更。
-   * クラス名は既存コンポーネントとの互換性のため "text-fluid-*" のまま維持している。
-   * base=16px(Body) / lg=18px(H4) / 3xl=30px(H2) / 4xl=36px(H1) は仕様の固定サイズと一致。
-   */
-  .text-fluid-xs {
-    font-size: 0.75rem;
-    line-height: 1rem;
-  }
-
-  .text-fluid-sm {
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-  }
-
-  .text-fluid-base {
-    font-size: 1rem;
-    line-height: 1.5rem;
-  }
-
-  .text-fluid-lg {
-    font-size: 1.125rem;
-    line-height: 1.75rem;
-  }
-
-  .text-fluid-xl {
-    font-size: 1.25rem;
-    line-height: 1.75rem;
-  }
-
-  .text-fluid-2xl {
-    font-size: 1.5rem;
-    line-height: 2rem;
-  }
-
-  .text-fluid-3xl {
-    font-size: 1.875rem;
-    line-height: 2.25rem;
-  }
-
-  .text-fluid-4xl {
-    font-size: 2.25rem;
-    line-height: 2.5rem;
-  }
-
-  .text-fluid-5xl {
-    font-size: 3rem;
-    line-height: 1;
-  }
-
-  .text-fluid-6xl {
-    font-size: 3.75rem;
-    line-height: 1;
-  }
-
-  .text-fluid-7xl {
-    font-size: 4.5rem;
-    line-height: 1;
-  }
-
-  .text-fluid-8xl {
-    font-size: 6rem;
-    line-height: 1;
-  }
-
-  .text-fluid-9xl {
-    font-size: 8rem;
-    line-height: 1;
-  }
-
-  /* Caption: 仕様の13px固定サイズ */
+  /* Caption: 仕様の13px固定サイズ（Tailwind標準スケールに無いサイズのみ独自定義） */
   .text-caption {
     font-size: 13px;
     line-height: 1.5;

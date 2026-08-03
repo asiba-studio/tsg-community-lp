@@ -54,9 +54,9 @@ export default function ProgramCard({
                     />
                 </div>
             </div>
-            <div className="text-fluid-lg">|||</div>
+            <div className="text-lg">|||</div>
             <div className="flex-1">
-                <div className="font-bold text-fluid-lg">
+                <div className="font-bold text-lg">
                     {title}
                     {reportSlug && isHovered && (
                         <span className="ml-2 bg-primary px-2 py-1 mt-1">
@@ -67,7 +67,7 @@ export default function ProgramCard({
                 <div className="pt-3 md:pt-6">
                     {children}
                 </div>
-                <div className="w-full text-fluid-sm font-bold text-right mt-6">
+                <div className="w-full text-sm font-bold text-right mt-6">
                     {dateTime} @{location}
                 </div>
             </div>

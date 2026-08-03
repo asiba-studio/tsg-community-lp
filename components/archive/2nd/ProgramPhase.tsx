@@ -48,10 +48,10 @@ export function ProgramPhase1() {
                             location="TiB(Tokyo Innovation Base)"
                             reportSlug="creative-lab-day-1"
                         >
-                            <div className="text-fluid-sm leading-snug">
+                            <div className="text-sm leading-snug">
                                 6種類のラボの参加者が一堂に会す合同キックオフ。実施事項は以下の通りです。
                             </div>
-                            <ul className="text-fluid-sm leading-snug pt-4 ml-4 list-disc">
+                            <ul className="text-sm leading-snug pt-4 ml-4 list-disc">
                                 <li>3か月間のプログラム内容共有と目標設定</li>
                                 <li>自分のアイデアをビジュアルに表現し、フィードバックを得るギャラリーウォーク</li>
                                 <li>「オリジンシート」「ライフグラフ」を用いたリフレクション</li>
@@ -66,7 +66,7 @@ export function ProgramPhase1() {
                             location="SHIMOKITA COLLEGE"
                             reportSlug="creative-lab-day-2"
                         >
-                            <p className="text-fluid-sm leading-snug">
+                            <p className="text-sm leading-snug">
                                 「見る」「感じる」「つくる」を繰り返す1day フィールドワーク。
                                 クリエイターにとって、「心の機敏さ」「じっくり見る体験」は欠かせない感覚です。
                                 世界の微細な違和感に気づくこと。誰もが見過ごす風景の中に、自分だけの発見を見つけ出すこと。クリエイションの原点に立ち返ります。
@@ -123,7 +123,7 @@ export function ProgramPhase2() {
                             dateTime="2025.09.28 13:00-15:00"
                             location="東京大学工学部14号館"
                         >
-                            <div className="text-fluid-sm leading-snug">
+                            <div className="text-sm leading-snug">
                                 Phase 1「世界を広げる」からPhase 2「真っすぐにつくる」へ
                             </div>
                         </ProgramCard>
@@ -136,7 +136,7 @@ export function ProgramPhase2() {
                             location="インターナショナル・デザイン・リエゾンセンター"
                             reportSlug="creative-lab-day-4"
                         >
-                            <div className="text-fluid-sm leading-snug">
+                            <div className="text-sm leading-snug">
                                 とにかくつくる！メンター陣とともに自分のアウトプットを極限まで高めます。
                             </div>
                         </ProgramCard>
@@ -190,7 +190,7 @@ export function ProgramPhase3() {
                             dateTime="2025.11.02 13:00-17:00"
                             location="都内某所"
                         >
-                            <div className="text-fluid-sm leading-snug">
+                            <div className="text-sm leading-snug">
                                 Phase 2「真っすぐにつくる」からPhase 3「自分と向き合う」へ
                             </div>
                         </ProgramCard>
@@ -202,7 +202,7 @@ export function ProgramPhase3() {
                             dateTime="2025.11.30"
                             location="TiB (Tokyo Innovation Base)"
                         >
-                            <p className="text-fluid-sm leading-snug">
+                            <p className="text-sm leading-snug">
                                 ラボを通じて磨いてきたアウトプットを発表・体験してもらうことで、共に歩んでくれる仲間を見つけたり、
                                 次のステージへと進む足がかりを作ります。
                                 個々のプロジェクトの可能性を探り、事業やプロジェクトをさらに磨き上げる機会となります。

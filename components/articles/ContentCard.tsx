@@ -128,7 +128,7 @@ export default function ContentCard({
                                 <span
                                     key={term}
                                     className="text-black leading-snug font-en font-medium 
-                                        text-fluid-sm transition-colors duration-200 
+                                        text-sm transition-colors duration-200 
                                         bg-white/90 px-2"
                                 >
                                     {term} Program
@@ -144,7 +144,7 @@ export default function ContentCard({
                                 <span
                                     key={tag}
                                     className="text-gray-500 leading-none font-en font-medium 
-                                        text-fluid-sm transition-colors duration-200 
+                                        text-sm transition-colors duration-200 
                                         group-hover:text-gray-100 bg-white/10 backdrop-blur-[2px] px-1 rounded-sm"
                                 >
                                     # {tag}
@@ -158,7 +158,7 @@ export default function ContentCard({
                         <div className="
                             absolute bottom-1.5 right-2 
                             text-gray-500 font-en font-medium 
-                            leading-none text-fluid-sm 
+                            leading-none text-sm 
                             transition-colors duration-200 
                             group-hover:text-gray-100
                             z-10 pointer-events-none
@@ -172,19 +172,19 @@ export default function ContentCard({
                 <div>
                     {/* Subtitle */}
                     {content.subtitle && (
-                        <p className="font-medium text-fluid-base mt-1">
+                        <p className="font-medium text-base mt-1">
                             {content.subtitle}
                         </p>
                     )}
 
                     {/* Title */}
-                    <h3 className="font-bold mt-2 text-fluid-lg">
+                    <h3 className="font-bold mt-2 text-lg">
                         {content.title}
                     </h3>
 
                     {/* Description */}
                     {description && content.excerpt && (
-                        <p className="text-fluid-sm text-gray-600 mt-6 w-2/3 line-clamp-3">
+                        <p className="text-sm text-gray-600 mt-6 w-2/3 line-clamp-3">
                             {content.excerpt}
                         </p>
                     )}

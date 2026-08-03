@@ -47,7 +47,7 @@ export function ProgramPhase1() {
                             dateTime="2026.01.18 13:00-18:00"
                             location="TiB(Tokyo Innovation Base)"
                         >
-                            <div className="text-fluid-sm leading-snug">
+                            <div className="text-sm leading-snug">
                                 LAB.の参加者が一堂に会し、LAB.メンバー同士の関係性構築や、プログラムの使い方、2か月後のゴール設定などを行います。<br></br>
                                 ※下記への参加が難しい方は、オンライン・フォローアップにご参加ください。日程は後ほどご連絡いたします。
                             </div>
@@ -60,7 +60,7 @@ export function ProgramPhase1() {
                             dateTime="2026.01.24 13:00-17:00"
                             location="都内（対面開催・調整中）"
                         >
-                            <p className="text-fluid-sm leading-snug">
+                            <p className="text-sm leading-snug">
                                 ゲスト：a春（O株式会社CEO/Artist）
                             </p>
                         </ProgramCard>
@@ -72,7 +72,7 @@ export function ProgramPhase1() {
                             dateTime="2026.01.30 19:00-21:00"
                             location="都内（対面開催・調整中）"
                         >
-                            <p className="text-fluid-sm leading-snug">
+                            <p className="text-sm leading-snug">
                             </p>
                         </ProgramCard>
                     </li>
@@ -126,7 +126,7 @@ export function ProgramPhase2() {
                             dateTime="2026.02.14 13:00-17:00"
                             location="都内（対面開催・調整中）"
                         >
-                            <div className="text-fluid-sm leading-snug">
+                            <div className="text-sm leading-snug">
                                 ゲスト：中條麟太郎（東京大学大学院学際情報学府）
                             </div>
                         </ProgramCard>
@@ -180,7 +180,7 @@ export function ProgramPhase3() {
                             dateTime="2026.02.28 13:00-17:00"
                             location="都内（対面開催・調整中）"
                         >
-                            <div className="text-fluid-sm leading-snug">
+                            <div className="text-sm leading-snug">
                             </div>
                         </ProgramCard>
                     </li>
@@ -191,12 +191,12 @@ export function ProgramPhase3() {
                             dateTime="2026.03.15 終日"
                             location="TiB (Tokyo Innovation Base)"
                         >
-                            <p className="text-fluid-sm leading-snug">
+                            <p className="text-sm leading-snug">
                                 LAB.プログラムを通じて磨いてきたアウトプットを発表・体験してもらうことで、
                                 共に歩んでくれる仲間を見つけたり、次のステージへと進む足がかりを作ります。
                                 個々のプロジェクトの可能性を探り、事業やプロジェクトをさらに磨き上げる機会となります。
                             </p>
-                            <p className="text-fluid-sm leading-snug">
+                            <p className="text-sm leading-snug">
                                 ※当初は3/14(土)に開催の予定でしたが、変更となりました
                             </p>
                         </ProgramCard>

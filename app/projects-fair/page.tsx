@@ -137,7 +137,7 @@ export default function ProjectsFairPage() {
             <div className="w-full p-3 lg:p-[4vw] flex flex-col items-center">
                 <div className='w-full'>
 
-                    <div className="w-full space-y-18 md:space-y-32 md:px-[2vw] py-20 text-fluid-base md:mt-12 mt-6">
+                    <div className="w-full space-y-18 md:space-y-32 md:px-[2vw] py-20 text-base md:mt-12 mt-6">
                         <div>
                             <h1 className="font-en font-bold text-5xl md:text-6xl relative inline-block">
                                 Projects Fair
@@ -152,7 +152,7 @@ export default function ProjectsFairPage() {
                                     sizes="(max-width: 768px) 50vw, 30vw"
                                 />
                             </h1>
-                            <div className='mt-12 md:mt-20 space-y-3 max-w-5xl text-fluid-base'>
+                            <div className='mt-12 md:mt-20 space-y-3 max-w-5xl text-base'>
                                 <p>
                                     Creative-LAB.の3期生による最終成果展を開催します。</p>
                                 <p>
@@ -166,7 +166,7 @@ export default function ProjectsFairPage() {
 
                         {/* Projects Section */}
                         <section>
-                            <h2 className='font-en text-fluid-4xl font-semibold'>Projects</h2>
+                            <h2 className='font-en text-4xl font-semibold'>Projects</h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-[2vw] gap-y-6 md:gap-y-12 py-10">
                                 {projects.filter(p => p.show).map(project => (
                                     <div key={project.id} className="group block no-underline overflow-hidden hover:opacity-100">
@@ -191,13 +191,13 @@ export default function ProjectsFairPage() {
 
                                             {/* Info */}
                                             <div className="mt-2 md:mt-4">
-                                                <p className="font-medium text-fluid-base">
+                                                <p className="font-medium text-base">
                                                     {project.team}
                                                 </p>
-                                                <h3 className="font-bold mt-1 text-fluid-lg">
+                                                <h3 className="font-bold mt-1 text-lg">
                                                     {project.title}
                                                 </h3>
-                                                <span className="text-gray-400 mt-2 leading-none font-medium text-fluid-sm">
+                                                <span className="text-gray-400 mt-2 leading-none font-medium text-sm">
                                                     {project.keywords}
                                                 </span>
                                             </div>
@@ -208,10 +208,10 @@ export default function ProjectsFairPage() {
                             <div className="space-y-2 mt-2 md:mt-10">
                                 {projects.filter(p => !p.show).map(project => (
                                     <div key={project.id} className='flex flex-row gap-6 items-baseline'>
-                                        <p className="font-medium text-fluid-base">
+                                        <p className="font-medium text-base">
                                             {project.team}
                                         </p>
-                                        <p className="text-gray-700 leading-none font-medium text-fluid-base">
+                                        <p className="text-gray-700 leading-none font-medium text-base">
                                             to be announced…
                                         </p>
                                     </div>
@@ -284,8 +284,8 @@ export default function ProjectsFairPage() {
                                     <div className="w-70 py-10">
                                         <Image src="/images/projects-fair/logo-tsg-color-yoko.svg" alt="Logo TSG" width={500} height={300} className="w-full h-full" />
                                     </div>
-                                    <h3 className="font-bold text-fluid-lg mb-4">運営：TOKYO STARTUP GATEWAY</h3>
-                                    <p className="leading-relaxed text-fluid-sm">
+                                    <h3 className="font-bold text-lg mb-4">運営：TOKYO STARTUP GATEWAY</h3>
+                                    <p className="leading-relaxed text-sm">
                                         TOKYO STARTUP GATEWAY（TSG）は、東京都が主催するスタートアップ支援プログラム。「起業って特別な人がするもの？」そんなことはありません。 小さなアイデアと一歩踏み出す気持ちがあれば、誰でも挑戦できます。必要なのは、400文字のアイデアだけ。あとは、メンタリングやワークショップでサポートしながら、アイデア実現への道を一緒に進んでいきます。さらに、同じ想いを持つ仲間と出会える“起業同期”のコミュニティもあるので、ひとりで悩む必要はありません。ここから、たくさんの挑戦が生まれています。
                                     </p>
                                 </div>
@@ -294,8 +294,8 @@ export default function ProjectsFairPage() {
                                     <div className="w-70 py-10">
                                         <Image src="/images/projects-fair/logo-etic.png" alt="Logo Etic" width={500} height={300} className="w-full h-full" />
                                     </div>
-                                    <h3 className="font-bold text-fluid-lg mb-4">運営事務局：特定非営利活動法人エティック</h3>
-                                    <p className="leading-relaxed text-fluid-sm">
+                                    <h3 className="font-bold text-lg mb-4">運営事務局：特定非営利活動法人エティック</h3>
+                                    <p className="leading-relaxed text-sm">
                                         1993年設立、2000年3月にNPO法人化。2017年に認定NPO法人取得。「変革の現場に挑む機会を通して、アントレプレナーシップ（起業家精神）溢れる人材を育みます。そして、創造的で活力に溢れ、ともに支え合い、課題が自律的に解決されていく社会・地域を実現していきます。」をミッションに、ローカルイノベーション、企業共創、人材マッチングなど様々な事業を展開しています。
                                     </p>
                                 </div>
@@ -304,8 +304,8 @@ export default function ProjectsFairPage() {
                                     <div className="w-70 py-10">
                                         <Image src="/images/logo/logo-asiba.png" alt="Logo ASIBA" width={500} height={300} className="w-full h-full" />
                                     </div>
-                                    <h3 className="font-bold text-fluid-lg mb-4">運営事務局：一般社団法人ASIBA</h3>
-                                    <p className="leading-relaxed text-fluid-sm">
+                                    <h3 className="font-bold text-lg mb-4">運営事務局：一般社団法人ASIBA</h3>
+                                    <p className="leading-relaxed text-sm">
                                         ASIBAは、建築・デザイン・アート領域に問いと実践を往復する「クリエイティブ・アントレプレナー」を育み、誰もが自分の可能性や才能を諦めずに、クリエイションに挑戦できる社会を目指すオープンプラットフォームです。(参考：
                                         <a href="https://asiba.or.jp/" target="_blank" rel="noopener noreferrer" className="transition-colors">
                                             https://asiba.or.jp/

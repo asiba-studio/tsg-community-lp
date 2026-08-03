@@ -5,7 +5,7 @@ export default function ApplicationSection() {
 
     return (
 
-        <div className="w-full space-y-10 px-[2vw] text-fluid-base">
+        <div className="w-full space-y-10 px-[2vw] text-base">
 
 
             {/* Application Section */}

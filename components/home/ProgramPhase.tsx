@@ -27,7 +27,7 @@ function PhaseCard({ title, homework = false }: { title: string; homework?: bool
             dateTime={homework ? HOMEWORK_DATETIME : DUMMY_DATETIME}
             location={homework ? HOMEWORK_VENUE : DUMMY_VENUE}
         >
-            <div className="text-fluid-sm leading-snug">
+            <div className="text-sm leading-snug">
                 {DUMMY_DESCRIPTION}
             </div>
         </ProgramCard>

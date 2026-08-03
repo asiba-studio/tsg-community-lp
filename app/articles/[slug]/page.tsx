@@ -277,8 +277,8 @@ export default async function ArticlePage({ params, searchParams }: Props) {
                     <div className='max-w-200 w-full'>
 
                         {/* 記事ヘッダー情報（SP用・本文上） */}
-                        <section className='text-fluid-base'>
-                            <h1 className='font-sans font-bold text-fluid-4xl leading-relaxed relative mb-8'>
+                        <section className='text-base'>
+                            <h1 className='font-sans font-bold text-4xl leading-relaxed relative mb-8'>
                                 {article.title}
                             </h1>
                             <div className='mb-4 leading-normal flex justify-end text-gray-500 font-en'>
@@ -332,7 +332,7 @@ export default async function ArticlePage({ params, searchParams }: Props) {
                 {/* サイドバー（PC用） */}
                 <div className='w-full lg:w-[20%]'>
                     <section className='h-[300vh] relative hidden lg:block'>
-                        <div className='text-fluid-sm sticky top-44 h-screen'>
+                        <div className='text-sm sticky top-44 h-screen'>
                             <div className='border border-border px-4 py-5 bg-white/50 backdrop-blur-sm'>
                                 <div className='font-en underline mb-2 text-gray-500'>
                                     Title
@@ -383,7 +383,7 @@ export default async function ArticlePage({ params, searchParams }: Props) {
                     {/* 関連記事 */}
                     {relatedArticles.length > 0 && (
                         <section className="w-full section-spacing border-t border-border mt-40 lg:mt-100 pt-10">
-                            <h2 className="font-en font-bold text-fluid-2xl leading-none relative inline-block mb-12">
+                            <h2 className="font-en font-bold text-2xl leading-none relative inline-block mb-12">
                                 Related Articles
                             </h2>
                             <div className="w-full">

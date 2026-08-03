@@ -30,7 +30,7 @@ export default async function OpenTalksPage() {
 
       <div className='pt-30 px-[8vw]'>
         <h1 className='font-en text-3xl md:text-5xl font-bold'>Creative-LAB. Open TALKs</h1>
-        <p className="text-fluid-lg mt-12 w-full md:w-2/3">
+        <p className="text-lg mt-12 w-full md:w-2/3">
           Creative-LAB. Open TALK は、自らの表現活動やクリエイティブワークを通して、既存の枠組みにとらわれず、
           自らの衝動から表現と生き方を切り拓いてきたゲストを招いた
           <Image

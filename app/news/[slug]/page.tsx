@@ -297,7 +297,7 @@ export default async function NewsPage({ params, searchParams }: Props) {
                 <div className='w-full lg:w-[20%]'>
                     {/* ニュースプロパティ一覧 (Desktop) */}
                     <section className='h-[300vh] relative hidden lg:block'>
-                        <div className='text-fluid-sm sticky top-44 h-screen'>
+                        <div className='text-sm sticky top-44 h-screen'>
                             <div className='border border-border px-1.5'>
                                 <div className='font-en underline'>
                                     Title

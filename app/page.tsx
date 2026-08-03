@@ -45,7 +45,7 @@ export default async function Page() {
 
           {/* News Section */}
           <section className="w-full pt-[100px] border-t border-border">
-            <h2 className="font-en font-bold text-fluid-5xl leading-none relative px-[1.5vw] inline-block mb-8">
+            <h2 className="font-en font-bold text-5xl leading-none relative px-[1.5vw] inline-block mb-8">
               <Image
                 src="/gifs/green-mosaic.gif"
                 unoptimized
@@ -112,7 +112,7 @@ export default async function Page() {
 
           {/* Articles Section */}
           <section className="w-full section-spacing border-t border-border">
-            <h2 className="font-en font-bold text-fluid-5xl leading-none relative px-[1.5vw] inline-block mb-8">
+            <h2 className="font-en font-bold text-5xl leading-none relative px-[1.5vw] inline-block mb-8">
               <Image
                 src="/gifs/green-mosaic.gif"
                 unoptimized

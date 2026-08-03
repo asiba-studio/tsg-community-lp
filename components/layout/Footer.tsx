@@ -29,7 +29,7 @@ export default function Footer() {
                     />
                 </div>
             </div>
-            <div className="text-fluid-sm font-en text-white">
+            <div className="text-sm font-en text-white">
                 © {new Date().getFullYear()} 2025 ASIBA Stuido. All rights reserved.
             </div>
         </footer>

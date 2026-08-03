@@ -27,7 +27,7 @@ export default async function Page() {
 
       <div className='pt-30 px-[8vw]'>
         <h1 className='font-en text-3xl md:text-5xl font-bold'>Archive</h1>
-        <p className="text-fluid-lg mt-12 w-full md:w-2/3">
+        <p className="text-lg mt-12 w-full md:w-2/3">
           2025年7月より開催したプログラム
           <Image
             src="/gifs/green-mosaic.gif"
@@ -67,7 +67,7 @@ export default async function Page() {
 
             {/* Peatix Section */}
             <section className="w-full section-spacing border-t border-border">
-              <h2 className="font-en font-bold text-fluid-4xl leading-none relative px-[1.5vw] inline-block mb-8">
+              <h2 className="font-en font-bold text-4xl leading-none relative px-[1.5vw] inline-block mb-8">
                 <Image
                   src="/gifs/green-mosaic.gif"
                   unoptimized
@@ -80,7 +80,7 @@ export default async function Page() {
                 />
                 Creative-LAB. Open TALKs
               </h2>
-              <div className="text-fluid-sm leading-normal pb-6 w-full">
+              <div className="text-sm leading-normal pb-6 w-full">
                 Creative-LAB. Open TALK は、自らの表現活動やクリエイティブワークを通して、既存の枠組みにとらわれず、
                 自らの衝動から表現と生き方を切り拓いてきたゲストを招いた <b><u>全4回の対話型トークシリーズ</u></b> です。<br></br>
                 彼らの語る経験や問いを通じて、「どうつくるか」だけでなく「どう生きるか」という視点から、
@@ -131,7 +131,7 @@ export default async function Page() {
 
             {/* Articles Section */}
             <section className="w-full section-spacing border-t border-border">
-              <h2 className="font-en font-bold text-fluid-5xl leading-none relative px-[1.5vw] inline-block mb-8">
+              <h2 className="font-en font-bold text-5xl leading-none relative px-[1.5vw] inline-block mb-8">
                 <Image
                   src="/gifs/green-mosaic.gif"
                   unoptimized

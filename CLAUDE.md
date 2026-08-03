@@ -141,8 +141,9 @@ interface ContentItem {
   - `--color-border` / `--color-border-light`: 区切り線用の中立グレー（ブランドカラーではないため変更対象外）
   - フォント: `--font-sans`（日本語・既定 = Noto Sans JP）、`--font-en`（英語見出し用 = Helvetica Neue / Helvetica / Arial）、`--font-zen`（旧Zen Kaku Gothic New。現在はNoto Sans JPと同一、既存コンポーネント互換のため残置）
   - 旧 `--color-secondary` / `--color-text-secondary` は未使用だったため削除
-- **テキストサイズ**: `text-fluid-xs` 〜 `text-fluid-9xl`。旧デザインはvwベースの`clamp()`による可変サイズだったが、固定px（非レスポンシブ）に統一済み。クラス名は互換性のため維持。`base`=16px(Body)/`lg`=18px(H4)/`3xl`=30px(H2)/`4xl`=36px(H1)がデザイン仕様の値と一致。13px相当は新設の `.text-caption` を使う。
-- **h1〜h4のベーススタイル**: 36px/30px/23px/18px固定（`@layer base`）。ただしほとんどのコンポーネントは `text-fluid-*` 等のユーティリティで上書きしているため、生の見出しタグへの依存は少ない。
+- **テキストサイズ**: 2026-08に独自の `text-fluid-*`（旧: vwベースの`clamp()`可変サイズ）を廃止し、Tailwind標準の `text-xs`〜`text-9xl` にすべて置き換え済み（値が完全一致していたため機械的にリネーム）。`base`=16px(Body)/`lg`=18px(H4)/`3xl`=30px(H2)/`4xl`=36px(H1)がデザイン仕様の値と一致。13px相当のみTailwind標準に無いため `.text-caption` を独自定義。
+- **h1〜h4のベーススタイル**: 36px/30px/23px/18px固定（`@layer base`）。ただしほとんどのコンポーネントはTailwind標準の `text-*` ユーティリティで上書きしているため、生の見出しタグへの依存は少ない。
+- **見出しタグと見た目の分離**: `<h1>`〜`<h6>` はページの実際の文書構造（SEO/アクセシビリティ上のアウトライン）に合わせて選び、見た目のサイズ・ウェイトは `text-*`/`font-bold` 等のユーティリティで別途指定する。「大きく見せたいから」という理由だけでタグレベルを変えない。
 - **セクション間隔**: `.section-spacing` クラスで統一
 - **色のハードコード禁止**: `text-gray-*`/`text-black`に加え、ボタン枠線やホバーアクセントに直接 `#00ff00`/`#0000ff` 等の16進数を書かず、`--color-primary`/`--color-link` などのトークン経由にすること（2026-08にコード内の残存箇所は`bg-primary`/`border-primary`/`text-primary`等に置換済み）。ただし `green-mosaic.gif` などの画像アセット自体は対象外（緑のまま）。
 - **GIF画像全般**: `<Image>` で GIF を使う場合は必ず `unoptimized` を付ける（Next.js はアニメーション GIF を最適化できないため警告が出る）。`<img>` タグや `PixelImage` コンポーネントは対象外。`MosaicIcon.tsx` など動的パスの場合も同様。

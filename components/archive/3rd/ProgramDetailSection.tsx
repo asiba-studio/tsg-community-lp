@@ -5,7 +5,7 @@ import Image from "next/image"
 export default function ProgramDetailSection() {
     return (
         <div>
-            <h2 className="font-en font-bold text-fluid-5xl leading-none relative px-[1.5vw] inline-block">
+            <h2 className="font-en font-bold text-5xl leading-none relative px-[1.5vw] inline-block">
                 <Image
                     src="/gifs/green-mosaic.gif"
                     unoptimized
@@ -21,7 +21,7 @@ export default function ProgramDetailSection() {
                 <ul className="custom-ul space-y-6 pl-[1.5vw]">
                     <li className="space-y-1">
                         <p className="font-bold">クリエイティブ領域での活躍を志す若者向けの新たなコミュニティ</p>
-                        <p className="text-fluid-sm">Creative-LAB.は、建築・デザイン・アートなどのクリエイティブ領域に関心を持つ若者／学生（15〜25歳前後を対象）に向けた、
+                        <p className="text-sm">Creative-LAB.は、建築・デザイン・アートなどのクリエイティブ領域に関心を持つ若者／学生（15〜25歳前後を対象）に向けた、
                             実験的な学びの機会と対話の場を提供しています。
                             「自分の中にある”つくるため”の問いに向き合いながら、
                             自らの”生き方”を重ねていく」ことを目標にし、若手クリエイターによるメンタリング機会や、
@@ -31,7 +31,7 @@ export default function ProgramDetailSection() {
                     </li>
                     <li className="space-y-1">
                         <p className="font-bold">若手クリエイターによる連続レクチャーの開催</p>
-                        <p className="text-fluid-sm">Creative-LAB.のパートナーであるASIBAは、
+                        <p className="text-sm">Creative-LAB.のパートナーであるASIBAは、
                             日本デザイン振興会のご後援をいただき、
                             GOOD DESIGN NEW HOPE AWARD の受賞者やその他アワード受賞者による連続レクチャーを開催しています。
                             若手クリエイターの持つ”つくること”への問いやその背景、
@@ -41,7 +41,7 @@ export default function ProgramDetailSection() {
                     </li>
                     <li className="space-y-1">
                         <p className="font-bold"> 自らの問いと視座を磨くための「クリエイティブワークショップ」</p>
-                        <p className="text-fluid-sm">自らのアイデアやクリエイションの視点を磨くため、
+                        <p className="text-sm">自らのアイデアやクリエイションの視点を磨くため、
                             2度のワークショップを開催します。
                             思考法を身につけるレクチャー、スキルセットをつくるワークショップ、
                             新たなツールを用いたクリエイションの拡張など、実践型のワークショップです。
@@ -49,14 +49,14 @@ export default function ProgramDetailSection() {
                     </li>
                     <li className="space-y-1">
                         <p className="font-bold">自ら問いと実践を往復する若手クリエイターによる「メンタリング機会」の提供</p>
-                        <p className="text-fluid-sm">「つくることと生きること」を自ら実践する、
+                        <p className="text-sm">「つくることと生きること」を自ら実践する、
                             若手のクリエイター/建築家/アーティスト/デザイナー/研究者をメンターとした、
                             Creative-LAB.参加者限定のメンタリング機会を提供します。
                         </p>
                     </li>
                     <li className="space-y-1">
                         <p className="font-bold">「何をつくるか」だけでなく、「どう生きたいか」を見つめるコミュニティ</p>
-                        <p className="text-fluid-sm">Creative-Lab.は「何を、どのようにつくるか」だけでなく、
+                        <p className="text-sm">Creative-Lab.は「何を、どのようにつくるか」だけでなく、
                             「これから、どう生きていきたいか？」という問いを起点に、
                             自分のクリエイションと生き方を結び直す場です。
                             社会の中で自分だけのモノづくりをしながら生きている人々や、
@@ -69,7 +69,7 @@ export default function ProgramDetailSection() {
 
             <div className="w-full gap-6 px-[2vw] pt-20">
                 <h3 className="font-bold pb-10">実施内容</h3>
-                <p className=" pl-[1.5vw] text-fluid-base">
+                <p className=" pl-[1.5vw] text-base">
                     プログラム内容は、上記のPhase1~3をご確認ください。
                 </p>
 

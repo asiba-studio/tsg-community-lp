@@ -5,7 +5,7 @@ export default function ApplicationSection() {
 
     return (
 
-        <div className="w-full space-y-10 px-[2vw] text-fluid-base">
+        <div className="w-full space-y-10 px-[2vw] text-base">
 
 
             {/* Application Section */}
@@ -36,7 +36,7 @@ export default function ApplicationSection() {
                             <span>#6. 11月30日(日)</span>
                             <span className="ml-8 lg:ml-0 mb-2">プロジェクト・フェア</span>
                         </div>
-                        <p className="text-fluid-sm mt-4 lg:ml-6">
+                        <p className="text-sm mt-4 lg:ml-6">
                             ※可能な限り全日程へのご参加をお願いしておりますが、難しい場合はご相談ください。
                         </p>
                     </li>

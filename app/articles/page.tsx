@@ -30,7 +30,7 @@ export default async function ArticlesPage() {
 
       <div className='pt-30 px-[8vw]'>
         <h1 className='font-en text-3xl md:text-5xl font-bold'>Article and News</h1>
-        <p className="text-fluid-lg mt-6">
+        <p className="text-lg mt-6">
           TSG Community Design-LAB. に関する記事や最新情報をお届けします。
         </p>
       </div>
@@ -43,7 +43,7 @@ export default async function ArticlesPage() {
 
       <div className='w-full px-[14px] lg:px-[4vw]'>
         <section className="w-full  pt-30">
-          <h2 className="font-en font-bold text-fluid-5xl leading-none relative px-[1.5vw] inline-block mb-8">
+          <h2 className="font-en font-bold text-5xl leading-none relative px-[1.5vw] inline-block mb-8">
             <Image
               src="/gifs/green-mosaic.gif"
               unoptimized
@@ -73,7 +73,7 @@ export default async function ArticlesPage() {
         </section>
 
         <section id="news" className="w-full pt-30 section-spacing border-t border-border">
-          <h2 className="font-en font-bold text-fluid-5xl leading-none relative px-[1.5vw] inline-block mb-8">
+          <h2 className="font-en font-bold text-5xl leading-none relative px-[1.5vw] inline-block mb-8">
             <Image
               src="/gifs/green-mosaic.gif"
               unoptimized
