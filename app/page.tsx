@@ -37,7 +37,7 @@ export default async function Page() {
       </section>
 
       {/* Main Container */}
-      <div className="w-full p-[14px] lg:p-[4vw] -mt-40 flex flex-col lg:flex-row gap-[8vw]">
+      <div className="w-full p-[14px] lg:p-8 -mt-40 flex flex-col lg:flex-row lg:gap-40">
 
         {/* Left Conteiner */}
         <div className="w-full lg:w-2/3">
