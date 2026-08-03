@@ -2,30 +2,23 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 
 export default function Header() {
-    const pathname = usePathname();
-
     return (
-        <div className="
-            hidden lg:block sticky top-0 z-50 w-full h-12
-            flex items-center
-            backdrop-blur-md backdrop-saturate-300 bg-white/25
-        ">
+        <div className="hidden lg:block sticky top-0 z-50 w-full">
             <header className="w-full">
                 {/* PC */}
-                <nav className="hidden lg:flex justify-between items-center">
+                <nav className="hidden lg:flex justify-between items-center py-3">
                     <div>
                         <Link href="/" className="flex items-center gap-2 px-6 no-underline">
                             <span className="font-en font-bold text-lg leading-none tracking-tight text-text-primary">COMMUNITY<br />DESIGN-LAB.</span>
                         </Link>
                     </div>
                     <div className="flex justify-end items-center gap-6 font-en font-medium text-lg px-6">
-                        <HeaderButton label="Program" href="/#program" pathname={pathname} />
-                        <HeaderButton label="Articles" href="/articles" pathname={pathname} />
-                        <HeaderButton label="News" href="/articles#news" pathname={pathname} />
-                        <HeaderButton label="Archives" href="/archive/3rd" pathname={pathname} />
+                        <HeaderButton label="Program" href="/#program" />
+                        <HeaderButton label="Articles" href="/articles" />
+                        <HeaderButton label="News" href="/articles#news" />
+                        <HeaderButton label="Archives" href="/archive/3rd" />
                     </div>
                 </nav>
 
@@ -47,19 +40,13 @@ export default function Header() {
 function HeaderButton(props: {
     label: string;
     href: string;
-    pathname: string;
 }) {
-    // アクティブ判定: hrefのパス部分（ハッシュを除く）で現在のパスと照合
-    const hrefPath = props.href.split('#')[0];
-    const isActive = props.pathname.startsWith(hrefPath) && hrefPath !== '/';
-
     return (
         <Link
             href={props.href}
-            className={`font-en transition-colors no-underline hover:text-primary ${isActive ? 'text-primary' : 'text-text-primary'}`}
+            className="font-en text-text-primary transition-colors no-underline hover:text-primary"
         >
             {props.label}
         </Link>
     );
 }
-

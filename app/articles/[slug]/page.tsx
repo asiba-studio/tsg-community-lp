@@ -201,6 +201,7 @@ export default async function ArticlePage({ params, searchParams }: Props) {
                     halftoneSrc={article.headerImageHalftone || article.headerImage}
                     alt={article.title}
                     aspectRatio={1440 / 756}
+                    sizes="100vw"
                     overlay={
                         <div className="absolute bottom-0 left-0 p-8">
                             {article.lpSubtitle && (

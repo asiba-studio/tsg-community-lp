@@ -10,6 +10,7 @@ interface HalftoneHoverImageProps {
     aspectRatio?: number; // width / height
     className?: string;
     overlay?: ReactNode; // ホバーの影響を受けない固定オーバーレイ（例: タイトル）
+    sizes?: string; // 実際の表示幅に合わせて呼び出し側で指定する（例: フルブリードのheroなら "100vw"）
 }
 
 // ホバー前はハーフトーン画像、ホバー後は通常画像を表示するシンプルな切り替えコンポーネント。
@@ -22,6 +23,7 @@ export default function HalftoneHoverImage({
     aspectRatio = 1,
     className = '',
     overlay,
+    sizes = "(max-width: 768px) 50vw, 25vw",
 }: HalftoneHoverImageProps) {
     return (
         <div
@@ -33,14 +35,14 @@ export default function HalftoneHoverImage({
                 alt={alt}
                 fill
                 className="object-cover transition-opacity duration-300 opacity-100 group-hover:opacity-0"
-                sizes="(max-width: 768px) 50vw, 25vw"
+                sizes={sizes}
             />
             <Image
                 src={normalSrc}
                 alt={alt}
                 fill
                 className="object-cover transition-opacity duration-300 opacity-0 group-hover:opacity-100"
-                sizes="(max-width: 768px) 50vw, 25vw"
+                sizes={sizes}
             />
             {overlay && (
                 <div className="absolute inset-0 pointer-events-none">
