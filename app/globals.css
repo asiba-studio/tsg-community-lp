@@ -38,7 +38,7 @@
   }
 
   h2 {
-    @apply font-bold text-text-primary text-4xl pb-4;
+    @apply font-bold text-text-primary text-[2.625rem] pb-4 leading-none;
   }
 
   h3 {

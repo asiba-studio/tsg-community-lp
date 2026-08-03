@@ -40,7 +40,7 @@ export function ProgramPhase1() {
 
         <div className="w-full flex flex-col">
             <div className="flex flex-wrap gap-8 items-baseline">
-                <h2 className="font-en font-bold text-4xl leading-none">
+                <h2 className="font-en">
                     <span className="text-primary">Phase 1</span>
                 </h2>
                 <div className="font-zen font-bold text-xl lg:text-2xl">世界観を磨く</div>
@@ -71,7 +71,7 @@ export function ProgramPhase2() {
 
         <div className="w-full flex flex-col">
             <div className="flex flex-wrap gap-8 items-baseline">
-                <h2 className="font-en font-bold text-4xl leading-none">
+                <h2 className="font-en">
                     <span className="text-primary">Phase 2</span>
                 </h2>
                 <div className="font-zen font-bold text-xl lg:text-2xl">場を生み出す</div>
@@ -100,7 +100,7 @@ export function ProgramPhase3() {
 
         <div className="w-full flex flex-col">
             <div className="flex flex-wrap gap-8 items-baseline">
-                <h2 className="font-en font-bold text-4xl leading-none">
+                <h2 className="font-en">
                     <span className="text-primary">Phase 3</span>
                 </h2>
                 <div className="font-zen font-bold text-xl lg:text-2xl">場を育てる</div>

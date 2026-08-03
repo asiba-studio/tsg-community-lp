@@ -44,7 +44,7 @@ export default async function Page() {
 
           {/* News Section */}
           <section className="w-full pt-[100px]">
-            <h2 className="font-en font-bold text-5xl leading-none inline-block mb-8 text-primary">
+            <h2 className="font-en inline-block mb-8 text-primary">
               News
             </h2>
 
@@ -92,16 +92,14 @@ export default async function Page() {
           <section className="w-full mt-46">
             <StatementShort />
 
-            <div className="w-full mt-20 flex justify-start">
-              <SimpleButton icon="right" href="/about">
-                About Community Design-LAB.
-              </SimpleButton>
+            <div className="w-full font-en font-bold mt-12 flex justify-start">
+              COMMUNITY DESIGN-LAB.
             </div>
           </section>
 
           {/* Articles Section */}
-          <section className="w-full mt-16">
-            <h2 className="font-en font-bold text-5xl leading-none inline-block mb-8 text-primary">
+          <section className="w-full mt-30">
+            <h2 className="font-en leading-none inline-block mb-10 text-primary">
               Article
             </h2>
             <div className="w-full">
