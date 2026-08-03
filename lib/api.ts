@@ -16,6 +16,10 @@ type CreativeLabLpSetting = {
     fieldId: 'creative-lab-lp';
     program_terms?: string;
     cover_square?: MicroCMSImage;
+    cover_sq_halftone?: MicroCMSImage;
+    cover_landscape?: MicroCMSImage;
+    cover_la_halftone?: MicroCMSImage;
+    lp_subtitle?: string;
 };
 
 // Union type for all possible repeater items (currently only one we care about)
@@ -120,7 +124,10 @@ const fetchArticlesData = async (): Promise<Article[]> => {
         }
 
         const coverImage = lpSetting?.cover_square?.url || entry.cover?.url || ''; // Square as coverImage (list view)
-        const headerImage = entry.cover?.url || ''; // Horizontal as headerImage
+        const coverImageHalftone = lpSetting?.cover_sq_halftone?.url;
+        const lpSubtitle = lpSetting?.lp_subtitle;
+        const headerImage = lpSetting?.cover_landscape?.url || entry.cover?.url || ''; // Horizontal as headerImage
+        const headerImageHalftone = lpSetting?.cover_la_halftone?.url;
 
         // Keywords from string to array
         // JSON description: "都市, 建築計画, XXX"
@@ -135,7 +142,10 @@ const fetchArticlesData = async (): Promise<Article[]> => {
             title: title,
             subtitle: subtitle,
             coverImage: coverImage,
+            coverImageHalftone: coverImageHalftone,
+            lpSubtitle: lpSubtitle,
             headerImage: headerImage,
+            headerImageHalftone: headerImageHalftone,
             date: publishDate || new Date().toISOString(),
             tags: tags,
             excerpt: summary,
@@ -242,7 +252,10 @@ export async function getArticleDraft(contentId: string, draftKey: string): Prom
             title: entry.title_ja || '',
             subtitle: entry.subtitle_ja,
             coverImage: lpSetting?.cover_square?.url || entry.cover?.url || '',
-            headerImage: entry.cover?.url || '',
+            coverImageHalftone: lpSetting?.cover_sq_halftone?.url,
+            lpSubtitle: lpSetting?.lp_subtitle,
+            headerImage: lpSetting?.cover_landscape?.url || entry.cover?.url || '',
+            headerImageHalftone: lpSetting?.cover_la_halftone?.url,
             date: entry.date || entry.publishedAt || new Date().toISOString(),
             tags,
             excerpt: entry.summary_ja,

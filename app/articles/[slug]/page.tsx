@@ -1,15 +1,13 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { Metadata } from 'next';
-import React from 'react';
 import { draftMode } from 'next/headers';
 import parse, { DOMNode, Element, domToReact } from 'html-react-parser';
 import { getArticles, getArticleDraft } from 'lib/api';
 import { Header, Menu } from 'components/layout';
-import InteractiveMosaic02 from 'components/InteractiveMosaic02';
+import HalftoneHoverImage from 'components/HalftoneHoverImage';
 import CTAButton from 'components/CTAButton';
 import { formatDateDot } from 'lib/date';
-import { ContentList } from 'components/articles';
 
 interface Props {
     params: Promise<{ slug: string }>;
@@ -21,84 +19,48 @@ async function getArticle(slug: string) {
     return articles.find((a) => a.slug === slug);
 }
 
-async function getRelatedPosts(currentSlug: string) {
-    const articles = await getArticles();
-    return articles
-        .filter((a) => a.slug !== currentSlug)
-        .slice(0, 3);
-}
+// ----------------------------------------------------
+// 記事本文のタイポグラフィ設定（見た目は @tailwindcss/typography の prose- 修飾子に集約し、
+// options.replace 側は「CSSだけでは表現できない」ロジック（img/a）のみを扱う）
+// ----------------------------------------------------
+const ARTICLE_PROSE_CLASSES = [
+    'prose prose-base max-w-none',
+    'prose-p:font-sans prose-p:text-base prose-p:md:text-base prose-p:text-text-primary prose-p:leading-loose prose-p:tracking-wide prose-p:mb-8',
+    'prose-headings:font-sans prose-headings:font-bold prose-headings:text-text-primary',
+    'prose-h1:text-4xl prose-h1:mt-16 prose-h1:mb-6 prose-h1:border-l-4 prose-h1:border-primary prose-h1:pl-4',
+    'prose-h2:text-2xl prose-h2:md:text-2xl prose-h2:mb-10 prose-h2:mt-5 prose-h2:lg:mt-40 prose-h2:pb-2 prose-h2:leading-normal',
+    'prose-h3:text-xl prose-h3:mt-18 prose-h3:mb-5',
+    'prose-h4:text-lg prose-h4:md:text-xl prose-h4:font-semibold prose-h4:mb-5 prose-h4:mt-5 prose-h4:leading-normal',
+    'prose-ul:list-disc prose-ul:pl-5 prose-ul:mb-6 prose-ul:space-y-2',
+    'prose-ol:list-decimal prose-ol:pl-5 prose-ol:mb-6 prose-ol:space-y-2',
+    'prose-li:text-text-primary',
+    'prose-strong:text-text-primary prose-strong:font-bold',
+    'prose-em:text-text-primary',
+    'prose-blockquote:italic prose-blockquote:border-none prose-blockquote:bg-gray-100 prose-blockquote:px-6 prose-blockquote:py-6 prose-blockquote:my-12',
+    // Typographyプラグインはblockquote内の最初/最後のpにスマートクォートを::before/::afterで付与するため個別に無効化
+    '[&_blockquote_p:first-of-type]:before:content-none [&_blockquote_p:last-of-type]:after:content-none',
+    'prose-figcaption:italic prose-figcaption:text-sm prose-figcaption:text-text-primary prose-figcaption:-mt-4',
+    'prose-figure:my-2',
+    'prose-hr:my-12 prose-hr:border-gray-300',
+    'prose-code:before:content-none prose-code:after:content-none',
+    // speakerクラス（発言者名ラベル）とblockquote内の最初/最後の要素の余白リセットはprose-*修飾子の対象外のため個別に指定
+    '[&_.speaker]:font-bold [&_.speaker]:pr-4',
+    '[&_blockquote>*:first-child]:mt-0 [&_blockquote>*:last-child]:mb-0',
+].join(' ');
 
 // ----------------------------------------------------
-// 📝 HTML Parsing Options
+// 📝 HTML Parsing Options（CSSでは表現できないロジックのみ）
 // ----------------------------------------------------
 const options = {
     replace: (domNode: DOMNode) => {
         if (domNode instanceof Element && domNode.type === 'tag') {
-            // <p>
-            if (domNode.name === 'p') {
-                return (
-                    <p className="text-gray-700 leading-relaxed tracking-wide mb-6 text-sm md:text-base text-text-primary">
-                        {domToReact(domNode.children as DOMNode[], options)}
-                    </p>
-                );
-            }
-            // <h1> - <h4>
-            if (domNode.name === 'h1') {
-                return (
-                    <h2 className="text-4xl font-bold mt-16 mb-6 border-l-4 border-red-500 pl-4">{domToReact(domNode.children as DOMNode[], options)}</h2>
-                );
-            }
-            if (domNode.name === 'h2') {
-                return (
-                    <h2 className="text-2xl md:text-3xl font-bold text-text-primary mb-10 mt-5 lg:mt-40 pb-2 leading-normal">
-                        {domToReact(domNode.children as DOMNode[], options)}
-                    </h2>
-                );
-            }
-            if (domNode.name === 'h3') {
-                return (
-                    <h3 className="text-xl font-bold mt-18 mb-5 font-sans">
-                        {domToReact(domNode.children as DOMNode[], options)}
-                    </h3>
-                );
-            }
-            if (domNode.name === 'h4') {
-                return (
-                    <h4 className="text-lg md:text-xl font-semibold text-text-primary mb-5 mt-5 leading-normal">
-                        {domToReact(domNode.children as DOMNode[], options)}
-                    </h4>
-                );
-            }
-            // <ul>, <ol>, <li>
-            if (domNode.name === 'ul') {
-                return <ul className="list-disc pl-5 mb-6 space-y-2">{domToReact(domNode.children as DOMNode[], options)}</ul>;
-            }
-            if (domNode.name === 'ol') {
-                return <ol className="list-decimal pl-5 mb-6 space-y-2">{domToReact(domNode.children as DOMNode[], options)}</ol>;
-            }
-            if (domNode.name === 'li') {
-                return <li className="text-gray-700">{domToReact(domNode.children as DOMNode[], options)}</li>;
-            }
-            // <blockquote>
-            if (domNode.name === 'blockquote') {
-                return (
-                    <blockquote className="border-l-4 border-primary pl-6 py-3 my-6 italic bg-gray-50 text-gray-600">
-                        {domToReact(domNode.children as DOMNode[], options)}
-                    </blockquote>
-                );
-            }
-            // <hr>
-            if (domNode.name === 'hr') {
-                return <hr className="my-12 border-t border-gray-300" />;
-            }
-            // <a>
+            // <a>: 外部リンクとして新規タブで開く（見た目はサイト共通のリンクスタイルに任せる）
             if (domNode.name === 'a') {
                 return (
                     <a
                         href={domNode.attribs.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="hover:underline transition-colors"
                     >
                         {domToReact(domNode.children as DOMNode[], options)}
                     </a>
@@ -150,11 +112,6 @@ const options = {
                         )}
                     </div>
                 );
-            }
-
-            // <br>
-            if (domNode.name === 'br') {
-                return <br className="my-2 block content-['']" />;
             }
         }
     }
@@ -225,7 +182,6 @@ export default async function ArticlePage({ params, searchParams }: Props) {
         notFound();
     }
 
-    const relatedArticles = await getRelatedPosts(slug);
     const contentBody = article.body_ja;
 
     return (
@@ -238,172 +194,57 @@ export default async function ArticlePage({ params, searchParams }: Props) {
                     </a>
                 </div>
             )}
+            {/* カバー画像 (aspect 1440/756・ホバーでハーフトーン→通常画像) */}
+            {article.headerImage && (
+                <HalftoneHoverImage
+                    normalSrc={article.headerImage}
+                    halftoneSrc={article.headerImageHalftone || article.headerImage}
+                    alt={article.title}
+                    aspectRatio={1440 / 756}
+                    overlay={
+                        <div className="absolute bottom-0 left-0 p-8">
+                            {article.lpSubtitle && (
+                                <div className="font-bold mb-2 text-white">{article.lpSubtitle}</div>
+                            )}
+                            <div className="text-3xl font-bold leading-snug text-white">{article.title}</div>
+                        </div>
+                    }
+                />
+            )}
+
+            {/* カバーの下に配置。Header自体はsticky top-0なので、スクロールで上端に達すると固定される */}
             <Header />
 
-            {/* ヘッダー部分 */}
-            <header className="mb-8">
-                <div className="relative w-full -mt-5">
-                    {/* カバー画像 (Header Image: 2350x1000) */}
-                    {article.headerImage && (
-                        <div>
-                            {/* PC: Mosaic (aspect ratio 2.35) */}
-                            <div className='hidden lg:block w-full'>
-                                <InteractiveMosaic02
-                                    imageUrl={article.headerImage}
-                                    width="100%"
-                                    mosaicSize='large'
-                                    aspectRatio={2.35}
-                                    objectFit="contain"
-                                    background="#FF0067"
-                                />
-                            </div>
-                            {/* Mobile: 通常画像 */}
-                            <div className='block lg:hidden w-full aspect-[2.35/1] relative bg-primary'>
-                                <Image
-                                    src={article.headerImage}
-                                    alt={article.title}
-                                    fill
-                                    className="object-contain"
-                                    priority
-                                    unoptimized={true}
-                                />
-                            </div>
-                        </div>
-                    )}
-                </div>
-            </header>
+            <Menu className='lg:hidden mt-4 mb-20 translate-x-[14px]' />
 
-            <div className="w-full p-[14px] lg:p-[4vw] flex flex-col lg:flex-row gap-[8vw]">
-                <div className='flex-1 flex justify-center'>
-                    <div className='max-w-200 w-full'>
+            <div className="w-full px-[14px] lg:px-8 mt-8 lg:mt-16 grid grid-cols-1 lg:grid-cols-[5fr_2fr] lg:gap-x-[14vw]">
+                <div className="w-full">
+                    <h1 className='font-sans font-bold text-4xl leading-relaxed mb-10'>
+                        {article.title}
+                    </h1>
+                    <div className='mb-10 font-semibold leading-normal font-en text-right'>
+                        {article.date ? formatDateDot(article.date) : ''}
+                    </div>
 
-                        {/* 記事ヘッダー情報（SP用・本文上） */}
-                        <section className='text-base'>
-                            <h1 className='font-sans font-bold text-4xl leading-relaxed relative mb-8'>
-                                {article.title}
-                            </h1>
-                            <div className='mb-4 leading-normal flex justify-end text-gray-500 font-en'>
-                                {article.date ? formatDateDot(article.date) : ''}
-                            </div>
-
-                            {/* SPのみ表示する情報 */}
-                            <div className="lg:hidden mb-10">
-                                <div className='mb-6 leading-normal text-gray-700 font-medium'>
-                                    {article.excerpt}
-                                </div>
-                                <div className='leading-normal flex justify-start gap-2 flex-wrap'>
-                                    {article.tags && article.tags.length > 0 ? (
-                                        article.tags.map((tag, index) => (
-                                            <span key={index} className="text-gray-500 text-sm bg-gray-50 px-2 py-1 rounded">
-                                                #{tag}
-                                            </span>
-                                        ))
-                                    ) : null}
-                                </div>
-                            </div>
-                        </section>
-
-                        <Menu className='lg:hidden mt-4 mb-50 translate-x-[14px]' />
-
-                        {/* 記事本文 (MicroCMS HTML) */}
-                        <div className="max-w-none mt-8 lg:mt-20">
-                            {contentBody ? parse(contentBody, options) : (
-                                <p className="text-gray-500 py-10 text-center">No content available</p>
-                            )}
-                        </div>
-
-                        {article.link && (
-                            <div className="mt-40">
-                                <CTAButton href={article.link} className="font-en">
-                                    Read on Note
-                                </CTAButton>
-                            </div>
+                    {/* 記事本文 (MicroCMS HTML) */}
+                    <div className={ARTICLE_PROSE_CLASSES}>
+                        {contentBody ? parse(contentBody, options) : (
+                            <p className="text-gray-500 py-10 text-center">No content available</p>
                         )}
                     </div>
-                </div>
 
-                {/* サイドバー（PC用） */}
-                <div className='w-full lg:w-[20%]'>
-                    <section className='h-[300vh] relative hidden lg:block'>
-                        <div className='text-sm sticky top-44 h-screen'>
-                            <div className='border border-border px-4 py-5 bg-white/50 backdrop-blur-sm'>
-                                <div className='font-en underline mb-2 text-gray-500'>
-                                    Title
-                                </div>
-                                <div className='mb-6 leading-normal font-bold'>
-                                    {article.title}<br />
-                                    {article.subtitle && <span className="text-gray-600 font-normal mt-1 block text-sm">{article.subtitle}</span>}
-                                </div>
-
-                                <div className='font-en underline mb-2 text-gray-500'>
-                                    Date
-                                </div>
-                                <div className='mb-6 leading-normal font-en'>
-                                    {article.date ? formatDateDot(article.date) : ''}
-                                </div>
-
-                                {article.excerpt && (
-                                    <>
-                                        <div className='font-en underline mb-2 text-gray-500'>
-                                            Summary
-                                        </div>
-                                        <div className='mb-6 leading-normal text-gray-700 text-sm'>
-                                            {article.excerpt}
-                                        </div>
-                                    </>
-                                )}
-
-                                <div className='font-en underline mb-2 text-gray-500'>
-                                    Keywords
-                                </div>
-                                <div className='leading-normal font-en'>
-                                    {article.tags && article.tags.length > 0 ? (
-                                        article.tags.map((tag, index) => (
-                                            <div key={index} className="mb-1 text-gray-600 hover:text-black transition-colors">
-                                                # {tag}
-                                            </div>
-                                        ))
-                                    ) : (
-                                        <span className='text-gray-400'>-</span>
-                                    )}
-                                </div>
-                            </div>
+                    {article.link && (
+                        <div className="mt-40">
+                            <CTAButton href={article.link} className="font-en">
+                                Read on Note
+                            </CTAButton>
                         </div>
-                    </section>
-
-                    <Menu className='hidden lg:block translate-x-[4vw]' />
-
-                    {/* 関連記事 */}
-                    {relatedArticles.length > 0 && (
-                        <section className="w-full section-spacing border-t border-border mt-40 lg:mt-100 pt-10">
-                            <h2 className="font-en font-bold text-2xl leading-none relative inline-block mb-12">
-                                Related Articles
-                            </h2>
-                            <div className="w-full">
-                                <div className="hidden lg:block w-full">
-                                    <ContentList
-                                        contents={relatedArticles}
-                                        basePath="/articles"
-                                        columns={1}
-                                        gap={80}
-                                        enableMosaic={true}
-                                        mosaicSize='small'
-                                    />
-                                </div>
-                                <div className="block lg:hidden w-full">
-                                    <ContentList
-                                        contents={relatedArticles}
-                                        basePath="/articles"
-                                        columns={1}
-                                        gap={60}
-                                        enableMosaic={false}
-                                    />
-                                </div>
-                            </div>
-                        </section>
                     )}
                 </div>
+
+                {/* 右側は意図的に空 */}
+                <div className="w-full" />
             </div>
-        </article >
+        </article>
     );
 }

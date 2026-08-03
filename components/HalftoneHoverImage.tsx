@@ -1,6 +1,7 @@
 'use client'
 
 import Image from "next/image";
+import { ReactNode } from "react";
 
 interface HalftoneHoverImageProps {
     normalSrc: string;
@@ -8,6 +9,7 @@ interface HalftoneHoverImageProps {
     alt: string;
     aspectRatio?: number; // width / height
     className?: string;
+    overlay?: ReactNode; // ホバーの影響を受けない固定オーバーレイ（例: タイトル）
 }
 
 // ホバー前はハーフトーン画像、ホバー後は通常画像を表示するシンプルな切り替えコンポーネント。
@@ -19,6 +21,7 @@ export default function HalftoneHoverImage({
     alt,
     aspectRatio = 1,
     className = '',
+    overlay,
 }: HalftoneHoverImageProps) {
     return (
         <div
@@ -39,6 +42,11 @@ export default function HalftoneHoverImage({
                 className="object-cover transition-opacity duration-300 opacity-0 group-hover:opacity-100"
                 sizes="(max-width: 768px) 50vw, 25vw"
             />
+            {overlay && (
+                <div className="absolute inset-0 pointer-events-none">
+                    {overlay}
+                </div>
+            )}
         </div>
     );
 }

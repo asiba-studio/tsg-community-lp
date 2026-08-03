@@ -147,6 +147,7 @@ interface ContentItem {
 - **セクション間隔**: `.section-spacing` クラスで統一
 - **色のハードコード禁止**: `text-gray-*`/`text-black`に加え、ボタン枠線やホバーアクセントに直接 `#00ff00`/`#0000ff` 等の16進数を書かず、`--color-primary`/`--color-link` などのトークン経由にすること（2026-08にコード内の残存箇所は`bg-primary`/`border-primary`/`text-primary`等に置換済み）。ただし `green-mosaic.gif` などの画像アセット自体は対象外（緑のまま）。
 - **GIF画像全般**: `<Image>` で GIF を使う場合は必ず `unoptimized` を付ける（Next.js はアニメーション GIF を最適化できないため警告が出る）。`<img>` タグや `PixelImage` コンポーネントは対象外。`MosaicIcon.tsx` など動的パスの場合も同様。
+- **記事本文（MicroCMSのHTML）のスタイリング**: 2026-08より `@tailwindcss/typography`（`prose`）を採用。`app/articles/[slug]/page.tsx` の `ARTICLE_PROSE_CLASSES` に `prose-p:`/`prose-h2:`/`prose-blockquote:` 等の修飾子をまとめて定義し、`html-react-parser` の `options.replace()` 側はCSSだけでは表現できないロジック（`<img>` のalt記法パース、`<a>` の`target="_blank"`付与）だけを担当する。CMS側の `speaker` クラス（発言者名ラベル）や blockquote 内の余白調整は `prose-*` 修飾子の対象外のため、コンテナに直接 `[&_.speaker]:...` のような任意バリアントで指定している。Typographyプラグインは blockquote内の最初/最後の `<p>` にスマートクォートを `::before`/`::after` で自動付与するため、除去したい場合は `[&_blockquote_p:first-of-type]:before:content-none` 等で個別に無効化する必要がある（`prose-blockquote:before:content-none` だけでは効かない）。
 
 ## フォント
 

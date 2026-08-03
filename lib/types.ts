@@ -1,6 +1,6 @@
 // lib/types.ts
 
-export type ProgramTerm = '2ND' | '3RD';
+export type ProgramTerm = '2ND' | '3RD' | 'COMMUNITY-LAB';
 
 export interface ContentItem {
     id: string;
@@ -10,9 +10,12 @@ export interface ContentItem {
 
     // カード表示用・モザイク用
     coverImage: string;
+    coverImageHalftone?: string; // lp_settings.cover_sq_halftone（設定されている場合のみ）
+    lpSubtitle?: string;         // lp_settings.lp_subtitle（LP用の別サブタイトル）
 
     // 詳細ページヘッダー用
     headerImage: string;
+    headerImageHalftone?: string; // lp_settings.cover_la_halftone（設定されている場合のみ）
 
     date: string;    // ISO string
     tags: string[];  // keywords
@@ -44,7 +47,11 @@ export type OpenTalk = ContentItem & {
 // customDataについて
 export interface CreativeLabData {
     programTerms: ProgramTerm[];
-    // ... 他の creative-lab 関連のプロパティ
+    coverSquare?: string;
+    coverSquareHalftone?: string;
+    coverLandscape?: string;
+    coverLandscapeHalftone?: string;
+    lpSubtitle?: string;
 }
 
 export interface CustomData {

@@ -17,9 +17,8 @@ export default function Header() {
                 {/* PC */}
                 <nav className="hidden lg:flex justify-between items-center">
                     <div>
-                        <Link href="/" className="group flex items-center gap-2 px-6 relative no-underline">
+                        <Link href="/" className="flex items-center gap-2 px-6 no-underline">
                             <span className="font-en font-bold text-lg leading-none tracking-tight text-text-primary">COMMUNITY<br />DESIGN-LAB.</span>
-                            <img src="/gifs/green-mosaic.gif" alt="Green Mosaic" className="absolute top-0 left-0 inset-y-0 my-auto scale-x-[1.2] scale-y-[0.9] h-full -z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
                         </Link>
                     </div>
                     <div className="flex justify-end items-center gap-6 font-en font-medium text-lg px-6">
@@ -57,14 +56,9 @@ function HeaderButton(props: {
     return (
         <Link
             href={props.href}
-            className="group font-en text-black hover:text-black transition-colors relative no-underline"
+            className={`font-en transition-colors no-underline hover:text-primary ${isActive ? 'text-primary' : 'text-text-primary'}`}
         >
             {props.label}
-            <img
-                src="/gifs/green-mosaic.gif"
-                className={`absolute top-0 left-0 inset-y-0 my-auto scale-x-[1.4] scale-y-[0.9] h-full -z-10 transition-opacity ${isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
-                    }`}
-            />
         </Link>
     );
 }

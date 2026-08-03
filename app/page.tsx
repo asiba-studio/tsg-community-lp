@@ -3,6 +3,7 @@
 import { StatementShort } from "../components/home/Statement";
 import { SimpleButton } from "components/button";
 import ContentList from "components/articles/ContentList";
+import ArticleCard from "../components/home/ArticleCard";
 import { ProgramPhase1, ProgramPhase2, ProgramPhase3 } from "../components/home/ProgramPhase";
 import { Header, Menu } from "components/layout";
 import ProgramDetailSection from "../components/home/ProgramDetailSection";
@@ -15,6 +16,7 @@ import { getArticles, getNews } from "lib/api";
 export default async function Page() {
 
   const articles = await getArticles();
+  const communityLabArticles = articles.filter((a) => a.programTerms?.includes('COMMUNITY-LAB'));
   const news = await getNews();
   const newsSlice = news.slice(0, 2);
 
@@ -102,13 +104,10 @@ export default async function Page() {
             <h2 className="font-en leading-none inline-block mb-10 text-primary">
               Article
             </h2>
-            <div className="w-full">
-              <div className="hidden lg:block w-full">
-                <ContentList contents={articles} basePath="/articles" columns={1} gap={100} enableMosaic={true} />
-              </div>
-              <div className="block lg:hidden w-full">
-                <ContentList contents={articles} basePath="/articles" columns={1} gap={100} enableMosaic={false} />
-              </div>
+            <div className="w-full flex flex-col gap-16">
+              {communityLabArticles.map((article) => (
+                <ArticleCard key={article.id} article={article} />
+              ))}
             </div>
 
           </section>
