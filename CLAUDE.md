@@ -4,6 +4,8 @@
 
 **TSG Creative-LAB.** は、ASIBAスタジオが運営する建築・デザイン・アート系インキュベーションプログラムのLP（ランディングページ）です。
 
+> **2026-08 注記**: 4期よりプログラム名・サイトブランドが **「Community Design-LAB.」**（コミュニティづくりにフォーカス）に変わっている。ヘッダーロゴ・フッター・metadata・トップページの本文は4期ブランドに更新済み（`docs/4th-info/4th.md` が原稿）。ただし `archive/2nd`・`archive/3rd`・`lib/openTalks.ts`・`app/open-talks/page.tsx`・`app/projects-fair/page.tsx` は過去期の記録なので **意図的に「Creative-LAB.」のまま**残している。ロゴ画像アセット（`logo-creative-lab.png`）は4期用の差し替えが無いため、Header/Footerは暫定的にテキストロゴ「COMMUNITY DESIGN-LAB.」で表示中。
+
 - **本番URL**: https://tsg-community.asiba.or.jp
 - **フレームワーク**: Next.js 16 (App Router) + TypeScript
 - **スタイリング**: Tailwind CSS v4
@@ -52,7 +54,8 @@ components/
     ContentCard.tsx     # 記事・ニュース・OpenTalksのカードコンポーネント
     ContentList.tsx     # カードリスト（Masonryレイアウト対応）
     TagFilter.tsx
-  InteractiveMosaic02.tsx  # canvas 2D API によるモザイク画像エフェクト（p5.js 不使用）
+  InteractiveMosaic02.tsx  # canvas 2D API によるモザイク画像エフェクト（p5.js 不使用。3期以前のProgramCard/記事カードで使用）
+  HalftoneHoverImage.tsx   # 4期から採用のシンプルな画像切替（ホバー前=ハーフトーン、ホバー後=通常画像）。MicroCMSのlp_settings（cover_square/cover_sq_halftone等）を見据えた設計。現状は public/images/test/dummy-square(-halftone).png をダミーとして使用中
 
 lib/
   api.ts                # MicroCMS APIクライアント（記事・ニュース取得・下書き取得）

@@ -2,14 +2,14 @@
 
 "use client";
 
-import InteractiveMosaic02 from "components/InteractiveMosaic02";
+import HalftoneHoverImage from "components/HalftoneHoverImage";
 import Image from "next/image";
 import Link from "next/link";
-import { report } from "process";
 import { useState } from "react";
 
 interface ProgramCardProps {
     imageUrl: string;
+    halftoneImageUrl: string;
     title: string;
     children: React.ReactNode;
     dateTime: string;
@@ -19,6 +19,7 @@ interface ProgramCardProps {
 
 export default function ProgramCard({
     imageUrl,
+    halftoneImageUrl,
     title,
     children,
     dateTime,
@@ -35,9 +36,10 @@ export default function ProgramCard({
         >
             <div className="w-full md:w-44">
                 <div className="hidden lg:block w-full">
-                    <InteractiveMosaic02
-                        imageUrl={imageUrl}
-                        width="100%"
+                    <HalftoneHoverImage
+                        normalSrc={imageUrl}
+                        halftoneSrc={halftoneImageUrl}
+                        alt="program image"
                     />
                 </div>
                 <div className="block lg:hidden">

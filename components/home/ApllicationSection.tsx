@@ -1,6 +1,3 @@
-import { SimpleButton } from "components/button"
-import Link from "next/link";
-
 export default function ApplicationSection() {
 
     return (
@@ -13,18 +10,16 @@ export default function ApplicationSection() {
                 <h2>募集要項</h2>
                 <ol className="space-y-2 custom-ol py-10 pl-[1.5vw]">
                     <li>TSGの応募条件を満たしていること</li>
-                    <li>建築・デザイン・アートといった、クリエイションに向き合いながら、起業やビジネスを考えている若者/学生（15歳〜25歳前後を対象）</li>
-                    <li>以下のプログラム日程に参加できること
+                    <li>コミュニティ運営のノウハウや集客テクニックを学ぶだけではなく、自身のやりたいことを企画として立ち上げ、磨いていく意欲がある方</li>
+                    <li>下記の各プログラムに参加できること
                         <div className="space-y-0 leading-normal my-2">
-                            <span>2026年1月18日(日)　合同キックオフ</span><br></br>
-                            <span>2026年1月24日(土)　Workshop #1: Virtual Creation＋メンタリング</span><br></br>
-                            <span>2026年1月30日(金)　Open Lecture #1</span><br></br>
-                            <span>2026年2月14日(土)　Workshop #2: Prototyping＋メンタリング</span><br></br>
-                            <span>2026年2月28日(土)　Open Lecture #2＋メンタリング</span><br></br>
-                            <span>2026年3月15日(日) 　成果発表会・展示会「プロジェクト・フェア」</span><br></br>
+                            <span>9/27（日）　LAB.合同ミートアップ</span><br></br>
+                            <span>10/11（日）　Community Design-LAB ゼミ#1</span><br></br>
+                            <span>10/25（日）　Community Design-LAB ゼミ#2</span><br></br>
+                            <span>11/8（日）　Community Design-LAB 1Dayキャンプ</span><br></br>
+                            <span>11/22（日）　Community Design-LAB ゼミ#3</span><br></br>
+                            <span>12/13（日）　メンタリング・デイ</span><br></br>
                         </div>
-                        <span>※メンタリング付きのセッション（1/24, 2/14, 2/28）は原則参加をお願いします。</span><br></br>
-                        <span>※プロジェクト・フェアは当初は3/14(土)に開催の予定でしたが、変更となりました</span>
                     </li>
                 </ol>
             </section>
@@ -34,9 +29,9 @@ export default function ApplicationSection() {
                 <h2>特記事項</h2>
                 <ul className="space-y-2 custom-ul py-10  pl-[1.5vw]">
                     <li>申込みをいただいた後、一部対象者には個別に面談を行います。選考により参加者を決定します。</li>
-                    <li>本プログラムにご参加いただく場合、1月18日(日)の合同キックオフは【参加必須】となりますので、必ずスケジュールの確保をお願いいたします。</li>
+                    <li>本プログラムにご参加いただく場合、9月27日(日)の合同キックオフは【参加必須】となりますので、必ずスケジュールの確保をお願いいたします。</li>
                     <li>参加費用は無料ですが、会場までの交通費等はご自身でご負担いただきます。</li>
-                    <li>参参加者の状況に合わせて、プログラムの内容は多少変更することがあります。予めご了承ください。</li>
+                    <li>参加者の状況に合わせて、プログラムの内容は多少変更することがあります。予めご了承ください。</li>
                 </ul>
             </section>
 
@@ -46,13 +41,10 @@ export default function ApplicationSection() {
                 <ul className="space-y-2 custom-ul py-10 pl-[1.5vw]">
                     <li>主催：東京都</li>
                     <li>企画運営事務局：
-                        <Link href="https://etic.or.jp/" target="_blank" rel="noopener noreferrer">NPO法人ETIC.</Link>
+                        <a href="https://etic.or.jp/" target="_blank" rel="noopener noreferrer">NPO法人ETIC.</a>
                     </li>
                     <li>企画パートナー：
-                        <Link href="https://asiba.or.jp/" target="_blank" rel="noopener noreferrer">一般社団法人ASIBA</Link>（代表理事 二瓶雄太）
-                    </li>
-                    <li>後援：
-                        <Link href="https://www.jidp.or.jp/" target="_blank" rel="noopener noreferrer">公益財団法人日本デザイン振興会</Link>
+                        <a href="https://asiba.or.jp/" target="_blank" rel="noopener noreferrer">一般社団法人ASIBA</a>（代表理事　二瓶雄太）
                     </li>
                 </ul>
             </section>
@@ -61,13 +53,14 @@ export default function ApplicationSection() {
             <section id="application">
                 <h2>お申し込み</h2>
                 <ul className="space-y-2 custom-ul py-10 pl-[1.5vw]">
-                    <li>Creative-LAB.への参加は、以下のリンクからアクセスいただきお申込みください。
+                    <li>Community Design-LAB.への参加は、以下のリンクからアクセスいただきお申込みください。
                         <div className="mt-10 text-left">
+                            {/* TODO: 4期の実際の応募フォームURLに差し替える */}
                             <a
-                                href={"https://tsg-etic.my.site.com/TSG/s/login/?language=ja&ec=302&startURL=%2FTSG%2Fs%2F2025%2Flab3-creative%3F_gl%3D1*1db7g8e*_gcl_au*MjE0NjY2NDUzNi4xNzU3OTkzNzYy*_ga*MzU0OTU4MjczLjE3NDkyNjE5MDY.*_ga_PN1SX1X1K9*czE3NjQ4NjYyNDMkbzYwJGcxJHQxNzY0ODY2MjQ3JGo1NiRsMCRoMA"}
+                                href="#"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center justify-center bg-black text-white px-8 py-3 font-bold font-sans hover:bg-gray-800 transition-colors duration-300"
+                                className="btn btn-lg"
                             >
                                 お申し込みはこちら
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">

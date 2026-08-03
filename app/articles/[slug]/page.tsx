@@ -317,7 +317,7 @@ export default async function ArticlePage({ params, searchParams }: Props) {
                                     href={article.link}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center justify-center bg-black text-white px-8 py-3 font-bold font-en hover:bg-gray-800 transition-colors duration-300"
+                                    className="btn btn-lg font-en"
                                 >
                                     Read on Note
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -31,7 +31,7 @@ export default async function ArticlesPage() {
       <div className='pt-30 px-[8vw]'>
         <h1 className='font-en text-3xl md:text-5xl font-bold'>Article and News</h1>
         <p className="text-fluid-lg mt-6">
-          TSG Creative Lab. に関する記事や最新情報をお届けします。
+          TSG Community Design-LAB. に関する記事や最新情報をお届けします。
         </p>
       </div>
 

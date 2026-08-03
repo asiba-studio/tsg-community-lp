@@ -16,14 +16,8 @@ export default function Footer() {
                         className="h-full object-contain"
                     />
                 </div>
-                <div className="flex-1 bg-white">
-                    <Image
-                        src="/images/logo/logo-creative-lab.png"
-                        alt="Creative Lab Lozg"
-                        width={200}
-                        height={50}
-                        className="h-full object-contain"
-                    />
+                <div className="flex-1 bg-white flex items-center justify-center">
+                    <span className="font-en font-bold text-text-primary">COMMUNITY DESIGN-LAB.</span>
                 </div>
                 <div className="flex-1 bg-white">
                     <Image

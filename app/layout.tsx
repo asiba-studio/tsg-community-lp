@@ -7,24 +7,24 @@ import { GoogleAnalytics } from '@next/third-parties/google'
 export const metadata: Metadata = {
     metadataBase: new URL('https://tsg-community.asiba.or.jp'), // ドメインを正しく設定
     title: {
-        template: '%s | ASIBA Creative Lab.', // ASIBAを冠する
-        default: 'TSG Creative Lab. | ASIBA'
+        template: '%s | ASIBA Community Design-LAB.', // ASIBAを冠する
+        default: 'TSG Community Design-LAB. | ASIBA'
     },
-    description: 'Creative-Lab.は「何を、どのようにつくるか」だけでなく、「これから、どう生きていきたいか?」という問いを起点に、自分のクリエイションと生き方を結び直す場です。',
+    description: 'Community Design-LAB.は、「やりたい」を起点に人が集まる理由をつくる、持続可能で、面白く、魅力的なコミュニティをつくるための3ヶ月間のラボプログラムです。',
     openGraph: {
-        siteName: 'ASIBA Creative Lab.',
+        siteName: 'ASIBA Community Design-LAB.',
         locale: 'ja_JP',
         type: 'website',
-        title: 'ASIBA Creative Lab. - つくることは、生きること。',
-        description: 'Creative-Lab.は「何を、どのようにつくるか」だけでなく、「これから、どう生きていきたいか?」という問いを起点に、自分のクリエイションと生き方を結び直す場です。',
+        title: 'ASIBA Community Design-LAB. - 「やりたい」を起点に、人が集まる理由をつくる。',
+        description: 'Community Design-LAB.は、「やりたい」を起点に人が集まる理由をつくる、持続可能で、面白く、魅力的なコミュニティをつくるための3ヶ月間のラボプログラムです。',
         url: 'https://tsg-community.asiba.or.jp',
         images: [{ url: '/images/og/default-og.jpg', width: 1200, height: 630 }],
     },
     twitter: {
         card: 'summary_large_image',
         creator: '@asiba_studio',
-        title: 'ASIBA Creative Lab.',
-        description: 'Creative-Lab.は「何を、どのようにつくるか」だけでなく、「これから、どう生きていきたいか?」という問いを起点に、自分のクリエイションと生き方を結び直す場です。',
+        title: 'ASIBA Community Design-LAB.',
+        description: 'Community Design-LAB.は、「やりたい」を起点に人が集まる理由をつくる、持続可能で、面白く、魅力的なコミュニティをつくるための3ヶ月間のラボプログラムです。',
         images: ['/images/og/default-og.jpg'],
     },
     icons: {
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
 
     // その他の設定
     category: 'education', // サイトのカテゴリ
-    keywords: ['クリエイティブ', 'プログラム', '育成', 'Creative Lab', 'デザイン', 'アート'],
+    keywords: ['コミュニティ', 'プログラム', '育成', 'Community Design', '場づくり', 'まちづくり'],
 };
 
 export default function RootLayout({
@@ -71,7 +71,7 @@ export default function RootLayout({
                 "@type": "WebSite",
                 "@id": "https://tsg-community.asiba.or.jp/#website",
                 "url": "https://tsg-community.asiba.or.jp",
-                "name": "TSG Creative Lab.",
+                "name": "TSG Community Design-LAB.",
                 "publisher": { "@id": "https://asiba.or.jp/#organization" },
                 "inLanguage": "ja"
             },
@@ -79,7 +79,7 @@ export default function RootLayout({
                 "@type": "WebPage",
                 "@id": "https://tsg-community.asiba.or.jp/#webpage",
                 "url": "https://tsg-community.asiba.or.jp",
-                "name": "TSG Creative Lab.",
+                "name": "TSG Community Design-LAB.",
                 "isPartOf": { "@id": "https://tsg-community.asiba.or.jp/#website" },
                 "description": metadata.description
             }
