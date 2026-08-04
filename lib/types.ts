@@ -2,6 +2,14 @@
 
 export type ProgramTerm = '2ND' | '3RD' | 'COMMUNITY-LAB';
 
+// 新しい期が先頭（複数のprogram_termsが設定されている場合、最新の期のみに出す判定に使用）
+export const PROGRAM_TERM_ORDER: ProgramTerm[] = ['COMMUNITY-LAB', '3RD', '2ND'];
+
+export function getPrimaryProgramTerm(terms?: ProgramTerm[]): ProgramTerm | undefined {
+    if (!terms || terms.length === 0) return undefined;
+    return PROGRAM_TERM_ORDER.find((term) => terms.includes(term));
+}
+
 export interface ContentItem {
     id: string;
     slug: string;

@@ -60,7 +60,7 @@ function MenuModal({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }
             >
                 <Link href="/#program" className='no-underline px-2 w-auto mr-auto inline-block bg-white' onClick={onClose}>Program</Link>
                 <Link href="/articles" className='no-underline px-2 w-auto mr-auto inline-block bg-white' onClick={onClose}>Articles</Link>
-                <Link href="/articles#news" className='no-underline px-2 w-auto mr-auto inline-block bg-white' onClick={onClose}>News</Link>
+                <Link href="/news" className='no-underline px-2 w-auto mr-auto inline-block bg-white' onClick={onClose}>News</Link>
                 <Link href="/archive/3rd" className='no-underline px-2 w-auto mr-auto inline-block bg-white' onClick={onClose}>Archives</Link>
             </div>
         </div>

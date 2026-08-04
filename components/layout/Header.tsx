@@ -17,8 +17,7 @@ export default function Header() {
                     <div className="flex justify-end items-center gap-6 font-en font-medium text-lg px-6">
                         <HeaderButton label="Program" href="/#program" />
                         <HeaderButton label="Articles" href="/articles" />
-                        <HeaderButton label="News" href="/articles#news" />
-                        <HeaderButton label="Archives" href="/archive/3rd" />
+                        <HeaderButton label="News" href="/news" />
                     </div>
                 </nav>
 

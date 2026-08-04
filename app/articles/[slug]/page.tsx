@@ -6,7 +6,6 @@ import parse, { DOMNode, Element, domToReact } from 'html-react-parser';
 import { getArticles, getArticleDraft } from 'lib/api';
 import { Header, Menu } from 'components/layout';
 import HalftoneHoverImage from 'components/HalftoneHoverImage';
-import CTAButton from 'components/CTAButton';
 import { formatDateDot } from 'lib/date';
 
 interface Props {
@@ -233,14 +232,6 @@ export default async function ArticlePage({ params, searchParams }: Props) {
                             <p className="text-gray-500 py-10 text-center">No content available</p>
                         )}
                     </div>
-
-                    {article.link && (
-                        <div className="mt-40">
-                            <CTAButton href={article.link} className="font-en">
-                                Read on Note
-                            </CTAButton>
-                        </div>
-                    )}
                 </div>
 
                 {/* 右側は意図的に空 */}

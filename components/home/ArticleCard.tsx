@@ -5,7 +5,7 @@ import { Article } from "lib/types";
 
 export default function ArticleCard({ article }: { article: Article }) {
     return (
-        <Link href={`/articles/${article.slug}`} className="block no-underline">
+        <Link href={`/articles/${article.slug}`} className="block no-underline hover:opacity-100">
             <div className="w-full aspect-square relative overflow-hidden">
                 {article.coverImageHalftone ? (
                     <HalftoneHoverImage
@@ -23,8 +23,8 @@ export default function ArticleCard({ article }: { article: Article }) {
                 )}
             </div>
             <div className="space-y-3 mt-3">
-                {article.lpSubtitle && (
-                    <div className="font-bold text-sm leading-normal">{article.lpSubtitle}</div>
+                {(article.lpSubtitle || article.subtitle) && (
+                    <div className="font-bold text-sm leading-normal">{article.lpSubtitle || article.subtitle}</div>
                 )}
                 <div className="text-base leading-normal">{article.title}</div>
             </div>

@@ -1,11 +1,11 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import React from 'react';
 import { Metadata } from 'next';
 import { draftMode } from 'next/headers';
 import parse, { DOMNode, Element, domToReact } from 'html-react-parser';
 import { getNews, getNewsDraft } from 'lib/api';
 import { Header, Menu } from 'components/layout';
+import HalftoneHoverImage from 'components/HalftoneHoverImage';
 import { formatDateDot } from 'lib/date';
 
 interface Props {
@@ -19,80 +19,49 @@ async function getNewsItem(slug: string) {
 }
 
 // ----------------------------------------------------
-// 📝 HTML Parsing Options
+// 記事本文のタイポグラフィ設定（articles/[slug]と同様、見た目はprose-修飾子に集約）
+// ----------------------------------------------------
+const NEWS_PROSE_CLASSES = [
+    'prose prose-base max-w-none',
+    'prose-p:font-sans prose-p:text-base prose-p:md:text-base prose-p:text-text-primary prose-p:leading-loose prose-p:tracking-wide prose-p:mb-8',
+    'prose-headings:font-sans prose-headings:font-bold prose-headings:text-text-primary',
+    'prose-h1:text-4xl prose-h1:mt-16 prose-h1:mb-6 prose-h1:border-l-4 prose-h1:border-primary prose-h1:pl-4',
+    'prose-h2:text-2xl prose-h2:md:text-2xl prose-h2:mb-10 prose-h2:mt-5 prose-h2:lg:mt-40 prose-h2:pb-2 prose-h2:leading-normal',
+    'prose-h3:text-xl prose-h3:mt-18 prose-h3:mb-5',
+    'prose-h4:text-lg prose-h4:md:text-xl prose-h4:font-semibold prose-h4:mb-5 prose-h4:mt-5 prose-h4:leading-normal',
+    'prose-ul:list-disc prose-ul:pl-5 prose-ul:mb-6 prose-ul:space-y-2',
+    'prose-ol:list-decimal prose-ol:pl-5 prose-ol:mb-6 prose-ol:space-y-2',
+    'prose-li:text-text-primary',
+    'prose-strong:text-text-primary prose-strong:font-bold',
+    'prose-em:text-text-primary',
+    'prose-blockquote:italic prose-blockquote:border-none prose-blockquote:bg-gray-100 prose-blockquote:px-6 prose-blockquote:py-6 prose-blockquote:my-12',
+    '[&_blockquote_p:first-of-type]:before:content-none [&_blockquote_p:last-of-type]:after:content-none',
+    'prose-figcaption:italic prose-figcaption:text-sm prose-figcaption:text-text-primary prose-figcaption:-mt-4',
+    'prose-figure:my-2',
+    'prose-hr:my-12 prose-hr:border-gray-300',
+    'prose-code:before:content-none prose-code:after:content-none',
+    '[&_.speaker]:font-bold [&_.speaker]:pr-4',
+    '[&_blockquote>*:first-child]:mt-0 [&_blockquote>*:last-child]:mb-0',
+].join(' ');
+
+// ----------------------------------------------------
+// 📝 HTML Parsing Options（CSSでは表現できないロジックのみ）
 // ----------------------------------------------------
 const options = {
     replace: (domNode: DOMNode) => {
         if (domNode instanceof Element && domNode.type === 'tag') {
-            // <p>
-            if (domNode.name === 'p') {
-                return (
-                    <p className="text-gray-700 leading-loose tracking-wide mb-6 text-sm md:text-base text-text-primary">
-                        {domToReact(domNode.children as DOMNode[], options)}
-                    </p>
-                );
-            }
-            // <h1> - <h4>
-            if (domNode.name === 'h1') {
-                return (
-                    <h2 className="text-4xl font-bold mt-16 mb-6 border-l-4 border-red-500 pl-4">{domToReact(domNode.children as DOMNode[], options)}</h2>
-                );
-            }
-            if (domNode.name === 'h2') {
-                return (
-                    <h2 className="text-2xl md:text-3xl font-bold text-text-primary mb-10 mt-5 lg:mt-40 pb-2 leading-normal">
-                        {domToReact(domNode.children as DOMNode[], options)}
-                    </h2>
-                );
-            }
-            if (domNode.name === 'h3') {
-                return (
-                    <h3 className="text-xl font-bold mt-18 mb-5 font-sans">{domToReact(domNode.children as DOMNode[], options)}</h3>
-                );
-            }
-            if (domNode.name === 'h4') {
-                return (
-                    <h4 className="text-sm md:text-base font-semibold text-text-primary mb-5 mt-5 leading-normal">
-                        {domToReact(domNode.children as DOMNode[], options)}
-                    </h4>
-                );
-            }
-            // <ul>, <ol>, <li>
-            if (domNode.name === 'ul') {
-                return <ul className="list-disc pl-5 mb-6 space-y-2">{domToReact(domNode.children as DOMNode[], options)}</ul>;
-            }
-            if (domNode.name === 'ol') {
-                return <ol className="list-decimal pl-5 mb-6 space-y-2">{domToReact(domNode.children as DOMNode[], options)}</ol>;
-            }
-            if (domNode.name === 'li') {
-                return <li className="text-gray-700 mb-0">{domToReact(domNode.children as DOMNode[], options)}</li>;
-            }
-            // <blockquote>
-            if (domNode.name === 'blockquote') {
-                return (
-                    <blockquote className="border-l-4 border-primary pl-6 py-3 my-6 italic bg-gray-50 text-gray-600">
-                        {domToReact(domNode.children as DOMNode[], options)}
-                    </blockquote>
-                );
-            }
-            // <hr>
-            if (domNode.name === 'hr') {
-                return <hr className="my-12 border-t border-gray-300" />;
-            }
-            // <a>
             if (domNode.name === 'a') {
                 return (
                     <a
                         href={domNode.attribs.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="hover:underline transition-colors"
                     >
                         {domToReact(domNode.children as DOMNode[], options)}
                     </a>
                 );
             }
-            // <img>
+
             if (domNode.name === 'img') {
                 const { src, alt, width, height } = domNode.attribs;
 
@@ -126,7 +95,7 @@ const options = {
                             src={src}
                             width={parseInt(width || '800')}
                             height={parseInt(height || '600')}
-                            alt={displayCaption || 'Article Image'}
+                            alt={displayCaption || 'News Image'}
                             className="w-full h-auto object-cover"
                             unoptimized={true}
                         />
@@ -136,15 +105,9 @@ const options = {
                     </div>
                 );
             }
-
-            // <br>
-            if (domNode.name === 'br') {
-                return <br className="my-2 block content-['']" />;
-            }
         }
     }
 };
-
 
 export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
     const { slug } = await params;
@@ -167,11 +130,11 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
         openGraph: {
             title: news.title,
             description: news.excerpt,
-            images: news.headerImage ? [
+            images: news.coverImage ? [
                 {
-                    url: news.headerImage,
+                    url: news.coverImage,
                     width: 1200,
-                    height: 630,
+                    height: 1200,
                     alt: news.title,
                 }
             ] : [],
@@ -183,7 +146,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
             card: 'summary_large_image',
             title: news.title,
             description: news.excerpt,
-            images: news.headerImage ? [news.headerImage] : [],
+            images: news.coverImage ? [news.coverImage] : [],
         },
     };
 }
@@ -220,129 +183,47 @@ export default async function NewsPage({ params, searchParams }: Props) {
                     </a>
                 </div>
             )}
+
             <Header />
 
-            <div className="w-full p-[14px] lg:p-[4vw] flex flex-col lg:flex-row gap-[8vw]">
-                <div className='flex-1 flex justify-center'>
-                    <div className='max-w-200 w-full'>
-                        {/* ヘッダー画像 (Desktop) */}
-                        {news.headerImage && (
-                            <Image
-                                src={news.headerImage}
+            <Menu className='lg:hidden mt-4 mb-20 translate-x-[14px]' />
+
+            <div className="w-full px-[14px] lg:px-8 mt-8 lg:mt-16 grid grid-cols-1 lg:grid-cols-[5fr_2fr] lg:gap-x-[14vw]">
+                <div className="w-full">
+                    {/* カバー画像（cover_square・ホバーでハーフトーン→通常画像、無ければcoverでフォールバック） */}
+                    {news.coverImage && (
+                        <div className="w-full max-w-xs md:max-w-sm mb-10">
+                            <HalftoneHoverImage
+                                normalSrc={news.coverImage}
+                                halftoneSrc={news.coverImageHalftone || news.coverImage}
                                 alt={news.title}
-                                width={1200}
-                                height={630}
-                                className="w-full h-auto object-cover mb-8 border border-border hidden lg:block"
-                                unoptimized={true}
                             />
-                        )}
-                        {/* ヘッダー画像 (Mobile) - coverImageを使用 (api.tsでheaderImageと同じURLがマッピングされています) */}
-                        {news.coverImage && (
-                            <Image
-                                src={news.coverImage}
-                                alt={news.title}
-                                width={1200}
-                                height={630}
-                                className="w-full h-auto object-cover mb-8 border border-border block lg:hidden"
-                                quality={60}
-                                sizes="100vw"
-                                unoptimized={true}
-                            />
-                        )}
-
-                        {/* タイトル */}
-                        <p className='text-lg font-bold'>
-                            ニュース
-                        </p>
-                        <h1 className="leading-relaxed text-3xl lg:text-3xl font-bold">
-                            {news.title}
-                        </h1>
-                        <p className="leading-relaxed text-3xl lg:text-3xl font-bold mb-4">
-                            {news.subtitle}
-                        </p>
-
-                        {/* ニュースプロパティ一覧 (Mobile) */}
-                        <section className='lg:hidden text-sm'>
-                            <div className='mb-4 leading-normal flex justify-end font-en text-gray-500'>
-                                {news.date ? formatDateDot(news.date) : ''}
-                            </div>
-                            <div className='mb-4 leading-normal w-3/4 '>
-                                {news.excerpt}
-                            </div>
-                            <div className='leading-normal flex justify-start gap-2 flex-wrap'>
-                                {news.tags && news.tags.length > 0 ? (
-                                    news.tags.map((tag, index) => (
-                                        <span key={index} className="text-gray-500 bg-gray-50 px-2 py-1 rounded">
-                                            #{tag}
-                                        </span>
-                                    ))
-                                ) : (
-                                    <span className='text-gray-500'>No tags</span>
-                                )}
-                            </div>
-                        </section>
-
-                        <Menu className='lg:hidden mt-4 mb-50 translate-x-[14px]' />
-
-                        {/* 記事本文 */}
-                        <div className="mt-20 lg:mt-50">
-                            {contentBody ? parse(contentBody, options) : (
-                                <p className="text-gray-500 py-10 text-center">No content available</p>
-                            )}
                         </div>
+                    )}
+
+                    <h1 className='font-sans font-bold text-4xl leading-relaxed mb-2'>
+                        {news.title}
+                    </h1>
+                    {(news.lpSubtitle || news.subtitle) && (
+                        <div className='font-bold text-lg leading-normal mb-10'>
+                            {news.lpSubtitle || news.subtitle}
+                        </div>
+                    )}
+                    <div className='mb-10 font-semibold leading-normal font-en text-right'>
+                        {news.date ? formatDateDot(news.date) : ''}
                     </div>
 
+                    {/* ニュース本文 (MicroCMS HTML) */}
+                    <div className={NEWS_PROSE_CLASSES}>
+                        {contentBody ? parse(contentBody, options) : (
+                            <p className="text-gray-500 py-10 text-center">No content available</p>
+                        )}
+                    </div>
                 </div>
 
-                <div className='w-full lg:w-[20%]'>
-                    {/* ニュースプロパティ一覧 (Desktop) */}
-                    <section className='h-[300vh] relative hidden lg:block'>
-                        <div className='text-sm sticky top-44 h-screen'>
-                            <div className='border border-border px-1.5'>
-                                <div className='font-en underline'>
-                                    Title
-                                </div>
-                                <div className='mb-6 leading-normal'>
-                                    {news.title}<br />
-                                    {news.subtitle}
-                                </div>
-                                <div className='font-en underline'>
-                                    Date
-                                </div>
-                                <div className='mb-6 leading-normal'>
-                                    {news.date ? formatDateDot(news.date) : ''}
-                                </div>
-                                <div className='font-en underline'>
-                                    Description
-                                </div>
-                                <div className='mb-6 leading-normal'>
-                                    {news.excerpt}
-                                </div>
-                                <div className='font-en underline'>
-                                    Key Word
-                                </div>
-                                <div className='leading-normal'>
-                                    {news.tags && news.tags.length > 0 ? (
-                                        news.tags.map((tag, index) => (
-                                            <span key={index}>
-                                                # {tag}<br />
-                                            </span>
-                                        ))
-                                    ) : (
-                                        <span className='text-gray-500'>No tags</span>
-                                    )}
-                                </div>
-                            </div>
-
-                        </div>
-                    </section>
-
-                    <Menu className='hidden lg:block translate-x-[4vw]' />
-
-                </div>
-
+                {/* 右側は意図的に空 */}
+                <div className="w-full" />
             </div>
-
         </article>
     );
 }

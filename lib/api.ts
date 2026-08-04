@@ -12,9 +12,10 @@ type MicroCMSImage = {
 };
 
 // Repeater item type for "creative-lab-lp"
+// program_terms: MicroCMSのフィールド設定によりカンマ区切り文字列(テキスト)または配列(複数選択)のどちらでも返ってくる
 type CreativeLabLpSetting = {
     fieldId: 'creative-lab-lp';
-    program_terms?: string;
+    program_terms?: string | string[];
     cover_square?: MicroCMSImage;
     cover_sq_halftone?: MicroCMSImage;
     cover_landscape?: MicroCMSImage;
@@ -24,6 +25,14 @@ type CreativeLabLpSetting = {
 
 // Union type for all possible repeater items (currently only one we care about)
 type LpSetting = CreativeLabLpSetting;
+
+// program_termsが文字列(カンマ区切り)・配列のどちらで返ってきても対応し、未設定時は全期をデフォルトとする
+const parseProgramTerms = (raw: string | string[] | undefined): ProgramTerm[] => {
+    if (!raw) return ['2ND', '3RD'];
+    const list = Array.isArray(raw) ? raw : raw.split(',');
+    const terms = list.map(t => t.trim()).filter(Boolean) as ProgramTerm[];
+    return terms.length > 0 ? terms : ['2ND', '3RD'];
+};
 
 type ArticleSkeleton = {
     id: string;
@@ -61,6 +70,7 @@ type NewsSkeleton = {
     body_ja?: string;
     link?: string; // Assuming 'link' or similar for external link? JSON for article didn't show news structure but assumed similar
     publish_sites: any[];
+    lp_settings?: LpSetting[]; // Repeater（Articleと共通仕様。cover_landscape/cover_la_halftoneはNewsでは未使用）
     keywords?: string;
     date: string;
 };
@@ -113,15 +123,7 @@ const fetchArticlesData = async (): Promise<Article[]> => {
         const noteUrl = entry.note_url; // Check field name in typical usage, JSON said 'note_url'
         const body_ja = entry.body_ja;
 
-        const terms: ProgramTerm[] = [];
-        if (lpSetting?.program_terms) {
-            // Split by comma and trim
-            const splitTerms = lpSetting.program_terms.split(',').map(t => t.trim()) as ProgramTerm[];
-            terms.push(...splitTerms);
-        } else {
-            // Default to all terms if empty or undefined
-            terms.push('2ND', '3RD');
-        }
+        const terms = parseProgramTerms(lpSetting?.program_terms);
 
         const coverImage = lpSetting?.cover_square?.url || entry.cover?.url || ''; // Square as coverImage (list view)
         const coverImageHalftone = lpSetting?.cover_sq_halftone?.url;
@@ -182,6 +184,8 @@ const fetchNewsData = async (): Promise<News[]> => {
     });
 
     return response.contents.map((entry) => {
+        const lpSetting = entry.lp_settings?.find(s => s.fieldId === 'creative-lab-lp');
+
         const title = entry.title_ja || '';
         const subtitle = entry.subtitle_ja;
         const slug = entry.id;
@@ -190,7 +194,11 @@ const fetchNewsData = async (): Promise<News[]> => {
         const link = entry.link;
         const body_ja = entry.body_ja;
 
-        const coverUrl = entry.cover?.url || '';
+        const terms = parseProgramTerms(lpSetting?.program_terms);
+
+        const coverImage = lpSetting?.cover_square?.url || entry.cover?.url || '';
+        const coverImageHalftone = lpSetting?.cover_sq_halftone?.url;
+        const lpSubtitle = lpSetting?.lp_subtitle;
 
         let tags: string[] = [];
         if (entry.keywords) {
@@ -202,14 +210,17 @@ const fetchNewsData = async (): Promise<News[]> => {
             slug: slug,
             title: title,
             subtitle: subtitle,
-            coverImage: coverUrl,
-            headerImage: coverUrl, // News uses same for both usually
+            coverImage: coverImage,
+            coverImageHalftone: coverImageHalftone,
+            lpSubtitle: lpSubtitle,
+            headerImage: coverImage, // Newsはcover_landscapeを使わないためcoverImageと同一
             date: publishDate || new Date().toISOString(),
             tags: tags,
             excerpt: summary,
             link: link,
             type: 'news',
             body_ja: body_ja,
+            programTerms: terms,
         };
     });
 };
@@ -233,13 +244,7 @@ export async function getArticleDraft(contentId: string, draftKey: string): Prom
         });
 
         const lpSetting = entry.lp_settings?.find(s => s.fieldId === 'creative-lab-lp');
-        const terms: ProgramTerm[] = [];
-        if (lpSetting?.program_terms) {
-            const splitTerms = lpSetting.program_terms.split(',').map(t => t.trim()) as ProgramTerm[];
-            terms.push(...splitTerms);
-        } else {
-            terms.push('2ND', '3RD');
-        }
+        const terms = parseProgramTerms(lpSetting?.program_terms);
 
         let tags: string[] = [];
         if (entry.keywords) {
@@ -277,6 +282,11 @@ export async function getNewsDraft(contentId: string, draftKey: string): Promise
             queries: { draftKey },
         });
 
+        const lpSetting = entry.lp_settings?.find(s => s.fieldId === 'creative-lab-lp');
+        const terms = parseProgramTerms(lpSetting?.program_terms);
+
+        const coverImage = lpSetting?.cover_square?.url || entry.cover?.url || '';
+
         let tags: string[] = [];
         if (entry.keywords) {
             tags = entry.keywords.split(',').map(k => k.trim()).filter(k => k).slice(0, 3);
@@ -287,14 +297,17 @@ export async function getNewsDraft(contentId: string, draftKey: string): Promise
             slug: entry.id,
             title: entry.title_ja || '',
             subtitle: entry.subtitle_ja,
-            coverImage: entry.cover?.url || '',
-            headerImage: entry.cover?.url || '',
+            coverImage: coverImage,
+            coverImageHalftone: lpSetting?.cover_sq_halftone?.url,
+            lpSubtitle: lpSetting?.lp_subtitle,
+            headerImage: coverImage,
             date: entry.date || entry.publishedAt || new Date().toISOString(),
             tags,
             excerpt: entry.summary_ja,
             link: entry.link,
             type: 'news',
             body_ja: entry.body_ja,
+            programTerms: terms,
         };
     } catch {
         return null;

@@ -1,91 +1,67 @@
 
-import Link from 'next/link';
-import Image from 'next/image';
 import { Metadata } from 'next';
 import { Header, Menu } from 'components/layout';
-import { ContentList } from 'components/articles';
-import { getArticles, getNews } from 'lib/api';
+import ArticleCard from 'components/home/ArticleCard';
+import { getArticles } from 'lib/api';
+import { Article, ProgramTerm, getPrimaryProgramTerm } from 'lib/types';
 
 export const metadata: Metadata = {
   title: '記事一覧',
   description: 'Creative-Lab. の記事一覧です',
 };
 
+const TERM_GROUPS: { term: ProgramTerm; label: string }[] = [
+  { term: 'COMMUNITY-LAB', label: 'COMMUNITY DESIGN-LAB.' },
+  { term: '3RD', label: 'Creative-LAB. 3rd' },
+  { term: '2ND', label: 'Creative-LAB. 2nd' },
+];
+
+function ArticleGrid({ articles }: { articles: Article[] }) {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-[4vw] gap-y-16">
+      {articles.map((article) => (
+        <ArticleCard key={article.id} article={article} />
+      ))}
+    </div>
+  );
+}
+
 export default async function ArticlesPage() {
   const articles = await getArticles();
-  const news = await getNews();
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('ja-JP', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-  };
+  const groups = TERM_GROUPS.map(({ term, label }) => ({
+    term,
+    label,
+    articles: articles.filter((article) => getPrimaryProgramTerm(article.programTerms) === term),
+  })).filter((group) => group.articles.length > 0);
 
   return (
     <div className="w-full pb-50">
       <Header />
-      <Menu />
+      <Menu className="lg:hidden" />
 
-      <div className='pt-30 px-[8vw]'>
-        <h1 className='font-en text-3xl md:text-5xl font-bold'>Article and News</h1>
+      <div className="pt-30 px-[14px] lg:px-8">
+        <h1 className="font-en font-bold text-3xl md:text-5xl leading-none text-primary">
+          Article
+        </h1>
         <p className="text-lg mt-6">
-          TSG Community Design-LAB. に関する記事や最新情報をお届けします。
+          COMMUNITY DESIGN-LAB. に関するレポートや対談をお届けします。
         </p>
       </div>
 
-
-
-
-
-
-
-      <div className='w-full px-[14px] lg:px-[4vw]'>
-        <section className="w-full  pt-30">
-          <h2 className="font-en font-bold text-5xl leading-none inline-block mb-8 text-primary">
-            Article
-          </h2>
-
-          <div className="w-full">
-            <div className="hidden lg:block w-full">
-              <ContentList
-                contents={articles} basePath="/articles" columns={{ default: 1, md: 2, lg: 3 }} gap={"4vw"} description={true} enableMosaic={true}
-              />
-            </div>
-            <div className="block lg:hidden w-full">
-              <ContentList
-                contents={articles} basePath="/articles" columns={{ default: 1, md: 2, lg: 3 }} gap={"4vw"} description={true} enableMosaic={false}
-              />
-            </div>
-          </div>
-
-        </section>
-
-        <section id="news" className="w-full pt-30 section-spacing border-t border-border">
-          <h2 className="font-en font-bold text-5xl leading-none relative px-[1.5vw] inline-block mb-8">
-            <Image
-              src="/gifs/green-mosaic.gif"
-              unoptimized
-              alt="green mosaic"
-              width={500}
-              height={140}
-              className="absolute inset-0 w-full h-full scale-x-[1.1] object-cover -z-10"
-              quality={80}
-              sizes="(max-width: 768px) 50vw, 30vw"
-            />
-            News
-          </h2>
-
-          <ContentList
-            contents={news} basePath="/news" columns={{ default: 1, md: 2, lg: 3 }} gap={"4vw"} description={true} enableMosaic={false}
-          />
-        </section>
-
-
+      <div className="w-full px-[14px] lg:px-8">
+        {groups.map((group) => (
+          <section
+            key={group.term}
+            className="w-full pt-30 section-spacing"
+          >
+            <h2 className="font-en font-bold text-3xl leading-none mb-8 text-primary">
+              {group.label}
+            </h2>
+            <ArticleGrid articles={group.articles} />
+          </section>
+        ))}
       </div>
-
-
     </div>
   );
 }
