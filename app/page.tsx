@@ -47,7 +47,7 @@ export default async function Page() {
       </section>
 
       {/* Main Container */}
-      <div className="w-full px-[14px] lg:px-8 grid grid-cols-1 lg:grid-cols-[5fr_2fr] lg:gap-x-[14vw]">
+      <div className="w-full md:pb-80 px-[14px] md:px-8 grid grid-cols-1 md:grid-cols-[5fr_2fr] md:gap-x-[14vw]">
 
         {/* Left Conteiner */}
         <div className="w-full">
