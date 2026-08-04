@@ -1,6 +1,6 @@
 export function StatementShort() {
   return (
-    <div className="text-lg font-medium space-y-8">
+    <div className="text-lg space-y-8">
       <p>
         自分の熱量は、<br />
         どうすればちゃんと人に届くのだろうか。
