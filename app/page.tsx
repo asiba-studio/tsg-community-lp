@@ -23,8 +23,16 @@ export default async function Page() {
   return (
     <div>
 
-      {/* Hero Section: 4期のキービジュアル未定のためプレースホルダー */}
-      <section className="w-full aspect-[16/9] md:aspect-[1300/680] border border-border bg-white" />
+      {/* Hero Section */}
+      <section className="w-full aspect-[16/9] md:aspect-[1300/680] border border-border bg-white overflow-hidden">
+        <video
+          src="/videos/keyvisual-01.mp4"
+          autoPlay
+          muted
+          playsInline
+          className="w-full h-full object-cover"
+        />
+      </section>
 
       {/* Navigation */}
       <div className="h-1 md:border-t md:border-border" />
