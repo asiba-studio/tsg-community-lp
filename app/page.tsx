@@ -10,6 +10,7 @@ import ProgramDetailSection from "../components/home/ProgramDetailSection";
 import ApplicationSection from "../components/home/ApllicationSection";
 //import PlayerSection from "./components/PlayerSection";
 import Tagline from "../components/home/Tagline";
+import HalftoneHoverImage from "components/HalftoneHoverImage";
 import { getArticles, getNews } from "lib/api";
 
 export default async function Page() {
@@ -76,6 +77,16 @@ export default async function Page() {
           {/* Program Section */}
           <section id="program" className="w-full mt-30 scroll-mt-28">
             <ProgramDetailSection />
+          </section>
+
+          {/* Placeholder Image (Mobile Only) */}
+          <section className="w-screen -mx-3 mt-30 md:hidden">
+            <HalftoneHoverImage
+              normalSrc="/images/home-community/placeholder.png"
+              halftoneSrc="/images/home-community/placeholder-halftone.png"
+              alt=""
+              sizes="100vw"
+            />
           </section>
 
           {/* Application Section */}
