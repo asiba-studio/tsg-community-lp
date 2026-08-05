@@ -12,6 +12,9 @@ export const metadata: Metadata = {
         default: DEFAULT_OGP_TITLE
     },
     description: DEFAULT_OGP_DESCRIPTION,
+    alternates: {
+        canonical: '/',
+    },
     openGraph: {
         siteName: DEFAULT_OGP_TITLE,
         locale: 'ja_JP',

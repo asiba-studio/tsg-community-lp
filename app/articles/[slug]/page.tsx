@@ -155,6 +155,9 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
     return {
         title: { absolute: DEFAULT_OGP_TITLE },
         description,
+        alternates: {
+            canonical: `/articles/${article.slug}`,
+        },
         openGraph: {
             title: DEFAULT_OGP_TITLE,
             description,

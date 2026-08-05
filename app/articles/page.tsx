@@ -8,6 +8,9 @@ import { Article, ProgramTerm, getPrimaryProgramTerm } from 'lib/types';
 export const metadata: Metadata = {
   title: '記事一覧',
   description: 'Creative-Lab. の記事一覧です',
+  alternates: {
+    canonical: '/articles',
+  },
 };
 
 const TERM_GROUPS: { term: ProgramTerm; label: string }[] = [

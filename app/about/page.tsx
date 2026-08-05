@@ -1,5 +1,12 @@
 import React from 'react';
+import { Metadata } from 'next';
 import { Header } from '@/components/layout';
+
+export const metadata: Metadata = {
+    alternates: {
+        canonical: '/about',
+    },
+};
 
 export default function AboutPage() {
     return (

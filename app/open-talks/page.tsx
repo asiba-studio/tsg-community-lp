@@ -9,6 +9,9 @@ import { ReactNode } from 'react';
 export const metadata: Metadata = {
   title: '記事一覧',
   description: 'Creative-Lab. の記事一覧です',
+  alternates: {
+    canonical: '/open-talks',
+  },
 };
 
 export default async function OpenTalksPage() {

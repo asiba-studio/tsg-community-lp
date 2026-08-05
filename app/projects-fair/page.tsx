@@ -97,6 +97,9 @@ const projects = [
 export const metadata = {
     title: 'Projects Fair | Creative-LAB.',
     description: 'Creative-LAB. 最終成果展（PROJECTS FAIR SPRING 2026）',
+    alternates: {
+        canonical: '/projects-fair',
+    },
     openGraph: {
         title: 'Projects Fair | Creative-LAB.',
         description: 'Creative-LAB. 最終成果展（PROJECTS FAIR SPRING 2026）',

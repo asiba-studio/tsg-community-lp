@@ -12,6 +12,13 @@ import ApplicationSection from "@/components/archive/2nd/ApllicationSection";
 import Tagline from "@/components/archive/2nd/Tagline";
 import Image from "next/image";
 import { getArticles, getNews } from "@/lib/api";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    alternates: {
+        canonical: '/archive/2nd',
+    },
+};
 
 export default async function Page() {
 

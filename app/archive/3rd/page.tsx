@@ -10,6 +10,13 @@ import ProgramDetailSection from "@/components/archive/3rd/ProgramDetailSection"
 import ApplicationSection from "@/components/archive/3rd/ApllicationSection";
 import Image from "next/image";
 import { getArticles, getNews } from "@/lib/api";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    alternates: {
+        canonical: '/archive/3rd',
+    },
+};
 
 export default async function Page() {
 

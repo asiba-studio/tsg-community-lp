@@ -7,6 +7,9 @@ import { News, ProgramTerm, getPrimaryProgramTerm } from 'lib/types';
 export const metadata: Metadata = {
   title: 'ニュース一覧',
   description: 'Creative-Lab. のニュース一覧です',
+  alternates: {
+    canonical: '/news',
+  },
 };
 
 const TERM_GROUPS: { term: ProgramTerm; label: string }[] = [
