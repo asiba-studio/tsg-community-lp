@@ -43,7 +43,7 @@ export default async function Page() {
       </section>
 
       {/* Main Container */}
-      <div className="w-full md:pb-80 px-3 md:px-8 grid grid-cols-1 md:grid-cols-[5fr_2fr] md:gap-x-[14vw]">
+      <div className="w-full md:pb-80 px-3 md:px-8 grid grid-cols-1 md:grid-cols-[5fr_2fr] md:gap-x-[clamp(3rem,14vw,14rem)]">
 
         {/* Left Conteiner */}
         <div className="w-full">
@@ -54,7 +54,7 @@ export default async function Page() {
               News
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-[100px]">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-x-[clamp(3rem,7vw,7rem)]">
               {newsSlice.map((item) => (
                 <NewsCard key={item.id} news={item} showImageOnMobile={false} />
               ))}

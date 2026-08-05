@@ -204,7 +204,7 @@ export default async function NewsPage({ params, searchParams }: Props) {
 
             <Header />
 
-            <div className="w-full px-3 lg:px-8 mt-8 lg:mt-16 grid grid-cols-1 lg:grid-cols-[5fr_2fr] lg:gap-x-[14vw]">
+            <div className="w-full px-3 md:px-8 mt-8 md:mt-16 grid grid-cols-1 md:grid-cols-[5fr_2fr] md:gap-x-[clamp(3rem,14vw,14rem)]">
                 <div className="w-full">
                     {/* カバー画像（cover_square・ホバーでハーフトーン→通常画像、無ければcoverでフォールバック） */}
                     {news.coverImage && (

@@ -209,13 +209,13 @@ export default async function ArticlePage({ params, searchParams }: Props) {
                     </a>
                 </div>
             )}
-            {/* カバー画像 (mobileは画面高さいっぱい、lg以上は1440/756・画面内に入ったらハーフトーン→通常画像) */}
+            {/* カバー画像 (mobileは画面高さいっぱい、md以上は1440/756・画面内に入ったらハーフトーン→通常画像) */}
             {article.headerImage && (
                 <HalftoneHoverImage
                     normalSrc={article.headerImage}
                     halftoneSrc={article.headerImageHalftone || article.headerImage}
                     alt={article.title}
-                    sizeClassName="h-dvh lg:h-auto lg:aspect-[1440/756]"
+                    sizeClassName="h-dvh md:h-auto md:aspect-[1440/756]"
                     sizes="100vw"
                     overlay={
                         <div className="absolute bottom-0 left-0 px-3 py-4 lg:p-8">
@@ -231,7 +231,7 @@ export default async function ArticlePage({ params, searchParams }: Props) {
             {/* カバーの下に配置。Header自体はsticky top-0なので、スクロールで上端に達すると固定される */}
             <Header />
 
-            <div className="w-full px-3 lg:px-8 mt-12 lg:mt-16 grid grid-cols-1 lg:grid-cols-[5fr_2fr] lg:gap-x-[14vw]">
+            <div className="w-full px-3 md:px-8 mt-12 md:mt-16 grid grid-cols-1 md:grid-cols-[5fr_2fr] md:gap-x-[clamp(3rem,14vw,14rem)]">
                 <div className="w-full">
                     <h1 className='hidden md:block font-sans font-bold text-3xl md:text-4xl leading-relaxed mb-4 md:mb-10'>
                         {article.title}

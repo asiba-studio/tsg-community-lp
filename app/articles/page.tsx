@@ -18,7 +18,7 @@ const TERM_GROUPS: { term: ProgramTerm; label: string }[] = [
 
 function ArticleGrid({ articles }: { articles: Article[] }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-[4vw] gap-y-16">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-[clamp(2rem,4vw,4.5rem)] gap-y-16">
       {articles.map((article) => (
         <ArticleCard key={article.id} article={article} />
       ))}
