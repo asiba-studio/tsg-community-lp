@@ -38,22 +38,22 @@ export default async function NewsPage() {
     <div className="w-full pb-50">
       <Header />
 
-      <div className="pt-30 px-[14px] lg:px-8">
+      <div className="pt-14 md:pt-30 px-3 lg:px-8">
         <h1 className="font-en font-bold text-3xl md:text-5xl leading-none text-primary">
           News
         </h1>
-        <p className="text-lg mt-6">
+        <p className="text-base md:text-lg mt-6">
           COMMUNITY DESIGN-LAB. に関するお知らせをお届けします。
         </p>
       </div>
 
-      <div className="w-full px-[14px] lg:px-8">
+      <div className="w-full px-3 lg:px-8">
         {groups.map((group) => (
           <section
             key={group.term}
-            className="w-full pt-30 section-spacing"
+            className="w-full pt-14 md:pt-30 section-spacing"
           >
-            <h2 className="font-en font-bold text-3xl leading-none mb-8 text-primary">
+            <h2 className="font-en font-bold text-2xl md:text-3xl leading-none mb-2 md:mb-8 text-primary">
               {group.label}
             </h2>
             <NewsGrid news={group.news} />

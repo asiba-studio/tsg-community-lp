@@ -63,7 +63,7 @@ export default async function Page() {
           </section>
 
           {/* Icon Section */}
-          <section id="program" className="w-full mt-30">
+          <section className="w-full mt-30">
             <ProgramPhase1 />
           </section>
           <section className="w-full mt-30">
@@ -74,7 +74,7 @@ export default async function Page() {
           </section>
 
           {/* Program Section */}
-          <section className="w-full mt-30">
+          <section id="program" className="w-full mt-30 scroll-mt-28">
             <ProgramDetailSection />
           </section>
 
