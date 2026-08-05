@@ -3,10 +3,10 @@ import { Footer } from 'components/layout';
 import { Metadata } from 'next';
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { GoogleAnalytics } from '@next/third-parties/google'
-import { DEFAULT_OGP_TITLE, DEFAULT_OGP_DESCRIPTION, DEFAULT_OGP_IMAGE } from 'lib/seo';
+import { DEFAULT_OGP_TITLE, DEFAULT_OGP_DESCRIPTION, DEFAULT_OGP_IMAGE, SITE_URL } from 'lib/seo';
 
 export const metadata: Metadata = {
-    metadataBase: new URL('https://tsg-community.asiba.or.jp'), // ドメインを正しく設定
+    metadataBase: new URL(SITE_URL), // 本番は固定ドメイン、Vercelプレビューは自分自身のURL（lib/seo.ts参照）
     title: {
         template: '%s | ASIBA Community Design-LAB.', // ASIBAを冠する
         default: DEFAULT_OGP_TITLE
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
         type: 'website',
         title: DEFAULT_OGP_TITLE,
         description: DEFAULT_OGP_DESCRIPTION,
-        url: 'https://tsg-community.asiba.or.jp',
+        url: SITE_URL,
         images: [{ url: DEFAULT_OGP_IMAGE, width: 1200, height: 630 }],
     },
     twitter: {
