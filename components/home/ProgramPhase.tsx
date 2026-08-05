@@ -26,7 +26,7 @@ const DUMMY_VENUE = "亀戸ガレージ";
 const HOMEWORK_DATETIME = "随時";
 const HOMEWORK_VENUE = "オンライン";
 
-function PhaseCard({ title, homework = false, imageUrl = "/images/test/dummy-square.png", halftoneImageUrl = "/images/test/dummy-square-halftone.png" }: { title: string; homework?: boolean; imageUrl?: string; halftoneImageUrl?: string }) {
+function PhaseCard({ title, homework = false, imageUrl = "/images/test/dummy-square.png", halftoneImageUrl = "/images/test/dummy-square-halftone.png", showImageOnMobile = false }: { title: string; homework?: boolean; imageUrl?: string; halftoneImageUrl?: string; showImageOnMobile?: boolean }) {
     return (
         <ProgramCard
             imageUrl={imageUrl}
@@ -34,6 +34,7 @@ function PhaseCard({ title, homework = false, imageUrl = "/images/test/dummy-squ
             title={title}
             dateTime={homework ? HOMEWORK_DATETIME : DUMMY_DATETIME}
             location={homework ? HOMEWORK_VENUE : DUMMY_VENUE}
+            showImageOnMobile={showImageOnMobile}
         >
             <p>
                 {DUMMY_DESCRIPTION}
@@ -63,7 +64,7 @@ export function ProgramPhase1() {
             <div className="w-full px-0 mt-4">
                 <h3 className="hidden">Phase 1 Program</h3>
                 <ul className="space-y-8">
-                    <li><PhaseCard title="LAB合同キックオフ" imageUrl="/images/home-community/phase-01.png" halftoneImageUrl="/images/home-community/phase-01-halftone.png" /></li>
+                    <li><PhaseCard title="LAB合同キックオフ" imageUrl="/images/home-community/phase-01.png" halftoneImageUrl="/images/home-community/phase-01-halftone.png" showImageOnMobile /></li>
                     <li><PhaseCard title="ゼミ #1" imageUrl="/images/home-community/phase-02.png" halftoneImageUrl="/images/home-community/phase-02-halftone.png" /></li>
                     <li><PhaseCard title="homework" homework imageUrl="/images/home-community/phase-03.png" halftoneImageUrl="/images/home-community/phase-03-halftone.png" /></li>
                 </ul>
@@ -94,7 +95,7 @@ export function ProgramPhase2() {
             <div className="w-full px-0 mt-4">
                 <h3 className="hidden">Phase 2 Program</h3>
                 <ul className="space-y-8">
-                    <li><PhaseCard title="ゼミ #2" /></li>
+                    <li><PhaseCard title="ゼミ #2" showImageOnMobile /></li>
                     <li><PhaseCard title="homework" homework /></li>
                 </ul>
             </div>
@@ -124,7 +125,7 @@ export function ProgramPhase3() {
             <div className="w-full px-0 mt-4">
                 <h3 className="hidden">Phase 3 Program</h3>
                 <ul className="space-y-8">
-                    <li><PhaseCard title="1Day キャンプ" /></li>
+                    <li><PhaseCard title="1Day キャンプ" showImageOnMobile /></li>
                     <li><PhaseCard title="ゼミ #3" /></li>
                     <li><PhaseCard title="homework" homework /></li>
                     <li><PhaseCard title="最終成果発表会" /></li>

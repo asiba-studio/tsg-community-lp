@@ -15,6 +15,7 @@ interface ProgramCardProps {
     dateTime: string;
     location: string;
     reportSlug?: string; // nullable
+    showImageOnMobile?: boolean;
 }
 
 export default function ProgramCard({
@@ -25,6 +26,7 @@ export default function ProgramCard({
     dateTime,
     location,
     reportSlug,
+    showImageOnMobile = true,
 }: ProgramCardProps) {
     const [isHovered, setIsHovered] = useState(false);
 
@@ -34,7 +36,7 @@ export default function ProgramCard({
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
-            <div className="w-full md:w-1/4">
+            <div className={`w-full md:w-1/4 ${showImageOnMobile ? '' : 'hidden lg:block'}`}>
                 <div className="hidden lg:block w-full">
                     <HalftoneHoverImage
                         normalSrc={imageUrl}
@@ -42,17 +44,19 @@ export default function ProgramCard({
                         alt="program image"
                     />
                 </div>
-                <div className="block lg:hidden">
-                    <Image
-                        src={imageUrl}
-                        alt="program image"
-                        width={1000}
-                        height={1000}
-                        className="w-full object-cover"
-                        quality={80}
-                        sizes="100vw"
-                    />
-                </div>
+                {showImageOnMobile && (
+                    <div className="block lg:hidden">
+                        <Image
+                            src={imageUrl}
+                            alt="program image"
+                            width={1000}
+                            height={1000}
+                            className="w-full object-cover"
+                            quality={80}
+                            sizes="100vw"
+                        />
+                    </div>
+                )}
             </div>
             <div className="flex-1">
                 <div className="font-bold text-lg md:text-xl leading-snug">

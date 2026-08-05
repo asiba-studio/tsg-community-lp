@@ -2,8 +2,8 @@
 
 import { StatementShort } from "../components/home/Statement";
 import { SimpleButton } from "components/button";
-import ContentList from "components/articles/ContentList";
 import ArticleCard from "../components/home/ArticleCard";
+import NewsCard from "../components/home/NewsCard";
 import { ProgramPhase1, ProgramPhase2, ProgramPhase3 } from "../components/home/ProgramPhase";
 import { Header } from "components/layout";
 import ProgramDetailSection from "../components/home/ProgramDetailSection";
@@ -54,11 +54,10 @@ export default async function Page() {
               News
             </h2>
 
-            <div className="hidden md:block">
-              <ContentList contents={newsSlice} basePath="/news" columns={2} gap={100} enableMosaic={false} />
-            </div>
-            <div className="block md:hidden">
-              <ContentList contents={newsSlice} basePath="/news" columns={1} gap={100} enableMosaic={false} />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-[100px]">
+              {newsSlice.map((item) => (
+                <NewsCard key={item.id} news={item} showImageOnMobile={false} />
+              ))}
             </div>
 
           </section>
@@ -92,7 +91,7 @@ export default async function Page() {
           <section className="w-full mt-46">
             <StatementShort />
 
-            <div className="w-full font-en font-bold mt-12 flex justify-start">
+            <div className="w-full font-en text-lg md:text-base font-bold mt-12 flex justify-start">
               COMMUNITY DESIGN-LAB.
             </div>
           </section>

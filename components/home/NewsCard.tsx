@@ -3,14 +3,14 @@ import Image from "next/image";
 import HalftoneHoverImage from "components/HalftoneHoverImage";
 import { News } from "lib/types";
 
-export default function NewsCard({ news }: { news: News }) {
+export default function NewsCard({ news, showImageOnMobile = true }: { news: News; showImageOnMobile?: boolean }) {
     const isInternal = !news.link;
     const href = isInternal ? `/news/${news.slug}` : news.link!;
     const target = isInternal ? '_self' : '_blank';
 
     return (
         <Link href={href} target={target} className="block no-underline hover:opacity-100">
-            <div className="w-full aspect-square relative overflow-hidden">
+            <div className={`w-full aspect-square relative overflow-hidden ${showImageOnMobile ? '' : 'hidden md:block'}`}>
                 {news.coverImageHalftone ? (
                     <HalftoneHoverImage
                         normalSrc={news.coverImage}
