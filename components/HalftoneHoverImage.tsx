@@ -7,7 +7,8 @@ interface HalftoneHoverImageProps {
     normalSrc: string;
     halftoneSrc: string;
     alt: string;
-    aspectRatio?: number; // width / height
+    aspectRatio?: number; // width / height（固定比率）
+    sizeClassName?: string; // ブレークポイントごとに高さ/比率を変えたい場合はこちら（例: "h-dvh lg:h-auto lg:aspect-[1440/756]"）。指定時はaspectRatioのinline styleより優先される
     className?: string;
     overlay?: ReactNode; // 切り替えの影響を受けない固定オーバーレイ（例: タイトル）
     sizes?: string; // 実際の表示幅に合わせて呼び出し側で指定する（例: フルブリードのheroなら "100vw"）
@@ -21,6 +22,7 @@ export default function HalftoneHoverImage({
     halftoneSrc,
     alt,
     aspectRatio = 1,
+    sizeClassName,
     className = '',
     overlay,
     sizes = "(max-width: 768px) 50vw, 25vw",
@@ -49,8 +51,8 @@ export default function HalftoneHoverImage({
     return (
         <div
             ref={containerRef}
-            className={`relative w-full overflow-hidden ${className}`}
-            style={{ aspectRatio }}
+            className={`relative w-full overflow-hidden ${sizeClassName ?? ''} ${className}`}
+            style={sizeClassName ? undefined : { aspectRatio }}
         >
             <Image
                 src={halftoneSrc}

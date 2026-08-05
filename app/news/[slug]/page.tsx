@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { Metadata } from 'next';
 import { draftMode } from 'next/headers';
-import parse, { DOMNode, Element, domToReact } from 'html-react-parser';
+import parse, { DOMNode, Element, Text, domToReact } from 'html-react-parser';
 import { getNews, getNewsDraft } from 'lib/api';
 import { Header } from 'components/layout';
 import HalftoneHoverImage from 'components/HalftoneHoverImage';
@@ -60,6 +60,21 @@ const options = {
                         {domToReact(domNode.children as DOMNode[], options)}
                     </a>
                 );
+            }
+
+            // <figcaption>: 他サイト向けの特殊指定（例: [auto][2][250px]）が文頭に付与されていることがあるが、
+            // このサイトでは常にw-full表示のため不要。文頭の[...]をまとめて除去する
+            if (domNode.name === 'figcaption') {
+                const [first, ...rest] = domNode.children as DOMNode[];
+                if (first instanceof Text) {
+                    const cleaned = first.data.replace(/^(\s*\[[^\]]*\])+\s*/, '');
+                    return (
+                        <figcaption>
+                            {cleaned}
+                            {domToReact(rest, options)}
+                        </figcaption>
+                    );
+                }
             }
 
             if (domNode.name === 'img') {

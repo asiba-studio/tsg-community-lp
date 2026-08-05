@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { Metadata } from 'next';
 import { draftMode } from 'next/headers';
-import parse, { DOMNode, Element, domToReact } from 'html-react-parser';
+import parse, { DOMNode, Element, Text, domToReact } from 'html-react-parser';
 import { getArticles, getArticleDraft } from 'lib/api';
 import { Header } from 'components/layout';
 import HalftoneHoverImage from 'components/HalftoneHoverImage';
@@ -24,15 +24,15 @@ async function getArticle(slug: string) {
 // ----------------------------------------------------
 const ARTICLE_PROSE_CLASSES = [
     'prose prose-base max-w-none',
-    'prose-p:font-sans prose-p:text-base prose-p:md:text-base prose-p:text-text-primary prose-p:leading-loose prose-p:tracking-wide prose-p:mb-8',
+    'prose-p:font-sans prose-p:text-sm prose-p:md:text-base prose-p:text-text-primary prose-p:leading-loose prose-p:tracking-wide prose-p:mb-4 prose-p:md:mb-8',
     'prose-headings:font-sans prose-headings:font-bold prose-headings:text-text-primary',
-    'prose-h1:text-4xl prose-h1:mt-16 prose-h1:mb-6 prose-h1:border-l-4 prose-h1:border-primary prose-h1:pl-4',
-    'prose-h2:text-2xl prose-h2:md:text-2xl prose-h2:mb-10 prose-h2:mt-5 prose-h2:lg:mt-40 prose-h2:pb-2 prose-h2:leading-normal',
+    'prose-h1:text-2xl prose-h1:md:text-4xl prose-h1:mt-16 prose-h1:mb-6 prose-h1:border-l-4 prose-h1:border-primary prose-h1:pl-4',
+    'prose-h2:text-xl prose-h2:md:text-2xl prose-h2:mb-10 prose-h2:mt-5 prose-h2:lg:mt-40 prose-h2:pb-2 prose-h2:leading-normal',
     'prose-h3:text-xl prose-h3:mt-18 prose-h3:mb-5',
     'prose-h4:text-lg prose-h4:md:text-xl prose-h4:font-semibold prose-h4:mb-5 prose-h4:mt-5 prose-h4:leading-normal',
     'prose-ul:list-disc prose-ul:pl-5 prose-ul:mb-6 prose-ul:space-y-2',
     'prose-ol:list-decimal prose-ol:pl-5 prose-ol:mb-6 prose-ol:space-y-2',
-    'prose-li:text-text-primary',
+    'prose-li:text-sm prose-li:md:text-base prose-li:text-text-primary',
     'prose-strong:text-text-primary prose-strong:font-bold',
     'prose-em:text-text-primary',
     'prose-blockquote:italic prose-blockquote:border-none prose-blockquote:bg-gray-100 prose-blockquote:px-6 prose-blockquote:py-6 prose-blockquote:my-12',
@@ -66,6 +66,21 @@ const options = {
                 );
             }
 
+            // <figcaption>: 他サイト向けの特殊指定（例: [auto][2][250px]）が文頭に付与されていることがあるが、
+            // このサイトでは常にw-full表示のため不要。文頭の[...]をまとめて除去する
+            if (domNode.name === 'figcaption') {
+                const [first, ...rest] = domNode.children as DOMNode[];
+                if (first instanceof Text) {
+                    const cleaned = first.data.replace(/^(\s*\[[^\]]*\])+\s*/, '');
+                    return (
+                        <figcaption>
+                            {cleaned}
+                            {domToReact(rest, options)}
+                        </figcaption>
+                    );
+                }
+            }
+
             // <img>
             // MicroCMS returns images as <img> tags. We can try to preserve the aspect ratio or styles.
             if (domNode.name === 'img') {
@@ -73,6 +88,8 @@ const options = {
 
                 // Parse commands from alt text if present (e.g. [w:sm] Caption)
                 let customWidthClass = 'max-w-4xl'; // default
+                // sm/md/lg指定時は本文幅に収めてセンタリングするため、mobileでもbleedさせない
+                let bleedOnMobile = true;
                 let showCaption = false;
                 let displayCaption = alt || '';
 
@@ -80,10 +97,10 @@ const options = {
                     const widthMatch = alt.match(/\[w:(sm|md|lg|full)\]/);
                     if (widthMatch) {
                         const value = widthMatch[1];
-                        if (value === 'sm') customWidthClass = 'max-w-50';
-                        else if (value === 'md') customWidthClass = 'max-w-80';
-                        else if (value === 'lg') customWidthClass = 'max-w-130';
-                        else if (value === 'full') customWidthClass = 'w-full max-w-none';
+                        if (value === 'sm') { customWidthClass = 'max-w-50'; bleedOnMobile = false; }
+                        else if (value === 'md') { customWidthClass = 'max-w-80'; bleedOnMobile = false; }
+                        else if (value === 'lg') { customWidthClass = 'max-w-130'; bleedOnMobile = false; }
+                        else if (value === 'full') customWidthClass = 'max-w-none';
                     }
                     if (alt.includes('[caption]')) {
                         showCaption = true;
@@ -94,7 +111,8 @@ const options = {
                         .trim();
                 }
 
-                const containerClasses = `my-2 flex w-full flex-col items-center ${customWidthClass.replace("max-w-none", "")}`; // straightforward adjustment
+                // mobileはpx-3の親パディングを打ち消して画面幅いっぱいに表示（-mx-3）。lg以上は通常のカラム内に収める
+                const containerClasses = `my-2 flex flex-col items-center ${bleedOnMobile ? '-mx-3 lg:mx-0' : ''} ${customWidthClass}`;
 
                 return (
                     <div className={containerClasses}>
@@ -191,20 +209,20 @@ export default async function ArticlePage({ params, searchParams }: Props) {
                     </a>
                 </div>
             )}
-            {/* カバー画像 (aspect 1440/756・ホバーでハーフトーン→通常画像) */}
+            {/* カバー画像 (mobileは画面高さいっぱい、lg以上は1440/756・画面内に入ったらハーフトーン→通常画像) */}
             {article.headerImage && (
                 <HalftoneHoverImage
                     normalSrc={article.headerImage}
                     halftoneSrc={article.headerImageHalftone || article.headerImage}
                     alt={article.title}
-                    aspectRatio={1440 / 756}
+                    sizeClassName="h-dvh lg:h-auto lg:aspect-[1440/756]"
                     sizes="100vw"
                     overlay={
-                        <div className="absolute bottom-0 left-0 p-8">
+                        <div className="absolute bottom-0 left-0 px-3 py-4 lg:p-8">
                             {article.lpSubtitle && (
-                                <div className="font-bold mb-2 text-white">{article.lpSubtitle}</div>
+                                <div className="font-bold mb-1 lg:mb-2 text-sm lg:text-base text-white">{article.lpSubtitle}</div>
                             )}
-                            <div className="text-3xl font-bold leading-snug text-white">{article.title}</div>
+                            <div className="text-lg md:text-2xl lg:text-3xl font-bold leading-snug text-white">{article.title}</div>
                         </div>
                     }
                 />
@@ -215,10 +233,10 @@ export default async function ArticlePage({ params, searchParams }: Props) {
 
             <div className="w-full px-3 lg:px-8 mt-12 lg:mt-16 grid grid-cols-1 lg:grid-cols-[5fr_2fr] lg:gap-x-[14vw]">
                 <div className="w-full">
-                    <h1 className='font-sans font-bold text-3xl md:text-4xl leading-relaxed mb-4 md:mb-10'>
+                    <h1 className='hidden md:block font-sans font-bold text-3xl md:text-4xl leading-relaxed mb-4 md:mb-10'>
                         {article.title}
                     </h1>
-                    <div className='mb-32 md:mb-10 font-semibold leading-normal font-en text-right'>
+                    <div className='mb-12 md:mb-10 font-semibold leading-normal font-en text-left md:text-right'>
                         {article.date ? formatDateDot(article.date) : ''}
                     </div>
 
