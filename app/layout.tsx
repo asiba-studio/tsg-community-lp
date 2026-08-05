@@ -3,29 +3,30 @@ import { Footer } from 'components/layout';
 import { Metadata } from 'next';
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { GoogleAnalytics } from '@next/third-parties/google'
+import { DEFAULT_OGP_TITLE, DEFAULT_OGP_DESCRIPTION, DEFAULT_OGP_IMAGE } from 'lib/seo';
 
 export const metadata: Metadata = {
     metadataBase: new URL('https://tsg-community.asiba.or.jp'), // ドメインを正しく設定
     title: {
         template: '%s | ASIBA Community Design-LAB.', // ASIBAを冠する
-        default: 'TSG Community Design-LAB. | ASIBA'
+        default: DEFAULT_OGP_TITLE
     },
-    description: 'Community Design-LAB.は、「やりたい」を起点に人が集まる理由をつくる、持続可能で、面白く、魅力的なコミュニティをつくるための3ヶ月間のラボプログラムです。',
+    description: DEFAULT_OGP_DESCRIPTION,
     openGraph: {
-        siteName: 'ASIBA Community Design-LAB.',
+        siteName: DEFAULT_OGP_TITLE,
         locale: 'ja_JP',
         type: 'website',
-        title: 'ASIBA Community Design-LAB. - 「やりたい」を起点に、人が集まる理由をつくる。',
-        description: 'Community Design-LAB.は、「やりたい」を起点に人が集まる理由をつくる、持続可能で、面白く、魅力的なコミュニティをつくるための3ヶ月間のラボプログラムです。',
+        title: DEFAULT_OGP_TITLE,
+        description: DEFAULT_OGP_DESCRIPTION,
         url: 'https://tsg-community.asiba.or.jp',
-        images: [{ url: '/images/og/default-og.jpg', width: 1200, height: 630 }],
+        images: [{ url: DEFAULT_OGP_IMAGE, width: 1200, height: 630 }],
     },
     twitter: {
         card: 'summary_large_image',
         creator: '@asiba_studio',
-        title: 'ASIBA Community Design-LAB.',
-        description: 'Community Design-LAB.は、「やりたい」を起点に人が集まる理由をつくる、持続可能で、面白く、魅力的なコミュニティをつくるための3ヶ月間のラボプログラムです。',
-        images: ['/images/og/default-og.jpg'],
+        title: DEFAULT_OGP_TITLE,
+        description: DEFAULT_OGP_DESCRIPTION,
+        images: [DEFAULT_OGP_IMAGE],
     },
     icons: {
         icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],

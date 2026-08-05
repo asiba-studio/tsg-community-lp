@@ -7,6 +7,7 @@ import { getNews, getNewsDraft } from 'lib/api';
 import { Header } from 'components/layout';
 import HalftoneHoverImage from 'components/HalftoneHoverImage';
 import { formatDateDot } from 'lib/date';
+import { DEFAULT_OGP_TITLE, DEFAULT_OGP_DESCRIPTION, DEFAULT_OGP_IMAGE } from 'lib/seo';
 
 interface Props {
     params: Promise<{ slug: string }>;
@@ -142,29 +143,24 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
         };
     }
 
+    const description = news.excerpt || DEFAULT_OGP_DESCRIPTION;
+
     return {
-        title: news.title,
-        description: news.excerpt,
+        title: { absolute: DEFAULT_OGP_TITLE },
+        description,
         openGraph: {
-            title: news.title,
-            description: news.excerpt,
-            images: news.coverImage ? [
-                {
-                    url: news.coverImage,
-                    width: 1200,
-                    height: 1200,
-                    alt: news.title,
-                }
-            ] : [],
+            title: DEFAULT_OGP_TITLE,
+            description,
+            images: [{ url: DEFAULT_OGP_IMAGE, width: 1200, height: 630 }],
             type: 'article',
             publishedTime: news.date,
             tags: news.tags,
         },
         twitter: {
             card: 'summary_large_image',
-            title: news.title,
-            description: news.excerpt,
-            images: news.coverImage ? [news.coverImage] : [],
+            title: DEFAULT_OGP_TITLE,
+            description,
+            images: [DEFAULT_OGP_IMAGE],
         },
     };
 }

@@ -106,7 +106,7 @@ export default async function Page() {
             <StatementShort />
 
             <div className="w-full font-en text-lg md:text-base font-bold mt-12 flex justify-start">
-              COMMUNITY DESIGN-LAB.
+              Community Design-LAB
             </div>
           </section>
 
