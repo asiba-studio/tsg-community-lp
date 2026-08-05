@@ -213,12 +213,12 @@ export default async function ArticlePage({ params, searchParams }: Props) {
             {/* カバーの下に配置。Header自体はsticky top-0なので、スクロールで上端に達すると固定される */}
             <Header />
 
-            <div className="w-full px-[14px] lg:px-8 mt-8 lg:mt-16 grid grid-cols-1 lg:grid-cols-[5fr_2fr] lg:gap-x-[14vw]">
+            <div className="w-full px-3 lg:px-8 mt-12 lg:mt-16 grid grid-cols-1 lg:grid-cols-[5fr_2fr] lg:gap-x-[14vw]">
                 <div className="w-full">
-                    <h1 className='font-sans font-bold text-4xl leading-relaxed mb-10'>
+                    <h1 className='font-sans font-bold text-3xl md:text-4xl leading-relaxed mb-4 md:mb-10'>
                         {article.title}
                     </h1>
-                    <div className='mb-10 font-semibold leading-normal font-en text-right'>
+                    <div className='mb-32 md:mb-10 font-semibold leading-normal font-en text-right'>
                         {article.date ? formatDateDot(article.date) : ''}
                     </div>
 
