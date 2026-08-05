@@ -67,7 +67,7 @@ export default function ProgramCard({
                         </span>
                     )}
                 </div>
-                <div className="pt-3 md:pt-6">
+                <div className="pt-2 md:pt-3">
                     {children}
                 </div>
                 <div className="w-full text-sm font-bold text-right mt-6">

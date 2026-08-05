@@ -18,7 +18,8 @@ export default async function Page() {
   const articles = await getArticles();
   const communityLabArticles = articles.filter((a) => a.programTerms?.includes('COMMUNITY-LAB'));
   const news = await getNews();
-  const newsSlice = news.slice(0, 2);
+  const communityLabNews = news.filter((n) => n.programTerms?.includes('COMMUNITY-LAB'));
+  const newsSlice = communityLabNews.slice(0, 2);
 
   return (
     <div>
@@ -50,18 +51,20 @@ export default async function Page() {
         <div className="w-full">
 
           {/* News Section */}
-          <section className="w-full pt-[100px]">
-            <h2 className="font-en inline-block mb-8 text-primary">
-              News
-            </h2>
+          {newsSlice.length > 0 && (
+            <section className="w-full pt-[100px]">
+              <h2 className="font-en inline-block mb-8 text-primary">
+                News
+              </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-x-[clamp(3rem,7vw,7rem)]">
-              {newsSlice.map((item) => (
-                <NewsCard key={item.id} news={item} showImageOnMobile={false} />
-              ))}
-            </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-x-[clamp(3rem,7vw,7rem)]">
+                {newsSlice.map((item) => (
+                  <NewsCard key={item.id} news={item} showImageOnMobile={false} />
+                ))}
+              </div>
 
-          </section>
+            </section>
+          )}
 
           {/* Icon Section */}
           <section className="w-full mt-30">

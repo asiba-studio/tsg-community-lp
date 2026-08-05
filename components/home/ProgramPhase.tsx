@@ -23,7 +23,7 @@ function PhaseIcon({ icon, label }: { icon: string; label: string }) {
 const HOMEWORK_DATETIME = "随時";
 const HOMEWORK_VENUE = "オンライン";
 
-function PhaseCard({ title, question, description, dateTime, venue, homework = false, imageUrl = "/images/test/dummy-square.png", halftoneImageUrl = "/images/test/dummy-square-halftone.png", showImageOnMobile = false }: { title: string; question: string; description: string; dateTime?: string; venue?: string; homework?: boolean; imageUrl?: string; halftoneImageUrl?: string; showImageOnMobile?: boolean }) {
+function PhaseCard({ title, question, description, dateTime, venue, homework = false, imageUrl = "/images/home-community/placeholder.png", halftoneImageUrl = "/images/home-community/placeholder-halftone.png", showImageOnMobile = false }: { title: string; question: string; description: string; dateTime?: string; venue?: string; homework?: boolean; imageUrl?: string; halftoneImageUrl?: string; showImageOnMobile?: boolean }) {
     return (
         <ProgramCard
             imageUrl={imageUrl}
@@ -33,7 +33,7 @@ function PhaseCard({ title, question, description, dateTime, venue, homework = f
             location={homework ? HOMEWORK_VENUE : venue ?? ""}
             showImageOnMobile={showImageOnMobile}
         >
-            <p className="font-bold mb-2">{question}</p>
+            <p className="font-bold text-base mb-3">{question}</p>
             <p>
                 {description}
             </p>
@@ -68,8 +68,8 @@ export function ProgramPhase1() {
                         description="LABの参加者が一堂に会し、LAB.メンバー同志の関係性構築や、2ヶ月後のゴール設定などを行います。自分のやりたいことを見つめ直す時間や、直近で参加したイベントの共有を設け、これからの2ヶ月に向けてのワークを行います。"
                         dateTime="2026.09.27"
                         venue="Tokyo Innovation Base"
-                        imageUrl="/images/home-community/phase-01.png"
-                        halftoneImageUrl="/images/home-community/phase-01-halftone.png"
+                        imageUrl="/images/home-community/photo-01.png"
+                        halftoneImageUrl="/images/home-community/photo-01-halftone.png"
                         showImageOnMobile
                     /></li>
                     <li><PhaseCard
@@ -78,16 +78,14 @@ export function ProgramPhase1() {
                         description="コミュニティを「デザイン」するために必要な視点や考え方をインプットします。その視点をもとに施設内でフィールドワークを行い、人の動きやコミュニケーション、場で起きている現象を観察します。そこで得た気づきを、自身のコミュニティづくりへとつなげていきます。"
                         dateTime="2026.09.27"
                         venue="東京都内（場所未定）"
-                        imageUrl="/images/home-community/phase-02.png"
-                        halftoneImageUrl="/images/home-community/phase-02-halftone.png"
+                        imageUrl="/images/home-community/photo-02.png"
+                        halftoneImageUrl="/images/home-community/photo-02-halftone.png"
                     /></li>
                     <li><PhaseCard
                         title="homework"
                         question="「イベントを企画する」"
                         description="自分の「やりたいこと」と、フィールドワークで得た気づきをもとに、自身のコミュニティにつながるイベントを企画します。"
                         homework
-                        imageUrl="/images/home-community/phase-03.png"
-                        halftoneImageUrl="/images/home-community/phase-03-halftone.png"
                     /></li>
                 </ul>
             </div>
@@ -123,6 +121,8 @@ export function ProgramPhase2() {
                         description="コミュニティづくりに欠かせない企画設計やプロジェクトマネジメントについて学び、イベント企画をさらにブラッシュアップします。コミュニティを実践しているゲストによるトークやメンタリングも予定しています。"
                         dateTime="2026.10.25"
                         venue="東京都内（場所未定）"
+                        imageUrl="/images/home-community/photo-04.png"
+                        halftoneImageUrl="/images/home-community/photo-04-halftone.png"
                         showImageOnMobile
                     /></li>
                     <li><PhaseCard
@@ -165,6 +165,8 @@ export function ProgramPhase3() {
                         description="1日かけて中間報告会を実施します。実践を通して得られた学びや課題を振り返り、次の一歩につなげるための方法をメンタリングを通して考えます。実践者によるトークやメンタリングも予定しています。"
                         dateTime="2026.11.08"
                         venue="YOHJOH kameido"
+                        imageUrl="/images/home-community/photo-06.png"
+                        halftoneImageUrl="/images/home-community/photo-06-halftone.png"
                         showImageOnMobile
                     /></li>
                     <li><PhaseCard
@@ -173,6 +175,8 @@ export function ProgramPhase3() {
                         description="コミュニティは成長とともに、その形やあり方も変化していきます。これから先も続いていくコミュニティにするために、運営や関わり方について深めます。実践者によるトークやメンタリングも予定しています。"
                         dateTime="2026.11.22"
                         venue="東京都内（場所未定）"
+                        imageUrl="/images/home-community/photo-07.png"
+                        halftoneImageUrl="/images/home-community/photo-07-halftone.png"
                     /></li>
                     <li><PhaseCard
                         title="homework"
@@ -186,6 +190,8 @@ export function ProgramPhase3() {
                         description="LAB参加者が一堂に集まり、2か月間の実践を振り返ります。これからもコミュニティを継続していくために必要なアーカイブの作成や、ネットワーキングも行う予定です。"
                         dateTime="2026.12.13"
                         venue="Tokyo Innovation Base"
+                        imageUrl="/images/home-community/photo-09.png"
+                        halftoneImageUrl="/images/home-community/photo-09-halftone.png"
                     /></li>
                 </ul>
             </div>
