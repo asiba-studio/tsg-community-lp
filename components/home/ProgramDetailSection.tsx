@@ -21,7 +21,7 @@ export default function ProgramDetailSection() {
             </h2>
 
             <div className="w-full gap-6 mt-8">
-                <p className="leading-normal">
+                <p>
                     Community Design-LAB.は、場やコミュニティをつくることにフォーカスしたプログラムです。ですが、具体的な運営ノウハウや集客テクニックを学ぶ場ではありません。
                     「やりたいこと」で人を集め、その熱量をどう広げ、継続する場へと育てていくのか。本プログラムでは、コミュニティづくりの実践者から学びながら、
                     自らの世界観や問いを深め、実際に場づくりに挑戦していきます。

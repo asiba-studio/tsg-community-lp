@@ -24,7 +24,7 @@ export default async function Page() {
     <div>
 
       {/* Hero Section */}
-      <section className="w-full aspect-[16/9] md:aspect-[1300/680] border border-border bg-white overflow-hidden">
+      <section className="w-full aspect-square md:aspect-[1300/680] border border-border bg-white overflow-hidden">
         <video
           src="/videos/keyvisual-01.mp4"
           autoPlay
@@ -42,12 +42,12 @@ export default async function Page() {
 
 
       {/* Tagline */}
-      <section className="w-full h-auto mt-40 p-[4vw]">
+      <section className="w-full h-auto md:mt-20 p-[4vw]">
         <Tagline />
       </section>
 
       {/* Main Container */}
-      <div className="w-full md:pb-80 px-[14px] md:px-8 grid grid-cols-1 md:grid-cols-[5fr_2fr] md:gap-x-[14vw]">
+      <div className="w-full md:pb-80 px-3 md:px-8 grid grid-cols-1 md:grid-cols-[5fr_2fr] md:gap-x-[14vw]">
 
         {/* Left Conteiner */}
         <div className="w-full">
@@ -97,7 +97,7 @@ export default async function Page() {
         </div>
 
         {/* Right Container */}
-        <div className="w-full">
+        <div className="w-full pb-40">
           {/* Statement Section*/}
           <section className="w-full mt-46">
             <StatementShort />
@@ -108,7 +108,7 @@ export default async function Page() {
           </section>
 
           {/* Articles Section */}
-          <section className="w-full mt-30">
+          <section className="w-full mt-30 hidden md:block">
             <h2 className="font-en leading-none inline-block mb-10 text-primary">
               Article
             </h2>

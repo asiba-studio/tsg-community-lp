@@ -55,7 +55,7 @@ export default function ProgramCard({
                 </div>
             </div>
             <div className="flex-1">
-                <div className="font-bold text-xl leading-snug">
+                <div className="font-bold text-lg md:text-xl leading-snug">
                     {title}
                     {reportSlug && isHovered && (
                         <span className="ml-2 bg-primary px-2 py-1 mt-1">

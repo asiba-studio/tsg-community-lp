@@ -4,7 +4,7 @@ export default function ApplicationSection() {
 
     return (
 
-        <div className="w-full space-y-30 text-base">
+        <div className="w-full space-y-30">
 
 
             {/* Application Section */}
