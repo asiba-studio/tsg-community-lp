@@ -50,7 +50,7 @@ export function ProgramPhase1() {
                 <h2 className="font-en text-primary">
                     Phase 1
                 </h2>
-                <div className="font-zen font-bold text-lg md:text-xl lg:text-2xl">世界観を磨く</div>
+                <div className="font-zen font-bold text-lg md:text-xl lg:text-2xl">場を見立てる</div>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 w-full md:pr-20 gap-12 md:gap-x-[clamp(3rem,7.2vw,7.5rem)] md:gap-y-10 md:px-0 py-10">
@@ -103,7 +103,7 @@ export function ProgramPhase2() {
                 <h2 className="font-en text-primary">
                     Phase 2
                 </h2>
-                <div className="font-zen font-bold text-lg md:text-xl lg:text-2xl">場を生み出す</div>
+                <div className="font-zen font-bold text-lg md:text-xl lg:text-2xl">場をひらく</div>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 w-full md:pr-20 gap-12 md:gap-x-[clamp(3rem,7.2vw,7.5rem)] md:gap-y-10 md:px-0 py-10">
@@ -146,7 +146,7 @@ export function ProgramPhase3() {
                 <h2 className="font-en text-primary">
                     Phase 3
                 </h2>
-                <div className="font-zen font-bold text-lg md:text-xl lg:text-2xl">場を育てる</div>
+                <div className="font-zen font-bold text-lg md:text-xl lg:text-2xl">場をゆずる</div>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 w-full md:pr-20 gap-12 md:gap-x-[clamp(3rem,7.2vw,7.5rem)] md:gap-y-10 md:px-0 py-10">
@@ -194,6 +194,9 @@ export function ProgramPhase3() {
                         halftoneImageUrl="/images/home-community/photo-09-halftone.png"
                     /></li>
                 </ul>
+            </div>
+            <div className="w-full font-zen text-xs mt-12">
+                ※参加者の状況に合わせて、プログラムの内容は一部変更となる場合があります。あらかじめご了承ください。 
             </div>
         </div>
     );
