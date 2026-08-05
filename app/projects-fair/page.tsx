@@ -105,7 +105,7 @@ export const metadata = {
         description: 'Creative-LAB. 最終成果展（PROJECTS FAIR SPRING 2026）',
         images: [
             {
-                url: '/images/og/default-og.png',
+                url: '/images/og/og.png',
                 width: 1200,
                 height: 630,
                 alt: 'Projects Fair | Creative-LAB.',
@@ -116,7 +116,7 @@ export const metadata = {
         card: 'summary_large_image',
         title: 'Projects Fair | Creative-LAB.',
         description: 'Creative-LAB. 最終成果展（PROJECTS FAIR SPRING 2026）',
-        images: ['/images/og/default-og.png'],
+        images: ['/images/og/og.png'],
     },
 };
 
