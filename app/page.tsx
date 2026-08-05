@@ -87,7 +87,7 @@ export default async function Page() {
             <HalftoneHoverImage
               normalSrc="/images/home-community/placeholder.png"
               halftoneSrc="/images/home-community/placeholder-halftone.png"
-              alt=""
+              alt="Community Design-LAB."
               sizes="100vw"
             />
           </section>
