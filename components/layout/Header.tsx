@@ -5,32 +5,20 @@ import Link from 'next/link';
 
 export default function Header() {
     return (
-        <div className="hidden lg:block sticky top-0 z-50 w-full">
+        <div className="sticky top-0 z-50 w-full">
             <header className="w-full">
-                {/* PC */}
-                <nav className="hidden lg:flex justify-between items-center py-3">
+                <nav className="flex justify-between items-start lg:items-center py-3">
                     <div>
-                        <Link href="/" className="flex items-center gap-2 px-6 no-underline">
-                            <span className="font-en font-bold text-lg leading-none tracking-tight text-text-primary">COMMUNITY<br />DESIGN-LAB.</span>
+                        <Link href="/" className="flex items-center gap-2 px-3 lg:px-6 no-underline">
+                            <span className="font-en font-bold text-base lg:text-lg leading-none tracking-tight text-text-primary">COMMUNITY<br />DESIGN-LAB.</span>
                         </Link>
                     </div>
-                    <div className="flex justify-end items-center gap-6 font-en font-medium text-lg px-6">
+                    <div className="flex flex-col items-end gap-1 md:gap-2 lg:flex-row lg:items-center lg:gap-6 font-en font-medium text-base lg:text-lg px-4 lg:px-6">
                         <HeaderButton label="Program" href="/#program" />
                         <HeaderButton label="Articles" href="/articles" />
                         <HeaderButton label="News" href="/news" />
                     </div>
                 </nav>
-
-                {/* Mobile */}
-                {/*}
-                <nav className="flex lg:hidden justify-between items-center gap-4 font-en font-medium text-base px-4">
-                    <Link href="/" className="flex items-center gap-2 px-6">
-                        <span className="font-en font-bold text-sm leading-none">COMMUNITY DESIGN-LAB.</span>
-                    </Link>
-                    <div>About</div>
-                </nav>*/}
-
-
             </header>
         </div>
     )

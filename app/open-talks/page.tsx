@@ -2,7 +2,7 @@ import { OPEN_TALKS } from 'lib/openTalks';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Metadata } from 'next';
-import { Header, Menu } from 'components/layout';
+import { Header } from 'components/layout';
 import { ContentList } from 'components/articles';
 import { ReactNode } from 'react';
 
@@ -26,7 +26,6 @@ export default async function OpenTalksPage() {
   return (
     <div className="w-full pb-50">
       <Header />
-      <Menu />
 
       <div className='pt-30 px-[8vw]'>
         <h1 className='font-en text-3xl md:text-5xl font-bold'>Creative-LAB. Open TALKs</h1>
@@ -47,7 +46,6 @@ export default async function OpenTalksPage() {
         </p>
       </div>
 
-
       <div className='w-full px-[14px] lg:px-[4vw]'>
         <section className="w-full  pt-30">
 
@@ -66,9 +64,7 @@ export default async function OpenTalksPage() {
 
         </section>
 
-
       </div>
-
 
     </div>
   );

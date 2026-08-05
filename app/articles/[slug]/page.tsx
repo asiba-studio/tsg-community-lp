@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 import { draftMode } from 'next/headers';
 import parse, { DOMNode, Element, domToReact } from 'html-react-parser';
 import { getArticles, getArticleDraft } from 'lib/api';
-import { Header, Menu } from 'components/layout';
+import { Header } from 'components/layout';
 import HalftoneHoverImage from 'components/HalftoneHoverImage';
 import { formatDateDot } from 'lib/date';
 
@@ -116,8 +116,6 @@ const options = {
     }
 };
 
-
-
 export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
     const { slug } = await params;
     const { draftKey, contentId } = await searchParams;
@@ -214,8 +212,6 @@ export default async function ArticlePage({ params, searchParams }: Props) {
 
             {/* カバーの下に配置。Header自体はsticky top-0なので、スクロールで上端に達すると固定される */}
             <Header />
-
-            <Menu className='lg:hidden mt-4 mb-20 translate-x-[14px]' />
 
             <div className="w-full px-[14px] lg:px-8 mt-8 lg:mt-16 grid grid-cols-1 lg:grid-cols-[5fr_2fr] lg:gap-x-[14vw]">
                 <div className="w-full">

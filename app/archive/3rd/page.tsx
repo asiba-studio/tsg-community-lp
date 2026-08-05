@@ -5,12 +5,11 @@ import { SimpleButton } from "@/components/button";
 import ContentList from "@/components/articles/ContentList";
 import { OPEN_TALKS } from "lib/openTalks";
 import { ProgramPhase1, ProgramPhase2, ProgramPhase3 } from "@/components/archive/3rd/ProgramPhase";
-import { Header, Menu } from "@/components/layout";
+import { Header } from "@/components/layout";
 import ProgramDetailSection from "@/components/archive/3rd/ProgramDetailSection";
 import ApplicationSection from "@/components/archive/3rd/ApllicationSection";
 import Image from "next/image";
 import { getArticles, getNews } from "@/lib/api";
-
 
 export default async function Page() {
 
@@ -21,7 +20,6 @@ export default async function Page() {
   return (
     <div className="w-full pb-50">
       <Header />
-      <Menu />
 
       <div className='pt-30 px-[8vw]'>
         <h1 className='font-en text-3xl md:text-5xl font-bold'>Archive</h1>

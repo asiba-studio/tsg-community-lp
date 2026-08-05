@@ -6,13 +6,12 @@ import { SimpleButton } from "@/components/button";
 import ContentList from "@/components/articles/ContentList";
 import { OPEN_TALKS } from "lib/openTalks";
 import { ProgramPhase1, ProgramPhase2, ProgramPhase3 } from "@/components/archive/2nd/ProgramPhase";
-import { Header, Menu } from "@/components/layout";
+import { Header } from "@/components/layout";
 import ProgramDetailSection from "@/components/archive/2nd/ProgramDetailSection";
 import ApplicationSection from "@/components/archive/2nd/ApllicationSection";
 import Tagline from "@/components/archive/2nd/Tagline";
 import Image from "next/image";
 import { getArticles, getNews } from "@/lib/api";
-
 
 export default async function Page() {
 
@@ -23,7 +22,6 @@ export default async function Page() {
   return (
     <div className="w-full pb-50">
       <Header />
-      <Menu />
 
       <div className='pt-30 px-[8vw]'>
         <h1 className='font-en text-3xl md:text-5xl font-bold'>Archive</h1>
@@ -39,12 +37,6 @@ export default async function Page() {
           /> 第2期のアーカイブです
         </p>
       </div>
-
-
-
-
-
-
 
       <div className='w-full px-[14px] lg:px-[4vw]'>
 
@@ -112,8 +104,6 @@ export default async function Page() {
               <ApplicationSection />
             </div>
 
-
-
           </div>
 
           {/* Right Container */}
@@ -155,19 +145,11 @@ export default async function Page() {
 
             </section>
 
-
-
-
           </div>
 
         </div>
 
-
-
-
-
       </div>
-
 
     </div>
   );

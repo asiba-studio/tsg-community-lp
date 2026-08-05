@@ -5,13 +5,12 @@ import { SimpleButton } from "components/button";
 import ContentList from "components/articles/ContentList";
 import ArticleCard from "../components/home/ArticleCard";
 import { ProgramPhase1, ProgramPhase2, ProgramPhase3 } from "../components/home/ProgramPhase";
-import { Header, Menu } from "components/layout";
+import { Header } from "components/layout";
 import ProgramDetailSection from "../components/home/ProgramDetailSection";
 import ApplicationSection from "../components/home/ApllicationSection";
 //import PlayerSection from "./components/PlayerSection";
 import Tagline from "../components/home/Tagline";
 import { getArticles, getNews } from "lib/api";
-
 
 export default async function Page() {
 
@@ -38,9 +37,6 @@ export default async function Page() {
       <div className="h-1 md:border-t md:border-border" />
       <Header />
 
-      <Menu className="lg:hidden mt-20 mb-40" />
-
-
       {/* Tagline */}
       <section className="w-full h-auto md:mt-20 p-[4vw]">
         <Tagline />
@@ -58,16 +54,12 @@ export default async function Page() {
               News
             </h2>
 
-
-
             <div className="hidden md:block">
               <ContentList contents={newsSlice} basePath="/news" columns={2} gap={100} enableMosaic={false} />
             </div>
             <div className="block md:hidden">
               <ContentList contents={newsSlice} basePath="/news" columns={1} gap={100} enableMosaic={false} />
             </div>
-
-
 
           </section>
 
@@ -91,8 +83,6 @@ export default async function Page() {
           <div className="w-full mt-30">
             <ApplicationSection />
           </div>
-
-
 
         </div>
 
@@ -119,9 +109,6 @@ export default async function Page() {
             </div>
 
           </section>
-
-
-
 
         </div>
 

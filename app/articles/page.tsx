@@ -1,6 +1,6 @@
 
 import { Metadata } from 'next';
-import { Header, Menu } from 'components/layout';
+import { Header } from 'components/layout';
 import ArticleCard from 'components/home/ArticleCard';
 import { getArticles } from 'lib/api';
 import { Article, ProgramTerm, getPrimaryProgramTerm } from 'lib/types';
@@ -38,7 +38,6 @@ export default async function ArticlesPage() {
   return (
     <div className="w-full pb-50">
       <Header />
-      <Menu className="lg:hidden" />
 
       <div className="pt-30 px-[14px] lg:px-8">
         <h1 className="font-en font-bold text-3xl md:text-5xl leading-none text-primary">

@@ -1,7 +1,7 @@
 'use client'
 
 import Image from "next/image";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 
 interface HalftoneHoverImageProps {
     normalSrc: string;
@@ -9,11 +9,11 @@ interface HalftoneHoverImageProps {
     alt: string;
     aspectRatio?: number; // width / height
     className?: string;
-    overlay?: ReactNode; // ホバーの影響を受けない固定オーバーレイ（例: タイトル）
+    overlay?: ReactNode; // 切り替えの影響を受けない固定オーバーレイ（例: タイトル）
     sizes?: string; // 実際の表示幅に合わせて呼び出し側で指定する（例: フルブリードのheroなら "100vw"）
 }
 
-// ホバー前はハーフトーン画像、ホバー後は通常画像を表示するシンプルな切り替えコンポーネント。
+// 画面内に入ったタイミングでハーフトーン画像→通常画像に一度だけ切り替わるコンポーネント。
 // InteractiveMosaic02（canvasでのリアルタイムモザイク処理）の後継として、
 // MicroCMSのlp_settings（cover_square/cover_sq_halftone等）用に想定。
 export default function HalftoneHoverImage({
@@ -25,23 +25,45 @@ export default function HalftoneHoverImage({
     overlay,
     sizes = "(max-width: 768px) 50vw, 25vw",
 }: HalftoneHoverImageProps) {
+    const [isRevealed, setIsRevealed] = useState(false);
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const el = containerRef.current;
+        if (!el) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsRevealed(true);
+                    observer.disconnect();
+                }
+            },
+            { threshold: 0.3 }
+        );
+
+        observer.observe(el);
+        return () => observer.disconnect();
+    }, []);
+
     return (
         <div
-            className={`relative w-full overflow-hidden group ${className}`}
+            ref={containerRef}
+            className={`relative w-full overflow-hidden ${className}`}
             style={{ aspectRatio }}
         >
             <Image
                 src={halftoneSrc}
                 alt={alt}
                 fill
-                className="object-cover transition-opacity duration-300 opacity-100 group-hover:opacity-0"
+                className={`object-cover transition-opacity duration-700 ${isRevealed ? 'opacity-0' : 'opacity-100'}`}
                 sizes={sizes}
             />
             <Image
                 src={normalSrc}
                 alt={alt}
                 fill
-                className="object-cover transition-opacity duration-300 opacity-0 group-hover:opacity-100"
+                className={`object-cover transition-opacity duration-700 ${isRevealed ? 'opacity-100' : 'opacity-0'}`}
                 sizes={sizes}
             />
             {overlay && (
