@@ -32,7 +32,11 @@ export const metadata: Metadata = {
         images: [DEFAULT_OGP_IMAGE],
     },
     icons: {
-        icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
+        icon: [
+            { url: '/favicon.svg', type: 'image/svg+xml' },
+            { url: '/favicon-32x32px.png', sizes: '32x32', type: 'image/png' },
+            { url: '/favicon-16x16px.png', sizes: '16x16', type: 'image/png' },
+        ],
     },
     // PWA用マニフェスト（必要に応じて）
     // manifest: '/manifest.json',
