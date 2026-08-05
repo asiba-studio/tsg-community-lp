@@ -23,15 +23,15 @@ async function getNewsItem(slug: string) {
 // ----------------------------------------------------
 const NEWS_PROSE_CLASSES = [
     'prose prose-base max-w-none',
-    'prose-p:font-sans prose-p:text-base prose-p:md:text-base prose-p:text-text-primary prose-p:leading-loose prose-p:tracking-wide prose-p:mb-8',
+    'prose-p:font-sans prose-p:text-sm prose-p:md:text-base prose-p:text-text-primary prose-p:leading-loose prose-p:tracking-wide prose-p:mb-4 prose-p:md:mb-8',
     'prose-headings:font-sans prose-headings:font-bold prose-headings:text-text-primary',
-    'prose-h1:text-4xl prose-h1:mt-16 prose-h1:mb-6 prose-h1:border-l-4 prose-h1:border-primary prose-h1:pl-4',
-    'prose-h2:text-2xl prose-h2:md:text-2xl prose-h2:mb-10 prose-h2:mt-5 prose-h2:lg:mt-40 prose-h2:pb-2 prose-h2:leading-normal',
+    'prose-h1:text-2xl prose-h1:md:text-4xl prose-h1:mt-16 prose-h1:mb-6 prose-h1:border-l-4 prose-h1:border-primary prose-h1:pl-4',
+    'prose-h2:text-xl prose-h2:md:text-2xl prose-h2:mb-10 prose-h2:mt-5 prose-h2:lg:mt-40 prose-h2:pb-2 prose-h2:leading-normal',
     'prose-h3:text-xl prose-h3:mt-18 prose-h3:mb-5',
     'prose-h4:text-lg prose-h4:md:text-xl prose-h4:font-semibold prose-h4:mb-5 prose-h4:mt-5 prose-h4:leading-normal',
     'prose-ul:list-disc prose-ul:pl-5 prose-ul:mb-6 prose-ul:space-y-2',
     'prose-ol:list-decimal prose-ol:pl-5 prose-ol:mb-6 prose-ol:space-y-2',
-    'prose-li:text-text-primary',
+    'prose-li:text-sm prose-li:md:text-base prose-li:text-text-primary',
     'prose-strong:text-text-primary prose-strong:font-bold',
     'prose-em:text-text-primary',
     'prose-blockquote:italic prose-blockquote:border-none prose-blockquote:bg-gray-100 prose-blockquote:px-6 prose-blockquote:py-6 prose-blockquote:my-12',
@@ -81,6 +81,8 @@ const options = {
                 const { src, alt, width, height } = domNode.attribs;
 
                 let customWidthClass = 'max-w-4xl';
+                // sm/md/lg指定時は本文幅に収めてセンタリングするため、mobileでもbleedさせない
+                let bleedOnMobile = true;
                 let showCaption = false;
                 let displayCaption = alt || '';
 
@@ -88,10 +90,10 @@ const options = {
                     const widthMatch = alt.match(/\[w:(sm|md|lg|full)\]/);
                     if (widthMatch) {
                         const value = widthMatch[1];
-                        if (value === 'sm') customWidthClass = 'max-w-50';
-                        else if (value === 'md') customWidthClass = 'max-w-80';
-                        else if (value === 'lg') customWidthClass = 'max-w-130';
-                        else if (value === 'full') customWidthClass = 'w-full max-w-none';
+                        if (value === 'sm') { customWidthClass = 'max-w-50'; bleedOnMobile = false; }
+                        else if (value === 'md') { customWidthClass = 'max-w-80'; bleedOnMobile = false; }
+                        else if (value === 'lg') { customWidthClass = 'max-w-130'; bleedOnMobile = false; }
+                        else if (value === 'full') customWidthClass = 'max-w-none';
                     }
                     if (alt.includes('[caption]')) {
                         showCaption = true;
@@ -102,7 +104,8 @@ const options = {
                         .trim();
                 }
 
-                const containerClasses = `my-2 flex w-full flex-col items-center ${customWidthClass.replace("max-w-none", "")}`;
+                // mobileはpx-[14px]の親パディングを打ち消して画面幅いっぱいに表示。lg以上は通常のカラム内に収める
+                const containerClasses = `my-2 flex flex-col items-center ${bleedOnMobile ? '-mx-[14px] lg:mx-0' : ''} ${customWidthClass}`;
 
                 return (
                     <div className={containerClasses}>
@@ -201,11 +204,11 @@ export default async function NewsPage({ params, searchParams }: Props) {
 
             <Header />
 
-            <div className="w-full px-[14px] lg:px-8 mt-8 lg:mt-16 grid grid-cols-1 lg:grid-cols-[5fr_2fr] lg:gap-x-[14vw]">
+            <div className="w-full px-3 lg:px-8 mt-8 lg:mt-16 grid grid-cols-1 lg:grid-cols-[5fr_2fr] lg:gap-x-[14vw]">
                 <div className="w-full">
                     {/* カバー画像（cover_square・ホバーでハーフトーン→通常画像、無ければcoverでフォールバック） */}
                     {news.coverImage && (
-                        <div className="w-full max-w-xs md:max-w-sm mb-10">
+                        <div className="w-full md:max-w-sm mb-10">
                             <HalftoneHoverImage
                                 normalSrc={news.coverImage}
                                 halftoneSrc={news.coverImageHalftone || news.coverImage}
@@ -214,15 +217,15 @@ export default async function NewsPage({ params, searchParams }: Props) {
                         </div>
                     )}
 
-                    <h1 className='font-sans font-bold text-4xl leading-relaxed mb-2'>
+                    <h1 className='font-sans font-bold text-3xl md:text-4xl leading-normal mb-4'>
                         {news.title}
                     </h1>
                     {(news.lpSubtitle || news.subtitle) && (
-                        <div className='font-bold text-lg leading-normal mb-10'>
+                        <div className='font-bold text-base md:text-lg leading-normal mb-10'>
                             {news.lpSubtitle || news.subtitle}
                         </div>
                     )}
-                    <div className='mb-10 font-semibold leading-normal font-en text-right'>
+                    <div className='mb-24 md:mb-10 font-semibold leading-normal font-en text-left md:text-right'>
                         {news.date ? formatDateDot(news.date) : ''}
                     </div>
 
