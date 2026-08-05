@@ -25,13 +25,20 @@ export default async function Page() {
     <div>
 
       {/* Hero Section */}
-      <section className="w-full aspect-square md:aspect-[1300/680] border border-border bg-white overflow-hidden">
+      <section className="w-full border border-border bg-white overflow-hidden">
         <video
-          src="/videos/keyvisual-01.mp4"
+          src="/videos/animation-mobile.mp4"
           autoPlay
           muted
           playsInline
-          className="w-full h-full object-cover"
+          className="w-full aspect-1080/1920 object-cover md:hidden"
+        />
+        <video
+          src="/videos/animation-pc.mp4"
+          autoPlay
+          muted
+          playsInline
+          className="hidden md:block w-full aspect-1300/680 object-cover"
         />
       </section>
 
