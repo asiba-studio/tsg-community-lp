@@ -4,18 +4,22 @@ import HalftoneHoverImage from "components/HalftoneHoverImage";
 import { Article } from "lib/types";
 
 export default function ArticleCard({ article }: { article: Article }) {
+    const hasCover = Boolean(article.coverImage);
+    const normalSrc = hasCover ? article.coverImage : '/images/home-community/placeholder.png';
+    const halftoneSrc = hasCover ? article.coverImageHalftone : '/images/home-community/placeholder-halftone.png';
+
     return (
         <Link href={`/articles/${article.slug}`} className="block no-underline hover:opacity-100">
             <div className="w-full aspect-square relative overflow-hidden">
-                {article.coverImageHalftone ? (
+                {halftoneSrc ? (
                     <HalftoneHoverImage
-                        normalSrc={article.coverImage}
-                        halftoneSrc={article.coverImageHalftone}
+                        normalSrc={normalSrc}
+                        halftoneSrc={halftoneSrc}
                         alt={article.title}
                     />
                 ) : (
                     <Image
-                        src={article.coverImage}
+                        src={normalSrc}
                         alt={article.title}
                         fill
                         className="object-cover"

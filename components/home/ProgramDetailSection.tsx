@@ -7,7 +7,7 @@ interface ProgramPointProps {
 function ProgramPoint({ title, children, className = "pt-16" }: ProgramPointProps) {
     return (
         <div className={`w-full gap-6 ${className}`}>
-            <h3 className="font-bold text-primary pb-6 text-lg">{title}</h3>
+            <h3 className="font-bold text-primary pb-6 text-base md:text-lg">{title}</h3>
             <p>{children}</p>
         </div>
     );

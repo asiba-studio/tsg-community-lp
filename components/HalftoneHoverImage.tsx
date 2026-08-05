@@ -14,7 +14,8 @@ interface HalftoneHoverImageProps {
     sizes?: string; // 実際の表示幅に合わせて呼び出し側で指定する（例: フルブリードのheroなら "100vw"）
 }
 
-// 画面内に入ったタイミングでハーフトーン画像→通常画像に一度だけ切り替わるコンポーネント。
+// PC: hover中のみハーフトーン→通常画像（hover終了で戻る）。Mobile: 画面内に入ったタイミングで一度だけ通常画像に切り替わる（appear）。
+// PC/Mobileの分岐はCSS（md:group-hover）のみで行い、isRevealedの状態はmobile用のスクロール検知にのみ使う。
 // InteractiveMosaic02（canvasでのリアルタイムモザイク処理）の後継として、
 // MicroCMSのlp_settings（cover_square/cover_sq_halftone等）用に想定。
 export default function HalftoneHoverImage({
@@ -51,21 +52,21 @@ export default function HalftoneHoverImage({
     return (
         <div
             ref={containerRef}
-            className={`relative w-full overflow-hidden ${sizeClassName ?? ''} ${className}`}
+            className={`group relative w-full overflow-hidden ${sizeClassName ?? ''} ${className}`}
             style={sizeClassName ? undefined : { aspectRatio }}
         >
             <Image
                 src={halftoneSrc}
                 alt={alt}
                 fill
-                className={`object-cover transition-opacity duration-700 ${isRevealed ? 'opacity-0' : 'opacity-100'}`}
+                className={`object-cover transition-opacity duration-700 ${isRevealed ? 'opacity-0' : 'opacity-100'} md:opacity-100 md:group-hover:opacity-0`}
                 sizes={sizes}
             />
             <Image
                 src={normalSrc}
                 alt={alt}
                 fill
-                className={`object-cover transition-opacity duration-700 ${isRevealed ? 'opacity-100' : 'opacity-0'}`}
+                className={`object-cover transition-opacity duration-700 ${isRevealed ? 'opacity-100' : 'opacity-0'} md:opacity-0 md:group-hover:opacity-100`}
                 sizes={sizes}
             />
             {overlay && (

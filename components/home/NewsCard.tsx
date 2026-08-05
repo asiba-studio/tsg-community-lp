@@ -8,18 +8,22 @@ export default function NewsCard({ news, showImageOnMobile = true }: { news: New
     const href = isInternal ? `/news/${news.slug}` : news.link!;
     const target = isInternal ? '_self' : '_blank';
 
+    const hasCover = Boolean(news.coverImage);
+    const normalSrc = hasCover ? news.coverImage : '/images/home-community/placeholder.png';
+    const halftoneSrc = hasCover ? news.coverImageHalftone : '/images/home-community/placeholder-halftone.png';
+
     return (
         <Link href={href} target={target} className="block no-underline hover:opacity-100">
             <div className={`w-full aspect-square relative overflow-hidden ${showImageOnMobile ? '' : 'hidden md:block'}`}>
-                {news.coverImageHalftone ? (
+                {halftoneSrc ? (
                     <HalftoneHoverImage
-                        normalSrc={news.coverImage}
-                        halftoneSrc={news.coverImageHalftone}
+                        normalSrc={normalSrc}
+                        halftoneSrc={halftoneSrc}
                         alt={news.title}
                     />
                 ) : (
                     <Image
-                        src={news.coverImage}
+                        src={normalSrc}
                         alt={news.title}
                         fill
                         className="object-cover"
