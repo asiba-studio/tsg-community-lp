@@ -10,7 +10,7 @@
 - **フレームワーク**: Next.js 16 (App Router) + TypeScript
 - **スタイリング**: Tailwind CSS v4
 - **CMS**: MicroCMS（記事・ニュース）
-- **ホスティング**: Netlify
+- **ホスティング**: Vercel（Netlifyではない）
 
 ## 開発コマンド
 

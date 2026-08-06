@@ -76,7 +76,7 @@ const options = {
             }
 
             // <figcaption>: 他サイト向けの特殊指定（例: [auto][2][250px]）が文頭に付与されていることがあるが、
-            // このサイトでは常にw-full表示のため不要。文頭の[...]をまとめて除去する
+            // このサイトでは常にw-full表示のため不要。文頭の[...]をまとめて除去するa
             if (domNode.name === 'figcaption') {
                 const [first, ...rest] = domNode.children as DOMNode[];
                 if (first instanceof Text) {
