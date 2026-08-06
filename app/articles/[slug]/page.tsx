@@ -62,7 +62,7 @@ const ARTICLE_PROSE_CLASSES = [
 const options = {
     replace: (domNode: DOMNode) => {
         if (domNode instanceof Element && domNode.type === 'tag') {
-            // <a>: 外部リンクとして新規タブで開く（見た目はサイト共通のリンクスタイルに任せる）
+            // <a>: 外部リンクとして新規タブで開く（見た目はサイト共通のリンクスタイルに任せる）。
             if (domNode.name === 'a') {
                 return (
                     <a
