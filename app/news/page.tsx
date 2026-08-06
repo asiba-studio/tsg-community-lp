@@ -6,14 +6,14 @@ import { News, ProgramTerm, getPrimaryProgramTerm } from 'lib/types';
 
 export const metadata: Metadata = {
   title: 'ニュース一覧',
-  description: 'Creative-Lab. のニュース一覧です',
+  description: 'Community Design-LAB. のニュース一覧です',
   alternates: {
     canonical: '/news',
   },
 };
 
 const TERM_GROUPS: { term: ProgramTerm; label: string }[] = [
-  { term: 'COMMUNITY-LAB', label: 'COMMUNITY DESIGN-LAB.' },
+  { term: 'COMMUNITY-LAB', label: 'Community Design-LAB.' },
   { term: '3RD', label: 'Creative-LAB. 3rd' },
   { term: '2ND', label: 'Creative-LAB. 2nd' },
 ];
@@ -46,7 +46,7 @@ export default async function NewsPage() {
           News
         </h1>
         <p className="text-base md:text-lg mt-6">
-          COMMUNITY DESIGN-LAB. に関するお知らせをお届けします。
+          Community Design-LAB. に関するお知らせをお届けします。
         </p>
       </div>
 

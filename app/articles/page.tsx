@@ -7,14 +7,14 @@ import { Article, ProgramTerm, getPrimaryProgramTerm } from 'lib/types';
 
 export const metadata: Metadata = {
   title: '記事一覧',
-  description: 'Creative-Lab. の記事一覧です',
+  description: 'Community Design-LAB. の記事一覧です',
   alternates: {
     canonical: '/articles',
   },
 };
 
 const TERM_GROUPS: { term: ProgramTerm; label: string }[] = [
-  { term: 'COMMUNITY-LAB', label: 'COMMUNITY DESIGN-LAB.' },
+  { term: 'COMMUNITY-LAB', label: 'Community Design-LAB.' },
   { term: '3RD', label: 'Creative-LAB. 3rd' },
   { term: '2ND', label: 'Creative-LAB. 2nd' },
 ];
@@ -47,7 +47,7 @@ export default async function ArticlesPage() {
           Article
         </h1>
         <p className="text-base md:text-lg mt-6">
-          COMMUNITY DESIGN-LAB. に関するレポートや対談をお届けします。
+          Community Design-LAB. に関するレポートや対談をお届けします。
         </p>
       </div>
 

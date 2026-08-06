@@ -28,8 +28,8 @@ const ARTICLE_PROSE_CLASSES = [
     'prose-p:font-sans prose-p:text-sm prose-p:md:text-base prose-p:text-text-primary prose-p:leading-loose prose-p:tracking-wide prose-p:mb-4 prose-p:md:mb-8',
     'prose-headings:font-sans prose-headings:font-bold prose-headings:text-text-primary',
     'prose-h1:text-2xl prose-h1:md:text-4xl prose-h1:mt-16 prose-h1:mb-6 prose-h1:border-l-4 prose-h1:border-primary prose-h1:pl-4',
-    'prose-h2:text-xl prose-h2:md:text-2xl prose-h2:mb-10 prose-h2:mt-5 prose-h2:lg:mt-40 prose-h2:pb-2 prose-h2:leading-normal',
-    'prose-h3:text-xl prose-h3:mt-18 prose-h3:mb-5',
+    'prose-h2:text-xl prose-h2:md:text-2xl prose-h2:mb-10 prose-h2:mt-5 prose-h2:lg:mt-40 prose-h2:pb-2 prose-h2:leading-normal prose-h2:scroll-mt-24',
+    'prose-h3:text-xl prose-h3:mt-18 prose-h3:mb-5 prose-h3:scroll-mt-24',
     'prose-h4:text-lg prose-h4:md:text-xl prose-h4:font-semibold prose-h4:mb-5 prose-h4:mt-5 prose-h4:leading-normal',
     'prose-ul:list-disc prose-ul:pl-5 prose-ul:mb-6 prose-ul:space-y-2',
     'prose-ol:list-decimal prose-ol:pl-5 prose-ol:mb-6 prose-ol:space-y-2',
@@ -46,6 +46,14 @@ const ARTICLE_PROSE_CLASSES = [
     // speakerクラス（発言者名ラベル）とblockquote内の最初/最後の要素の余白リセットはprose-*修飾子の対象外のため個別に指定
     '[&_.speaker]:font-bold [&_.speaker]:pr-4',
     '[&_blockquote>*:first-child]:mt-0 [&_blockquote>*:last-child]:mb-0',
+    // MicroCMSのtableは<thead>を使わず全行<tbody>直下（見出し行だけ<th>）で出力されるため、
+    // Typography標準のthead/tbody差分を前提とした余白は効かない。table/th/tdへ直接指定してサイトの色トークンに統一する
+    // （ブランドカラー<primary>のピンクは表・罫線には使わない）
+    'prose-table:w-full prose-table:my-10 prose-table:md:my-12 prose-table:border-collapse prose-table:text-xs prose-table:md:text-sm',
+    'prose-tr:border-b-0',
+    'prose-th:text-left prose-th:font-bold prose-th:text-text-primary prose-th:bg-gray-100 prose-th:border-b-2 prose-th:border-border prose-th:px-3 prose-th:py-2 prose-th:md:px-4',
+    'prose-td:text-text-primary prose-td:align-top prose-td:border-b prose-td:border-border-light prose-td:px-3 prose-td:py-2 prose-td:md:px-4',
+    '[&_table_p]:mb-0',
 ].join(' ');
 
 // ----------------------------------------------------
@@ -135,6 +143,64 @@ const options = {
     }
 };
 
+// ----------------------------------------------------
+// 目次（TOC）
+// ----------------------------------------------------
+interface ArticleHeading {
+    id: string;
+    text: string;
+    level: 2 | 3;
+}
+
+// MicroCMSのリッチエディタはh2/h3に見出しごとのアンカーid（例: id="h8f5280c512"）を自動付与するため、
+// それをそのままTOCのリンク先として利用する（idを持たない見出しはTOC対象外）
+function extractHeadings(html: string): ArticleHeading[] {
+    const headings: ArticleHeading[] = [];
+    const regex = /<h([23])\s+id="([^"]+)"[^>]*>([\s\S]*?)<\/h\1>/gi;
+    let match: RegExpExecArray | null;
+
+    while ((match = regex.exec(html)) !== null) {
+        const text = match[3]
+            .replace(/<[^>]+>/g, '')
+            .replace(/&amp;/g, '&')
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+            .replace(/&quot;/g, '"')
+            .replace(/&#39;/g, "'")
+            .trim();
+
+        if (text) {
+            headings.push({ id: match[2], text, level: Number(match[1]) as 2 | 3 });
+        }
+    }
+
+    return headings;
+}
+
+function ArticleToc({ headings }: { headings: ArticleHeading[] }) {
+    if (headings.length === 0) return null;
+
+    return (
+        <nav aria-label="目次" className="mb-12 md:mb-16 py-5 md:py-6">
+            <div className="font-en font-bold text-primary text-xs md:text-sm tracking-wide mb-4">
+                CONTENTS
+            </div>
+            <ol className="space-y-0">
+                {headings.map((heading) => (
+                    <li key={heading.id} className={heading.level === 3 ? 'ml-4 md:ml-6' : ''}>
+                        <a
+                            href={`#${heading.id}`}
+                            className="text-text-primary text-xs md:text-sm leading-snug no-underline hover:underline transition"
+                        >
+                            {heading.text}
+                        </a>
+                    </li>
+                ))}
+            </ol>
+        </nav>
+    );
+}
+
 export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
     const { slug } = await params;
     const { draftKey, contentId } = await searchParams;
@@ -197,6 +263,7 @@ export default async function ArticlePage({ params, searchParams }: Props) {
     }
 
     const contentBody = article.body_ja;
+    const headings = contentBody ? extractHeadings(contentBody) : [];
 
     return (
         <article className="w-full pb-50">
@@ -238,6 +305,8 @@ export default async function ArticlePage({ params, searchParams }: Props) {
                     <div className='mb-12 md:mb-10 font-semibold leading-normal font-en text-left md:text-right'>
                         {article.date ? formatDateDot(article.date) : ''}
                     </div>
+
+                    <ArticleToc headings={headings} />
 
                     {/* 記事本文 (MicroCMS HTML) */}
                     <div className={ARTICLE_PROSE_CLASSES}>
