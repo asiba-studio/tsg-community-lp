@@ -16,9 +16,9 @@ import { getArticles, getNews } from "lib/api";
 export default async function Page() {
 
   const articles = await getArticles();
-  const communityLabArticles = articles.filter((a) => a.programTerms?.includes('COMMUNITY-LAB'));
+  const communityLabArticles = articles.filter((a) => a.programTerms?.includes('Community Design-LAB.'));
   const news = await getNews();
-  const communityLabNews = news.filter((n) => n.programTerms?.includes('COMMUNITY-LAB'));
+  const communityLabNews = news.filter((n) => n.programTerms?.includes('Community Design-LAB.'));
   const newsSlice = communityLabNews.slice(0, 2);
 
   return (

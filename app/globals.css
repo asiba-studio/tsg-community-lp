@@ -34,6 +34,25 @@
     overflow-x: hidden;
   }
 
+  html {
+    scrollbar-color: var(--color-primary) transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--color-primary);
+    border-radius: 9999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+
   h1 {
     @apply font-bold tracking-tight text-text-primary text-5xl;
   }

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 const TERM_GROUPS: { term: ProgramTerm; label: string }[] = [
-  { term: 'COMMUNITY-LAB', label: 'Community Design-LAB.' },
+  { term: 'Community Design-LAB.', label: 'Community Design-LAB.' },
   { term: '3RD', label: 'Creative-LAB. 3rd' },
   { term: '2ND', label: 'Creative-LAB. 2nd' },
 ];
