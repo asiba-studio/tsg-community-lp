@@ -11,7 +11,7 @@ export default function ApplicationSection() {
             <section>
                 <h2>募集要項</h2>
                 <ol className="space-y-8 custom-ol pt-10">
-                    <li>TSGの応募条件を満たしていること</li>
+                    <li><a href="https://tsg.metro.tokyo.lg.jp/community/about/" target="_blank" rel="noopener noreferrer">TSGの応募条件</a> を満たしていること</li>
                     <li>コミュニティ運営のノウハウや集客テクニックを学ぶだけではなく、自身のやりたいことを企画として立ち上げ、磨いていく意欲がある方</li>
                     <li>下記の各プログラムに参加できること
                         <div className="space-y-0 leading-normal my-2">
@@ -57,7 +57,7 @@ export default function ApplicationSection() {
                 <p  className="pt-10">Community Design-LAB.への参加は、以下のリンクからアクセスいただきお申込みください。</p>
                 {/* TODO: 4期の実際の応募フォームURLに差し替える */}
                 <div className="mt-10">
-                    <CTAButton href="#">
+                    <CTAButton href="https://tsg-etic.my.site.com/TSG/s/login/?language=ja&ec=302&startURL=%2FTSG%2Fs%2F2026%2Fcommunitydesign-2026-ent">
                         お申し込みはこちら
                     </CTAButton>
                 </div>
