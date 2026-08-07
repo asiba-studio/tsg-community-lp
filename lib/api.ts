@@ -11,10 +11,25 @@ type MicroCMSImage = {
     width: number;
 };
 
-// Repeater item type for "creative-lab-lp"
+// customFieldId: "social_link"
+type SocialLinkItem = {
+    fieldId: 'social_link';
+    link_type?: string; // X / Instagram / Youtube / Facebook / Links / Website / note / App / Peatix / Link
+    link_url?: string;
+    link_label?: string;
+};
+
+// customFieldId: "link_text"（Newsの「リンク」フィールド。has_bodyがOFFで外部/内部の飛び先がある場合に使用）
+type NewsLinkField = {
+    fieldId: 'link_text';
+    link?: string;
+    text?: string;
+};
+
+// Repeater item type for "creative_lab_lp"
 // program_terms: MicroCMSのフィールド設定によりカンマ区切り文字列(テキスト)または配列(複数選択)のどちらでも返ってくる
 type CreativeLabLpSetting = {
-    fieldId: 'creative-lab-lp';
+    fieldId: 'creative_lab_lp';
     program_terms?: string | string[];
     cover_square?: MicroCMSImage;
     cover_sq_halftone?: MicroCMSImage;
@@ -44,13 +59,12 @@ type ArticleSkeleton = {
     title_en?: string;
     subtitle_ja?: string;
     subtitle_en?: string;
-    slug: string;
-    cover: MicroCMSImage;
-    summary_ja?: string;
-    summary_en?: string;
+    cover?: MicroCMSImage;
+    description_ja?: string;
+    description_en?: string;
     body_ja?: string; // HTML string
-    note_url?: string;
-    keywords?: string; // Comma separated? or specific format? JSON says "textArea" and "keyword, keyword"
+    categories?: string[]; // REPORT/INTERVIEW/DIALOGUE/ESSAY/STATEMENT/ANNOUNCEMENT
+    social_links?: SocialLinkItem[]; // note記事へのリンクはこの中の link_type === 'note' を探す
     publish_sites: any[]; // relationList
     lp_settings?: LpSetting[]; // Repeater
     date: string;
@@ -64,14 +78,13 @@ type NewsSkeleton = {
     revisedAt: string;
     title_ja: string;
     subtitle_ja?: string;
-    slug: string;
     cover?: MicroCMSImage;
-    summary_ja?: string;
+    description_ja?: string;
     body_ja?: string;
-    link?: string; // Assuming 'link' or similar for external link? JSON for article didn't show news structure but assumed similar
+    has_body?: boolean;
+    link?: NewsLinkField;
     publish_sites: any[];
     lp_settings?: LpSetting[]; // Repeater（Articleと共通仕様。cover_landscape/cover_la_halftoneはNewsでは未使用）
-    keywords?: string;
     date: string;
 };
 
@@ -113,14 +126,14 @@ const fetchArticlesData = async (): Promise<Article[]> => {
 
     return response.contents.map((entry) => {
         // Extract LP specific settings
-        const lpSetting = entry.lp_settings?.find(s => s.fieldId === 'creative-lab-lp');
+        const lpSetting = entry.lp_settings?.find(s => s.fieldId === 'creative_lab_lp');
 
         const title = entry.title_ja || '';
         const subtitle = entry.subtitle_ja;
         const slug = entry.id;
         const publishDate = entry.date || entry.publishedAt;
-        const summary = entry.summary_ja;
-        const noteUrl = entry.note_url; // Check field name in typical usage, JSON said 'note_url'
+        const summary = entry.description_ja;
+        const noteUrl = entry.social_links?.find(l => l.link_type === 'note')?.link_url;
         const body_ja = entry.body_ja;
 
         const terms = parseProgramTerms(lpSetting?.program_terms);
@@ -131,12 +144,7 @@ const fetchArticlesData = async (): Promise<Article[]> => {
         const headerImage = lpSetting?.cover_landscape?.url || entry.cover?.url || ''; // Horizontal as headerImage
         const headerImageHalftone = lpSetting?.cover_la_halftone?.url;
 
-        // Keywords from string to array
-        // JSON description: "都市, 建築計画, XXX"
-        let tags: string[] = [];
-        if (entry.keywords) {
-            tags = entry.keywords.split(',').map(k => k.trim()).filter(k => k).slice(0, 3);
-        }
+        const tags = entry.categories || [];
 
         return {
             id: entry.id,
@@ -184,14 +192,14 @@ const fetchNewsData = async (): Promise<News[]> => {
     });
 
     return response.contents.map((entry) => {
-        const lpSetting = entry.lp_settings?.find(s => s.fieldId === 'creative-lab-lp');
+        const lpSetting = entry.lp_settings?.find(s => s.fieldId === 'creative_lab_lp');
 
         const title = entry.title_ja || '';
         const subtitle = entry.subtitle_ja;
         const slug = entry.id;
         const publishDate = entry.date || entry.publishedAt;
-        const summary = entry.summary_ja;
-        const link = entry.link;
+        const summary = entry.description_ja;
+        const link = entry.link?.link;
         const body_ja = entry.body_ja;
 
         const terms = parseProgramTerms(lpSetting?.program_terms);
@@ -200,10 +208,7 @@ const fetchNewsData = async (): Promise<News[]> => {
         const coverImageHalftone = lpSetting?.cover_sq_halftone?.url;
         const lpSubtitle = lpSetting?.lp_subtitle;
 
-        let tags: string[] = [];
-        if (entry.keywords) {
-            tags = entry.keywords.split(',').map(k => k.trim()).filter(k => k).slice(0, 3);
-        }
+        const tags: string[] = []; // newsにはcategories相当のタグ項目が無いため空
 
         return {
             id: entry.id,
@@ -243,13 +248,11 @@ export async function getArticleDraft(contentId: string, draftKey: string): Prom
             queries: { draftKey },
         });
 
-        const lpSetting = entry.lp_settings?.find(s => s.fieldId === 'creative-lab-lp');
+        const lpSetting = entry.lp_settings?.find(s => s.fieldId === 'creative_lab_lp');
         const terms = parseProgramTerms(lpSetting?.program_terms);
 
-        let tags: string[] = [];
-        if (entry.keywords) {
-            tags = entry.keywords.split(',').map(k => k.trim()).filter(k => k).slice(0, 3);
-        }
+        const tags = entry.categories || [];
+        const noteUrl = entry.social_links?.find(l => l.link_type === 'note')?.link_url;
 
         return {
             id: entry.id,
@@ -263,8 +266,8 @@ export async function getArticleDraft(contentId: string, draftKey: string): Prom
             headerImageHalftone: lpSetting?.cover_la_halftone?.url,
             date: entry.date || entry.publishedAt || new Date().toISOString(),
             tags,
-            excerpt: entry.summary_ja,
-            link: entry.note_url,
+            excerpt: entry.description_ja,
+            link: noteUrl,
             type: 'article',
             body_ja: entry.body_ja,
             programTerms: terms,
@@ -282,15 +285,12 @@ export async function getNewsDraft(contentId: string, draftKey: string): Promise
             queries: { draftKey },
         });
 
-        const lpSetting = entry.lp_settings?.find(s => s.fieldId === 'creative-lab-lp');
+        const lpSetting = entry.lp_settings?.find(s => s.fieldId === 'creative_lab_lp');
         const terms = parseProgramTerms(lpSetting?.program_terms);
 
         const coverImage = lpSetting?.cover_square?.url || entry.cover?.url || '';
 
-        let tags: string[] = [];
-        if (entry.keywords) {
-            tags = entry.keywords.split(',').map(k => k.trim()).filter(k => k).slice(0, 3);
-        }
+        const tags: string[] = []; // newsにはcategories相当のタグ項目が無いため空
 
         return {
             id: entry.id,
@@ -303,8 +303,8 @@ export async function getNewsDraft(contentId: string, draftKey: string): Promise
             headerImage: coverImage,
             date: entry.date || entry.publishedAt || new Date().toISOString(),
             tags,
-            excerpt: entry.summary_ja,
-            link: entry.link,
+            excerpt: entry.description_ja,
+            link: entry.link?.link,
             type: 'news',
             body_ja: entry.body_ja,
             programTerms: terms,

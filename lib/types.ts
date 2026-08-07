@@ -26,9 +26,9 @@ export interface ContentItem {
     headerImageHalftone?: string; // lp_settings.cover_la_halftone（設定されている場合のみ）
 
     date: string;    // ISO string
-    tags: string[];  // keywords
-    excerpt?: string; // summary
-    link?: string;   // 外部URL (NewsやOpenTalks用、ArticleではnoteUrl)
+    tags: string[];  // Article: categories（News/OpenTalksは対応フィールドが無いため常に空配列）
+    excerpt?: string; // description_ja
+    link?: string;   // 外部URL (News.link.link や OpenTalks用、Articleはsocial_linksのlink_type==='note')
 
     type: 'article' | 'news' | 'open-talks';
     programTerms?: ProgramTerm[];
