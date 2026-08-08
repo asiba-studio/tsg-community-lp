@@ -5,6 +5,7 @@ import { draftMode } from 'next/headers';
 import parse, { DOMNode, Element, Text, domToReact } from 'html-react-parser';
 import { getArticles, getArticleDraft } from 'lib/api';
 import { Header } from 'components/layout';
+import { ArticleCredits } from 'components/articles';
 import HalftoneHoverImage from 'components/HalftoneHoverImage';
 import { formatDateDot } from 'lib/date';
 import { DEFAULT_OGP_TITLE, DEFAULT_OGP_DESCRIPTION, DEFAULT_OGP_IMAGE } from 'lib/seo';
@@ -349,6 +350,8 @@ export default async function ArticlePage({ params, searchParams }: Props) {
                             <p className="text-gray-500 py-10 text-center">No content available</p>
                         )}
                     </div>
+
+                    <ArticleCredits credits={article.credits} />
                 </div>
 
                 {/* 右側は意図的に空 */}

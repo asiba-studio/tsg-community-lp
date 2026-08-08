@@ -2,7 +2,7 @@
 
 import { createClient } from 'microcms-js-sdk';
 import { unstable_cache } from 'next/cache';
-import { Article, News, ProgramTerm } from './types';
+import { Article, CreditItem, CreditType, News, PersonType, ProgramTerm } from './types';
 
 // MicroCMS Types
 type MicroCMSImage = {
@@ -41,6 +41,35 @@ type CreativeLabLpSetting = {
 // Union type for all possible repeater items (currently only one we care about)
 type LpSetting = CreativeLabLpSetting;
 
+// customFieldId: "credit"（articleのcreditsリピーター内の各要素）
+type CreditFieldItem = {
+    fieldId: 'credit';
+    credit_type?: string; // Author/Speaker/Lecturer/Guest/Work/Other
+    name: string;
+    person_type?: string; // asiba-member/collaborator/guest/league-player/other
+    affiliation?: string;
+    bio?: string;
+    social_links?: SocialLinkItem[];
+    profile_image?: MicroCMSImage;
+};
+
+const mapCredits = (raw?: CreditFieldItem[]): CreditItem[] => {
+    if (!raw) return [];
+    return raw.map((c) => ({
+        name: c.name || '',
+        creditType: c.credit_type as CreditType | undefined,
+        personType: c.person_type as PersonType | undefined,
+        affiliation: c.affiliation,
+        bio: c.bio,
+        profileImage: c.profile_image?.url,
+        socialLinks: (c.social_links || []).map((l) => ({
+            type: l.link_type,
+            url: l.link_url,
+            label: l.link_label,
+        })),
+    }));
+};
+
 // program_termsが文字列(カンマ区切り)・配列のどちらで返ってきても対応し、未設定時は全期をデフォルトとする
 const parseProgramTerms = (raw: string | string[] | undefined): ProgramTerm[] => {
     if (!raw) return ['2ND', '3RD'];
@@ -65,6 +94,7 @@ type ArticleSkeleton = {
     body_ja?: string; // HTML string
     categories?: string[]; // REPORT/INTERVIEW/DIALOGUE/ESSAY/STATEMENT/ANNOUNCEMENT
     social_links?: SocialLinkItem[]; // note記事へのリンクはこの中の link_type === 'note' を探す
+    credits?: CreditFieldItem[]; // Repeater
     publish_sites: any[]; // relationList
     lp_settings?: LpSetting[]; // Repeater
     date: string;
@@ -162,6 +192,7 @@ const fetchArticlesData = async (): Promise<Article[]> => {
             link: noteUrl,
             type: 'article',
             body_ja: body_ja, // Now HTML string
+            credits: mapCredits(entry.credits),
             programTerms: terms,
         };
     });
@@ -270,6 +301,7 @@ export async function getArticleDraft(contentId: string, draftKey: string): Prom
             link: noteUrl,
             type: 'article',
             body_ja: entry.body_ja,
+            credits: mapCredits(entry.credits),
             programTerms: terms,
         };
     } catch {

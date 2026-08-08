@@ -34,10 +34,31 @@ export interface ContentItem {
     programTerms?: ProgramTerm[];
 }
 
+// credits（クレジット）関連
+export type CreditType = 'Author' | 'Speaker' | 'Lecturer' | 'Guest' | 'Work' | 'Other';
+export type PersonType = 'asiba-member' | 'collaborator' | 'guest' | 'league-player' | 'other';
+
+export interface CreditSocialLink {
+    type?: string; // X/Instagram/Youtube/Facebook/Links/Website/note/App/Peatix/Link
+    url?: string;
+    label?: string;
+}
+
+export interface CreditItem {
+    name: string;
+    creditType?: CreditType;
+    personType?: PersonType;
+    affiliation?: string;
+    bio?: string;
+    profileImage?: string;
+    socialLinks: CreditSocialLink[];
+}
+
 // Article型
 export type Article = ContentItem & {
     type: 'article';
     body_ja?: string; // HTML string
+    credits?: CreditItem[];
 };
 
 // News型
