@@ -48,6 +48,61 @@ const NEWS_PROSE_CLASSES = [
 // ----------------------------------------------------
 // 📝 HTML Parsing Options（CSSでは表現できないロジックのみ）
 // ----------------------------------------------------
+// <img>（本文中の画像）を描画する。figure配下から呼ばれる場合はfigcaption先頭の[Npx]指定を
+// maxWidthPxとして受け取り、幅を上書きする（他サイト共通コマンドのうち[Npx]のみこのサイトで採用。
+// [auto]はCMSのwidth/height属性をそのままaspect比として使う本サイトでは常に有効な挙動のため、
+// 追加のスタイル処理は不要）。
+function renderNewsImage(imgNode: Element, maxWidthPx: number | null) {
+    const { src, alt, width, height } = imgNode.attribs;
+
+    let customWidthClass = 'max-w-4xl';
+    // sm/md/lg/px指定時は本文幅に収めてセンタリングするため、mobileでもbleedさせない
+    let bleedOnMobile = true;
+    let showCaption = false;
+    let displayCaption = alt || '';
+
+    if (alt) {
+        const widthMatch = alt.match(/\[w:(sm|md|lg|full)\]/);
+        if (widthMatch) {
+            const value = widthMatch[1];
+            if (value === 'sm') { customWidthClass = 'max-w-50'; bleedOnMobile = false; }
+            else if (value === 'md') { customWidthClass = 'max-w-80'; bleedOnMobile = false; }
+            else if (value === 'lg') { customWidthClass = 'max-w-130'; bleedOnMobile = false; }
+            else if (value === 'full') customWidthClass = 'max-w-none';
+        }
+        if (alt.includes('[caption]')) {
+            showCaption = true;
+        }
+        displayCaption = alt
+            .replace(/\[w:(sm|md|lg|full)\]/g, '')
+            .replace(/\[caption\]/g, '')
+            .trim();
+    }
+
+    // figcaptionの[Npx]指定はalt側の[w:sm/md/lg]指定より優先する
+    if (maxWidthPx !== null) bleedOnMobile = false;
+
+    // mobileはpx-[14px]の親パディングを打ち消して画面幅いっぱいに表示。lg以上は通常のカラム内に収める
+    const containerClasses = `my-2 flex flex-col items-center ${bleedOnMobile ? '-mx-[14px] lg:mx-0' : ''} ${maxWidthPx !== null ? '' : customWidthClass}`;
+    const containerStyle = maxWidthPx !== null ? { maxWidth: `${maxWidthPx}px`, width: '100%' } : undefined;
+
+    return (
+        <div className={containerClasses} style={containerStyle}>
+            <Image
+                src={src}
+                width={parseInt(width || '800')}
+                height={parseInt(height || '600')}
+                alt={displayCaption || 'News Image'}
+                className="w-full h-auto object-cover"
+                unoptimized={true}
+            />
+            {showCaption && displayCaption && (
+                <p className="text-sm text-gray-500 mt-2">{displayCaption}</p>
+            )}
+        </div>
+    );
+}
+
 const options = {
     replace: (domNode: DOMNode) => {
         if (domNode instanceof Element && domNode.type === 'tag') {
@@ -63,66 +118,49 @@ const options = {
                 );
             }
 
-            // <figcaption>: 他サイト向けの特殊指定（例: [auto][2][250px]）が文頭に付与されていることがあるが、
-            // このサイトでは常にw-full表示のため不要。文頭の[...]をまとめて除去する
-            if (domNode.name === 'figcaption') {
-                const [first, ...rest] = domNode.children as DOMNode[];
-                if (first instanceof Text) {
-                    const cleaned = first.data.replace(/^(\s*\[[^\]]*\])+\s*/, '');
+            // <figure>: 他サイト共通の特殊指定（例: [2][auto][250px]）がfigcaption文頭に付与されていることがある。
+            // [2]（カラム数）はこのサイトでは常に1カラム表示のため無視。[auto]は常に有効な挙動のため無視。
+            // [Npx]のみ画像の最大幅として反映する。
+            if (domNode.name === 'figure') {
+                const children = domNode.children as DOMNode[];
+                const imgNode = children.find((c) => c instanceof Element && c.name === 'img') as Element | undefined;
+                const figcaptionNode = children.find((c) => c instanceof Element && c.name === 'figcaption') as Element | undefined;
+
+                if (imgNode) {
+                    let maxWidthPx: number | null = null;
+                    let cleanedCaption = '';
+                    let captionRest: DOMNode[] = [];
+
+                    if (figcaptionNode) {
+                        const [first, ...rest] = figcaptionNode.children as DOMNode[];
+                        captionRest = rest;
+                        if (first instanceof Text) {
+                            const tagMatch = first.data.match(/^(\s*\[[^\]]*\])+/);
+                            if (tagMatch) {
+                                const pxMatch = tagMatch[0].match(/\[(\d+)px\]/);
+                                if (pxMatch) maxWidthPx = parseInt(pxMatch[1], 10);
+                            }
+                            cleanedCaption = first.data.replace(/^(\s*\[[^\]]*\])+\s*/, '');
+                        }
+                    }
+
                     return (
-                        <figcaption>
-                            {cleaned}
-                            {domToReact(rest, options)}
-                        </figcaption>
+                        <figure>
+                            {renderNewsImage(imgNode, maxWidthPx)}
+                            {figcaptionNode && (
+                                <figcaption>
+                                    {cleanedCaption}
+                                    {domToReact(captionRest, options)}
+                                </figcaption>
+                            )}
+                        </figure>
                     );
                 }
             }
 
+            // <img>: figureに包まれていない単体画像
             if (domNode.name === 'img') {
-                const { src, alt, width, height } = domNode.attribs;
-
-                let customWidthClass = 'max-w-4xl';
-                // sm/md/lg指定時は本文幅に収めてセンタリングするため、mobileでもbleedさせない
-                let bleedOnMobile = true;
-                let showCaption = false;
-                let displayCaption = alt || '';
-
-                if (alt) {
-                    const widthMatch = alt.match(/\[w:(sm|md|lg|full)\]/);
-                    if (widthMatch) {
-                        const value = widthMatch[1];
-                        if (value === 'sm') { customWidthClass = 'max-w-50'; bleedOnMobile = false; }
-                        else if (value === 'md') { customWidthClass = 'max-w-80'; bleedOnMobile = false; }
-                        else if (value === 'lg') { customWidthClass = 'max-w-130'; bleedOnMobile = false; }
-                        else if (value === 'full') customWidthClass = 'max-w-none';
-                    }
-                    if (alt.includes('[caption]')) {
-                        showCaption = true;
-                    }
-                    displayCaption = alt
-                        .replace(/\[w:(sm|md|lg|full)\]/g, '')
-                        .replace(/\[caption\]/g, '')
-                        .trim();
-                }
-
-                // mobileはpx-[14px]の親パディングを打ち消して画面幅いっぱいに表示。lg以上は通常のカラム内に収める
-                const containerClasses = `my-2 flex flex-col items-center ${bleedOnMobile ? '-mx-[14px] lg:mx-0' : ''} ${customWidthClass}`;
-
-                return (
-                    <div className={containerClasses}>
-                        <Image
-                            src={src}
-                            width={parseInt(width || '800')}
-                            height={parseInt(height || '600')}
-                            alt={displayCaption || 'News Image'}
-                            className="w-full h-auto object-cover"
-                            unoptimized={true}
-                        />
-                        {showCaption && displayCaption && (
-                            <p className="text-sm text-gray-500 mt-2">{displayCaption}</p>
-                        )}
-                    </div>
-                );
+                return renderNewsImage(domNode, null);
             }
         }
     }
