@@ -63,9 +63,9 @@ export function ProgramPhase1() {
                 <h3 className="hidden">Phase 1 Program</h3>
                 <ul className="space-y-8">
                     <li><PhaseCard
-                        title="LAB合同キックオフ"
+                        title="LAB.合同キックオフ"
                         question="「私のやりたいは、どんな場になる？」"
-                        description="LABの参加者が一堂に会し、LAB.メンバー同志の関係性構築や、2ヶ月後のゴール設定などを行います。自分のやりたいことを見つめ直す時間や、直近で参加したイベントの共有を設け、これからの2ヶ月に向けてのワークを行います。"
+                        description="LAB.の参加者が一堂に会し、LAB.メンバー同志の関係性構築や、3ヶ月後のゴール設定などを行います。自分のやりたいことを見つめ直す時間や、直近で参加したイベントの共有を設け、これからの3ヶ月に向けてのワークを行います。"
                         dateTime="2026.09.27"
                         venue="Tokyo Innovation Base"
                         imageUrl="/images/home-community/photo-01.png"
@@ -76,7 +76,7 @@ export function ProgramPhase1() {
                         title="ゼミ #1"
                         question="「コミュニティはデザインできるのか？」"
                         description="コミュニティを「デザイン」するために必要な視点や考え方をインプットします。その視点をもとに施設内でフィールドワークを行い、人の動きやコミュニケーション、場で起きている現象を観察します。そこで得た気づきを、自身のコミュニティづくりへとつなげていきます。"
-                        dateTime="2026.09.27"
+                        dateTime="2026.10.11"
                         venue="東京都内（場所未定）"
                         imageUrl="/images/home-community/photo-02.png"
                         halftoneImageUrl="/images/home-community/photo-02-halftone.png"
@@ -185,9 +185,9 @@ export function ProgramPhase3() {
                         homework
                     /></li>
                     <li><PhaseCard
-                        title="LAB最終成果報告会"
-                        question="「2ヶ月を振り返って」"
-                        description="LAB参加者が一堂に集まり、2か月間の実践を振り返ります。これからもコミュニティを継続していくために必要なアーカイブの作成や、ネットワーキングも行う予定です。"
+                        title="LAB.最終成果報告会"
+                        question="「3ヶ月を振り返って」"
+                        description="LAB.参加者が一堂に集まり、3ヶ月間の実践を振り返ります。これからもコミュニティを継続していくために必要なアーカイブの作成や、ネットワーキングも行う予定です。"
                         dateTime="2026.12.13"
                         venue="Tokyo Innovation Base"
                         imageUrl="/images/home-community/photo-09.png"

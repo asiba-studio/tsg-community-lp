@@ -16,10 +16,10 @@ export default function ApplicationSection() {
                     <li>下記の各プログラムに参加できること
                         <div className="space-y-0 leading-normal my-2">
                             <span>9/27（日）　LAB.合同ミートアップ</span><br></br>
-                            <span>10/11（日）　Community Design-LAB ゼミ#1</span><br></br>
-                            <span>10/25（日）　Community Design-LAB ゼミ#2</span><br></br>
-                            <span>11/8（日）　Community Design-LAB 1Dayキャンプ</span><br></br>
-                            <span>11/22（日）　Community Design-LAB ゼミ#3</span><br></br>
+                            <span>10/11（日）　Community Design-LAB. ゼミ#1</span><br></br>
+                            <span>10/25（日）　Community Design-LAB. ゼミ#2</span><br></br>
+                            <span>11/8（日）　Community Design-LAB. 1Dayキャンプ</span><br></br>
+                            <span>11/22（日）　Community Design-LAB. ゼミ#3</span><br></br>
                             <span>12/13（日）　メンタリング・デイ</span><br></br>
                         </div>
                     </li>

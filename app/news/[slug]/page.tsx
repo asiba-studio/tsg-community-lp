@@ -25,6 +25,7 @@ async function getNewsItem(slug: string) {
 const NEWS_PROSE_CLASSES = [
     'prose prose-base max-w-none',
     'prose-p:font-sans prose-p:text-sm prose-p:md:text-base prose-p:text-text-primary prose-p:leading-loose prose-p:tracking-wide prose-p:mb-4 prose-p:md:mb-8',
+    'prose-a:text-link prose-a:font-normal',
     'prose-headings:font-sans prose-headings:font-bold prose-headings:text-text-primary',
     'prose-h1:text-2xl prose-h1:md:text-4xl prose-h1:mt-16 prose-h1:mb-6 prose-h1:border-l-4 prose-h1:border-primary prose-h1:pl-4',
     'prose-h2:text-xl prose-h2:md:text-2xl prose-h2:mb-10 prose-h2:mt-5 prose-h2:lg:mt-40 prose-h2:pb-2 prose-h2:leading-normal',
