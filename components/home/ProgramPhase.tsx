@@ -164,7 +164,7 @@ export function ProgramPhase3() {
                         question="「やってみて得たことを、次に生かす」"
                         description="1日かけて中間報告会を実施します。実践を通して得られた学びや課題を振り返り、次の一歩につなげるための方法をメンタリングを通して考えます。実践者によるトークやメンタリングも予定しています。"
                         dateTime="2026.11.08"
-                        venue="YOHJOH kameido"
+                        venue="東京都内（場所未定）"
                         imageUrl="/images/home-community/photo-06.png"
                         halftoneImageUrl="/images/home-community/photo-06-halftone.png"
                         showImageOnMobile
