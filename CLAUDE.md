@@ -84,12 +84,12 @@ filters: `publish_sites[contains]tsg-creative-lab`
 
 キャッシュ再検証は `POST /api/revalidate` エンドポイント経由。
 
-**MicroCMS Webhook 設定手順（APIエンドポイントごとに設定）:**
-1. Webhook タイプは **「Custom」** を選択（「Vercel」タイプはカスタムヘッダー非対応のため不可）
+**MicroCMS Webhook 設定手順（APIエンドポイントごとに設定。ASIBA系LP共通方式・カスタムヘッダー方式は廃止）:**
+1. Webhook タイプは **「Custom Notifications」** を選択
 2. URL: `https://tsg-community.asiba.or.jp/api/revalidate`
-3. Custom Request Headers に追加:
-   - Key: `X-MICROCMS-SECRET`（MicroCMSの仕様上 `X-` プレフィックス必須・大文字）
-   - Value: 環境変数 `MICROCMS_REVALIDATE_SECRET` と同じ値
+3. Secret に環境変数 `MICROCMS_WEBHOOK_SECRET` と同じ値を設定
+   - MicroCMSがこの値でペイロードをHMAC-SHA256署名し、`x-microcms-signature` ヘッダーに16進文字列を付与する
+   - `/api/revalidate` 側は `crypto.createHmac('sha256', secret)` で再計算し `timingSafeEqual` で比較（カスタムヘッダーでの平文一致比較はしない）
 4. Notification Timing の推奨設定:
    - Publish グループ: 全チェック
    - Unpublish グループ: 「Unpublish content or revert it to draft in the editor」「Unpublish scheduled content」をチェック
@@ -103,7 +103,7 @@ filters: `publish_sites[contains]tsg-creative-lab`
 Next.js の Draft Mode を使用。記事・ニュースの下書きをブラウザで確認できる。
 
 **フロー:**
-1. MicroCMS のプレビューURLを設定: `http://localhost:3000/api/draft?secret=XXX&contentId={CONTENT_ID}&draftKey={DRAFT_KEY}&type=article`
+1. MicroCMS のプレビューURLを設定: `http://localhost:3000/api/draft?secret={MICROCMS_DRAFT_SECRET}&contentId={CONTENT_ID}&draftKey={DRAFT_KEY}&type=article`
 2. `/api/draft` が Draft Mode を有効化（クッキーをセット）し `/articles/[contentId]` にリダイレクト
 3. ページが `draftMode().isEnabled` を確認し、`getArticleDraft(contentId, draftKey)` で下書きを取得
 4. 画面下部に "DRAFT PREVIEW MODE" バナー + Exit リンクを表示
@@ -180,7 +180,7 @@ interface ContentItem {
 - `ContentCard` では Article は強制的に内部ページへ、News/OpenTalks は `link` フィールドがあれば外部リンク。
 - MicroCMSの画像URLには自動でリサイズパラメータ（`?w=1200&h=1200`）が付与される（`ContentCard` の `getResizedImageUrl`）。
 - `InteractiveMosaic02` は **canvas 2D API** で実装（p5.js/WebGL 不使用）。ホバーで0/1切り替え。WebGLコンテキスト枯渇・CORS問題の回避のため書き直した経緯あり。
-- `.env.local` に `MICROCMS_SERVICE_DOMAIN`・`MICROCMS_API_KEY`・`MICROCMS_REVALIDATE_SECRET`・`MICROCMS_PREVIEW_SECRET` が必要（`.env.example` 参照）。
+- `.env.local` に `MICROCMS_SERVICE_DOMAIN`・`MICROCMS_API_KEY`・`MICROCMS_WEBHOOK_SECRET`・`MICROCMS_DRAFT_SECRET` が必要（`.env.example` 参照）。これらの環境変数名はASIBA系LP共通で統一（値はLPごとに異なってよい）。
 - `FloatingApplicationButton` はデスクトップ（`hidden md:block`）のみ表示。
 - `ApllicationSection` ファイル名にtypo（"Apllication"）——変更しないこと（import多数）。
 - テキスト色は原則 `text-text-primary` / `var(--color-text-primary)` を使うこと。`text-gray-*` や `text-black` のハードコードは避ける。

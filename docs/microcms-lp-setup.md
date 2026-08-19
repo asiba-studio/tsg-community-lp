@@ -21,9 +21,11 @@ ASIBA の LP プロジェクト共通パターンを実装するための手順�
 ```
 MICROCMS_SERVICE_DOMAIN=（サービスドメイン）
 MICROCMS_API_KEY=（APIキー）
-MICROCMS_REVALIDATE_SECRET=（任意の文字列・Webhook認証用）
-MICROCMS_PREVIEW_SECRET=（任意の文字列・Draft Mode用）
+MICROCMS_WEBHOOK_SECRET=（任意の文字列・Webhook署名検証用）
+MICROCMS_DRAFT_SECRET=（任意の文字列・Draft Mode用）
 ```
+
+環境変数名はASIBA系LP共通で統一する。値はLPごとに異なってよい。
 
 ---
 
@@ -75,17 +77,35 @@ export const getArticles = unstable_cache(
 
 ## 3. /api/revalidate/route.ts の実装
 
-```ts
-import { NextRequest, NextResponse } from 'next/server';
-import { revalidateTag } from 'next/cache';
+MicroCMSの署名検証（`x-microcms-signature` ヘッダー、HMAC-SHA256）を使う。カスタムヘッダーでの平文一致比較は廃止。
 
-export async function POST(request: NextRequest) {
-  const secret = request.headers.get('x-microcms-secret');
-  if (secret !== process.env.MICROCMS_REVALIDATE_SECRET) {
-    return NextResponse.json({ message: 'Invalid secret' }, { status: 401 });
+```ts
+import { createHmac, timingSafeEqual } from 'crypto';
+import { revalidateTag } from 'next/cache';
+import { NextResponse } from 'next/server';
+
+function isValidSignature(rawBody: string, signature: string | null, secret: string): boolean {
+  if (!signature) return false;
+  const expected = createHmac('sha256', secret).update(rawBody).digest('hex');
+  const expectedBuf = Buffer.from(expected, 'utf8');
+  const signatureBuf = Buffer.from(signature, 'utf8');
+  if (expectedBuf.length !== signatureBuf.length) return false;
+  return timingSafeEqual(expectedBuf, signatureBuf);
+}
+
+export async function POST(request: Request) {
+  const secret = process.env.MICROCMS_WEBHOOK_SECRET;
+  if (!secret) {
+    return new Response('MICROCMS_WEBHOOK_SECRET is not configured', { status: 500 });
   }
 
-  revalidateTag('microcms-lp');
+  const rawBody = await request.text();
+  const signature = request.headers.get('x-microcms-signature');
+  if (!isValidSignature(rawBody, signature, secret)) {
+    return new Response('Invalid signature', { status: 401 });
+  }
+
+  revalidateTag('microcms-lp', { expire: 0 });
 
   return NextResponse.json({ revalidated: true, now: Date.now() });
 }
@@ -118,12 +138,10 @@ export async function generateStaticParams() {
 **APIエンドポイントごと**（article, news 等）に設定します。
 
 ### 手順
-1. MicroCMS 管理画面 → 対象 API の設定 → Webhook → **「Custom」タイプ**を選択
-   （「Vercel」タイプはカスタムヘッダー非対応のため使用不可）
+1. MicroCMS 管理画面 → 対象 API の設定 → Webhook → **「Custom Notifications」タイプ**を選択
 2. URL: `https://your-lp-domain/api/revalidate`
-3. **Custom Request Headers** に追加:
-   - Key: `X-MICROCMS-SECRET`（`X-` プレフィックス必須・大文字で始める）
-   - Value: 環境変数 `MICROCMS_REVALIDATE_SECRET` と同じ値
+3. **Secret** に環境変数 `MICROCMS_WEBHOOK_SECRET` と同じ値を設定
+   （MicroCMSがこの値でペイロードをHMAC-SHA256署名し、`x-microcms-signature` ヘッダーを付与する。カスタムヘッダーでの平文一致比較方式は使わない）
 4. Notification Timing:
    - **Publish グループ**: 全チェック
    - **Unpublish グループ**: 「Unpublish content or revert it to draft in the editor」「Unpublish scheduled content」をチェック
@@ -143,7 +161,7 @@ export async function generateStaticParams() {
 
 MicroCMS のプレビュー URL テンプレート（例）:
 ```
-https://your-lp-domain/api/draft?secret=MICROCMS_PREVIEW_SECRET&contentId={CONTENT_ID}&draftKey={DRAFT_KEY}&type=article
+https://your-lp-domain/api/draft?secret={MICROCMS_DRAFT_SECRET}&contentId={CONTENT_ID}&draftKey={DRAFT_KEY}&type=article
 ```
 
 MicroCMS はプレビュー URL を 1 つしか設定できないため、複数 LP で共有する場合はスプレッドシート等に LP ごとの URL テンプレートをまとめ、手動で `CONTENT_ID` と `DRAFT_KEY` を書き換えて使う運用を推奨。

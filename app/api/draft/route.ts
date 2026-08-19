@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
     const draftKey = searchParams.get('draftKey');
     const type = searchParams.get('type');
 
-    if (secret !== process.env.MICROCMS_PREVIEW_SECRET) {
+    if (secret !== process.env.MICROCMS_DRAFT_SECRET) {
         return NextResponse.json({ message: 'Invalid secret' }, { status: 401 });
     }
 
