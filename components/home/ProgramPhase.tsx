@@ -50,7 +50,10 @@ export function ProgramPhase1() {
                 <h2 className="font-en text-primary">
                     Phase 1
                 </h2>
-                <div className="font-zen font-bold text-lg md:text-xl lg:text-2xl">場を見立てる</div>
+                <div className="font-zen font-bold text-lg md:text-xl lg:text-2xl flex items-center gap-3 md:gap-5">
+                    <span>場を見立てる</span>
+                    <Image src="/gifs/icon/pink-dots.gif" alt="" unoptimized width={40} height={40} className="w-10 h-10 shrink-0" />
+                </div>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 w-full gap-12 md:gap-x-[clamp(2.5rem,4vw,6rem)] md:gap-y-10 md:px-0 py-10">
@@ -103,7 +106,10 @@ export function ProgramPhase2() {
                 <h2 className="font-en text-primary">
                     Phase 2
                 </h2>
-                <div className="font-zen font-bold text-lg md:text-xl lg:text-2xl">場をひらく</div>
+                <div className="font-zen font-bold text-lg md:text-xl lg:text-2xl flex items-center gap-3 md:gap-5">
+                    <span>場をひらく</span>
+                    <Image src="/gifs/icon/pink-dots.gif" alt="" unoptimized width={40} height={40} className="w-10 h-10 shrink-0" />
+                </div>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 w-full gap-12 md:gap-x-[clamp(2.5rem,4vw,6rem)] md:gap-y-10 md:px-0 py-10">
@@ -146,7 +152,10 @@ export function ProgramPhase3() {
                 <h2 className="font-en text-primary">
                     Phase 3
                 </h2>
-                <div className="font-zen font-bold text-lg md:text-xl lg:text-2xl">場をゆずる</div>
+                <div className="font-zen font-bold text-lg md:text-xl lg:text-2xl flex items-center gap-3 md:gap-5">
+                    <span>場をゆずる</span>
+                    <Image src="/gifs/icon/pink-dots.gif" alt="" unoptimized width={40} height={40} className="w-10 h-10 shrink-0" />
+                </div>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 w-full gap-12 md:gap-x-[clamp(2.5rem,4vw,6rem)] md:gap-y-10 md:px-0 py-10">
