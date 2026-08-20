@@ -13,6 +13,8 @@ import { getArticles, getNews } from "@/lib/api";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
+    title: 'Archive: TSG Creative-LAB. 3rd',
+    description: 'TSG Creative-LAB. 3期生のアーカイブページです。プログラム内容、Open TALKs、参加者の記事をご紹介します。',
     alternates: {
         canonical: '/archive/3rd',
     },

@@ -7,8 +7,8 @@ import { ContentList } from 'components/articles';
 import { ReactNode } from 'react';
 
 export const metadata: Metadata = {
-  title: '記事一覧',
-  description: 'Creative-Lab. の記事一覧です',
+  title: 'Open TALKs一覧',
+  description: 'Creative-LAB. Open TALKs一覧です',
   alternates: {
     canonical: '/open-talks',
   },
