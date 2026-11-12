@@ -81,7 +81,7 @@ public/
 - `draftKey` 付きfetch: `cache: 'no-store'`・タグなし（下書きが公開キャッシュに混入しないように）
 - 公開の一覧/詳細ページは静的生成（`generateStaticParams`）+ ISR。公開詳細ページは `searchParams` / `draftMode()` を読まない（読むと動的化するため）
 - ルーティングは `slug`（現状 `api.ts` で `entry.id` をセット）
-- `lp_settings`（`creative_lab_lp`）の処理は従来どおり。`publish_sites` は廃止予定でコードは参照しない（下記 home_site / listed_sites）
+- `lp_settings`（`creative_lab_lp`）の処理は従来どおり。`publish_sites` はCMSから削除済み（下記 home_site / listed_sites）
 
 ### 配信サイト絞り込み（home_site / listed_sites）
 
@@ -89,7 +89,7 @@ public/
 `home_site[equals]SELF[or]listed_sites[contains]SELF` で取得する（`HOME_OR_LISTED_FILTER`）。
 
 - **home**（`home_site` が自サイト）: 本文をこのLPで公開。詳細ページ・`generateStaticParams`・sitemapは `getHomeArticles()` / `getHomeNews()` のみ使用（listedは詳細ページを持たず、URL直打ちは404）
-- **listed**（`home_site` が他サイト）: 一覧・Cardには載るが、`externalUrl`（`${home_site.url}${article_path|news_path}/${id}`）へ新しいタブ（`target="_blank" rel="noopener noreferrer"`、`lib/external-link.ts`の`listedLinkProps`）で外部遷移。Cardには↗マークとaria-label（「新しいタブで開く」付き）。`article_path`/`news_path` 未設定時は `lib/sites.ts` の `FALLBACK_SITE_PATHS` を使う（CMS側が揃ったら削除）
+- **listed**（`home_site` が他サイト）: 一覧・Cardには載るが、`externalUrl`（`${home_site.url}${article_path|news_path}/${id}`）へ新しいタブ（`target="_blank" rel="noopener noreferrer"`、`lib/external-link.ts`の`listedLinkProps`）で外部遷移。Cardには↗マークとaria-label（「新しいタブで開く」付き）。`article_path`/`news_path` はsiteエンドポイントの値のみを使い、未設定（null）のsiteは外部リンクなし（`getExternalUrl`が`undefined`、コード側のフォールバックなし）
 - `SELF` は `tsg-community-lab`（community-lab専用site。2026-11-12にcreative-labと分離。home_siteがこのsiteの記事は syllabus `lab-program` と report `cdl-meetup-report` のみ）
 - プレビュー（`/preview/*`）はhome_siteが自サイトの前提で変更なし
 

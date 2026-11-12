@@ -68,7 +68,7 @@ microCMSの `select` フィールドは **`multipleSelect: false` でも配列�
 
 複数のLPが同じCMSを共有し、コンテンツごとに「このLPには出す/出さない」を管理したい場合、`relationList`（複数コンテンツ参照）フィールドで「サイト」コンテンツを参照させる設計が使える。ただし：
 
-- microCMSの絞り込みは **`[contains]`のみ公式サポート**。絞り込めるのは参照先の**コンテンツID**のみで、`publish_sites[contains]<site-id>` の形で書く。配列内のどれか1つが一致すればヒットする。（2026-11以降は `home_site[equals]<site-id>[or]listed_sites[contains]<site-id>` に移行。`publish_sites` は廃止予定）
+- microCMSの絞り込みは **`[contains]`のみ公式サポート**。絞り込めるのは参照先の**コンテンツID**のみで、`home_site[equals]<site-id>[or]listed_sites[contains]<site-id>` の形で書く（旧 `publish_sites[contains]<site-id>` はCMSから削除済み）。配列内のどれか1つが一致すればヒットする。
 - 一覧取得のラッパー関数（SDKクライアントの薄いラップ）に、このフィルタを**デフォルトで自動付与**しておき、必要な箇所だけバイパスできるオプションを持たせるのが良い。新規実装のたびに各ページで手動フィルタを書くと漏れが出る。
 - 全件取得ヘルパー（microCMSの`limit`上限を超えて offset ループする関数）を作る場合も、内部で同じ一覧取得関数を呼ぶようにして、フィルタが自動的に効くようにしておく。
 

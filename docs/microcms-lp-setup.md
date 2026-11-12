@@ -9,7 +9,7 @@ ASIBA の LP プロジェクト共通パターンを実装するための手順�
 
 - Next.js App Router + TypeScript
 - MicroCMS でコンテンツを管理（複数 LP で同一 MicroCMS を共有）
-- `home_site`（relation）/ `listed_sites`（relationList）で LP ごとにコンテンツを絞り込む（`publish_sites` は廃止予定）
+- `home_site`（relation）/ `listed_sites`（relationList）で LP ごとにコンテンツを絞り込む（`publish_sites` はCMSから削除済み）
 - MicroCMS の **content ID = URL のスラッグ**として使用（`slug` フィールドは廃止予定）
 
 ---

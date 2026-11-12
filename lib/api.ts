@@ -95,8 +95,6 @@ type ArticleSkeleton = {
     categories?: string[]; // REPORT/INTERVIEW/DIALOGUE/ESSAY/STATEMENT/ANNOUNCEMENT
     social_links?: SocialLinkItem[]; // note記事へのリンクはこの中の link_type === 'note' を探す
     credits?: CreditFieldItem[]; // Repeater
-    /** @deprecated home_site / listed_sites に置き換え。コードからは参照しない */
-    publish_sites?: any[];
     home_site?: SiteRef | null;
     listed_sites?: SiteRef[];
     lp_settings?: LpSetting[]; // Repeater
@@ -115,8 +113,6 @@ type NewsSkeleton = {
     description_ja?: string;
     body_ja?: string;
     link?: NewsLinkField;
-    /** @deprecated home_site / listed_sites に置き換え。コードからは参照しない */
-    publish_sites?: any[];
     home_site?: SiteRef | null;
     listed_sites?: SiteRef[];
     lp_settings?: LpSetting[]; // Repeater（Articleと共通仕様。cover_landscape/cover_la_halftoneはNewsでは未使用）
