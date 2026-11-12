@@ -1,7 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import HalftoneHoverImage from "components/HalftoneHoverImage";
+import ExternalMark from "components/ExternalMark";
 import { Article } from "lib/types";
+import { listedLinkProps } from "lib/external-link";
 
 export default function ArticleCard({ article }: { article: Article }) {
     const hasCover = Boolean(article.coverImage);
@@ -9,7 +11,10 @@ export default function ArticleCard({ article }: { article: Article }) {
     const halftoneSrc = hasCover ? article.coverImageHalftone : '/images/home-community/placeholder-halftone.png';
 
     return (
-        <Link href={`/articles/${article.slug}`} className="block no-underline hover:opacity-100">
+        <Link
+            href={article.externalUrl ?? `/articles/${article.slug}`}
+            {...listedLinkProps(article.title, Boolean(article.externalUrl), "別サイトへ移動")}
+            className="block no-underline hover:opacity-100">
             <div className="w-full aspect-square relative overflow-hidden">
                 {halftoneSrc ? (
                     <HalftoneHoverImage
@@ -30,7 +35,7 @@ export default function ArticleCard({ article }: { article: Article }) {
                 {(article.lpSubtitle || article.subtitle) && (
                     <div className="font-bold text-sm leading-normal">{article.lpSubtitle || article.subtitle}</div>
                 )}
-                <div className="text-base leading-normal">{article.title}</div>
+                <div className="text-base leading-normal">{article.title}{article.externalUrl && <ExternalMark />}</div>
             </div>
         </Link>
     );

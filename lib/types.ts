@@ -31,6 +31,7 @@ export interface ContentItem {
     link?: string;   // 外部URL (News.link.link や OpenTalks用、Articleはsocial_linksのlink_type==='note')
 
     type: 'article' | 'news' | 'open-talks';
+    externalUrl?: string; // home_siteが自サイトでない場合の遷移先（home_siteのLP上のURL）
     programTerms?: ProgramTerm[];
 }
 

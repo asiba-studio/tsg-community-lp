@@ -1,7 +1,7 @@
 // lib/api.ts
 
-import { createClient } from 'microcms-js-sdk';
-import { unstable_cache } from 'next/cache';
+import { getDetail, getList } from './microcms';
+import { HOME_OR_LISTED_FILTER, SiteRef, getExternalUrl } from './sites';
 import { Article, CreditItem, CreditType, News, PersonType, ProgramTerm } from './types';
 
 // MicroCMS Types
@@ -19,7 +19,7 @@ type SocialLinkItem = {
     link_label?: string;
 };
 
-// customFieldId: "link_text"（Newsの「リンク」フィールド。has_bodyがOFFで外部/内部の飛び先がある場合に使用）
+// customFieldId: "link_text"（Newsの「リンク」フィールド。body_jaが空で外部/内部の飛び先がある場合に使用）
 type NewsLinkField = {
     fieldId: 'link_text';
     link?: string;
@@ -95,7 +95,10 @@ type ArticleSkeleton = {
     categories?: string[]; // REPORT/INTERVIEW/DIALOGUE/ESSAY/STATEMENT/ANNOUNCEMENT
     social_links?: SocialLinkItem[]; // note記事へのリンクはこの中の link_type === 'note' を探す
     credits?: CreditFieldItem[]; // Repeater
-    publish_sites: any[]; // relationList
+    /** @deprecated home_site / listed_sites に置き換え。コードからは参照しない */
+    publish_sites?: any[];
+    home_site?: SiteRef | null;
+    listed_sites?: SiteRef[];
     lp_settings?: LpSetting[]; // Repeater
     date: string;
 };
@@ -111,47 +114,24 @@ type NewsSkeleton = {
     cover?: MicroCMSImage;
     description_ja?: string;
     body_ja?: string;
-    has_body?: boolean;
     link?: NewsLinkField;
-    publish_sites: any[];
+    /** @deprecated home_site / listed_sites に置き換え。コードからは参照しない */
+    publish_sites?: any[];
+    home_site?: SiteRef | null;
+    listed_sites?: SiteRef[];
     lp_settings?: LpSetting[]; // Repeater（Articleと共通仕様。cover_landscape/cover_la_halftoneはNewsでは未使用）
     date: string;
 };
-
-// Initialize MicroCMS Client
-if (!process.env.MICROCMS_SERVICE_DOMAIN) {
-    if (process.env.NODE_ENV === 'production') {
-        throw new Error('MICROCMS_SERVICE_DOMAIN is required in environment variables.');
-    }
-    console.warn('MICROCMS_SERVICE_DOMAIN is missing. MicroCMS client will not work correctly.');
-}
-
-if (!process.env.MICROCMS_API_KEY) {
-    if (process.env.NODE_ENV === 'production') {
-        throw new Error('MICROCMS_API_KEY is required in environment variables.');
-    }
-    console.warn('MICROCMS_API_KEY is missing. MicroCMS client will not work correctly.');
-}
-
-export const client = createClient({
-    serviceDomain: process.env.MICROCMS_SERVICE_DOMAIN || 'MISSING_DOMAIN',
-    apiKey: process.env.MICROCMS_API_KEY || 'MISSING_KEY',
-});
-
-const TARGET_SITE_ID = 'tsg-creative-lab';
 
 // ----------------------------------------------------------------
 // Article Fetching
 // ----------------------------------------------------------------
 
-const fetchArticlesData = async (): Promise<Article[]> => {
-    const response = await client.getList<ArticleSkeleton>({
-        endpoint: 'article',
-        queries: {
-            filters: `publish_sites[contains]${TARGET_SITE_ID}`,
-            orders: '-date',
-            limit: 100, // Adjust as needed
-        },
+export const getArticles = async (): Promise<Article[]> => {
+    const response = await getList<ArticleSkeleton>('article', {
+        filters: HOME_OR_LISTED_FILTER,
+        orders: '-date',
+        limit: 100, // Adjust as needed
     });
 
     return response.contents.map((entry) => {
@@ -191,6 +171,7 @@ const fetchArticlesData = async (): Promise<Article[]> => {
             excerpt: summary,
             link: noteUrl,
             type: 'article',
+            externalUrl: getExternalUrl(entry.home_site, 'article', entry.id),
             body_ja: body_ja, // Now HTML string
             credits: mapCredits(entry.credits),
             programTerms: terms,
@@ -198,11 +179,9 @@ const fetchArticlesData = async (): Promise<Article[]> => {
     });
 };
 
-export const getArticles = unstable_cache(
-    fetchArticlesData,
-    ['articles-list-microcms'],
-    { tags: ['microcms-lp'] }
-);
+// 自サイトがhomeの記事のみ（詳細ページ・generateStaticParams・sitemap用）。listedは詳細ページを持たない
+export const getHomeArticles = async (): Promise<Article[]> =>
+    (await getArticles()).filter((a) => !a.externalUrl);
 
 // ----------------------------------------------------------------
 // News Fetching
@@ -212,14 +191,11 @@ export const getArticles = unstable_cache(
 // User didn't provide 'microcms-api-news.json' but asked to fix "CMS lookup".
 // I will assume standard fields for now.
 
-const fetchNewsData = async (): Promise<News[]> => {
-    const response = await client.getList<NewsSkeleton>({
-        endpoint: 'news',
-        queries: {
-            filters: `publish_sites[contains]${TARGET_SITE_ID}`,
-            orders: '-date',
-            limit: 100,
-        },
+export const getNews = async (): Promise<News[]> => {
+    const response = await getList<NewsSkeleton>('news', {
+        filters: HOME_OR_LISTED_FILTER,
+        orders: '-date',
+        limit: 100,
     });
 
     return response.contents.map((entry) => {
@@ -255,29 +231,23 @@ const fetchNewsData = async (): Promise<News[]> => {
             excerpt: summary,
             link: link,
             type: 'news',
+            externalUrl: getExternalUrl(entry.home_site, 'news', entry.id),
             body_ja: body_ja,
             programTerms: terms,
         };
     });
 };
 
-export const getNews = unstable_cache(
-    fetchNewsData,
-    ['news-list-microcms'],
-    { tags: ['microcms-lp'] }
-);
+export const getHomeNews = async (): Promise<News[]> =>
+    (await getNews()).filter((n) => !n.externalUrl);
 
 // ----------------------------------------------------------------
-// Draft Fetching (no cache — for Draft Mode preview)
+// Draft Fetching（draftKeyのみで認可。cache: 'no-store'・タグなし。/preview/* 専用）
 // ----------------------------------------------------------------
 
 export async function getArticleDraft(contentId: string, draftKey: string): Promise<Article | null> {
     try {
-        const entry = await client.get<ArticleSkeleton>({
-            endpoint: 'article',
-            contentId,
-            queries: { draftKey },
-        });
+        const entry = await getDetail<ArticleSkeleton>('article', contentId, { draftKey });
 
         const lpSetting = entry.lp_settings?.find(s => s.fieldId === 'creative_lab_lp');
         const terms = parseProgramTerms(lpSetting?.program_terms);
@@ -311,11 +281,7 @@ export async function getArticleDraft(contentId: string, draftKey: string): Prom
 
 export async function getNewsDraft(contentId: string, draftKey: string): Promise<News | null> {
     try {
-        const entry = await client.get<NewsSkeleton>({
-            endpoint: 'news',
-            contentId,
-            queries: { draftKey },
-        });
+        const entry = await getDetail<NewsSkeleton>('news', contentId, { draftKey });
 
         const lpSetting = entry.lp_settings?.find(s => s.fieldId === 'creative_lab_lp');
         const terms = parseProgramTerms(lpSetting?.program_terms);

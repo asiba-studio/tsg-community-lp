@@ -2,6 +2,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { formatDateDot } from 'lib/date';
 import { ContentItem } from 'lib/types';
+import ExternalMark from '../ExternalMark';
+import { listedLinkProps } from 'lib/external-link';
 import InteractiveMosaic02, { MosaicSize } from '../InteractiveMosaic02';
 
 interface Props {
@@ -72,8 +74,12 @@ export default function ContentCard({
         isInternal = true;
     }
 
-    const href = isInternal ? `${basePath}/${content.slug}` : content.link!;
-    const target = isInternal ? '_self' : '_blank';
+    // home_siteが自サイトでない項目は、home_siteのLP上の記事/ニュースへ遷移（最優先・新しいタブ）
+    const isHomeExternal = Boolean(content.externalUrl);
+    const href = isHomeExternal
+        ? content.externalUrl!
+        : isInternal ? `${basePath}/${content.slug}` : content.link!;
+    const target = isInternal && !isHomeExternal ? '_self' : '_blank';
 
     // 画像URLの生成
     const rawImageUrl = content.coverImage || '';
@@ -85,6 +91,7 @@ export default function ContentCard({
             href={href}
             className="group block no-underline overflow-hidden hover:opacity-100"
             target={target}
+            {...(isHomeExternal ? listedLinkProps(content.title, true, "別サイトへ移動") : {})}
         >
             <article>
                 {/* Cover Image */}
@@ -180,6 +187,7 @@ export default function ContentCard({
                     {/* Title */}
                     <h3 className="font-bold mt-2 text-lg">
                         {content.title}
+                        {isHomeExternal && <ExternalMark />}
                     </h3>
 
                     {/* Description */}

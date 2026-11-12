@@ -27,15 +27,15 @@ app/                    # Next.js App Router ページ
   page.tsx              # トップページ
   layout.tsx            # ルートレイアウト（メタデータ・GA・Adobe Fonts設定）
   about/page.tsx        # Creative-LAB.の説明ページ
-  articles/             # 記事一覧・詳細
-  news/                 # ニュース一覧・詳細
+  articles/             # 記事一覧・詳細（詳細は静的生成 + ISR）
+  news/                 # ニュース一覧・詳細（同上）
+  preview/              # 下書きプレビュー（/preview/articles/[id]・/preview/news/[id]。force-dynamic・noindex）
   open-talks/           # Open TALKsイベント一覧・詳細
   projects-fair/        # Projects Fair ページ
   archive/2nd/          # 2期生アーカイブ
   archive/3rd/          # 3期生アーカイブ
   api/revalidate/       # MicroCMS Webhook によるキャッシュ再検証
-  api/draft/            # Draft Mode 有効化（プレビュー用）
-  api/disable-draft/    # Draft Mode 解除
+  api/draft/            # プレビュー入口（secret検証 → /preview/<type>/<id>?draftKey=... へredirect）
 
 components/
   home/                 # トップページ専用コンポーネント群
@@ -58,7 +58,8 @@ components/
   HalftoneHoverImage.tsx   # 4期から採用のシンプルな画像切替（ホバー前=ハーフトーン、ホバー後=通常画像）。MicroCMSのlp_settings（cover_square/cover_sq_halftone等）を見据えた設計。現状は public/images/test/dummy-square(-halftone).png をダミーとして使用中
 
 lib/
-  api.ts                # MicroCMS APIクライアント（記事・ニュース取得・下書き取得）
+  microcms.ts           # CMSフェッチ共通ラッパー（getDetail/getList。revalidate・タグ・draftKey時no-store）
+  api.ts                # 記事・ニュース取得・下書き取得（lp_settings等のマッピング）
   types.ts              # 型定義（ContentItem, Article, News, OpenTalk等）
   openTalks.ts          # Open Talks静的データ（ハードコード）
   date.ts               # 日付フォーマット
@@ -74,43 +75,59 @@ public/
 
 ### MicroCMS（記事・ニュース）
 
-`lib/api.ts` で `unstable_cache` を使ってキャッシュ。タグは `microcms-lp`。
+`lib/microcms.ts` の `getDetail`/`getList` が全CMS取得を担う（asiba-studio-hp と同方式）。
 
-```ts
-// フィルター: publish_sites に 'tsg-creative-lab' が含まれるもののみ取得
-// publish_sites[contains] は関連コンテンツの content ID で絞り込む（slug ではない）
-filters: `publish_sites[contains]tsg-creative-lab`
-```
+- 通常fetch: `next: { revalidate: 3600, tags: [endpoint, `${endpoint}:${id}`（詳細のみ）] }`。3600秒はWebhook不達時の保険で、基本はWebhook→`revalidateTag`で即時反映
+- `draftKey` 付きfetch: `cache: 'no-store'`・タグなし（下書きが公開キャッシュに混入しないように）
+- 公開の一覧/詳細ページは静的生成（`generateStaticParams`）+ ISR。公開詳細ページは `searchParams` / `draftMode()` を読まない（読むと動的化するため）
+- ルーティングは `slug`（現状 `api.ts` で `entry.id` をセット）
+- `lp_settings`（`creative_lab_lp`）の処理は従来どおり。`publish_sites` は廃止予定でコードは参照しない（下記 home_site / listed_sites）
 
-キャッシュ再検証は `POST /api/revalidate` エンドポイント経由。
+### 配信サイト絞り込み（home_site / listed_sites）
 
-**MicroCMS Webhook 設定手順（APIエンドポイントごとに設定。ASIBA系LP共通方式・カスタムヘッダー方式は廃止）:**
-1. Webhook タイプは **「Custom Notifications」** を選択
+`lib/sites.ts` の `SELF`（このLPのsite content id）を使い、一覧は
+`home_site[equals]SELF[or]listed_sites[contains]SELF` で取得する（`HOME_OR_LISTED_FILTER`）。
+
+- **home**（`home_site` が自サイト）: 本文をこのLPで公開。詳細ページ・`generateStaticParams`・sitemapは `getHomeArticles()` / `getHomeNews()` のみ使用（listedは詳細ページを持たず、URL直打ちは404）
+- **listed**（`home_site` が他サイト）: 一覧・Cardには載るが、`externalUrl`（`${home_site.url}${article_path|news_path}/${id}`）へ新しいタブ（`target="_blank" rel="noopener noreferrer"`、`lib/external-link.ts`の`listedLinkProps`）で外部遷移。Cardには↗マークとaria-label（「新しいタブで開く」付き）。`article_path`/`news_path` 未設定時は `lib/sites.ts` の `FALLBACK_SITE_PATHS` を使う（CMS側が揃ったら削除）
+- `SELF` は `tsg-community-lab`（community-lab専用site。2026-11-12にcreative-labと分離。home_siteがこのsiteの記事は syllabus `lab-program` と report `cdl-meetup-report` のみ）
+- プレビュー（`/preview/*`）はhome_siteが自サイトの前提で変更なし
+
+### 環境変数（`.env.example` / Vercel）
+
+`MICROCMS_SERVICE_DOMAIN` / `MICROCMS_API_KEY` / `MICROCMS_WEBHOOK_SECRET` / `MICROCMS_DRAFT_SECRET`（`.env.local` とVercelの両方に設定）。
+
+### Webhook による再検証（`POST /api/revalidate`）
+
+`x-microcms-signature` をHMAC-SHA256(`MICROCMS_WEBHOOK_SECRET`, rawBody)で検証（`timingSafeEqual`、不一致は401）。ペイロードの `api` をタグとして `revalidateTag(api, { expire: 0 })`、`id` があれば `${api}:${id}` も失効させる（Next.js 16 は第2引数必須。外部更新を次のリクエストで確実に反映するため `{ expire: 0 }`）。
+
+**microCMS管理画面での設定（`article` と `news` の各APIごと）:**
+1. API設定 > Webhook > 追加 > **「Custom Notifications」**
 2. URL: `https://tsg-community.asiba.or.jp/api/revalidate`
-3. Secret に環境変数 `MICROCMS_WEBHOOK_SECRET` と同じ値を設定
-   - MicroCMSがこの値でペイロードをHMAC-SHA256署名し、`x-microcms-signature` ヘッダーに16進文字列を付与する
-   - `/api/revalidate` 側は `crypto.createHmac('sha256', secret)` で再計算し `timingSafeEqual` で比較（カスタムヘッダーでの平文一致比較はしない）
-4. Notification Timing の推奨設定:
+3. Secret: `MICROCMS_WEBHOOK_SECRET` と同じ値（MicroCMSがHMAC-SHA256署名を `x-microcms-signature` に付与する）
+4. Notification Timing:
    - Publish グループ: 全チェック
    - Unpublish グループ: 「Unpublish content or revert it to draft in the editor」「Unpublish scheduled content」をチェック
    - Delete published content: 「Delete published content in the editor」をチェック
    - Draft 系・API 設定系: 不要
 
-**複数LP運用時:** 同一 MicroCMS で複数 LP を運用している場合、APIエンドポイント（article/news 等）ごとに各 LP の revalidate URL を Webhook 通知先として追加する（3 API × LP数 = 合計 Webhook 数）。
+複数LP運用時は、APIごとに各LPのrevalidate URLを通知先として追加する。
 
-### MicroCMS 下書きプレビュー（Draft Mode）
+### 下書きプレビュー（draftKey方式）
 
-Next.js の Draft Mode を使用。記事・ニュースの下書きをブラウザで確認できる。
+`draftMode()` のcookieには依存せず、**URLの `draftKey` のみで認可**する（asiba-studio-hp と同方式）。
 
-**フロー:**
-1. MicroCMS のプレビューURLを設定: `http://localhost:3000/api/draft?secret={MICROCMS_DRAFT_SECRET}&contentId={CONTENT_ID}&draftKey={DRAFT_KEY}&type=article`
-2. `/api/draft` が Draft Mode を有効化（クッキーをセット）し `/articles/[contentId]` にリダイレクト
-3. ページが `draftMode().isEnabled` を確認し、`getArticleDraft(contentId, draftKey)` で下書きを取得
-4. 画面下部に "DRAFT PREVIEW MODE" バナー + Exit リンクを表示
+1. microCMSのプレビューURL → `/api/draft` が `MICROCMS_DRAFT_SECRET` を検証
+2. `/preview/articles/{id}?draftKey=...`（news は `/preview/news/{id}?draftKey=...`）へredirect
+3. `/preview/*` は `force-dynamic`・noindex。`getArticleDraft` / `getNewsDraft`（`cache: 'no-store'`）で下書き取得し、`DraftBanner`（画面上部固定）を表示。`draftKey` が無い、または取得失敗は404
+4. 表示は公開ページと共通の `components/articles/ArticleDetailView.tsx` / `NewsDetailView.tsx`（`draft` prop でバナー表示）
+5. リダイレクト後のURL（`?draftKey=` 付き）を共有すれば、cookieなしの別ブラウザでも下書きを開ける。反面、URLが漏れれば誰でも閲覧可能（トレードオフ）
 
-**ローカル確認:** `npm run dev` 後、MicroCMS の下書き記事URLから `CONTENT_ID` と `DRAFT_KEY` をコピーしてプレビューURLに貼り付けるだけで確認可能。
+**microCMS管理画面での設定（API設定 > 画面プレビュー）:**
+- article: `https://tsg-community.asiba.or.jp/api/draft?secret=<MICROCMS_DRAFT_SECRET>&contentId={CONTENT_ID}&draftKey={DRAFT_KEY}&type=article`
+- news: `https://tsg-community.asiba.or.jp/api/draft?secret=<MICROCMS_DRAFT_SECRET>&contentId={CONTENT_ID}&draftKey={DRAFT_KEY}&type=news`
 
-**複数LPの扱い:** MicroCMS はプレビューURLを1つしか設定できない。複数LPで共有している場合はスプレッドシート等にLPごとのURLテンプレートを用意し、メンバーが手動で `CONTENT_ID` と `DRAFT_KEY` を書き換えて使う運用を推奨。
+`{CONTENT_ID}`/`{DRAFT_KEY}` はmicroCMSが実値に置換する。VercelのPreviewデプロイ（URLが毎回変わる）には対応できないため本番ドメインを登録する。microCMSはプレビューURLをAPIごとに1つしか持てないため、複数LPで同じAPIを共有する場合はURLテンプレートを手動で書き換えて使う。
 
 ### Open Talks
 

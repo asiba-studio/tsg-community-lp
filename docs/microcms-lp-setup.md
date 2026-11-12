@@ -9,7 +9,7 @@ ASIBA の LP プロジェクト共通パターンを実装するための手順�
 
 - Next.js App Router + TypeScript
 - MicroCMS でコンテンツを管理（複数 LP で同一 MicroCMS を共有）
-- `publish_sites` フィールド（relationList）で LP ごとにコンテンツを絞り込む
+- `home_site`（relation）/ `listed_sites`（relationList）で LP ごとにコンテンツを絞り込む（`publish_sites` は廃止予定）
 - MicroCMS の **content ID = URL のスラッグ**として使用（`slug` フィールドは廃止予定）
 
 ---
@@ -22,7 +22,7 @@ ASIBA の LP プロジェクト共通パターンを実装するための手順�
 MICROCMS_SERVICE_DOMAIN=（サービスドメイン）
 MICROCMS_API_KEY=（APIキー）
 MICROCMS_WEBHOOK_SECRET=（任意の文字列・Webhook署名検証用）
-MICROCMS_DRAFT_SECRET=（任意の文字列・Draft Mode用）
+MICROCMS_DRAFT_SECRET=（任意の文字列・下書きプレビュー用）
 ```
 
 環境変数名はASIBA系LP共通で統一する。値はLPごとに異なってよい。
@@ -34,7 +34,7 @@ MICROCMS_DRAFT_SECRET=（任意の文字列・Draft Mode用）
 ### ポイント
 - `slug` には `entry.id`（content ID）をセットする（`entry.slug` は使わない）
 - `unstable_cache` でキャッシュ、タグは `microcms-lp` で統一
-- `publish_sites[contains]${TARGET_SITE_ID}` でこの LP のコンテンツだけ取得
+- `home_site[equals]${TARGET_SITE_ID}[or]listed_sites[contains]${TARGET_SITE_ID}` でこの LP が home または listed のコンテンツを取得（詳細ページは home のみ、listed は home_site の LP へ新しいタブで外部リンク）
   - `TARGET_SITE_ID` は MicroCMS 上の **site コンテンツの content ID**
 
 ```ts
@@ -52,7 +52,7 @@ const fetchArticlesData = async () => {
   const response = await client.getList({
     endpoint: 'article',
     queries: {
-      filters: `publish_sites[contains]${TARGET_SITE_ID}`,
+      filters: `home_site[equals]${TARGET_SITE_ID}[or]listed_sites[contains]${TARGET_SITE_ID}`,
       orders: '-date',
       limit: 100,
     },
@@ -105,7 +105,12 @@ export async function POST(request: Request) {
     return new Response('Invalid signature', { status: 401 });
   }
 
-  revalidateTag('microcms-lp', { expire: 0 });
+  const payload = JSON.parse(rawBody) as { api?: string; id?: string };
+  // payload.api / `${payload.api}:${payload.id}` タグを失効（tsg-community-lp/app/api/revalidate/route.ts参照）
+  if (payload.api) {
+    revalidateTag(payload.api, { expire: 0 });
+    if (payload.id) revalidateTag(`${payload.api}:${payload.id}`, { expire: 0 });
+  }
 
   return NextResponse.json({ revalidated: true, now: Date.now() });
 }
@@ -154,17 +159,16 @@ export async function generateStaticParams() {
 
 ---
 
-## 6. Draft Mode（下書きプレビュー）
+## 6. 下書きプレビュー（draftKey方式）
 
-`app/api/draft/route.ts` で Draft Mode を有効化し、対象ページにリダイレクト。
-`app/api/disable-draft/route.ts` で無効化。
+`draftMode()` cookie は使わず、URLの `draftKey` のみで認可する。`app/api/draft/route.ts` が `MICROCMS_DRAFT_SECRET` を検証し、`/preview/<articles|news>/{id}?draftKey=...` へredirect。`/preview/*` は force-dynamic・noindex。
 
 MicroCMS のプレビュー URL テンプレート（例）:
 ```
 https://your-lp-domain/api/draft?secret={MICROCMS_DRAFT_SECRET}&contentId={CONTENT_ID}&draftKey={DRAFT_KEY}&type=article
 ```
 
-MicroCMS はプレビュー URL を 1 つしか設定できないため、複数 LP で共有する場合はスプレッドシート等に LP ごとの URL テンプレートをまとめ、手動で `CONTENT_ID` と `DRAFT_KEY` を書き換えて使う運用を推奨。
+詳細（認可モデル・fetchラッパーのキャッシュ方針）は `CLAUDE.md` を参照。
 
 ---
 
@@ -175,5 +179,5 @@ MicroCMS はプレビュー URL を 1 つしか設定できないため、複数
 - `lib/api.ts` — MicroCMS クライアント・データ取得・ドラフト取得
 - `lib/types.ts` — ContentItem 型定義
 - `app/api/revalidate/route.ts` — Webhook 受信・キャッシュ破棄
-- `app/api/draft/route.ts` — Draft Mode 有効化
+- `app/api/draft/route.ts` — プレビュー入口（/preview/* へredirect）
 - `app/articles/[slug]/page.tsx` — content ID によるページ取得パターン

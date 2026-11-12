@@ -1,7 +1,7 @@
 // app/sitemap.ts
 
 import { MetadataRoute } from 'next';
-import { getArticles, getNews } from 'lib/api';
+import { getHomeArticles, getHomeNews } from 'lib/api';
 
 const BASE_URL = 'https://tsg-community.asiba.or.jp';
 
@@ -17,7 +17,7 @@ const STATIC_PATHS = [
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const [articles, news] = await Promise.all([getArticles(), getNews()]);
+    const [articles, news] = await Promise.all([getHomeArticles(), getHomeNews()]);
 
     const staticRoutes: MetadataRoute.Sitemap = STATIC_PATHS.map((path) => ({
         url: `${BASE_URL}${path}`,

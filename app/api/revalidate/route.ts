@@ -43,7 +43,11 @@ export async function POST(request: Request) {
 
     // Next.js 16のrevalidateTagは第2引数(profile)必須。Webhook経由の外部更新は
     // 次のリクエストで確実に最新化してほしいため { expire: 0 } で即時失効させる
-    revalidateTag('microcms-lp', { expire: 0 });
+    // タグは lib/microcms.ts が付与する `${endpoint}` と `${endpoint}:${id}`
+    if (payload.api) {
+        revalidateTag(payload.api, { expire: 0 });
+        if (payload.id) revalidateTag(`${payload.api}:${payload.id}`, { expire: 0 });
+    }
 
     return NextResponse.json({ revalidated: true, api: payload.api ?? null, id: payload.id ?? null });
 }

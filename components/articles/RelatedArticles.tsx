@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { getArticles } from 'lib/api';
 import { formatDateDot } from 'lib/date';
+import { listedLinkProps } from 'lib/external-link';
 
 interface Props {
   currentSlug: string;
@@ -68,7 +69,8 @@ export default async function RelatedArticles({ currentSlug, tags }: Props) {
           return (
             <Link
               key={article.slug}
-              href={`/articles/${article.slug}`}
+              href={article.externalUrl ?? `/articles/${article.slug}`}
+              {...listedLinkProps(article.title, Boolean(article.externalUrl), "別サイトへ移動")}
               className="group block bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow"
             >
               {/* カバー画像 */}
@@ -103,6 +105,7 @@ export default async function RelatedArticles({ currentSlug, tags }: Props) {
               <div className="p-4">
                 <h3 className="font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">
                   {article.title}
+                  {article.externalUrl && <span aria-hidden="true" className="ml-1 text-sm">↗</span>}
                 </h3>
 
                 {article.excerpt && (
